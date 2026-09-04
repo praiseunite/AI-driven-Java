@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 2 Take-Home Assignment | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 2</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html" class="active">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-red">Take-Home Lab Assignment</span>
+        <span class="tag tag-purple">Session 2</span>
+        <span class="tag tag-yellow">Due Before Session 3</span>
+      </div>
+      <h1>📋 Assignment 2: Retail Point-of-Sale (POS) Billing Engine</h1>
+      <p class="description">
+        Build a financial point-of-sale receipt generator combining primitive variables, compound arithmetic, discount evaluation via ternary operators, and decimal precision formatting.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom: var(--space-xl);">
+      <h3 style="color: var(--accent); margin-top: 0;">🏢 Real-World Retail Scenario</h3>
+      <p>
+        The Aptech Campus Tech Store sells developer hardware and accessories.
+        Your supervisor needs a backend invoicing script named <code>RetailBillingEngine.java</code> that automates receipt generation for a customer purchasing three different electronic products.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2>Project Specifications &amp; Requirements</h2>
+      <ol style="margin-left: var(--space-lg); line-height: 1.8;">
+        <li><strong>Class &amp; File Name:</strong> <code>RetailBillingEngine.java</code> containing <code>public class RetailBillingEngine</code>.</li>
+        <li>
+          <strong>Variable Definitions:</strong> Define variables for three items:
+          <ul>
+            <li>Item 1: <code>Mechanical Keyboard</code> ($85.50 each, quantity 2)</li>
+            <li>Item 2: <code>USB-C Multiport Hub</code> ($34.99 each, quantity 1)</li>
+            <li>Item 3: <code>128GB Fast Flash Drive</code> ($18.75 each, quantity 3)</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Financial Computations:</strong>
+          <ul>
+            <li>Item Subtotals (Unit Price &times; Quantity).</li>
+            <li>Gross Subtotal (Sum of all 3 items).</li>
+            <li>
+              <strong>Promotional Discount:</strong> If Gross Subtotal exceeds $150.00, apply an 8% discount (<code>0.08</code>); otherwise apply 0% discount.
+              <em>Use the ternary operator or boolean logic to calculate this!</em>
+            </li>
+            <li><strong>Sales Tax (VAT):</strong> 7.5% applied to the discounted subtotal.</li>
+            <li><strong>Final Total Payable:</strong> Discounted subtotal + Sales Tax.</li>
+            <li><strong>Cents Truncation:</strong> Demonstrate explicit type casting by converting total dollars into total whole cents (<code>(int)(total * 100)</code>).</li>
+          </ul>
+        </li>
+        <li><strong>Formatted Tabular Output:</strong> Use <code>System.out.printf()</code> to align names, quantities, and dollar amounts into clean vertical columns.</li>
+      </ol>
+
+      <div class="expected-output">
+        <h5>Target Visual Output (Console Rendering):</h5>
+        <pre><code>+========================================================================+
+|                     APTECH TECH & HARDWARE STORE                       |
+|                          CASH SALE INVOICE                             |
++========================================================================+
+ITEM DESCRIPTION          UNIT PRICE      QTY             LINE TOTAL
+--------------------------------------------------------------------------
+Mechanical Keyboard       $    85.50        2             $   171.00
+USB-C Multiport Hub       $    34.99        1             $    34.99
+128GB Flash Drive         $    18.75        3             $    56.25
+--------------------------------------------------------------------------
+Gross Subtotal                                            $   262.24
+Promotional Discount (8%)                                 $   -20.98
+Taxable Amount                                            $   241.26
+VAT / Sales Tax (7.5%)                                    $    18.09
+==========================================================================
+FINAL AMOUNT DUE                                          $   259.35
+==========================================================================
+Total Amount in Cents (Explicit Cast to int): 25935 cents
+Loyalty Points Earned (1 point per whole $10): 25 points
+Thank you for shopping at Aptech Tech Store!</code></pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Evaluation &amp; Grading Rubric (100 Points Total)</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Evaluation Category</th>
+              <th>Requirement</th>
+              <th>Max Score</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Mathematical Accuracy</strong></td>
+              <td>Correct calculation of subtotals, promotional discount condition, tax, and final amount.</td>
+              <td>35 Pts</td>
+            </tr>
+            <tr>
+              <td><strong>Format Specifiers &amp; Alignment</strong></td>
+              <td>Proper use of <code>%s</code>, <code>%d</code>, and <code>%.2f</code> with padding for straight columns.</td>
+              <td>25 Pts</td>
+            </tr>
+            <tr>
+              <td><strong>Type Casting &amp; Variable Types</strong></td>
+              <td>Correct primitive types chosen; explicit cast to <code>int</code> for cents.</td>
+              <td>20 Pts</td>
+            </tr>
+            <tr>
+              <td><strong>Readability &amp; Structure</strong></td>
+              <td>CamelCase identifiers, clean blocks, and descriptive comments.</td>
+              <td>20 Pts</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev">
+        <span>&larr; Session 2 Class Tasks</span>
+      </a>
+      <a href="post-quiz.html" class="nav-next">
+        <span>Session 2 Post-Quiz &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

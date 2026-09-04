@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 3 Take-Home Assignment | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 3</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html" class="active">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-red">Take-Home Lab Assignment</span>
+        <span class="tag tag-purple">Session 3</span>
+        <span class="tag tag-yellow">Due Before Session 4</span>
+      </div>
+      <h1>📋 Assignment 3: Automated ATM Banking Machine Simulator</h1>
+      <p class="description">
+        Combine nested decision constructs (<code>if-else</code>, <code>switch</code>), loop control structures (<code>do-while</code> / <code>while</code>), and jump statements to engineer an interactive Automated Teller Machine (ATM).
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom: var(--space-xl);">
+      <h3 style="color: var(--accent); margin-top: 0;">🏢 Banking System Scenario</h3>
+      <p>
+        Apex National Bank has hired your Aptech engineering team to prototype the core transaction state-machine for their next-generation ATM kiosk.
+        Your application, named <code>AtmBankingEngine.java</code>, must securely handle customer transactions, enforce business rules (insufficient funds, overdraft protection, daily withdrawal limits), and loop through a menu until the session terminates.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2>Technical Requirements &amp; Specifications</h2>
+      <ol style="margin-left: var(--space-lg); line-height: 1.8;">
+        <li><strong>Class &amp; File Name:</strong> Must be declared in <code>AtmBankingEngine.java</code>.</li>
+        <li><strong>Account Initialization:</strong> Initialize an account with an initial balance of <code>$1,500.00</code> and an authorized PIN (e.g. <code>2026</code>).</li>
+        <li>
+          <strong>PIN Authentication (Loop):</strong>
+          <ul>
+            <li>Allow the user up to 3 PIN entry attempts using a <code>while</code> or <code>for</code> loop.</li>
+            <li>If the correct PIN is entered, grant access and break out of the auth loop.</li>
+            <li>If 3 incorrect attempts occur, lock the card and terminate the program using <code>System.exit(0)</code> or <code>break</code>.</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Interactive Menu (Loop &amp; Switch):</strong>
+          <ul>
+            <li>Option 1: <strong>Check Balance</strong> &rarr; Displays current balance formatted to 2 decimal places.</li>
+            <li>Option 2: <strong>Deposit Funds</strong> &rarr; Validates amount (&gt; $0), adds to balance, prints new balance.</li>
+            <li>
+              Option 3: <strong>Withdraw Funds</strong> &rarr; Validates amount:
+              <br>&bull; Cannot be &le; 0.
+              <br>&bull; Cannot exceed current account balance (reject with <em>"Insufficient Funds"</em>).
+              <br>&bull; Cannot exceed daily limit of $500.00 per single transaction.
+            </li>
+            <li>Option 4: <strong>Print Mini-Statement</strong> &rarr; Displays transaction count and final balance.</li>
+            <li>Option 5: <strong>Exit &amp; Eject Card</strong> &rarr; Terminates the loop gracefully.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <div class="expected-output">
+        <h5>Sample Console Session:</h5>
+        <pre><code>==================================================
+           APEX NATIONAL BANK - SMART ATM         
+==================================================
+Enter Security PIN: ****
+PIN Verified! Welcome, Account Holder #8921.
+
+--- MAIN TRANSACTION MENU ---
+1. Check Account Balance
+2. Deposit Money
+3. Withdraw Cash
+4. Transaction Summary
+5. Exit / Eject Card
+Choice: 3
+
+Enter withdrawal amount: $600.00
+ERROR: Exceeds single-transaction limit of $500.00!
+
+Choice: 3
+Enter withdrawal amount: $200.00
+SUCCESS: Dispensing $200.00 cash.
+Updated Balance: $1,300.00
+
+Choice: 5
+Thank you for banking with Apex National Bank! Card ejected.</code></pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Evaluation &amp; Grading Rubric (100 Points Total)</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Grading Criterion</th>
+              <th>Details</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Loop Control &amp; Exit Handling</strong></td>
+              <td>Proper <code>while</code> / <code>do-while</code> loop terminating cleanly on option 5 without infinite looping.</td>
+              <td>30 Pts</td>
+            </tr>
+            <tr>
+              <td><strong>Business Rule Validation (if-else)</strong></td>
+              <td>Negative deposit checks, overdraft prevention, and daily withdrawal limits correctly implemented.</td>
+              <td>30 Pts</td>
+            </tr>
+            <tr>
+              <td><strong>Menu Dispatching (switch-case)</strong></td>
+              <td>Clean <code>switch</code> construct with <code>break</code> on every case and a robust <code>default</code> handler.</td>
+              <td>20 Pts</td>
+            </tr>
+            <tr>
+              <td><strong>Code Quality &amp; Formatting</strong></td>
+              <td>Currency displayed via <code>printf</code> with <code>%.2f</code> and clean code comments.</td>
+              <td>20 Pts</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev">
+        <span>&larr; Session 3 Class Tasks</span>
+      </a>
+      <a href="post-quiz.html" class="nav-next">
+        <span>Session 3 Post-Quiz &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 1 In-Class Practical Tasks | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 1 Tasks</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html" class="active">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-teal">Hands-On Practicals</span>
+        <span class="tag tag-purple">Session 1</span>
+        <span class="tag tag-yellow">In-Class Guided Lab</span>
+      </div>
+      <h1>💻 Session 1 In-Class Coding Tasks</h1>
+      <p class="description">
+        Programming is a muscle you build by typing code, making mistakes, and debugging them!
+        Complete the three progressive tasks below under your instructor's guidance.
+      </p>
+    </div>
+
+    <!-- Task 1: Easy -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-easy">🟢 Level 1: Easy</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 1.1: The Developer Profile Banner</h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> Create your very first custom Java file from scratch, compile it using <code>javac</code>, and run it using <code>java</code> to output a stylish developer profile badge to the console.
+      </p>
+
+      <h4>Instructions:</h4>
+      <ol style="margin-left: var(--space-lg); margin-bottom: var(--space-md); color: var(--text-secondary);">
+        <li>Create a new file named <code>ProfileBadge.java</code>.</li>
+        <li>Declare a public class named <code>ProfileBadge</code>.</li>
+        <li>Write the standard <code>main</code> method entry point.</li>
+        <li>Use multiple <code>System.out.println()</code> statements to print your full name, student ID, target goal for this course, and a border around it.</li>
+      </ol>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Java Starter Skeleton</span>
+          <span class="code-filename">ProfileBadge.java</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>public class ProfileBadge {
+    public static void main(String[] args) {
+        // TODO: Print the top border line
+        // TODO: Print your Full Name
+        // TODO: Print your Aptech Student ID
+        // TODO: Print your career goal (e.g. "Full-Stack AI Developer")
+        // TODO: Print the bottom border line
+    }
+}</code></pre>
+      </div>
+
+      <div class="expected-output">
+        <h5>Sample Expected Console Output:</h5>
+        <pre><code>**************************************************
+*           APTECH DEVELOPER PROFILE             *
+**************************************************
+* Name        : Sarah Connor                     *
+* Student ID  : APT-2026-8942                    *
+* Track       : AI-Driven Enterprise Java        *
+* Motivation  : Building Intelligent Cloud Apps   *
+**************************************************</code></pre>
+      </div>
+    </div>
+
+    <!-- Task 2: Medium -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-medium">🟡 Level 2: Intermediate</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 1.2: Exploring println vs. print &amp; Escape Characters</h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> Discover how <code>System.out.print()</code> differs from <code>System.out.println()</code> and how special escape characters (<code>\n</code> for newline, <code>\t</code> for tab) allow you to format aligned tables.
+      </p>
+
+      <h4>Instructions:</h4>
+      <ol style="margin-left: var(--space-lg); margin-bottom: var(--space-md); color: var(--text-secondary);">
+        <li>Create a file named <code>CourseSchedule.java</code>.</li>
+        <li>Notice that <code>System.out.print()</code> keeps the cursor on the same line, whereas <code>System.out.println()</code> drops to the next line.</li>
+        <li>Use tab escape characters (<code>\t</code>) and newline characters (<code>\n</code>) to print a clean 3-column table of Week 1 classes.</li>
+      </ol>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Java Solution Reference</span>
+          <span class="code-filename">CourseSchedule.java</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>public class CourseSchedule {
+    public static void main(String[] args) {
+        System.out.println("DAY\t\tSESSION\t\tTOPIC");
+        System.out.println("----------------------------------------------------------");
+        System.out.println("Day 1\t\tSession 1\tIntro to Java & JDK Setup");
+        System.out.println("Day 2\t\tSession 2\tVariables, Types & Operators");
+        System.out.println("Day 3\t\tSession 3\tDecisions & Loops");
+        System.out.println("Day 4\t\tSession 4\tTry It Yourself Review Lab");
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Task 3: Challenge -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-hard">🔴 Level 3: Challenge</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 1.3: The Command-Line Argument Greeter</h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> Demystify what <code>String[] args</code> actually does! Build a program that receives parameters passed when launching the app from the terminal.
+      </p>
+
+      <h4>Instructions:</h4>
+      <ol style="margin-left: var(--space-lg); margin-bottom: var(--space-md); color: var(--text-secondary);">
+        <li>Create a file named <code>TerminalGreeter.java</code>.</li>
+        <li>In your <code>main</code> method, access <code>args[0]</code> (first parameter) and <code>args[1]</code> (second parameter).</li>
+        <li>Compile with <code>javac TerminalGreeter.java</code>.</li>
+        <li>Run with two arguments, e.g.: <code>java TerminalGreeter Alice Lagos</code>.</li>
+        <li>What happens if you run it without arguments? (Observe the <code>ArrayIndexOutOfBoundsException</code> and discuss with instructor!).</li>
+      </ol>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Java Code</span>
+          <span class="code-filename">TerminalGreeter.java</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>public class TerminalGreeter {
+    public static void main(String[] args) {
+        // args[0] captures the first word passed in terminal
+        // args[1] captures the second word passed in terminal
+        System.out.println("Hello, " + args[0] + " from " + args[1] + "!");
+        System.out.println("Welcome to Aptech AI-Driven Java Programming.");
+    }
+}</code></pre>
+      </div>
+
+      <div class="expected-output">
+        <h5>Terminal Command &amp; Expected Output:</h5>
+        <pre><code>javac TerminalGreeter.java
+java TerminalGreeter Ada Abuja
+
+Hello, Ada from Abuja!
+Welcome to Aptech AI-Driven Java Programming.</code></pre>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <a href="lesson.html" class="nav-prev">
+        <span>&larr; Back to Lesson 1</span>
+      </a>
+      <a href="assignment.html" class="nav-next">
+        <span>Session 1 Assignment &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 4: Try It Yourself Review Lab — Comprehensive Week 1 Consolidation, Debugging Workshop, and Algorithmic Thinking.">
+  <title>Session 4: Try It Yourself Review Lab | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 4</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Review Guide</a></li>
+      <li><a href="class-tasks.html">Try It Yourself</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-green">Week 1 &bull; Day 4</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL4</span>
+      </div>
+      <h1>Session 4: Try It Yourself &amp; Consolidation Workshop</h1>
+      <p class="description">
+        Congratulations on finishing your first week of Java! Today is dedicated entirely to synthesis, hands-on debugging, tracing code mentally, and solving algorithmic problems from Sessions 1 through 3.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Review Blueprint</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#week1-map">1. Week 1 Concept Map</a></li>
+          <li><a href="#syntax-refresher">2. Core Syntax Refresher</a></li>
+          <li><a href="#loop-patterns">3. Classic Loop Patterns</a></li>
+          <li><a href="#debugging-playbook">4. The Debugging Playbook</a></li>
+          <li><a href="#tracing-code">5. Code Tracing Workshop</a></li>
+          <li><a href="#cheat-sheet">6. Executive Cheat Sheet</a></li>
+          <li><a href="#next-steps">7. Summary &amp; Week 2 Preview</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <!-- Memory Booster: Concepts You Might Have Forgotten -->
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: The 3 Pillars of Week 1</div>
+          <p>
+            You have covered tremendous ground in just 3 sessions! Let's connect the three foundational pillars before debugging today's workshop:
+          </p>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Pillar 1 (Platform):</strong> Your Java code compiles via <code>javac</code> into universal Bytecode (<code>.class</code>) that executes on any operating system equipped with a JVM.</li>
+            <li><strong>Pillar 2 (Data):</strong> Variables live in RAM. Primitive variables hold their raw bits directly; Reference variables (Strings) hold memory pointers to objects on the heap.</li>
+            <li><strong>Pillar 3 (Flow):</strong> By default, execution is linear. Branching (<code>if/else</code>, <code>switch</code>) chooses which path to take, and loops (<code>for</code>, <code>while</code>, <code>do-while</code>) repeat actions until a condition changes.</li>
+          </ul>
+        </div>
+
+        <!-- 1. Week 1 Concept Map -->
+        <section class="content-section" id="week1-map">
+          <h2>1. Week 1 Architecture &amp; Fundamentals Map</h2>
+          <p>Over the past three sessions, you mastered the fundamental building blocks of all computational logic:</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Mental Model</span>
+              <span class="code-filename">The Week 1 Foundation</span>
+            </div>
+            <pre><code>[ High-Level Code (.java) ] ──(javac)──> [ Bytecode (.class) ] ──(JVM)──> [ Machine Code ]
+                                               │
+               ┌───────────────────────────────┴───────────────────────────────┐
+               ▼                                                               ▼
+    [ DATA & STORAGE (Session 2) ]                             [ LOGIC & FLOW (Session 3) ]
+    • 8 Primitive Types (byte..double)                         • Branching: if, if-else, switch
+    • Reference Types: String                                  • Loops: for, while, do-while
+    • Type Casting: Widening vs. Narrowing                     • Jumps: break, continue
+    • Formatted Output: System.out.printf</code></pre>
+          </div>
+
+          <figure class="lesson-figure">
+            <img src="../../assets/images/week1_debugging_mindmap.jpg" alt="Java Week 1 Master Map and Debugging Diagnostic Radar" loading="lazy">
+            <figcaption class="figure-caption">📌 Figure 4.1: Java Week 1 Architecture &amp; Debugging Radar — Visualizing the connection between Platform, Data, Flow, and the top 3 beginner traps.</figcaption>
+          </figure>
+        </section>
+
+        <!-- 2. Core Syntax Refresher -->
+        <section class="content-section" id="syntax-refresher">
+          <h2>2. Rapid-Fire Syntax Refresher</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Syntax Pattern</th>
+                  <th>Example</th>
+                  <th>Golden Rule</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Variable Declaration</strong></td>
+                  <td><code>int count = 10;</code></td>
+                  <td>Must declare type first; names in camelCase.</td>
+                </tr>
+                <tr>
+                  <td><strong>Floating Point Division</strong></td>
+                  <td><code>double ratio = 7.0 / 2;</code></td>
+                  <td>At least one operand must be double to avoid integer truncation.</td>
+                </tr>
+                <tr>
+                  <td><strong>Ternary Operator</strong></td>
+                  <td><code>String res = (x &gt; 0) ? "Pos" : "Zero/Neg";</code></td>
+                  <td>Inline replacement for simple if-else assignment.</td>
+                </tr>
+                <tr>
+                  <td><strong>Switch Statement</strong></td>
+                  <td><code>switch(val) { case 1: ... break; default: ... }</code></td>
+                  <td>Always place <code>break;</code> on each case unless fall-through is required.</td>
+                </tr>
+                <tr>
+                  <td><strong>Standard Counter Loop</strong></td>
+                  <td><code>for (int i = 0; i &lt; n; i++) { ... }</code></td>
+                  <td>Zero-indexed counter loop running exactly <code>n</code> times.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 3. Loop Patterns -->
+        <section class="content-section" id="loop-patterns">
+          <h2>3. Four Classic Algorithmic Loop Patterns</h2>
+          <p>Every software engineer uses these four loop design patterns daily:</p>
+
+          <ol class="steps">
+            <li>
+              <strong>The Accumulator (Summing / Running Totals)</strong>
+              <p>Initialize a sum variable to <code>0</code> before the loop; add to it on every iteration:</p>
+              <div class="code-block">
+                <pre><code>int total = 0;
+for (int i = 1; i <= 100; i++) {
+    total += i; // 1 + 2 + 3 + ... + 100 = 5050
+}</code></pre>
+              </div>
+            </li>
+            <li>
+              <strong>The Counter / Filter</strong>
+              <p>Count items that satisfy a specific condition:</p>
+              <div class="code-block">
+                <pre><code>int passes = 0;
+// if (score >= 50) passes++;</code></pre>
+              </div>
+            </li>
+            <li>
+              <strong>The Sentinel / Early Exit Flag</strong>
+              <p>Search for an item or verify a condition, breaking out as soon as a mismatch occurs:</p>
+              <div class="code-block">
+                <pre><code>boolean found = false;
+for (int i = 2; i * i <= n; i++) {
+    if (n % i == 0) { found = true; break; }
+}</code></pre>
+              </div>
+            </li>
+            <li>
+              <strong>Digit Extraction via Modulus &amp; Division</strong>
+              <p>Extract individual digits from right to left:</p>
+              <div class="code-block">
+                <pre><code>while (num > 0) {
+    int lastDigit = num % 10; // Grabs last digit
+    num = num / 10;           // Drops last digit
+}</code></pre>
+              </div>
+            </li>
+          </ol>
+        </section>
+
+        <!-- 4. The Debugging Playbook -->
+        <section class="content-section" id="debugging-playbook">
+          <h2>4. The Professional Debugging Playbook</h2>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Bug 1: Integer Division Sneak Attack</div>
+            <p>
+              <code>double discount = 15 / 100 * price; // BUG: 15 / 100 is 0! Discount is always $0.00!</code>
+              <br><strong>Fix:</strong> Use decimal literals: <code>15.0 / 100.0 * price</code> or <code>0.15 * price</code>.
+            </p>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Bug 2: The Semicolon Trap on Control Statements</div>
+            <p>
+              <code>if (score >= 50); // BUG: The semicolon immediately terminates the if!</code>
+              <br><code>{ System.out.println("Passed!"); } // This block now ALWAYS runs!</code>
+              <br><strong>Fix:</strong> Never put a semicolon directly after the parenthesis of an <code>if</code>, <code>for</code>, or <code>while</code> header.
+            </p>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Bug 3: String Comparison with <code>==</code></div>
+            <p>
+              <code>if (input == "YES") // Checks if memory pointers match, NOT text!</code>
+              <br><strong>Fix:</strong> Always use <code>if (input.equals("YES"))</code> or <code>if (input.equalsIgnoreCase("YES"))</code>.
+            </p>
+          </div>
+        </section>
+
+        <!-- 5. Tracing Code -->
+        <section class="content-section" id="tracing-code">
+          <h2>5. Mental Code Tracing: The Trace Table Method</h2>
+          <p>
+            When a loop is misbehaving, don't guess—draw a <strong>Trace Table</strong> on paper. Record every variable's value on every step:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Iteration #</th>
+                  <th>Value of <code>i</code></th>
+                  <th>Condition <code>i &lt;= 3</code></th>
+                  <th>Action</th>
+                  <th>Value of <code>total</code></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Start</td>
+                  <td>1</td>
+                  <td>true</td>
+                  <td>total += 1</td>
+                  <td>1</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>2</td>
+                  <td>true</td>
+                  <td>total += 2</td>
+                  <td>3</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>3</td>
+                  <td>true</td>
+                  <td>total += 3</td>
+                  <td>6</td>
+                </tr>
+                <tr>
+                  <td>4</td>
+                  <td>4</td>
+                  <td>false</td>
+                  <td>Loop Exits</td>
+                  <td>6</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 6. Executive Cheat Sheet -->
+        <section class="content-section" id="cheat-sheet">
+          <h2>6. Week 1 Executive Synthesis &amp; Master Cheat Sheet</h2>
+          <p>Everything you mastered across Week 1 condensed into a high-density reference sheet:</p>
+
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The Week 1 Grand Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              Software engineering in Java is a 3-step discipline:
+              <br>1. <strong>Write</strong> human code inside classes with <code>public static void main</code>.
+              <br>2. <strong>Compile</strong> with <code>javac</code> into platform-independent bytecode (<code>.class</code>) verified by compiler strictness.
+              <br>3. <strong>Execute</strong> via the host JVM, utilizing stack memory for primitives/frames and heap memory for objects, controlled by branching decisions and repeated loops.
+            </p>
+          </div>
+
+          <h3>Week 1 Debugging Checklist</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Diagnostic Playbook</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>// 1. Check Case Sensitivity
+String valid = "Java"; // Capital 'S' in String, capital 'S' in System
+
+// 2. Prevent Integer Division Truncation
+double accurateAverage = (score1 + score2) / 2.0; // Use 2.0, not 2!
+
+// 3. Compare Strings by Content, Not Pointer
+if (status.equals("COMPLETED")) { /* Correct */ }
+
+// 4. Watch for Semicolons on Loop Headers
+for (int i = 0; i < 5; i++) { /* No semicolon after parenthesized header! */ }
+
+// 5. Explicitly Cast Narrowing Types
+int dollars = (int) currentBalance;</code></pre>
+          </div>
+
+          <h3>Plain-English Master Glossary</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item">
+              <div class="glossary-term">JDK / JRE / JVM</div>
+              <p class="glossary-def">JDK creates code (compiler); JRE provides standard libraries; JVM executes universal bytecode on CPU hardware.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">Stack vs. Heap</div>
+              <p class="glossary-def">Stack holds active method frames and primitive variables; Heap holds dynamic reference objects (Strings, class instances).</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">Widening vs. Narrowing</div>
+              <p class="glossary-def">Widening converts smaller types to larger types safely; Narrowing forces larger types into smaller types, truncating extra data.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">Short-Circuit Evaluation</div>
+              <p class="glossary-def">Logical optimization where <code>&amp;&amp;</code> stops if first condition is false, and <code>||</code> stops if first condition is true.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">Off-by-One Error (OBOE)</div>
+              <p class="glossary-def">A common loop logic bug where the loop iterates one time too many or one time too few (e.g. <code>&lt;= 10</code> vs <code>&lt; 10</code>).</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">Tracing Table</div>
+              <p class="glossary-def">A step-by-step diagnostic chart tracking variable values across each iteration of a loop to verify algorithm correctness.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 7. Summary & Self-Check -->
+        <section class="content-section" id="next-steps">
+          <h2>7. Summary, Self-Check &amp; Week 2 Preview</h2>
+          <p>Test your comprehensive Week 1 knowledge with these three diagnostic self-checks:</p>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Question 1: If a user enters an input through a loop that must run at least once to display the prompt, which loop construct is mathematically best?</summary>
+              <div class="self-check-answer">
+                <strong>Answer:</strong> The <code>do-while</code> loop! Because its condition check sits at the bottom (exit-controlled), the prompt and input capture are guaranteed to execute at least once without redundant code outside the loop.
+              </div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Question 2: Why will `String a = "test"; String b = new String("test"); (a == b)` evaluate to `false`?</summary>
+              <div class="self-check-answer">
+                <strong>Answer:</strong> The <code>==</code> operator compares object memory addresses (pointers). Because `b` was created with `new`, it resides at a different heap memory address. Always use <code>a.equals(b)</code> to compare the actual character contents.
+              </div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Question 3: What is the resulting type and value of `5 + 10 + "Java" + 5 + 10`?</summary>
+              <div class="self-check-answer">
+                <strong>Answer:</strong> <code>"15Java510"</code>! Left-to-right evaluation: <code>5 + 10</code> performs numeric addition (<code>15</code>). Then <code>15 + "Java"</code> concatenates to <code>"15Java"</code>. From then on, the remaining numbers are treated as strings and concatenated one by one.
+              </div>
+            </details>
+          </div>
+
+          <h3 style="margin-top: var(--space-xl);">Looking Ahead: Week 2 Preview</h3>
+          <p>
+            In Week 2 (Sessions 5 through 8), you will transition into the true heart of Java: <strong>Object-Oriented Programming (OOP)</strong>!
+            You will learn how to design custom Classes, instantiate Objects in heap memory, write Constructors, manipulate Arrays and ArrayLists, and package your code into production <code>.jar</code> libraries.
+          </p>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start "Try It Yourself" Challenges</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Week 1 Review Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev">
+        <span>&larr; Session 4 Pre-Quiz</span>
+      </a>
+      <a href="class-tasks.html" class="nav-next">
+        <span>Try It Yourself Tasks &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

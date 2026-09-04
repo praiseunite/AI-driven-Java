@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 3 Pre-Quiz | Decision-Making &amp; Loops</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 3</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+    
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-yellow">Pre-Class Diagnostic</span>
+        <span class="tag tag-purple">Session 3</span>
+        <span class="tag tag-teal">Control Flow Intuition</span>
+      </div>
+      <h1>🧠 Pre-Lecture Knowledge Check: Logic &amp; Loops</h1>
+      <p class="description">
+        Before learning Java's decision-making statements and loop syntax, test your algorithmic thinking on how computers make choices and repeat actions.
+      </p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="../session-02/lesson.html" class="nav-prev">
+        <span>&larr; Session 2 Lesson</span>
+      </a>
+      <a href="lesson.html" class="nav-next">
+        <span>Proceed to Lesson 3 &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session3PreQuizData = {
+    title: "Session 3 Readiness: Logic & Repetition Intuition",
+    description: "Answer these 5 conceptual questions to prime your brain for branching logic and repetition structures.",
+    questions: [
+      {
+        question: "In programming, what is a 'branch' or 'decision-making' statement used for?",
+        options: [
+          "To force the computer to execute every single line in order without thinking",
+          "To allow the computer to choose between different execution paths depending on whether a condition is true or false",
+          "To shut down the computer's CPU",
+          "To connect to WiFi"
+        ],
+        correct: 1,
+        explanation: "Branching constructs like `if-else` and `switch` evaluate a boolean condition and dynamically steer the execution path based on whether the condition evaluates to true or false."
+      },
+      {
+        question: "When you know IN ADVANCE exactly how many times an action should repeat (e.g., 'Do 10 jumping jacks'), which type of loop is most naturally suited?",
+        options: [
+          "An infinite loop",
+          "A counter-controlled loop (such as a `for` loop)",
+          "A random decision branch",
+          "An exception handler"
+        ],
+        correct: 1,
+        explanation: "When the number of repetitions is known beforehand, a counter-controlled `for` loop is cleanest because it bundles initialization, condition, and counter incrementing in one place."
+      },
+      {
+        question: "When you repeat an action based on a changing condition (e.g., 'Keep boiling water UNTIL temperature reaches 100°C'), which loop is ideal?",
+        options: [
+          "A condition-controlled loop (such as a `while` loop)",
+          "A single `if` statement",
+          "A compiler directive",
+          "A static import"
+        ],
+        correct: 0,
+        explanation: "A `while` loop continues running repeatedly as long as its condition remains true, making it ideal when you cannot predict the exact count of iterations in advance."
+      },
+      {
+        question: "What dangerous bug occurs when a loop's stopping condition is never reached (e.g., `while (true)`) and no break statement is called?",
+        options: [
+          "The computer turns off immediately",
+          "An infinite loop, freezing or hanging the application",
+          "A compilation syntax error",
+          "The code runs backwards"
+        ],
+        correct: 1,
+        explanation: "An infinite loop runs endlessly without terminating, consuming CPU cycles and freezing the program until it is forcefully killed."
+      },
+      {
+        question: "In a menu system where a user picks option 1, 2, 3, or 4, what is the cleanest alternative to writing four separate `if-else-if` blocks?",
+        options: [
+          "A `switch-case` statement",
+          "A binary search tree",
+          "Restarting the computer",
+          "Writing 50 variables"
+        ],
+        correct: 0,
+        explanation: "A `switch-case` statement provides a clean, readable syntax specifically designed to test a single variable against multiple discrete fixed values."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session3PreQuizData);
+  });
+</script>
+
+</body>
+</html>

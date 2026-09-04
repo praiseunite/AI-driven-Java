@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 2 In-Class Practical Tasks | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 2 Tasks</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html" class="active">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-teal">Hands-On Practicals</span>
+        <span class="tag tag-purple">Session 2</span>
+        <span class="tag tag-yellow">Lab Exercises</span>
+      </div>
+      <h1>💻 Session 2 In-Class Coding Tasks</h1>
+      <p class="description">
+        Put variables, arithmetic operators, casting, and formatted output into practice through three real-world algorithmic tasks.
+      </p>
+    </div>
+
+    <!-- Task 1: Easy -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-easy">🟢 Level 1: Easy</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 2.1: Temperature Conversion Station</h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> Practice declaring decimal variables, performing arithmetic operations, avoiding the integer division trap, and formatting floating-point output.
+      </p>
+
+      <h4>Mathematical Formula:</h4>
+      <p><code>Fahrenheit = (Celsius * 9.0 / 5.0) + 32</code></p>
+
+      <h4>Instructions:</h4>
+      <ol style="margin-left: var(--space-lg); margin-bottom: var(--space-md); color: var(--text-secondary);">
+        <li>Create a file named <code>TemperatureConverter.java</code>.</li>
+        <li>Declare a <code>double</code> variable named <code>celsiusTemp</code> initialized to <code>37.5</code> (human body temperature).</li>
+        <li>Calculate the Fahrenheit temperature. (Notice why writing <code>9 / 5</code> instead of <code>9.0 / 5.0</code> would introduce a bug!).</li>
+        <li>Print both values rounded to 1 decimal place using <code>System.out.printf()</code>.</li>
+      </ol>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Java Solution</span>
+          <span class="code-filename">TemperatureConverter.java</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>public class TemperatureConverter {
+    public static void main(String[] args) {
+        double celsius = 37.5;
+        // Using 9.0 / 5.0 ensures floating-point division
+        double fahrenheit = (celsius * 9.0 / 5.0) + 32;
+
+        System.out.println("=== WEATHER MONITORING SYSTEM ===");
+        System.out.printf("Celsius Reading    : %.1f °C%n", celsius);
+        System.out.printf("Fahrenheit Reading : %.1f °F%n", fahrenheit);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Task 2: Medium -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-medium">🟡 Level 2: Intermediate</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 2.2: Campus Micro-Loan Calculator</h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> Apply arithmetic formulas, calculate simple interest, compute monthly payment breakdowns, and format tabular financial outputs with <code>printf</code>.
+      </p>
+
+      <h4>Formulas:</h4>
+      <p>
+        <code>Interest = (Principal * Rate * TimeInYears) / 100</code><br>
+        <code>TotalPayable = Principal + Interest</code><br>
+        <code>MonthlyPayment = TotalPayable / (TimeInYears * 12)</code>
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Java Starter</span>
+          <span class="code-filename">LoanCalculator.java</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>public class LoanCalculator {
+    public static void main(String[] args) {
+        double principal = 5000.00; // Loan amount ($5,000)
+        double annualRate = 6.5;    // 6.5% interest
+        int durationYears = 2;       // 2 years (24 months)
+
+        double totalInterest = (principal * annualRate * durationYears) / 100.0;
+        double totalRepayment = principal + totalInterest;
+        double monthlyInstallment = totalRepayment / (durationYears * 12);
+
+        System.out.println("========================================");
+        System.out.println("     STUDENT LAPTOP LOAN SUMMARY        ");
+        System.out.println("========================================");
+        System.out.printf("Principal Borrowed : $%10.2f%n", principal);
+        System.out.printf("Interest Rate      : %9.1f%%%n", annualRate);
+        System.out.printf("Total Interest Fee : $%10.2f%n", totalInterest);
+        System.out.printf("Total Repayment    : $%10.2f%n", totalRepayment);
+        System.out.printf("Monthly Payment    : $%10.2f%n", monthlyInstallment);
+        System.out.println("========================================");
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Task 3: Challenge -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-hard">🔴 Level 3: Challenge</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 2.3: BMI Health Metric &amp; Ternary Classifier</h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> Combine type casting, arithmetic power, relational operators, and the ternary conditional operator to build a health indicator.
+      </p>
+
+      <h4>Requirements:</h4>
+      <ol style="margin-left: var(--space-lg); margin-bottom: var(--space-md); color: var(--text-secondary);">
+        <li>Store weight in kilograms (e.g. <code>70.5</code>) and height in meters (e.g. <code>1.75</code>).</li>
+        <li>Calculate <code>BMI = weight / (height * height)</code>.</li>
+        <li>Cast the BMI to an integer to demonstrate truncation: <code>int roundedBmi = (int) bmi;</code>.</li>
+        <li>Use the ternary operator to check if BMI &gt;= 18.5 AND BMI &lt;= 24.9 &rarr; <code>"HEALTHY WEIGHT"</code> vs <code>"OUTSIDE OPTIMAL RANGE"</code>.</li>
+      </ol>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Java Solution</span>
+          <span class="code-filename">BmiCalculator.java</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>public class BmiCalculator {
+    public static void main(String[] args) {
+        double weightKg = 72.5;
+        double heightM = 1.78;
+
+        double bmi = weightKg / (heightM * heightM);
+        int truncatedBmi = (int) bmi;
+
+        boolean isNormalRange = (bmi >= 18.5) && (bmi <= 24.9);
+        String evaluation = isNormalRange ? "NORMAL WEIGHT" : "ATTENTION NEEDED";
+
+        System.out.println("=== SMART HEALTH DIAGNOSTIC ===");
+        System.out.printf("Weight (kg)        : %.1f%n", weightKg);
+        System.out.printf("Height (m)         : %.2f%n", heightM);
+        System.out.printf("Exact BMI          : %.2f%n", bmi);
+        System.out.printf("Truncated BMI (int): %d%n", truncatedBmi);
+        System.out.printf("Health Status      : %s%n", evaluation);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <a href="lesson.html" class="nav-prev">
+        <span>&larr; Back to Lesson 2</span>
+      </a>
+      <a href="assignment.html" class="nav-next">
+        <span>Session 2 Assignment &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 1 Take-Home Assignment | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 1</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html" class="active">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-red">Take-Home Lab Assignment</span>
+        <span class="tag tag-purple">Session 1</span>
+        <span class="tag tag-yellow">Due Before Session 2</span>
+      </div>
+      <h1>📋 Assignment 1: Aptech Smart Campus Registration Receipt</h1>
+      <p class="description">
+        Consolidate your knowledge of class structure, compilation, escape sequences, and console output by solving a real-world campus automation scenario.
+      </p>
+    </div>
+
+    <!-- Scenario Card -->
+    <div class="card" style="margin-bottom: var(--space-xl);">
+      <h3 style="color: var(--accent); margin-top: 0;">🏢 Real-World Business Scenario</h3>
+      <p>
+        The Aptech Student Administration Office is deploying a lightweight console-based terminal kiosk for students who register for the new <strong>AI-Driven Java Programming</strong> diploma track.
+        Your manager has tasked you with engineering a Java application named <code>CampusReceipt.java</code> that prints a professional, perfectly aligned official registration slip.
+      </p>
+    </div>
+
+    <!-- Requirements -->
+    <div class="content-section">
+      <h2>Project Specifications &amp; Requirements</h2>
+      <ol style="margin-left: var(--space-lg); line-height: 1.8;">
+        <li><strong>Class &amp; File Name:</strong> You must create a class named <code>CampusReceipt</code> inside a file named <code>CampusReceipt.java</code>.</li>
+        <li><strong>Center Header:</strong> Display the official header: <em>"APTECH COMPUTER EDUCATION &bull; SMART CAMPUS KIOSK"</em> framed with decorative divider lines.</li>
+        <li>
+          <strong>Registration Information:</strong> Use tabs (<code>\t</code>) to align the following fields:
+          <ul>
+            <li>Student Full Name</li>
+            <li>Registration Number (e.g. <code>APT/2026/04-098</code>)</li>
+            <li>Module Name: <code>AI-Driven Java Programming (JAVA-I)</code></li>
+            <li>Batch Code: <code>BTH-2026-MORN</code></li>
+            <li>Center Location: <code>Victoria Island Center / Abuja Center</code></li>
+            <li>Date Issued: Current month and year</li>
+          </ul>
+        </li>
+        <li>
+          <strong>Financial Breakdown:</strong>
+          <ul>
+            <li>Tuition Fee &bull; Lab Access Fee &bull; AI Cloud Computing Token Fee</li>
+            <li>Total Amount Paid &bull; Balance Due ($0.00)</li>
+          </ul>
+        </li>
+        <li><strong>Security Footer:</strong> Print a validation stamp containing <em>"*** COMPUTER GENERATED OFFICIAL RECEIPT - NO SIGNATURE REQUIRED ***"</em>.</li>
+        <li><strong>Comments:</strong> Include clear single-line (<code>//</code>) and multi-line (<code>/* */</code>) comments describing the program purpose and your author details.</li>
+      </ol>
+
+      <div class="expected-output">
+        <h5>Target Visual Output (Console Rendering):</h5>
+        <pre><code>+==================================================================+
+|             APTECH COMPUTER EDUCATION - SMART KIOSK              |
+|                   OFFICIAL REGISTRATION RECEIPT                  |
++==================================================================+
+  Receipt No   : REC-2026-98102
+  Date Issued  : April 2026
+  Student Name : [Your Name]
+  Student ID   : APT-2026-0012
+  Course Track : AI-Driven Java Programming (JAVA-I)
+  Schedule     : Mon - Thu (2 Hours/Session)
+--------------------------------------------------------------------
+  FEE ITEMIZATION                             AMOUNT (USD)
+--------------------------------------------------------------------
+  Core Java Tuition Fee                       $ 450.00
+  Lab & Cloud AI Sandbox Access               $ 120.00
+  Courseware & ProConnect Digital License     $  80.00
+--------------------------------------------------------------------
+  TOTAL PAID                                  $ 650.00
+  BALANCE OUTSTANDING                         $   0.00
++==================================================================+
+|    *** COMPUTER GENERATED RECEIPT - VERIFIED BY APTECH ***       |
++==================================================================+</code></pre>
+      </div>
+    </div>
+
+    <!-- Evaluation Rubric -->
+    <div class="content-section">
+      <h2>Evaluation &amp; Grading Rubric (100 Points Total)</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Criteria</th>
+              <th>Description</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Compilation &amp; Execution</strong></td>
+              <td>Code compiles cleanly with <code>javac CampusReceipt.java</code> with zero errors and executes via <code>java CampusReceipt</code>.</td>
+              <td>35 Pts</td>
+            </tr>
+            <tr>
+              <td><strong>Layout Alignment &amp; Formatting</strong></td>
+              <td>Tabs, borders, and newlines correctly format headers and columns without jagged text edges.</td>
+              <td>25 Pts</td>
+            </tr>
+            <tr>
+              <td><strong>Completeness of Content</strong></td>
+              <td>All required fields (Student ID, Course Track, itemized fees, totals, security stamp) are included.</td>
+              <td>25 Pts</td>
+            </tr>
+            <tr>
+              <td><strong>Code Quality &amp; Comments</strong></td>
+              <td>Proper indentation, clean class structure, and informative author docstrings.</td>
+              <td>15 Pts</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="callout callout-tip">
+        <div class="callout-title">📤 Submission Instructions via ProConnect</div>
+        <p>
+          Submit your single <code>CampusReceipt.java</code> file through the <strong>ProConnect Student Portal</strong> under <em>Work Assignments &rarr; Session 1</em> before the start of Session 2.
+        </p>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev">
+        <span>&larr; Session 1 Class Tasks</span>
+      </a>
+      <a href="post-quiz.html" class="nav-next">
+        <span>Session 1 Post-Quiz &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

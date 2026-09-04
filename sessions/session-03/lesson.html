@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 3: Decision-Making Constructs and Loops in Java — if/else, switch, while, do-while, for, and jump statements.">
+  <title>Session 3: Decision-Making &amp; Loops | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 3</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Week 1 &bull; Day 3</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL3</span>
+      </div>
+      <h1>Session 3: Decision-Making Constructs and Loops</h1>
+      <p class="description">
+        Up until now, our code executed strictly top-to-bottom, line by line.
+        In this session, you will give your programs a brain! Learn how to make intelligent decisions based on conditions and how to automate tasks with loops.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Table of Contents</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#control-flow">1. What is Control Flow?</a></li>
+          <li><a href="#if-statements">2. Forms of the if Statement</a></li>
+          <li><a href="#switch-case">3. The switch-case Statement</a></li>
+          <li><a href="#if-vs-switch">4. if-else vs. switch</a></li>
+          <li><a href="#loops-intro">5. Understanding Loops</a></li>
+          <li><a href="#while-loop">6. The while Loop</a></li>
+          <li><a href="#do-while-loop">7. The do-while Loop</a></li>
+          <li><a href="#for-loop">8. The for Loop</a></li>
+          <li><a href="#nested-loops">9. Nested Loops &amp; Grids</a></li>
+          <li><a href="#jump-statements">10. Jump Statements</a></li>
+          <li><a href="#cheat-sheet">11. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">12. Summary &amp; Self-Check</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <!-- Memory Booster: Concepts You Might Have Forgotten -->
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: Flashback to Session 2 Logic</div>
+          <p>
+            Control flow relies entirely on boolean decisions. Let's recall three key concepts from Session 2:
+          </p>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Relational Comparisons:</strong> Expressions like <code>score &gt;= 50</code> or <code>count &lt; 10</code> always evaluate to either <code>true</code> or <code>false</code>. That true/false answer is the fuel that drives every <code>if</code> statement and loop!</li>
+            <li><strong>Compound Logic:</strong> Remember that <code>&amp;&amp;</code> (AND) requires <em>both</em> conditions to be true, while <code>||</code> (OR) requires only <em>one</em> to be true.</li>
+            <li><strong>String Equality Trap:</strong> Never compare text with <code>role == "ADMIN"</code>! In Java, always use <code>role.equals("ADMIN")</code> because <code>==</code> compares memory addresses rather than the characters inside.</li>
+          </ul>
+        </div>
+
+        <!-- 1. What is Control Flow? -->
+        <section class="content-section" id="control-flow">
+          <h2>1. What is Control Flow?</h2>
+          <p>
+            By default, the JVM executes code sequentially from the first statement of <code>main</code> to the last.
+            <strong>Control Flow</strong> statements interrupt that straight highway:
+          </p>
+          <ul>
+            <li><strong>Selection / Branching:</strong> Choosing one path among multiple alternatives (e.g. <em>"If balance &gt;= $100, approve withdrawal; otherwise decline"</em>).</li>
+            <li><strong>Iteration / Looping:</strong> Repeating a block of code multiple times until a condition changes.</li>
+            <li><strong>Jumping:</strong> Skipping iterations or breaking out of code blocks early.</li>
+          </ul>
+
+          <figure class="lesson-figure">
+            <img src="../../assets/images/control_flow_diagram.jpg" alt="Java Control Flow Decision Making and Loop Mechanics" loading="lazy">
+            <figcaption class="figure-caption">📌 Figure 3.1: Java Control Flow Architecture — Decision branching (if-else, switch) and Loop mechanics (entry-controlled vs. exit-controlled).</figcaption>
+          </figure>
+        </section>
+
+        <!-- 2. Forms of the if Statement -->
+        <section class="content-section" id="if-statements">
+          <h2>2. The Four Forms of the <code>if</code> Statement</h2>
+
+          <h3>A. Simple <code>if</code></h3>
+          <p>Executes a block of code ONLY if the condition evaluates to <code>true</code>. If <code>false</code>, it does nothing and moves on.</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java</span>
+            </div>
+            <pre><code>if (batteryLevel < 20) {
+    System.out.println("Warning: Low Battery! Please plug in your charger.");
+}</code></pre>
+          </div>
+
+          <h3>B. <code>if - else</code></h3>
+          <p>Provides an alternative fallback block if the test condition is <code>false</code>:</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java</span>
+            </div>
+            <pre><code>int age = 19;
+if (age >= 18) {
+    System.out.println("Eligible to vote in campus elections.");
+} else {
+    System.out.println("Not yet eligible to vote.");
+}</code></pre>
+          </div>
+
+          <h3>C. <code>if - else if - else</code> Ladder</h3>
+          <p>Used when evaluating a chain of mutually exclusive conditions from top to bottom:</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java</span>
+            </div>
+            <pre><code>int score = 84;
+if (score >= 90) {
+    System.out.println("Grade: A (Distinction)");
+} else if (score >= 80) {
+    System.out.println("Grade: B (Credit)");
+} else if (score >= 70) {
+    System.out.println("Grade: C (Pass)");
+} else {
+    System.out.println("Grade: F (Fail)");
+}</code></pre>
+          </div>
+
+          <h3>D. Nested <code>if</code></h3>
+          <p>An <code>if</code> statement nested inside another <code>if</code> block. Used for multi-stage verification:</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java</span>
+            </div>
+            <pre><code>boolean isCustomerRegistered = true;
+double cartTotal = 150.00;
+
+if (isCustomerRegistered) {
+    if (cartTotal > 100.00) {
+        System.out.println("You qualify for Free Express Shipping!");
+    } else {
+        System.out.println("Add more items to unlock free shipping.");
+    }
+} else {
+    System.out.println("Please sign in or create an account.");
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- 3. The switch-case Statement -->
+        <section class="content-section" id="switch-case">
+          <h2>3. The <code>switch-case</code> Statement</h2>
+          <p>
+            When testing a single variable against a fixed set of specific constant values, an <code>if-else-if</code> ladder looks cluttered.
+            The <code>switch</code> statement provides a cleaner, faster alternative.
+          </p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java</span>
+              <span class="code-filename">Switch Example</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>int dayNumber = 3;
+
+switch (dayNumber) {
+    case 1:
+        System.out.println("Monday - Start of the week!");
+        break; // Stops execution from bleeding into the next case!
+    case 2:
+        System.out.println("Tuesday - Coding Lab Day");
+        break;
+    case 3:
+        System.out.println("Wednesday - Mid-week Progress Check");
+        break;
+    case 4:
+        System.out.println("Thursday - Project Workshop");
+        break;
+    case 5:
+        System.out.println("Friday - Hackathon Day!");
+        break;
+    default:
+        System.out.println("Weekend - Relax & Review!");
+        break;
+}</code></pre>
+          </div>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ The "Fall-Through" Phenomenon</div>
+            <p>
+              If you omit the <code>break;</code> statement at the end of a case, Java will continue executing all subsequent cases below it, regardless of whether their conditions match, until it encounters a <code>break</code> or hits the end of the switch!
+            </p>
+          </div>
+
+          <h3>Permitted Types in a <code>switch</code>:</h3>
+          <p>
+            In Java, the expression in a switch statement can be:
+            <code>byte</code>, <code>short</code>, <code>char</code>, <code>int</code>, <code>String</code> (since Java 7), and <code>enum</code>.
+            <em>Note: <code>float</code>, <code>double</code>, and <code>boolean</code> are NOT allowed in a switch!</em>
+          </p>
+        </section>
+
+        <!-- 4. if-else vs switch -->
+        <section class="content-section" id="if-vs-switch">
+          <h2>4. Comparing <code>if-else</code> vs. <code>switch-case</code></h2>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Criteria</th>
+                  <th><code>if - else</code></th>
+                  <th><code>switch - case</code></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Evaluation</strong></td>
+                  <td>Can test complex boolean expressions, ranges (<code>score &gt;= 70 &amp;&amp; score &lt;= 80</code>), and multiple variables.</td>
+                  <td>Tests a single variable for equality against discrete constants.</td>
+                </tr>
+                <tr>
+                  <td><strong>Supported Types</strong></td>
+                  <td>Any expression evaluating to a <code>boolean</code>.</td>
+                  <td>Integers, characters, strings, and enums only.</td>
+                </tr>
+                <tr>
+                  <td><strong>Readability</strong></td>
+                  <td>Can become unreadable with many discrete equality checks.</td>
+                  <td>Extremely clean and organized for menu options and state machines.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 5. Understanding Loops -->
+        <section class="content-section" id="loops-intro">
+          <h2>5. Introduction to Loops (Iteration)</h2>
+          <p>
+            Imagine writing a program to print the numbers from 1 to 1,000.
+            Writing 1,000 lines of <code>System.out.println()</code> would be exhausting, error-prone, and unmaintainable.
+            A <strong>loop</strong> executes a block of code repeatedly as long as a specified condition remains true.
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🔄 Entry-Controlled vs. Exit-Controlled Loops</div>
+            <p>
+              &bull; <strong>Entry-Controlled (Pre-test):</strong> Checks the condition BEFORE executing the loop body (e.g. <code>while</code>, <code>for</code>). If the condition is false initially, the body runs 0 times.
+              <br>&bull; <strong>Exit-Controlled (Post-test):</strong> Executes the loop body FIRST, then checks the condition at the end (e.g. <code>do-while</code>). Guaranteed to execute <strong>at least once</strong>!
+            </p>
+          </div>
+        </section>
+
+        <!-- 6. while Loop -->
+        <section class="content-section" id="while-loop">
+          <h2>6. The <code>while</code> Loop (Entry-Controlled)</h2>
+          <p>Use when you don't know the exact number of iterations in advance, but know the stopping condition.</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java</span>
+              <span class="code-filename">while Loop Syntax</span>
+            </div>
+            <pre><code>int count = 1; // 1. Initialization
+
+while (count <= 5) { // 2. Condition Check
+    System.out.println("Processing student record #" + count);
+    count++; // 3. Update / Increment (CRITICAL to avoid infinite loops!)
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- 7. do-while Loop -->
+        <section class="content-section" id="do-while-loop">
+          <h2>7. The <code>do-while</code> Loop (Exit-Controlled)</h2>
+          <p>
+            The <code>do-while</code> loop is perfect for interactive menus or password prompts where you must prompt the user at least once before checking if they want to repeat or exit.
+          </p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java</span>
+              <span class="code-filename">do-while Syntax</span>
+            </div>
+            <pre><code>int attempts = 0;
+
+do {
+    System.out.println("Attempting server handshake...");
+    attempts++;
+} while (attempts < 1); // Note the required semicolon after the while condition!</code></pre>
+          </div>
+        </section>
+
+        <!-- 8. for Loop -->
+        <section class="content-section" id="for-loop">
+          <h2>8. The <code>for</code> Loop (Counter-Controlled)</h2>
+          <p>
+            When you know precisely how many times an operation should run, the <code>for</code> loop is the cleanest, most popular construct in Java because it bundles the three lifecycle components into one line:
+          </p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java</span>
+              <span class="code-filename">for Loop Anatomy</span>
+            </div>
+            <pre><code>//      (1) Init     ; (2) Condition ; (3) Update
+for (int step = 1   ; step <= 5     ; step++    ) {
+    System.out.println("Step number: " + step);
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- 9. Nested Loops -->
+        <section class="content-section" id="nested-loops">
+          <h2>9. Nested Loops (Rows &amp; Columns)</h2>
+          <p>
+            A <strong>nested loop</strong> is simply a loop inside another loop.
+            Think of an Excel spreadsheet: the <strong>outer loop</strong> controls which <em>row</em> you are on, while the <strong>inner loop</strong> visits every <em>column</em> inside that row.
+          </p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java</span>
+              <span class="code-filename">Printing a Grid</span>
+            </div>
+            <pre><code>for (int row = 1; row <= 3; row++) {
+    for (int col = 1; col <= 4; col++) {
+        System.out.print("[" + row + "," + col + "] ");
+    }
+    System.out.println(); // Jump to next line after row finishes
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- 10. Jump Statements -->
+        <section class="content-section" id="jump-statements">
+          <h2>10. Jump Statements: <code>break</code> &amp; <code>continue</code></h2>
+
+          <h3><code>break</code>: Emergency Stop</h3>
+          <p>Instantly terminates the enclosing loop or switch statement and resumes execution at the code following the loop.</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>for (int i = 1; i <= 10; i++) {
+    if (i == 6) {
+        break; // Stops the loop entirely when i reaches 6
+    }
+    System.out.print(i + " "); // Output: 1 2 3 4 5
+}</code></pre>
+          </div>
+
+          <h3><code>continue</code>: Skip to Next Lap</h3>
+          <p>Immediately skips the remainder of the current iteration and jumps directly to the update step of the next iteration.</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>for (int i = 1; i <= 6; i++) {
+    if (i % 2 == 0) {
+        continue; // Skips even numbers
+    }
+    System.out.print(i + " "); // Output: 1 3 5
+}</code></pre>
+          </div>
+        </section>
+
+        <!-- 11. Executive Cheat Sheet -->
+        <section class="content-section" id="cheat-sheet">
+          <h2>11. Executive Quick-Recap &amp; Cheat Sheet</h2>
+          <p>Everything you need to master Java decision-making and loops at a glance:</p>
+
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The 30-Second Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              Branching (<code>if/else</code>, <code>switch</code>) chooses <em>which</em> block of code executes based on a condition.
+              Loops (<code>for</code>, <code>while</code>, <code>do-while</code>) choose <em>how many times</em> a block repeats.
+              Remember: <code>while</code>/<code>for</code> check before entering (can run 0 times); <code>do-while</code> checks at the end (always runs at least once).
+            </p>
+          </div>
+
+          <h3>Control Flow Syntax at a Glance</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java Cheat Sheet</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>// 1. if - else if - else
+if (score >= 90) { grade = 'A'; }
+else if (score >= 80) { grade = 'B'; }
+else { grade = 'F'; }
+
+// 2. switch (Permitted: int, String, char, byte, short, enum)
+switch (role) {
+    case "ADMIN": grantFullAccess(); break; // Don't forget break!
+    case "USER":  grantUserAccess(); break;
+    default:      denyAccess();      break;
+}
+
+// 3. for loop (Known repetition count)
+for (int i = 0; i < 5; i++) { /* Runs 5 times: 0,1,2,3,4 */ }
+
+// 4. while loop (Condition-driven)
+while (balance > 0) { makePayment(); }
+
+// 5. do-while loop (Guaranteed at least once)
+do { displayMenu(); } while (userChoice != 5);
+
+// 6. Jumps: break (exit loop), continue (skip to next lap)</code></pre>
+          </div>
+
+          <h3>Plain-English Glossary</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item">
+              <div class="glossary-term">Entry-Controlled Loop</div>
+              <p class="glossary-def">A loop (like <code>for</code> or <code>while</code>) that tests its condition before running the body. If false initially, it executes 0 times.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">Exit-Controlled Loop</div>
+              <p class="glossary-def">A loop (<code>do-while</code>) that executes its body first, then tests the condition at the end. Always executes at least once.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">Fall-Through</div>
+              <p class="glossary-def">The default behavior in a switch statement where execution rolls into subsequent cases if <code>break;</code> is omitted.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">Infinite Loop</div>
+              <p class="glossary-def">A loop whose condition never becomes false and lacks a terminating break, causing the program to freeze or hang.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">Break vs. Continue</div>
+              <p class="glossary-def"><code>break</code> halts the entire loop immediately; <code>continue</code> skips the rest of the current cycle and jumps to the next iteration.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">Nested Loop</div>
+              <p class="glossary-def">A loop placed inside the body of another loop, commonly used for processing rows and columns or multi-dimensional data.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 12. Summary & Self-Check -->
+        <section class="content-section" id="summary">
+          <h2>12. Summary &amp; Interactive Self-Checks</h2>
+          <p>Test your logic skills on these three quick scenario checks before proceeding to the class lab:</p>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Question 1: Can you use a `double` or `float` variable as the selector in a `switch` statement?</summary>
+              <div class="self-check-answer">
+                <strong>Answer:</strong> No! Java prohibits floating-point numbers in a switch statement because binary rounding inaccuracies can cause equality mismatches. Use `if-else` chains for decimal comparisons.
+              </div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Question 2: What is the output of `for (int i = 1; i <= 3; i++); { System.out.print(i); }`?</summary>
+              <div class="self-check-answer">
+                <strong>Answer:</strong> A compilation error! The semicolon right after the `for` loop header terminates the loop. The variable `i` was declared in the for loop header and is out of scope inside `{ System.out.print(i); }`.
+              </div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Question 3: In an outer loop running 3 times and an inner loop running 4 times, how many times does the inner loop body run in total?</summary>
+              <div class="self-check-answer">
+                <strong>Answer:</strong> 12 times (3 &times; 4). For each pass of the outer loop, the inner loop completes its entire 4-iteration lifecycle.
+              </div>
+            </details>
+          </div>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start Class Tasks</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Post-Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev">
+        <span>&larr; Session 3 Pre-Quiz</span>
+      </a>
+      <a href="class-tasks.html" class="nav-next">
+        <span>Session 3 Class Tasks &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

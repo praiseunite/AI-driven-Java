@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 3 Post-Quiz | Decision-Making &amp; Loops</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 3</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Post-Lecture Evaluation</span>
+        <span class="tag tag-purple">Session 3</span>
+        <span class="tag tag-yellow">Formative Assessment</span>
+      </div>
+      <h1>🎯 Session 3 Post-Class Mastery Quiz</h1>
+      <p class="description">
+        Validate your understanding of branching logic, loops, jump statements, and switch constructs.
+      </p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="assignment.html" class="nav-prev">
+        <span>&larr; Session 3 Assignment</span>
+      </a>
+      <a href="../session-04/lesson.html" class="nav-next">
+        <span>Proceed to Session 4: Review Lab &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session3PostQuizData = {
+    title: "Session 3 Mastery: Decision Constructs & Loops",
+    description: "Answer all 8 questions to verify your understanding of Java control flow.",
+    questions: [
+      {
+        question: "What will happen if you accidentally omit the `break;` statement at the end of a `case` block in a `switch` statement?",
+        options: [
+          "The code fails to compile with a syntax error",
+          "The program crashes with a NullPointerException",
+          "Fall-through occurs: execution continues into the next case, running its code regardless of whether the case matches",
+          "The computer reboots"
+        ],
+        correct: 2,
+        explanation: "Without a `break;` statement, execution 'falls through' and continues running the code in subsequent cases until it finds a break or reaches the closing brace of the switch."
+      },
+      {
+        question: "Which of the following data types CANNOT be used in a standard Java `switch` statement?",
+        options: [
+          "int",
+          "String",
+          "double",
+          "char"
+        ],
+        correct: 2,
+        explanation: "Floating-point numbers (float and double) cannot be used in a switch statement because binary floating-point representation can have precision rounding discrepancies. Permitted types are byte, short, char, int, String, and enum."
+      },
+      {
+        question: "What is the primary operational difference between a `while` loop and a `do-while` loop?",
+        options: [
+          "A while loop is faster than a do-while loop",
+          "A while loop checks the condition before executing (may run 0 times), while a do-while loop executes the body first before checking (runs at least once)",
+          "A do-while loop cannot use integers",
+          "There is no difference"
+        ],
+        correct: 1,
+        explanation: "A `while` loop is entry-controlled (pre-test); if the condition is false at start, the loop body never runs. A `do-while` loop is exit-controlled (post-test); its body always executes at least once."
+      },
+      {
+        question: "What is the output of the following code snippet?",
+        code: "for (int i = 1; i <= 5; i++) {\n    if (i == 3) continue;\n    System.out.print(i + \" \");\n}",
+        options: [
+          "1 2 3 4 5",
+          "1 2",
+          "1 2 4 5",
+          "3 4 5"
+        ],
+        correct: 2,
+        explanation: "The `continue` statement skips the rest of the current iteration when i == 3 and jumps directly to the update step (i++). Therefore, 3 is skipped and 1, 2, 4, 5 are printed."
+      },
+      {
+        question: "What is the output of the following code snippet?",
+        code: "for (int i = 1; i <= 5; i++) {\n    if (i == 3) break;\n    System.out.print(i + \" \");\n}",
+        options: [
+          "1 2",
+          "1 2 4 5",
+          "1 2 3",
+          "3 4 5"
+        ],
+        correct: 0,
+        explanation: "The `break` statement instantly terminates the entire loop when i == 3. Only 1 and 2 are printed before the loop exits."
+      },
+      {
+        question: "Consider this loop: `int x = 10; while (x > 0) { System.out.println(x); }`. What fatal bug exists in this code?",
+        options: [
+          "Syntax error on while statement",
+          "Infinite loop: `x` is never updated or decremented, so `x > 0` remains true forever",
+          "NullPointerException",
+          "x is out of memory"
+        ],
+        correct: 1,
+        explanation: "Because `x` is never decremented inside the loop, the condition `x > 0` remains perpetually true, resulting in an infinite loop that hangs the program."
+      },
+      {
+        question: "In a nested loop with an outer loop running 4 times and an inner loop running 5 times, how many total times will the code inside the inner loop execute?",
+        options: [
+          "9 times (4 + 5)",
+          "20 times (4 * 5)",
+          "4 times",
+          "5 times"
+        ],
+        correct: 1,
+        explanation: "For every single iteration of the outer loop, the inner loop completes its entire cycle. 4 outer cycles * 5 inner cycles = 20 total iterations."
+      },
+      {
+        question: "Which keyword in a `switch` statement acts as the catch-all fallback when none of the specified `case` values match?",
+        options: [
+          "else",
+          "catch",
+          "default",
+          "fallback"
+        ],
+        correct: 2,
+        explanation: "The `default:` label inside a switch statement executes when no matching `case` value is found."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session3PostQuizData);
+  });
+</script>
+
+</body>
+</html>

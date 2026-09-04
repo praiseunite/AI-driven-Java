@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 2 Pre-Quiz | Variables, Data Types &amp; Operators</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 2</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+    
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-yellow">Pre-Class Diagnostic</span>
+        <span class="tag tag-purple">Session 2</span>
+        <span class="tag tag-teal">Math &amp; Storage Intuition</span>
+      </div>
+      <h1>🧠 Pre-Lecture Knowledge Check: Variables &amp; Types</h1>
+      <p class="description">
+        Before learning how Java manages RAM and mathematical operations, let's explore your intuition on data storage and arithmetic rules.
+      </p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="../session-01/lesson.html" class="nav-prev">
+        <span>&larr; Session 1 Lesson</span>
+      </a>
+      <a href="lesson.html" class="nav-next">
+        <span>Proceed to Lesson 2 &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session2PreQuizData = {
+    title: "Session 2 Readiness: Variables & Expressions Intuition",
+    description: "Answer these 5 baseline questions to calibrate your understanding of computer memory and mathematical logic.",
+    questions: [
+      {
+        question: "In computer programming, what is the best mental model for a 'variable'?",
+        options: [
+          "A permanent physical cable inside the motherboard",
+          "A named container or labeled box in memory that stores a changeable value",
+          "A type of computer screen",
+          "A file that can never be opened"
+        ],
+        correct: 1,
+        explanation: "A variable is simply a named storage location in the computer's RAM. Think of it as a labeled box where you can place, inspect, or update a value."
+      },
+      {
+        question: "Why do programming languages require different 'data types' instead of treating all information identically?",
+        options: [
+          "Because whole numbers, decimals, individual letters, and true/false values take different amounts of memory and support different operations",
+          "To make programming intentionally confusing for newcomers",
+          "Because computers can only understand vowels and consonants",
+          "Data types are only needed when connecting to the internet"
+        ],
+        correct: 0,
+        explanation: "Numbers allow math calculations, text allows string manipulation, and booleans control logic. Assigning types ensures the computer allocates the right amount of memory and allows only valid operations."
+      },
+      {
+        question: "What is the mathematical result of the modulus operator in programming: `14 % 4`?",
+        options: [
+          "3.5",
+          "2",
+          "10",
+          "56"
+        ],
+        correct: 1,
+        explanation: "The modulus operator (%) returns the remainder of integer division. 14 divided by 4 is 3 with a remainder of 2 (4 * 3 = 12, and 14 - 12 = 2)."
+      },
+      {
+        question: "In standard mathematical operator precedence, what is the value of `10 + 5 * 2`?",
+        options: [
+          "30",
+          "20",
+          "25",
+          "17"
+        ],
+        correct: 1,
+        explanation: "Multiplication has higher precedence than addition (PEMDAS/BODMAS). So 5 * 2 = 10 first, then 10 + 10 = 20."
+      },
+      {
+        question: "If a variable `isWeekend = false` and `hasHoliday = true`, what does `isWeekend || hasHoliday` evaluate to in boolean logic?",
+        options: [
+          "false",
+          "true",
+          "null",
+          "Error"
+        ],
+        correct: 1,
+        explanation: "The double pipe (`||`) represents Logical OR. It evaluates to `true` if at least one of the conditions is true. Since `hasHoliday` is true, the entire expression evaluates to true."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session2PreQuizData);
+  });
+</script>
+
+</body>
+</html>

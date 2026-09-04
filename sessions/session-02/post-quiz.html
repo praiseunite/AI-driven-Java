@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 2 Post-Quiz | Variables, Data Types &amp; Operators</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 2</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Post-Lecture Evaluation</span>
+        <span class="tag tag-purple">Session 2</span>
+        <span class="tag tag-yellow">Formative Assessment</span>
+      </div>
+      <h1>🎯 Session 2 Post-Class Mastery Quiz</h1>
+      <p class="description">
+        Assess your understanding of Java primitives, reference strings, operators, casting rules, and format specifiers.
+      </p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="assignment.html" class="nav-prev">
+        <span>&larr; Session 2 Assignment</span>
+      </a>
+      <a href="../session-03/pre-quiz.html" class="nav-next">
+        <span>Proceed to Session 3 Pre-Quiz &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session2PostQuizData = {
+    title: "Session 2 Mastery: Variables, Types & Operations",
+    description: "Answer all 8 questions to verify your technical mastery.",
+    questions: [
+      {
+        question: "Which of the following data types is NOT a Java primitive type?",
+        options: [
+          "boolean",
+          "char",
+          "String",
+          "double"
+        ],
+        correct: 2,
+        explanation: "String is a Class (Reference Type) defined in the java.lang package, not one of the 8 primitive types. Primitive types begin with a lowercase letter."
+      },
+      {
+        question: "What is the exact value stored in variable `result` after executing: `int result = 9 / 2;`?",
+        options: [
+          "4.5",
+          "4",
+          "5",
+          "Compilation error"
+        ],
+        correct: 1,
+        explanation: "In Java, division between two integers performs integer division, which truncates any fractional portion. 9 / 2 is 4. To preserve decimals, at least one operand must be a decimal (9.0 / 2)."
+      },
+      {
+        question: "Why does the line `float price = 19.99;` fail to compile in Java?",
+        options: [
+          "Because float cannot hold decimal numbers",
+          "Because floating-point numbers in Java default to 'double' precision, requiring an explicit 'f' suffix: `19.99f`",
+          "Because the variable name 'price' is a reserved Java keyword",
+          "Because 19.99 is too large for memory"
+        ],
+        correct: 1,
+        explanation: "Java treats all decimal number literals as 64-bit 'double' by default. Assigning a double to a 32-bit float causes a 'possible lossy conversion' error unless you append 'f' or 'F'."
+      },
+      {
+        question: "What is the output of the following code snippet?",
+        code: "double pi = 3.999;\nint rounded = (int) pi;\nSystem.out.println(rounded);",
+        options: [
+          "4",
+          "3.999",
+          "3",
+          "Compilation error"
+        ],
+        correct: 2,
+        explanation: "Explicit narrowing casting `(int) pi` does NOT perform mathematical rounding. It simply chops off (truncates) the entire decimal portion, leaving 3."
+      },
+      {
+        question: "Which escape sequence represents a tab space and a newline respectively?",
+        options: [
+          "\\b and \\r",
+          "\\t and \\n",
+          "\\s and \\l",
+          "//t and //n"
+        ],
+        correct: 1,
+        explanation: "\\t inserts a horizontal tab space, and \\n inserts a line break."
+      },
+      {
+        question: "In `System.out.printf(\"Balance: $%.2f%n\", 125.456)`, what does `%.2f` instruct the JVM to do?",
+        options: [
+          "Multiply the number by 2",
+          "Format the floating-point number rounded to 2 decimal places ($125.46)",
+          "Print only the first 2 whole digits",
+          "Divide the number by 100"
+        ],
+        correct: 1,
+        explanation: "In format specifiers, `%.2f` formats a floating-point number to exactly two decimal places, rounding appropriately (125.456 rounds to 125.46)."
+      },
+      {
+        question: "What is the result of evaluating: `boolean test = (5 > 3) && (10 < 2);`?",
+        options: [
+          "true",
+          "false",
+          "null",
+          "Throws an exception"
+        ],
+        correct: 1,
+        explanation: "(5 > 3) is true, but (10 < 2) is false. With the Logical AND operator (&&), both conditions must be true for the whole expression to be true. Thus, true && false = false."
+      },
+      {
+        question: "What is the maximum value that an 8-bit signed `byte` variable can store in Java?",
+        options: [
+          "255",
+          "127",
+          "128",
+          "32767"
+        ],
+        correct: 1,
+        explanation: "Java bytes are signed 8-bit integers ranging from -128 to +127 (inclusive)."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session2PostQuizData);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+# Compiled Java class files
+*.class
+
+# System and editor temporary files
+.DS_Store
+Thumbs.db
+*.tmp

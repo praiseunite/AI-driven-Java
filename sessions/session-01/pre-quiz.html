@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 1 Pre-Quiz | Introduction to Java</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 1</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Course Home</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+    
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-yellow">Pre-Class Diagnostic</span>
+        <span class="tag tag-purple">Session 1</span>
+        <span class="tag tag-teal">Zero Prerequisites Assumed</span>
+      </div>
+      <h1>🧠 Pre-Lecture Knowledge & Intuition Check</h1>
+      <p class="description">
+        Before we dive into our first lesson on Java, let's take a quick 5-question pulse check.
+        Don't worry if you do not know all the answers yet—this is designed to ignite your curiosity and discover key concepts we will unlock today!
+      </p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="../../index.html" class="nav-prev">
+        <span>&larr; Back to Dashboard</span>
+      </a>
+      <a href="lesson.html" class="nav-next">
+        <span>Proceed to Lesson 1 &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session1PreQuizData = {
+    title: "Session 1 Readiness: Computing & Programming Intuition",
+    description: "Select the option that best answers each intuitive question. Instant explanations are unlocked after each response.",
+    questions: [
+      {
+        question: "Computers only directly understand binary numbers (0s and 1s), known as machine code. What is the primary role of a high-level programming language like Java?",
+        options: [
+          "To allow humans to write human-readable instructions that get translated into machine code",
+          "To replace computer hardware completely with software",
+          "To slow down the computer so humans can follow along",
+          "To format Microsoft Word documents faster"
+        ],
+        correct: 0,
+        explanation: "High-level programming languages like Java allow humans to write logical instructions using words and mathematical symbols that resemble English, which tools then translate into binary instructions that processors execute."
+      },
+      {
+        question: "Imagine you are baking a cake following a strict recipe line-by-line: Step 1, Step 2, Step 3. Which programming paradigm does this sequential, procedure-driven approach most closely resemble?",
+        options: [
+          "Object-Oriented Programming (OOP)",
+          "Structured / Procedural Programming",
+          "Artificial Intelligence Programming",
+          "Quantum Computing"
+        ],
+        correct: 1,
+        explanation: "Structured (procedural) programming organizes software as a sequence of step-by-step procedures or subroutines that act directly on data, exactly like following a recipe from top to bottom."
+      },
+      {
+        question: "In the real world, a Car has properties (color, speed, brand) and behaviors (accelerate, brake, turn). Which programming style is designed specifically to model software as entities with properties and actions?",
+        options: [
+          "Binary Programming",
+          "Structured Assembly",
+          "Object-Oriented Programming (OOP)",
+          "Monolithic Scripting"
+        ],
+        correct: 2,
+        explanation: "Object-Oriented Programming (OOP) organizes software around 'Objects' that bundle their characteristics (data/state) and capabilities (methods/behavior) together, mirroring real-world entities."
+      },
+      {
+        question: "Java's famous slogan is 'Write Once, Run Anywhere' (WORA). What makes this cross-platform portability possible?",
+        options: [
+          "Every computer manufacturer builds hardware identically",
+          "Java programs run inside a virtual software layer called the Java Virtual Machine (JVM)",
+          "Java converts code into pure text that monitors read directly",
+          "Java only works on one specific web browser"
+        ],
+        correct: 1,
+        explanation: "The Java compiler converts Java code into intermediate 'Bytecode'. Any operating system (Windows, Mac, Linux) that has a Java Virtual Machine (JVM) installed can execute that same bytecode without changing a single line of code!"
+      },
+      {
+        question: "What is the difference between a Compiler and an Interpreter?",
+        options: [
+          "A compiler translates the entire program into machine code/bytecode before execution; an interpreter translates and runs code line-by-line",
+          "A compiler is hardware; an interpreter is software",
+          "They are two identical words for the exact same process",
+          "A compiler is only used for video games"
+        ],
+        correct: 0,
+        explanation: "Compilers translate high-level code all at once into an executable format (such as .class bytecode in Java), catching syntax errors ahead of time. Interpreters read and execute statements line-by-line at runtime."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session1PreQuizData);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 1 Post-Quiz | Introduction to Java</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 1</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Post-Lecture Evaluation</span>
+        <span class="tag tag-purple">Session 1</span>
+        <span class="tag tag-yellow">Formative Assessment</span>
+      </div>
+      <h1>🎯 Session 1 Post-Class Mastery Quiz</h1>
+      <p class="description">
+        Test your mastery of everything covered in Session 1: Structured vs. OOP, the JVM ecosystem, JDK tools, and Java syntax fundamentals.
+        Answer all questions below to receive your immediate performance score and detailed technical feedback!
+      </p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="assignment.html" class="nav-prev">
+        <span>&larr; Session 1 Assignment</span>
+      </a>
+      <a href="../session-02/pre-quiz.html" class="nav-next">
+        <span>Proceed to Session 2 Pre-Quiz &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session1PostQuizData = {
+    title: "Session 1 Mastery Check: Java Fundamentals & Architecture",
+    description: "Complete all 8 questions. Instant explanations and overall scoring will appear upon completion.",
+    questions: [
+      {
+        question: "Which of the following statements accurately captures the difference between Structured Programming and Object-Oriented Programming?",
+        options: [
+          "Structured programming focuses on functions acting on separated data, while OOP bundles state (data) and behavior (methods) together inside objects.",
+          "Structured programming is only for microchips, while OOP is only for websites.",
+          "Structured programming uses classes, while OOP only uses global functions.",
+          "There is no difference; they are synonymous marketing terms."
+        ],
+        correct: 0,
+        explanation: "Structured programming organizes code as procedures acting on external data. OOP encapsulates data and the procedures that operate on that data inside cohesive Objects."
+      },
+      {
+        question: "Which component of the Java platform is specifically responsible for compiling human-readable Java source files (.java) into universal bytecode (.class)?",
+        options: [
+          "JVM (Java Virtual Machine)",
+          "JRE (Java Runtime Environment)",
+          "javac (The Java Compiler in the JDK)",
+          "JIT (Just-In-Time Compiler)"
+        ],
+        correct: 2,
+        explanation: "javac is the compiler tool located in the JDK bin directory. It reads source code (.java) and emits platform-independent bytecode (.class)."
+      },
+      {
+        question: "Why can a compiled Java program run seamlessly on Windows, macOS, and Linux without re-compiling?",
+        options: [
+          "Because the compiler creates an .exe file that all CPUs understand directly",
+          "Because the source code compiles into universal bytecode, and each OS runs its own native JVM that translates bytecode into local CPU instructions",
+          "Because all computers now share the exact same hardware motherboard",
+          "Because Java is an interpreted web script like HTML"
+        ],
+        correct: 1,
+        explanation: "This is the core of 'Write Once, Run Anywhere' (WORA). The bytecode is identical across all systems, and the operating system's platform-specific JVM translates it into local CPU instructions."
+      },
+      {
+        question: "If your Java file contains the line `public class StudentTracker`, what must the source file be named on disk?",
+        options: [
+          "studenttracker.java",
+          "StudentTracker.java (exact matching capitalization)",
+          "StudentTracker.class",
+          "Program.java"
+        ],
+        correct: 1,
+        explanation: "Java is strictly case-sensitive. In Java, any file with a public class must have a filename that matches the public class name exactly, followed by the .java extension."
+      },
+      {
+        question: "What is the exact entry point signature that the JVM searches for when you launch a standalone Java application?",
+        options: [
+          "public void start(String[] args)",
+          "public static void main(String[] args)",
+          "private static int main()",
+          "function main(args)"
+        ],
+        correct: 1,
+        explanation: "The standard Java entry point is always 'public static void main(String[] args)'. The JVM invokes this method without needing an object instance."
+      },
+      {
+        question: "Consider this command line: `javac Program.java` succeeded without errors. Which command should you run to execute the application?",
+        options: [
+          "java Program.java",
+          "java Program.class",
+          "java Program",
+          "run Program"
+        ],
+        correct: 2,
+        explanation: "To execute a compiled class, you invoke the Java runtime with just the class name: 'java Program'. Adding '.class' will cause Java to look for a nested class named 'class' and trigger a ClassNotFoundException!"
+      },
+      {
+        question: "What is the relationship between JDK, JRE, and JVM?",
+        options: [
+          "JVM contains JRE, which contains JDK",
+          "JDK contains JRE, which contains JVM",
+          "JRE contains JDK, which contains JVM",
+          "They are three distinct, non-overlapping software packages"
+        ],
+        correct: 1,
+        explanation: "The hierarchy is JDK > JRE > JVM. The JDK (for developers) includes the JRE and tools; the JRE (for running apps) includes the JVM and standard libraries; the JVM is the core execution engine."
+      },
+      {
+        question: "What will happen if you omit the semicolon at the end of `System.out.println(\"Hello\")`?",
+        options: [
+          "The program will compile and assume a semicolon was intended",
+          "A compilation error will occur: ';' expected",
+          "The program will execute but print an error at runtime",
+          "The text will print backwards"
+        ],
+        correct: 1,
+        explanation: "In Java, semicolons are mandatory statement terminators. Omitting a semicolon results in a compile-time syntax error ('error: \';\' expected') and prevents bytecode generation."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session1PostQuizData);
+  });
+</script>
+
+</body>
+</html>

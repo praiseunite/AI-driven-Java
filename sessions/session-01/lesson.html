@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 1: Introduction to Java — Structured vs OOP, JVM, JRE, JDK, Environment Setup, and Writing Your First Program.">
+  <title>Session 1: Introduction to Java | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 1</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <!-- Session Header -->
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Week 1 &bull; Day 1</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL1</span>
+      </div>
+      <h1>Session 1: Introduction to Java &amp; Core Architecture</h1>
+      <p class="description">
+        Welcome to your very first step in software engineering. We assume you have <strong>never written a single line of code</strong> before.
+        By the end of this session, you will understand how programs run, contrast how humans vs. computers think, set up a professional Java environment on your machine, and compile and run your first working program!
+      </p>
+    </header>
+
+    <!-- Two-column Layout: Sidebar + Main Content -->
+    <div class="lesson-layout">
+
+      <!-- Sticky Sidebar Navigation -->
+      <aside class="lesson-sidebar">
+        <h4>Table of Contents</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#what-is-programming">1. What is Programming?</a></li>
+          <li><a href="#structured-paradigm">2. Structured Paradigm</a></li>
+          <li><a href="#oop-paradigm">3. Object-Oriented Paradigm</a></li>
+          <li><a href="#java-platform">4. The Java Platform</a></li>
+          <li><a href="#jvm-jre-jdk">5. JVM vs. JRE vs. JDK</a></li>
+          <li><a href="#wora-explained">6. Write Once, Run Anywhere</a></li>
+          <li><a href="#jdk-installation">7. Installing the JDK</a></li>
+          <li><a href="#first-program">8. Your First Java Program</a></li>
+          <li><a href="#line-by-line">9. Line-by-Line Breakdown</a></li>
+          <li><a href="#common-pitfalls">10. Common Beginner Traps</a></li>
+          <li><a href="#cheat-sheet">11. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">12. Summary &amp; Self-Check</a></li>
+        </ul>
+      </aside>
+
+      <!-- Main Lesson Content -->
+      <main class="lesson-content">
+
+        <!-- Memory Booster: Concepts You Might Have Forgotten -->
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: Fundamental Computing Refreshers</div>
+          <p>
+            Before we write our first line of code, let's refresh three basic concepts about how computers function that you might not have thought about in a while:
+          </p>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Hardware vs. Software:</strong> Hardware is the physical machinery you can touch (CPU, screen, keyboard). Software is the set of invisible instructions that tells the hardware what to do.</li>
+            <li><strong>RAM vs. Storage Disk:</strong> Your hard drive (SSD) is like a permanent bookshelf where files sleep. <strong>RAM (Memory)</strong> is your active working desk—programs only execute when loaded into RAM!</li>
+            <li><strong>The Binary Reality:</strong> Processors only understand tiny electrical switches that are either ON (<code>1</code>) or OFF (<code>0</code>). Everything we type in Java will eventually become patterns of 1s and 0s!</li>
+          </ul>
+        </div>
+
+        <!-- 1. What is Programming? -->
+        <section class="content-section" id="what-is-programming">
+          <h2>1. What is Programming?</h2>
+          <p>
+            Think of a computer as an extraordinarily fast, obedient assistant who has <strong>zero common sense</strong>.
+            A computer cannot guess what you meant. It only does exactly what you tell it to do, down to the tiniest detail.
+          </p>
+
+          <div class="callout callout-think">
+            <div class="callout-title">💡 Real-World Analogy: The Robot Peanut Butter Sandwich</div>
+            <p>
+              If you tell a human friend: <em>"Make a peanut butter sandwich,"</em> they instinctively grab two slices of bread, open the jar with a knife, spread the peanut butter, and press the slices together.
+            </p>
+            <p>
+              If you give that exact same command to a computer robot without detailed instructions, it will crash or smash the unopened glass jar onto the kitchen floor! Why? Because you didn't say:
+              <br>1. Open bread bag &rarr; 2. Extract slice #1 &rarr; 3. Unscrew jar lid counter-clockwise &rarr; 4. Dip knife blade 2 inches &rarr; 5. Apply peanut butter across bread face.
+            </p>
+          </div>
+
+          <p>
+            <strong>Programming</strong> is simply writing that exact, unambiguous sequence of steps.
+            Because computers only understand electrical switches representing binary numbers (<code>0</code>s and <code>1</code>s), we use high-level programming languages like <strong>Java</strong> to write instructions in human-readable terms.
+          </p>
+        </section>
+
+        <!-- 2. Structured Paradigm -->
+        <section class="content-section" id="structured-paradigm">
+          <h2>2. The Structured (Procedural) Programming Paradigm</h2>
+          <p>
+            In the early decades of software engineering (1960s–1980s), programs were written using the <strong>Structured Programming Paradigm</strong> (languages like C, Pascal, and BASIC).
+          </p>
+          <p>
+            In structured programming, a problem is solved by breaking it down into a sequence of top-to-bottom steps, organized into small subroutines or functions (procedures).
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Characteristic</th>
+                  <th>How Structured Programming Works</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Primary Focus</strong></td>
+                  <td><strong>Action / Algorithm first</strong> ("What functions do we need to execute?")</td>
+                </tr>
+                <tr>
+                  <td><strong>Data Organization</strong></td>
+                  <td>Data is passive and stored separately in variables. Functions grab data, change it, and send it back.</td>
+                </tr>
+                <tr>
+                  <td><strong>Control Structures</strong></td>
+                  <td>Relies strictly on Sequence (Step 1 &rarr; 2), Selection (<code>if / else</code>), and Iteration (<code>loops</code>). Replaced dangerous <code>GOTO</code> jumps.</td>
+                </tr>
+                <tr>
+                  <td><strong>Major Limitation</strong></td>
+                  <td><strong>Global Data Vulnerability</strong>: As applications grow to millions of lines, any function can accidentally modify shared variables, causing silent bugs that are nearly impossible to track down.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ The "Spaghetti Code" Problem</div>
+            <p>
+              Imagine an airport management system built purely with structured procedures. If an engineer working on baggage claim accidentally modifies a global variable named <code>flightStatus</code>, a plane might get marked as "Departed" while passengers are still boarding! Data had no protective walls around it.
+            </p>
+          </div>
+        </section>
+
+        <!-- 3. Object-Oriented Paradigm -->
+        <section class="content-section" id="oop-paradigm">
+          <h2>3. The Object-Oriented Programming (OOP) Paradigm</h2>
+          <p>
+            To solve the chaos of large structured programs, computer scientists invented <strong>Object-Oriented Programming (OOP)</strong>. Java is one of the world's premier object-oriented languages.
+          </p>
+          <p>
+            Instead of viewing a program as a list of instructions acting on exposed data, OOP views a software application as a community of <strong>Objects</strong> collaborating together.
+          </p>
+
+          <div class="callout callout-example">
+            <div class="callout-title">🚗 Intuition: What is an Object?</div>
+            <p>Look around you right now: your phone, your laptop, a water bottle, your instructor—these are all <strong>objects</strong> in the real world!</p>
+            <p>Every single object has two fundamental characteristics:</p>
+            <ul style="margin-top: var(--space-sm);">
+              <li><strong>1. State (Attributes / What it HAS):</strong> A phone has a brand (Apple), model (iPhone 16), battery level (84%), and screen size (6.1").</li>
+              <li><strong>2. Behavior (Methods / What it DOES):</strong> A phone can ring, send a text, take a photo, or restart.</li>
+            </ul>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Concept</th>
+                  <th>Structured Programming</th>
+                  <th>Object-Oriented Programming (Java)</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Philosophy</strong></td>
+                  <td>Function-oriented: Focuses on <em>verbs</em> (actions).</td>
+                  <td>Data-and-Behavior bundled: Focuses on <em>nouns</em> (entities).</td>
+                </tr>
+                <tr>
+                  <td><strong>Data Security</strong></td>
+                  <td>Low. Data moves freely between functions.</td>
+                  <td>High (Encapsulation). Data is private; can only be modified via authorized methods.</td>
+                </tr>
+                <tr>
+                  <td><strong>Code Reusability</strong></td>
+                  <td>Moderate (copy-pasting functions).</td>
+                  <td>Extremely high via Inheritance, Polymorphism, and Modular Classes.</td>
+                </tr>
+                <tr>
+                  <td><strong>Real-World Modeling</strong></td>
+                  <td>Difficult to translate complex business models.</td>
+                  <td>Natural: Customer, Invoice, BankAccount, Airplane map directly to classes.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 4. The Java Platform -->
+        <section class="content-section" id="java-platform">
+          <h2>4. The Java Platform &amp; Its Architecture</h2>
+          <p>
+            Java was created in 1995 by <strong>James Gosling</strong> and his team at Sun Microsystems (now Oracle).
+            Unlike traditional languages like C and C++ which compile code directly into raw machine instructions specific to one CPU (e.g., Intel x86 or ARM), Java introduced a radical new architectural innovation: <strong>The Virtual Machine</strong>.
+          </p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Architecture Flow</span>
+              <span class="code-filename">How Java Runs</span>
+            </div>
+            <pre><code>[ Source Code (.java) ]
+           │
+           │  (Compiled by 'javac')
+           ▼
+[ Intermediate Bytecode (.class) ]  <-- Independent of any operating system!
+           │
+     ┌─────┴────────────────────────┐
+     ▼                              ▼                              ▼
+[ Windows JVM ]                [ macOS JVM ]                  [ Linux JVM ]
+     │                              │                              │
+[ Windows Machine Code ]       [ Apple Silicon / Intel Code ] [ Linux Machine Code ]</code></pre>
+          </div>
+        </section>
+
+        <!-- 5. JVM vs JRE vs JDK -->
+        <section class="content-section" id="jvm-jre-jdk">
+          <h2>5. The Big Three: JVM vs. JRE vs. JDK</h2>
+          <p>
+            One of the biggest confusions for beginners is deciphering these three acronyms. Let's make this crystal clear once and for all:
+          </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📦 Russian Nesting Dolls Concept</div>
+            <p>
+              <strong>JDK</strong> contains <strong>JRE</strong>, which in turn contains <strong>JVM</strong>!
+              <br><code>JDK &gt; JRE &gt; JVM</code>
+            </p>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Component</th>
+                  <th>Full Name</th>
+                  <th>What It Contains &amp; What It Does</th>
+                  <th>Who Needs It?</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>JVM</strong></td>
+                  <td>Java Virtual Machine</td>
+                  <td>
+                    The software computer that actually executes compiled Java <strong>Bytecode</strong>.
+                    It translates bytecode into CPU-specific machine instructions at runtime using the <strong>Just-In-Time (JIT) Compiler</strong>.
+                  </td>
+                  <td>The computer hardware running the app.</td>
+                </tr>
+                <tr>
+                  <td><strong>JRE</strong></td>
+                  <td>Java Runtime Environment</td>
+                  <td>
+                    Contains the <strong>JVM</strong> PLUS standard library classes (e.g., math utilities, window drawing, network drivers, date parsers).
+                  </td>
+                  <td>End-users who only want to <em>play or run</em> Java apps.</td>
+                </tr>
+                <tr>
+                  <td><strong>JDK</strong></td>
+                  <td>Java Development Kit</td>
+                  <td>
+                    Contains the <strong>JRE + JVM</strong> PLUS developer tools:
+                    <br>&bull; <code>javac</code> (The Java Compiler)
+                    <br>&bull; <code>jar</code> (Archiving and packaging tool)
+                    <br>&bull; <code>jdb</code> (Debugger)
+                    <br>&bull; <code>javadoc</code> (Documentation generator)
+                  </td>
+                  <td><strong>YOU!</strong> (Software Developers who write code).</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <figure class="lesson-figure">
+            <img src="../../assets/images/jdk_architecture.jpg" alt="Java Platform Architecture Diagram" loading="lazy">
+            <figcaption class="figure-caption">📌 Figure 1.1: Java Platform Architecture — The nested relationship of JDK, JRE, JVM, and the developer toolchain.</figcaption>
+          </figure>
+        </section>
+
+        <!-- 6. WORA Explained -->
+        <section class="content-section" id="wora-explained">
+          <h2>6. "Write Once, Run Anywhere" (WORA)</h2>
+          <p>
+            In C or C++, if you compile a program on Windows 11 with an Intel processor, the resulting <code>.exe</code> file cannot run on a MacBook or an Ubuntu Linux server. You must re-compile your code separately for every operating system.
+          </p>
+          <p>
+            Java solves this with <strong>Bytecode</strong>.
+            When you run <code>javac HelloWorld.java</code>, the output is not machine code. It is a file named <code>HelloWorld.class</code> filled with compact instructions designed for the imaginary universal computer: the <strong>JVM</strong>.
+          </p>
+
+          <figure class="lesson-figure">
+            <img src="../../assets/images/wora_pipeline.jpg" alt="Java WORA Execution Pipeline" loading="lazy">
+            <figcaption class="figure-caption">📌 Figure 1.2: Java's WORA Pipeline — Source code compiles once into Bytecode (.class) and runs seamlessly on Windows, macOS, and Linux JVMs.</figcaption>
+          </figure>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Fun Engineering Fact: CAFEBABE</div>
+            <p>
+              Every single compiled Java <code>.class</code> file in the world begins with the exact same four hexadecimal bytes in its binary header: <code>0xCAFEBABE</code>!
+              James Gosling and the original Java team created this as a tribute to coffee and software craft.
+            </p>
+          </div>
+        </section>
+
+        <!-- 7. Installing the JDK -->
+        <section class="content-section" id="jdk-installation">
+          <h2>7. Downloading &amp; Installing the Java Development Kit (JDK)</h2>
+          <p>
+            To begin building Java applications, you need a modern JDK installed on your operating system.
+          </p>
+
+          <ol class="steps">
+            <li>
+              <strong>Download a Production JDK Distribution</strong>
+              <p>
+                Visit <a href="https://adoptium.net/" target="_blank" rel="noopener">Eclipse Temurin (Adoptium)</a> or Oracle's official JDK portal. Download the latest Long Term Support (LTS) or active release installer for your OS (Windows x64 MSI Installer, macOS PKG, or Linux tar.gz).
+              </p>
+            </li>
+            <li>
+              <strong>Run the Installer</strong>
+              <p>
+                Follow the installation wizard. Keep the default path (usually <code>C:\Program Files\Eclipse Adoptium\jdk-XX...</code> on Windows). Make sure to check the option: <em>"Set JAVA_HOME variable"</em> and <em>"Add to PATH"</em> if prompted!
+              </p>
+            </li>
+            <li>
+              <strong>Understanding Environment Variables: <code>JAVA_HOME</code> and <code>PATH</code></strong>
+              <p>
+                What is <code>PATH</code>? When you open a terminal and type a command like <code>javac</code>, Windows searches the folders listed in your <code>PATH</code> variable. If the JDK's <code>bin</code> folder isn't in <code>PATH</code>, Windows throws the error: <em>"'javac' is not recognized as an internal or external command."</em>
+              </p>
+            </li>
+            <li>
+              <strong>Verify in Terminal</strong>
+              <p>Open Windows PowerShell or Command Prompt and run:</p>
+              <div class="code-block">
+                <div class="code-header">
+                  <span class="code-lang">Command Prompt / PowerShell</span>
+                  <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+                </div>
+                <pre><code>javac -version
+java -version</code></pre>
+              </div>
+              <p>If you see version numbers printed (e.g. <code>javac 21.0.x</code> or <code>openjdk 25</code>), your development environment is fully operational!</p>
+            </li>
+          </ol>
+        </section>
+
+        <!-- 8. Your First Java Program -->
+        <section class="content-section" id="first-program">
+          <h2>8. Writing, Compiling, and Running Your First Program</h2>
+          <p>
+            Let's create the time-honored traditional first program for every software engineer: <strong>HelloWorld</strong>!
+          </p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java</span>
+              <span class="code-filename">HelloWorld.java</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code><span class="keyword">public class</span> <span class="type">HelloWorld</span> {
+    <span class="keyword">public static void</span> <span class="method">main</span>(<span class="type">String</span>[] <span class="variable">args</span>) {
+        <span class="type">System</span>.<span class="variable">out</span>.<span class="method">println</span>(<span class="string">"Hello, World! Welcome to Java Programming."</span>);
+    }
+}</code></pre>
+          </div>
+
+          <h3>How to Compile and Execute:</h3>
+          <p>Open your terminal in the directory where you saved <code>HelloWorld.java</code> and type:</p>
+
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Terminal</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code># Step 1: Compile the source file into bytecode (.class)
+javac HelloWorld.java
+
+# Step 2: Run the compiled bytecode on the JVM
+java HelloWorld</code></pre>
+          </div>
+
+          <div class="expected-output">
+            <h5>Expected Console Output:</h5>
+            <pre><code>Hello, World! Welcome to Java Programming.</code></pre>
+          </div>
+        </section>
+
+        <!-- 9. Line-by-Line Breakdown -->
+        <section class="content-section" id="line-by-line">
+          <h2>9. Line-by-Line Code Anatomy</h2>
+          <p>
+            Every single word in a Java program has an exact purpose. Let's dissect our program with surgical precision:
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Code Fragment</th>
+                  <th>What It Means in Plain English</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><code>public</code></td>
+                  <td><strong>Access Modifier</strong>: Means this class or method is accessible to everyone from anywhere, including the JVM.</td>
+                </tr>
+                <tr>
+                  <td><code>class</code></td>
+                  <td><strong>Keyword</strong>: Declares a new blueprint/container for code. In Java, <em>everything</em> must live inside a class!</td>
+                </tr>
+                <tr>
+                  <td><code>HelloWorld</code></td>
+                  <td><strong>Class Name</strong>: Must match the exact filename on disk: <code>HelloWorld.java</code> (case-sensitive!).</td>
+                </tr>
+                <tr>
+                  <td><code>{ ... }</code></td>
+                  <td><strong>Curly Braces (Blocks)</strong>: Marks where the class or method begins and ends.</td>
+                </tr>
+                <tr>
+                  <td><code>static</code></td>
+                  <td>Means the method belongs to the class itself, so the JVM can run it directly without needing to create an instance object first.</td>
+                </tr>
+                <tr>
+                  <td><code>void</code></td>
+                  <td><strong>Return Type</strong>: Means this method does its job and returns no data value back when it finishes.</td>
+                </tr>
+                <tr>
+                  <td><code>main(...)</code></td>
+                  <td><strong>The Gateway</strong>: The exact signature the JVM searches for to kick off your program. Without <code>main</code>, Java cannot start!</td>
+                </tr>
+                <tr>
+                  <td><code>String[] args</code></td>
+                  <td>An array of textual arguments that can be passed into the program from the command prompt when launching.</td>
+                </tr>
+                <tr>
+                  <td><code>System.out.println()</code></td>
+                  <td>
+                    &bull; <code>System</code>: A built-in class provided by Java.<br>
+                    &bull; <code>out</code>: The standard output stream (your terminal screen).<br>
+                    &bull; <code>println</code>: Prints the given text and automatically jumps to the next line.
+                  </td>
+                </tr>
+                <tr>
+                  <td><code>;</code></td>
+                  <td><strong>Semicolon</strong>: The period at the end of a sentence in Java. Every executable statement must end with a semicolon!</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- 10. Common Beginner Traps -->
+        <section class="content-section" id="common-pitfalls">
+          <h2>10. Beginner Traps &amp; How to Avoid Them</h2>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Trap 1: Case Sensitivity</div>
+            <p>
+              Java treats uppercase and lowercase letters as completely different things!
+              <code>System</code> with a capital 'S' works. <code>system</code> with a lowercase 's' produces a compilation error.
+              <code>main</code> must be lowercase; <code>Main</code> will not be recognized as the entry point!
+            </p>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Trap 2: Filename Mismatch</div>
+            <p>
+              If your code says <code>public class HelloWorld</code>, your file <strong>must</strong> be saved as <code>HelloWorld.java</code>.
+              Saving it as <code>helloworld.java</code> or <code>Program.java</code> will trigger:
+              <br><code>error: class HelloWorld is public, should be declared in a file named HelloWorld.java</code>
+            </p>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Trap 3: Running with ".class" extension</div>
+            <p>
+              When compiling, specify the full file: <code>javac HelloWorld.java</code>.
+              <br>When running, provide ONLY the class name: <code>java HelloWorld</code>.
+              <br>If you type <code>java HelloWorld.class</code>, Java looks for a class named "class" inside a package named "HelloWorld" and fails with <code>ClassNotFoundException</code>!
+            </p>
+          </div>
+        </section>
+
+        <!-- 11. Executive Cheat Sheet -->
+        <section class="content-section" id="cheat-sheet">
+          <h2>11. Executive Quick-Recap &amp; Cheat Sheet</h2>
+          <p>Need a quick revision before the post-quiz or tomorrow's class? Here is everything distilled down to the bare essentials:</p>
+
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The 30-Second Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              You write human-readable code in a text file (<code>.java</code>). The Java Compiler (<code>javac</code>) translates it into universal, architecture-neutral instructions called <strong>Bytecode</strong> (<code>.class</code>).
+              When you type <code>java ClassName</code>, your operating system's native <strong>JVM</strong> reads that bytecode and directs the local processor to execute it line-by-line starting at <code>main()</code>.
+            </p>
+          </div>
+
+          <h3>Core Syntax at a Glance</h3>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java Cheat Sheet</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>// 1. Class Blueprint (Must match filename: MainApp.java)
+public class MainApp {
+
+    // 2. Entry Point Method (Mandatory signature)
+    public static void main(String[] args) {
+
+        // 3. Print with auto-newline
+        System.out.println("Hello, World!");
+
+        // 4. Print without newline (cursor stays on same line)
+        System.out.print("Loading... ");
+        System.out.println("Done!");
+    }
+}</code></pre>
+          </div>
+
+          <h3>Plain-English Glossary</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item">
+              <div class="glossary-term">JVM (Java Virtual Machine)</div>
+              <p class="glossary-def">The software engine that actually runs compiled Java bytecode on your specific operating system.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">JDK (Java Development Kit)</div>
+              <p class="glossary-def">The complete toolkit for programmers, containing the compiler (<code>javac</code>), runtime, and debugger.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">Bytecode (.class)</div>
+              <p class="glossary-def">Intermediate, universal computer code produced by the compiler that runs on any computer equipped with a JVM.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">WORA ("Write Once, Run Anywhere")</div>
+              <p class="glossary-def">Java's core promise that code compiled on one operating system executes without modification on any other OS.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">Encapsulation (OOP)</div>
+              <p class="glossary-def">Bundling data and the methods that operate on that data inside a class, protecting data from unauthorized outside changes.</p>
+            </div>
+            <div class="glossary-item">
+              <div class="glossary-term">JIT (Just-In-Time) Compiler</div>
+              <p class="glossary-def">A high-performance component inside the JVM that compiles frequently used bytecode directly into native machine code at runtime.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- 12. Summary & Self-Check -->
+        <section class="content-section" id="summary">
+          <h2>12. Summary &amp; Interactive Self-Checks</h2>
+          <p>Before moving on to the class tasks and post-quiz, test your memory on these three quick questions. Click each card to reveal the answer:</p>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Question 1: What is the single biggest difference between Structured and Object-Oriented programming?</summary>
+              <div class="self-check-answer">
+                <strong>Answer:</strong> In structured programming, data and functions are separated (data moves freely and can be accidentally corrupted). In OOP, data and the functions that manipulate it are encapsulated together inside protective objects.
+              </div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Question 2: Why do software developers need the JDK rather than just the JRE?</summary>
+              <div class="self-check-answer">
+                <strong>Answer:</strong> The JRE only allows you to <em>run</em> already-compiled applications. The JDK contains the developer tools, specifically the <code>javac</code> compiler required to translate human-readable <code>.java</code> code into runnable <code>.class</code> bytecode.
+              </div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Question 3: If your code compiles with `javac Student.java`, why will `java Student.class` fail?</summary>
+              <div class="self-check-answer">
+                <strong>Answer:</strong> The <code>java</code> runtime launcher takes a <em>class name</em>, not a file path. Specifying <code>Student.class</code> causes the JVM to search for a nested class named <code>class</code> inside package <code>Student</code> and fails with <code>ClassNotFoundException</code>. Always run: <code>java Student</code>.
+              </div>
+            </details>
+          </div>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start Class Tasks</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Post-Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <!-- Navigation Footer -->
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev">
+        <span>&larr; Session 1 Pre-Quiz</span>
+      </a>
+      <a href="class-tasks.html" class="nav-next">
+        <span>Session 1 Class Tasks &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

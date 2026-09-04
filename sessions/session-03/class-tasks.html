@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 3 In-Class Practical Tasks | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 3 Tasks</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html" class="active">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-teal">Hands-On Practicals</span>
+        <span class="tag tag-purple">Session 3</span>
+        <span class="tag tag-yellow">Lab Exercises</span>
+      </div>
+      <h1>💻 Session 3 In-Class Coding Tasks</h1>
+      <p class="description">
+        Practice branching logic with switch and if-else, automate tasks with loops, and build patterns with nested structures.
+      </p>
+    </div>
+
+    <!-- Task 1: Easy -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-easy">🟢 Level 1: Easy</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 3.1: Autonomous Vehicle Traffic Light Controller</h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> Implement a clean, robust <code>switch-case</code> statement that evaluates a light signal and directs an autonomous car's navigation system.
+      </p>
+
+      <h4>Instructions:</h4>
+      <ol style="margin-left: var(--space-lg); margin-bottom: var(--space-md); color: var(--text-secondary);">
+        <li>Create <code>TrafficController.java</code>.</li>
+        <li>Define a <code>String signal = "YELLOW";</code>.</li>
+        <li>Use a switch statement to handle <code>"RED"</code>, <code>"YELLOW"</code>, <code>"GREEN"</code>, and <code>"FLASHING_YELLOW"</code>.</li>
+        <li>Use <code>default</code> to trigger an emergency braking protocol for unknown signals.</li>
+      </ol>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Java Solution</span>
+          <span class="code-filename">TrafficController.java</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>public class TrafficController {
+    public static void main(String[] args) {
+        String signal = "YELLOW";
+
+        System.out.println("=== AI VEHICLE NAVIGATION SYSTEM ===");
+        System.out.println("Detected Signal: " + signal);
+
+        switch (signal.toUpperCase()) {
+            case "RED":
+                System.out.println("ACTION: Full Brake! Bring vehicle to complete stop.");
+                break;
+            case "YELLOW":
+                System.out.println("ACTION: Decelerate cautiously. Prepare to stop at line.");
+                break;
+            case "GREEN":
+                System.out.println("ACTION: Accelerate and proceed safely through intersection.");
+                break;
+            case "FLASHING_YELLOW":
+                System.out.println("ACTION: Yield right of way and proceed with extreme caution.");
+                break;
+            default:
+                System.out.println("ALERT: Sensor malfunction or unknown signal! Engaging emergency stop.");
+                break;
+        }
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Task 2: Medium -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-medium">🟡 Level 2: Intermediate</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 3.2: Number Series Analyzer with <code>continue</code></h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> Use a <code>for</code> loop to iterate through numbers 1 to 20, compute the sum of even numbers only (skipping odd numbers using <code>continue</code>), and compute their product.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Java Solution</span>
+          <span class="code-filename">NumberSeriesAnalyzer.java</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>public class NumberSeriesAnalyzer {
+    public static void main(String[] args) {
+        int sumOfEvens = 0;
+        int evenCount = 0;
+
+        System.out.println("Iterating numbers 1 to 20 (processing evens only):");
+        for (int i = 1; i <= 20; i++) {
+            // If odd, skip to the next number using continue
+            if (i % 2 != 0) {
+                continue;
+            }
+
+            System.out.print(i + " ");
+            sumOfEvens += i;
+            evenCount++;
+        }
+
+        System.out.println();
+        System.out.println("----------------------------------------");
+        System.out.println("Total Even Numbers Found: " + evenCount);
+        System.out.println("Sum of All Even Numbers : " + sumOfEvens);
+        System.out.printf("Average of Evens        : %.2f%n", (double) sumOfEvens / evenCount);
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Task 3: Challenge -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-hard">🔴 Level 3: Challenge</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 3.3: 10 &times; 10 Multiplication Grid &amp; Number Pyramid</h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> Master nested loops by printing an aligned 10x10 multiplication table and an inverted number pyramid.
+      </p>
+
+      <div class="code-block">
+        <div class="code-header">
+          <span class="code-lang">Java Solution</span>
+          <span class="code-filename">PatternGenerator.java</span>
+          <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+        </div>
+        <pre><code>public class PatternGenerator {
+    public static void main(String[] args) {
+        System.out.println("=== 1. 10 x 10 MULTIPLICATION TABLE ===");
+        for (int r = 1; r <= 10; r++) {
+            for (int c = 1; c <= 10; c++) {
+                System.out.printf("%4d", (r * c));
+            }
+            System.out.println();
+        }
+
+        System.out.println("\n=== 2. INVERTED NUMBER PYRAMID ===");
+        for (int i = 5; i >= 1; i--) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print(j + " ");
+            }
+            System.out.println();
+        }
+    }
+}</code></pre>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <a href="lesson.html" class="nav-prev">
+        <span>&larr; Back to Lesson 3</span>
+      </a>
+      <a href="assignment.html" class="nav-next">
+        <span>Session 3 Assignment &rarr;</span>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>
