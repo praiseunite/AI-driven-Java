@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 5 Take-Home Assignment | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 5</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html" class="active">Assignment</a></li>
+      <li><a href="solution/solution.html">Solution</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-red">Take-Home Lab Assignment</span>
+        <span class="tag tag-purple">Session 5</span>
+        <span class="tag tag-yellow">Due Before Session 6</span>
+      </div>
+      <h1>📋 Assignment 5: Campus Library Book Tracker</h1>
+      <p class="description">
+        Model a single library title as a class that protects its own copy counts and exposes
+        only safe operations — your first properly encapsulated domain object.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom: var(--space-xl);">
+      <h3 style="color: var(--accent); margin-top: 0;">🏢 Scenario</h3>
+      <p>
+        The Aptech campus library wants a small class, <code>LibraryBook.java</code>, to track how
+        many copies of a title are on the shelf versus out on loan. The counts must never go
+        negative and must always add up — so no outside code may change them directly.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2>Requirements</h2>
+      <ol style="margin-left: var(--space-lg); line-height: 1.8;">
+        <li><strong>Class &amp; file:</strong> <code>LibraryBook.java</code> with <code>public class LibraryBook</code>.</li>
+        <li><strong>Fields (all <code>private</code>):</strong> <code>String title</code>, <code>String author</code>, <code>int copiesAvailable</code>, <code>int copiesLent</code>.</li>
+        <li><strong>Constructor</strong> <code>LibraryBook(String title, String author, int totalCopies)</code>: set <code>copiesAvailable</code> to <code>totalCopies</code> (clamp negatives to 0), <code>copiesLent</code> to 0. Use <code>this.</code>.</li>
+        <li><strong><code>borrow()</code>:</strong> if <code>copiesAvailable == 0</code>, print a "no copies available" message; otherwise move one copy from available to lent and print the new counts.</li>
+        <li><strong><code>returnCopy()</code>:</strong> if <code>copiesLent == 0</code>, print a "no copies lent" message; otherwise move one copy back and print.</li>
+        <li><strong><code>getCopiesAvailable()</code>:</strong> a getter returning the count.</li>
+        <li><strong><code>status()</code>:</strong> return <code>"ALL OUT"</code> when none available, <code>"FULLY STOCKED"</code> when none lent, otherwise <code>"PARTIALLY LENT"</code>.</li>
+        <li><strong><code>toString()</code>:</strong> return a one-line description including title, author, status, and both counts.</li>
+        <li><strong><code>main</code>:</strong> create a title with 2 total copies and run: borrow, borrow, borrow (rejected), return, return, return (rejected), then print the object.</li>
+      </ol>
+
+      <div class="expected-output">
+        <h5>Expected Console Output:</h5>
+        <pre><code>Borrowed "Effective Java". Available: 1, Lent: 1
+Borrowed "Effective Java". Available: 0, Lent: 2
+"Effective Java": no copies available to borrow.
+Returned "Effective Java". Available: 1, Lent: 1
+Returned "Effective Java". Available: 2, Lent: 0
+"Effective Java": no copies are currently lent.
+Effective Java by Bloch [FULLY STOCKED] (avail 2 / lent 0)</code></pre>
+      </div>
+      <div class="callout callout-info">
+        <div class="callout-title">ℹ️ Layout is yours; behaviour is graded</div>
+        <p style="margin-bottom:0;">
+          Your exact wording/spacing may differ. What is graded: fields are <code>private</code>,
+          counts never go negative and always sum to the total, the two rejection paths work, and
+          <code>status()</code> / <code>toString()</code> return (not print) their text. A full
+          reference implementation: <a href="solution/solution.html">the solution</a>.
+        </p>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Grading Rubric (100 Points)</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Criterion</th><th>Details</th><th>Points</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Encapsulation</strong></td><td>All four fields <code>private</code>; no direct external mutation; constructor uses <code>this.</code>.</td><td>25</td></tr>
+            <tr><td><strong>Behaviour &amp; validation</strong></td><td><code>borrow()</code> / <code>returnCopy()</code> guard the zero cases; counts stay consistent.</td><td>35</td></tr>
+            <tr><td><strong>Return vs print</strong></td><td><code>status()</code> and <code>toString()</code> <em>return</em> strings; <code>getCopiesAvailable()</code> returns the count.</td><td>20</td></tr>
+            <tr><td><strong>Code quality</strong></td><td>camelCase, clear names, a comment on the class purpose, clean formatting.</td><td>20</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Submission:</strong> Upload <code>LibraryBook.java</code> via ProConnect under <em>Work Assignments &rarr; Session 5</em>.</p>
+    </div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev"><span>&larr; Session 5 Class Tasks</span></a>
+      <a href="post-quiz.html" class="nav-next"><span>Session 5 Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

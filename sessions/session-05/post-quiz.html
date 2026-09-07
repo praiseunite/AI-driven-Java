@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 5 Post-Quiz | Classes, Objects &amp; Methods</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 5</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Post-Lecture Evaluation</span>
+        <span class="tag tag-purple">Session 5</span>
+        <span class="tag tag-yellow">Formative Assessment</span>
+      </div>
+      <h1>🎯 Session 5 Post-Class Mastery Quiz</h1>
+      <p class="description">
+        Verify your grasp of classes, objects, fields, constructors, <code>this</code>,
+        overloading, <code>toString()</code>, encapsulation, and references.
+      </p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="assignment.html" class="nav-prev"><span>&larr; Session 5 Assignment</span></a>
+      <a href="../session-06/pre-quiz.html" class="nav-next"><span>Proceed to Session 6 Pre-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session5PostQuizData = {
+    title: "Session 5 Mastery: Classes, Objects & Methods",
+    description: "Answer all 11 questions to verify your understanding.",
+    questions: [
+      {
+        question: "What is the difference between a class and an object?",
+        options: [
+          "They are the same thing",
+          "A class is a blueprint written once; an object is a concrete instance built from it with new",
+          "A class runs; an object is just a design",
+          "An object contains many classes"
+        ],
+        correct: 1,
+        explanation: "A class defines the fields and methods. An object (instance) is created at runtime with `new` and holds its own field values. One class, many objects."
+      },
+      {
+        question: "Which of these is a valid constructor for `class Item`?",
+        options: [
+          "public void Item(String name) { }",
+          "public Item(String name) { }",
+          "public String Item(String name) { }",
+          "constructor Item(String name) { }"
+        ],
+        correct: 1,
+        explanation: "A constructor has the exact class name and NO return type (not even void). `public void Item(...)` is an ordinary method that happens to share the name."
+      },
+      {
+        question: "In `public Account(String owner) { this.owner = owner; }`, what does `this.owner` refer to?",
+        options: [
+          "The parameter",
+          "The field of the object being constructed",
+          "A brand-new local variable",
+          "A syntax error"
+        ],
+        correct: 1,
+        explanation: "`this.owner` is the object's field; the bare `owner` on the right is the parameter. `this` disambiguates when they share a name."
+      },
+      {
+        question: "What happens here?\n\nCar a = new Car();\nCar b = a;\nb.speed = 120;\nSystem.out.println(a.speed);",
+        code: "Car a = new Car();\nCar b = a;\nb.speed = 120;\nSystem.out.println(a.speed);",
+        options: [
+          "0",
+          "120",
+          "null",
+          "Compilation error"
+        ],
+        correct: 1,
+        explanation: "`b = a` copies the reference (address), not the object. a and b point at the SAME Car, so changing it through b is visible through a."
+      },
+      {
+        question: "You declare `Scanner sc;` as a field and immediately call `sc.nextLine()`. What happens?",
+        options: [
+          "It reads a line normally",
+          "NullPointerException — sc is null because no object was assigned",
+          "It returns an empty string",
+          "Compilation error: sc must be final"
+        ],
+        correct: 1,
+        explanation: "An unassigned reference field defaults to null. Calling a method on null throws NullPointerException. Assign one first: sc = new Scanner(System.in);"
+      },
+      {
+        question: "Which pair of methods is a valid overload?",
+        options: [
+          "int area() and double area()",
+          "int total(int a) and int total(int a, int b)",
+          "void go() and void go()",
+          "int add(int a, int b) and double add(int a, int b)"
+        ],
+        correct: 1,
+        explanation: "Overloads must differ in the PARAMETER LIST (number or types). Differing only by return type is not allowed."
+      },
+      {
+        question: "Why override `toString()` in your class?",
+        options: [
+          "It makes the class run faster",
+          "So printing the object shows a readable description instead of something like Account@6d06d69c",
+          "It is required for every class to compile",
+          "To convert the object into an int"
+        ],
+        correct: 1,
+        explanation: "The default toString() returns class name + hash. Overriding it lets `System.out.println(obj)` and string concatenation produce meaningful text."
+      },
+      {
+        question: "What is the main benefit of making a field `private` and adding a `deposit()` method?",
+        options: [
+          "It saves memory",
+          "The object can enforce rules (e.g. reject negative amounts) so it never enters an invalid state",
+          "private fields are faster to read",
+          "It lets other classes change the field directly"
+        ],
+        correct: 1,
+        explanation: "Encapsulation: a public field can be set to anything by anyone; a private field guarded by a validating method cannot be corrupted."
+      },
+      {
+        question: "A class has fields but you wrote NO constructor. What does `new Thing()` do?",
+        options: [
+          "Compilation error — you must always write a constructor",
+          "Uses Java's hidden default no-arg constructor; fields take their type defaults (0, false, null)",
+          "Leaves the object unusable",
+          "Runs main()"
+        ],
+        correct: 1,
+        explanation: "With no constructor, Java supplies an empty default one. Fields get automatic defaults. Writing ANY constructor removes the free default."
+      },
+      {
+        question: "Where does the object created by `new BankAccount(...)` live, and where does the variable holding it live?",
+        options: [
+          "Both on the stack",
+          "Object on the heap; the reference variable on the stack",
+          "Both on the heap",
+          "Object on the stack; reference on the heap"
+        ],
+        correct: 1,
+        explanation: "`new` allocates the object on the heap. The local variable (a reference / address) sits in the current method's stack frame."
+      },
+      {
+        question: "A method `String grade()` uses `System.out.println(\"A\")` instead of `return \"A\"`. Why is that a problem?",
+        options: [
+          "It won't compile",
+          "The caller cannot use the result, e.g. `if (s.grade().equals(\"A\"))` — grade() returns nothing useful",
+          "println is slower",
+          "There is no problem"
+        ],
+        correct: 1,
+        explanation: "Printing shows text on screen but hands nothing back. A method declared to return String must `return` a value so callers can use it in expressions."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session5PostQuizData);
+  });
+</script>
+
+</body>
+</html>

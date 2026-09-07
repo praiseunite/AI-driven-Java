@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 5: Classes, Objects and Methods in Java — blueprints vs instances, fields and methods, constructors, this, overloading, toString, encapsulation, and stack/heap memory.">
+  <title>Session 5: Classes, Objects &amp; Methods | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 5</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Week 2 &bull; Day 1</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL5</span>
+      </div>
+      <h1>Session 5: Classes, Objects, and Methods</h1>
+      <p class="description">
+        Until now you have used classes only as a container for <code>main</code>. Today classes
+        become the point. You will design your own data types — a <code>BankAccount</code>, a
+        <code>Car</code>, a <code>Student</code> — that bundle data together with the operations
+        that belong to it. This is <strong>Object-Oriented Programming</strong>, and it is what
+        the rest of the course is built on.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Table of Contents</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#why-objects">1. Why Objects?</a></li>
+          <li><a href="#class-vs-object">2. Class vs. Object</a></li>
+          <li><a href="#fields-methods">3. Fields &amp; Methods</a></li>
+          <li><a href="#new-and-references">4. <code>new</code>, References &amp; <code>null</code></a></li>
+          <li><a href="#constructors">5. Constructors &amp; <code>this</code></a></li>
+          <li><a href="#methods-deep">6. Methods in Depth</a></li>
+          <li><a href="#overloading">7. Method Overloading</a></li>
+          <li><a href="#ctor-overloading">8. Constructor Overloading</a></li>
+          <li><a href="#tostring">9. <code>toString()</code></a></li>
+          <li><a href="#encapsulation">10. Encapsulation</a></li>
+          <li><a href="#memory-layout">11. Stack &amp; Heap Layout</a></li>
+          <li><a href="#pitfalls">12. Common Pitfalls</a></li>
+          <li><a href="#cheat-sheet">13. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">14. Summary &amp; Self-Check</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: Flashback to Week 1</div>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong><code>main</code> is a method</strong> — <code>public static void main(String[] args)</code>. Today the words <code>static</code>, <code>void</code>, parameters, and return finally make full sense.</li>
+            <li><strong><code>String</code> is a reference type</strong> — a <code>String</code> variable holds an address to an object on the heap. Every class you write today creates reference types that work the same way.</li>
+            <li><strong>Structured vs OOP (Session 1)</strong> — structured code keeps data and functions apart; OOP bundles them. Today you build that bundle.</li>
+          </ul>
+        </div>
+
+        <section class="content-section" id="why-objects">
+          <h2>1. Why Objects?</h2>
+          <p>
+            Imagine modelling a bank with plain variables: <code>double adaBalance</code>,
+            <code>double bobBalance</code>, <code>String adaOwner</code>… and free-standing methods
+            <code>deposit(???)</code>, <code>withdraw(???)</code>. Which balance does
+            <code>withdraw</code> change? You have to pass it in and hope nobody edits the wrong
+            variable. With 10,000 accounts this collapses.
+          </p>
+          <p>
+            An <strong>object</strong> keeps one account's data <em>and</em> its operations in a
+            single unit. <code>ada.withdraw(30)</code> can only touch Ada's balance. The data and
+            the code that is allowed to change it travel together.
+          </p>
+          <div class="callout callout-think">
+            <div class="callout-title">🍪 Analogy: cookie cutter and cookies</div>
+            <p>
+              A <strong>class</strong> is the cookie cutter: it defines the shape (what fields and
+              methods every cookie has). An <strong>object</strong> is an actual cookie stamped
+              from it. One cutter, many cookies — each with its own sprinkles (its own field
+              values).
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="class-vs-object">
+          <h2>2. Class vs. Object</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th></th><th>Class</th><th>Object (instance)</th></tr></thead>
+              <tbody>
+                <tr><td><strong>What it is</strong></td><td>A blueprint / template written once in code.</td><td>A concrete thing built from the blueprint at runtime.</td></tr>
+                <tr><td><strong>How many</strong></td><td>One definition.</td><td>As many as you create with <code>new</code>.</td></tr>
+                <tr><td><strong>Holds data?</strong></td><td>Describes <em>what</em> data each object will have.</td><td>Holds <em>actual</em> values in its fields.</td></tr>
+                <tr><td><strong>Example</strong></td><td><code>class Car { ... }</code></td><td><code>new Car("Corolla")</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">The smallest useful class</span></div>
+            <pre><code>class Car {
+    String model;   // a field
+    int speed;      // a field
+
+    void accelerate(int delta) {   // a method
+        speed += delta;
+    }
+}
+
+// elsewhere:
+Car c = new Car();     // c refers to a brand-new Car object
+c.model = "Corolla";
+c.accelerate(30);      // c.speed is now 30</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="fields-methods">
+          <h2>3. Fields (State) &amp; Methods (Behavior)</h2>
+          <p>
+            <strong>Fields</strong> (also called instance variables or attributes) are variables
+            declared directly inside the class. Every object gets its <em>own copy</em>.
+            <strong>Methods</strong> are the operations. Inside a method, writing a field's name
+            refers to <em>this object's</em> field.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>class Counter {
+    int count;                 // field — each Counter has its own
+
+    void increment() {
+        count++;               // means: this object's count
+    }
+
+    int value() {
+        return count;
+    }
+}
+
+Counter a = new Counter();
+Counter b = new Counter();
+a.increment();
+a.increment();
+b.increment();
+System.out.println(a.value());   // 2
+System.out.println(b.value());   // 1  — b is a separate object</code></pre>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ Default field values</div>
+            <p>
+              Unlike local variables (which must be initialised before use), fields get automatic
+              defaults: <code>0</code> for numbers, <code>false</code> for <code>boolean</code>,
+              <code>' '</code> for <code>char</code>, and <code>null</code> for any reference
+              type (including <code>String</code>).
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="new-and-references">
+          <h2>4. <code>new</code>, References, and <code>null</code></h2>
+          <p>
+            <code>new Car()</code> does three things: allocates a fresh object on the
+            <strong>heap</strong>, runs its constructor, and returns the object's
+            <strong>address</strong>. The variable on the left stores that address — it is a
+            <strong>reference</strong>, not the object itself.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">References point; they don't copy</span></div>
+            <pre><code>Car x = new Car();
+x.model = "Corolla";
+
+Car y = x;          // y copies the ADDRESS, not the car
+y.model = "Mustang";
+
+System.out.println(x.model);   // "Mustang"  — x and y point at the SAME object</code></pre>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>null</code> and <code>NullPointerException</code></div>
+            <p>
+              A reference that points at no object holds <code>null</code>. Calling a method or
+              reading a field through it crashes with <code>NullPointerException</code>:
+            </p>
+            <pre style="margin:0;"><code>Car z;                  // z is null (if it's a field) / uninitialised (if local)
+z.accelerate(10);       // NullPointerException — there is no object to talk to</code></pre>
+            <p style="margin-bottom:0;">Fix: assign an object first — <code>z = new Car();</code>.</p>
+          </div>
+        </section>
+
+        <section class="content-section" id="constructors">
+          <h2>5. Constructors &amp; <code>this</code></h2>
+          <p>
+            A <strong>constructor</strong> is a special method that runs once, at
+            <code>new</code> time, to set an object up. It has the <em>same name as the class</em>
+            and <em>no return type</em>.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>class BankAccount {
+    private String owner;
+    private double balance;
+
+    // constructor: same name as class, no return type
+    public BankAccount(String owner, double openingBalance) {
+        this.owner = owner;              // this.owner = the field
+        this.balance = openingBalance;   // owner (no this) = the parameter
+    }
+}
+
+BankAccount ada = new BankAccount("Ada", 100.00);</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 What is <code>this</code>?</div>
+            <p>
+              <code>this</code> means "the object this method is running on". You need it when a
+              parameter has the <em>same name</em> as a field: <code>this.owner</code> is the
+              field, <code>owner</code> is the parameter. If the names differ, <code>this</code> is
+              optional.
+            </p>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ The default (no-arg) constructor</div>
+            <p>
+              If you write <em>no</em> constructor, Java gives you a hidden empty one, so
+              <code>new Car()</code> works. The moment you write <em>any</em> constructor, that
+              free one disappears — if you still want <code>new Car()</code>, write it yourself.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="methods-deep">
+          <h2>6. Methods in Depth</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Part</th><th>Meaning</th></tr></thead>
+              <tbody>
+                <tr><td><code>public</code> / <code>private</code></td><td>Who may call it (Session 7 covers all levels).</td></tr>
+                <tr><td>return type (<code>int</code>, <code>String</code>, <code>void</code>…)</td><td>What it hands back. <code>void</code> = nothing.</td></tr>
+                <tr><td>name</td><td>camelCase verb: <code>deposit</code>, <code>calculateTax</code>.</td></tr>
+                <tr><td>parameters <code>(double amount)</code></td><td>Inputs, copied in when called.</td></tr>
+                <tr><td>body <code>{ ... }</code></td><td>The statements that run.</td></tr>
+                <tr><td><code>return value;</code></td><td>Sends a result back and exits the method.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>double areaOfCircle(double radius) {       // takes one input, gives a double back
+    return Math.PI * radius * radius;
+}
+
+void greet(String name) {                 // takes input, returns nothing
+    System.out.println("Hello, " + name);
+}
+
+double a = areaOfCircle(3);   // a = 28.27...
+greet("Ada");                 // prints; there is no value to store</code></pre>
+          </div>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Return is not print</div>
+            <p>
+              <code>return x;</code> hands a value back to the caller. <code>System.out.println(x);</code>
+              shows it on screen. A method that only prints cannot be reused in a calculation.
+              Prefer <em>returning</em> a result and letting the caller decide what to do with it.
+            </p>
+          </div>
+          <p>
+            <strong>Local variable scope:</strong> a variable declared inside a method (or a
+            <code>{ }</code> block) exists only there. Parameters are local variables too.
+          </p>
+        </section>
+
+        <section class="content-section" id="overloading">
+          <h2>7. Method Overloading</h2>
+          <p>
+            Two or more methods may share a name if their <strong>parameter lists differ</strong>
+            (in number or type). The compiler picks the matching one by the arguments you pass.
+            The return type alone is <em>not</em> enough to tell them apart.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>int add(int a, int b)            { return a + b; }
+int add(int a, int b, int c)     { return a + b + c; }
+double add(double a, double b)   { return a + b; }
+
+add(2, 3);        // -> 5   (first version)
+add(2, 3, 4);     // -> 9   (second)
+add(2.5, 3.5);    // -> 6.0 (third)</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="ctor-overloading">
+          <h2>8. Constructor Overloading &amp; <code>this(...)</code></h2>
+          <p>
+            Constructors can be overloaded the same way. To avoid repeating setup code, one
+            constructor can call another with <code>this(...)</code> — which must be the
+            <strong>first statement</strong>.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>class StudentRecord {
+    private String name, track;
+    private int score;
+
+    public StudentRecord(String name, String track, int score) {
+        this.name = name;
+        this.track = track;
+        this.score = score;
+    }
+
+    // "no score yet" -> delegate to the full constructor with a default
+    public StudentRecord(String name, String track) {
+        this(name, track, 0);      // must be first
+    }
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="tostring">
+          <h2>9. <code>toString()</code> — your object, printed nicely</h2>
+          <p>
+            By default, printing an object shows something like
+            <code>StudentRecord@6d06d69c</code> (class name + memory hash). Override
+            <code>toString()</code> to return a readable description; Java calls it automatically
+            whenever the object is used where text is expected.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>@Override
+public String toString() {
+    return String.format("%s [%s] score=%d", name, track, score);
+}
+
+System.out.println(s1);          // Amara [AI-Driven Java] score=74
+String label = "Top: " + s1;    // concatenation also calls toString()</code></pre>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ <code>@Override</code></div>
+            <p>
+              An <em>annotation</em> telling the compiler "I intend to replace a method inherited
+              from a parent class" (here, <code>Object.toString()</code>). If you misspell the
+              method, the compiler catches it. Inheritance is Session 9 — for now, just use it on
+              <code>toString()</code>.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="encapsulation">
+          <h2>10. Encapsulation — <code>private</code> fields + accessors</h2>
+          <p>
+            <strong>Encapsulation</strong> means hiding an object's data and exposing only
+            controlled operations. Make fields <code>private</code>; provide
+            <strong>getters</strong> to read and, where it makes sense, <strong>setters</strong>
+            (with validation) to change.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>class BankAccount {
+    private double balance;                    // no outside code can set this directly
+
+    public double getBalance() {               // controlled read
+        return balance;
+    }
+
+    public void deposit(double amount) {       // controlled write, with a rule
+        if (amount > 0) balance += amount;
+    }
+}
+
+acc.balance = -999;      // COMPILE ERROR: balance has private access
+acc.deposit(-999);       // allowed to try, but the method refuses</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Why bother?</div>
+            <p>
+              A <code>public</code> field can be set to anything by anyone, anywhere — the
+              "global data problem" from Session 1, in miniature. A <code>private</code> field with
+              a validating method guarantees the object can never enter a broken state.
+            </p>
+          </div>
+          <p>
+            IntelliJ generates getters/setters for you: <kbd>Alt</kbd>+<kbd>Insert</kbd>
+            (<kbd>⌘</kbd>+<kbd>N</kbd> on macOS) &rarr; <strong>Getter and Setter</strong>.
+          </p>
+        </section>
+
+        <section class="content-section" id="memory-layout">
+          <h2>11. Stack &amp; Heap Layout</h2>
+          <p>Revisiting Session 2's memory picture, now with objects:</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Memory</span><span class="code-filename">BankAccount ada = new BankAccount("Ada", 100);</span></div>
+            <pre><code>        STACK (per method call)            HEAP (all objects)
+   ┌───────────────────────────┐     ┌──────────────────────────────┐
+   │ ada  ──────────────────────────▶│ BankAccount                  │
+   │      (holds an address)   │     │   owner  = "Ada"  ───────────┼──▶ "Ada"
+   │ amount = 50.0 (a local)   │     │   balance = 100.0            │
+   └───────────────────────────┘     └──────────────────────────────┘</code></pre>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">📖 In words</div>
+            <p>
+              The variable <code>ada</code> lives on the stack and holds only an address. The
+              actual <code>BankAccount</code> — its <code>owner</code> and <code>balance</code> —
+              lives on the heap. Primitive locals like <code>amount</code> sit on the stack
+              directly. When a method returns, its stack frame is discarded; heap objects survive
+              until nothing references them, then the garbage collector reclaims them.
+            </p>
+          </div>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ <code>==</code> on objects compares addresses</div>
+            <p>
+              <code>a == b</code> is <code>true</code> only if <code>a</code> and <code>b</code>
+              point at the <em>same</em> object. To compare <em>contents</em>, write an
+              <code>equals</code> method (Session 9) — exactly why you use
+              <code>str.equals(...)</code> for text.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="pitfalls">
+          <h2>12. Common Pitfalls</h2>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Forgetting <code>new</code></div>
+            <p><code>BankAccount a;</code> then <code>a.deposit(10);</code> → the field is
+              <code>null</code> → <code>NullPointerException</code>. You must
+              <code>a = new BankAccount(...);</code> first.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Giving a constructor a return type</div>
+            <p><code>public void BankAccount(...) { }</code> is <em>not</em> a constructor — it is
+              an ordinary method that happens to be named like the class, so Java still uses the
+              hidden default constructor. Constructors have <strong>no</strong> return type, not
+              even <code>void</code>.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Shadowing a field by re-declaring it</div>
+            <p><code>this.balance = balance;</code> ✅ &nbsp; vs &nbsp;
+              <code>double balance = balance;</code> ❌ (creates a new local, leaves the field at 0).</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Printing instead of returning</div>
+            <p>A <code>grade()</code> that <code>System.out.println</code>s cannot be used in
+              <code>if (s.grade().equals("A"))</code>. Return the value.</p>
+          </div>
+        </section>
+
+        <section class="content-section" id="cheat-sheet">
+          <h2>13. Executive Quick-Recap &amp; Cheat Sheet</h2>
+
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The 30-Second Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              A <strong>class</strong> is a blueprint: fields (state) + methods (behavior).
+              <code>new</code> builds an <strong>object</strong> on the heap and returns a
+              reference. A <strong>constructor</strong> initialises it; <code>this</code> means
+              "this object". Make fields <code>private</code> and expose methods
+              (<strong>encapsulation</strong>). Override <code>toString()</code> to print nicely.
+              Overloading = same name, different parameter lists.
+            </p>
+          </div>
+
+          <h3>Core Syntax at a Glance</h3>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java Cheat Sheet</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>public class Product {
+    private String name;          // fields (private)
+    private double price;
+
+    public Product(String name, double price) {   // constructor
+        this.name = name;
+        this.price = price;
+    }
+
+    public double getPrice() { return price; }    // getter
+
+    public void applyDiscount(double pct) {        // behavior + validation
+        if (pct > 0 && pct < 100) price -= price * pct / 100;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s ($%.2f)", name, price);
+    }
+}
+
+Product p = new Product("Hub", 34.99);
+p.applyDiscount(10);
+System.out.println(p);            // Hub ($31.49)</code></pre>
+          </div>
+
+          <h3>Plain-English Glossary</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Class</div><p class="glossary-def">A blueprint defining the fields and methods every object of that type will have.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Object / instance</div><p class="glossary-def">A concrete thing built from a class with <code>new</code>, holding its own field values.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Field</div><p class="glossary-def">A variable declared in the class body; each object has its own copy.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Constructor</div><p class="glossary-def">A special no-return method named like the class, run once by <code>new</code> to set the object up.</p></div>
+            <div class="glossary-item"><div class="glossary-term">this</div><p class="glossary-def">A reference to the object the current method is running on.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Reference</div><p class="glossary-def">A variable holding the address of a heap object (or <code>null</code>).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Overloading</div><p class="glossary-def">Multiple methods (or constructors) with the same name but different parameter lists.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Encapsulation</div><p class="glossary-def">Hiding fields (<code>private</code>) and exposing controlled methods.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Getter / setter</div><p class="glossary-def">Methods that read / write a private field, the setter usually validating first.</p></div>
+            <div class="glossary-item"><div class="glossary-term">toString()</div><p class="glossary-def">A method returning an object's text form; called automatically on print and concatenation.</p></div>
+          </div>
+          <p style="margin-top: var(--space-md);">Full definitions: <a href="../../reference/glossary.html">Master Glossary</a>.</p>
+        </section>
+
+        <section class="content-section" id="summary">
+          <h2>14. Summary &amp; Interactive Self-Checks</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Try these, then verify against this lesson (<a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"Explain the difference between a class and an object to a beginner, with one tiny Java example."</li>
+              <li>"Why do we make fields <code>private</code> and add getters? Show the bug that <code>public</code> fields allow."</li>
+              <li>"Give me 4 small class-design exercises (a <code>Book</code>, a <code>Thermostat</code>…), specs only, increasing difficulty."</li>
+            </ul>
+          </div>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Q1: What is the difference between a class and an object?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> A class is the blueprint written once in code; an object is a concrete instance created at runtime with <code>new</code>, holding its own field values. One class, many objects.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q2: <code>Car a = new Car(); Car b = a; b.speed = 90;</code> — what is <code>a.speed</code>?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>90</code>. <code>b = a</code> copies the reference, so <code>a</code> and <code>b</code> point at the same object.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q3: Why is <code>public void BankAccount(String o) { }</code> a bug?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> The <code>void</code> makes it an ordinary method, not a constructor. Java then supplies its own empty default constructor, and your setup code never runs. Constructors have no return type.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q4: You call a method on a variable and get <code>NullPointerException</code>. What went wrong?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> The variable holds <code>null</code> — no object was assigned. Create one with <code>new</code> before calling methods on it.</div>
+            </details>
+          </div>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start Class Tasks</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Post-Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 5 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Session 5 Class Tasks &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

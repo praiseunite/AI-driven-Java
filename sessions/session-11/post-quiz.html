@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 11 Post-Quiz | Exception Handling</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 11</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Post-Lecture Evaluation</span>
+        <span class="tag tag-purple">Session 11</span>
+        <span class="tag tag-yellow">Formative Assessment</span>
+      </div>
+      <h1>🎯 Session 11 Post-Class Mastery Quiz</h1>
+      <p class="description">Verify your grasp of checked vs unchecked, <code>try/catch/finally</code>, try-with-resources, <code>throw</code>/<code>throws</code>, and custom exceptions.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="assignment.html" class="nav-prev"><span>&larr; Session 11 Assignment</span></a>
+      <a href="../session-12/pre-quiz.html" class="nav-next"><span>Proceed to Session 12 Pre-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session11PostQuizData = {
+    title: "Session 11 Mastery: Exception Handling",
+    description: "Answer all 12 questions to verify your understanding.",
+    questions: [
+      {
+        question: "An exception is thrown in a method and nothing catches it. What happens?",
+        options: [
+          "The method returns 0",
+          "It propagates up the call stack; if it reaches main uncaught, a stack trace prints and the program stops",
+          "Java retries the method",
+          "The line is skipped and execution continues"
+        ],
+        correct: 1,
+        explanation: "Unhandled exceptions unwind the stack. Reaching main uncaught terminates the program after printing the trace."
+      },
+      {
+        question: "The compiler forces you to catch or declare which kind of exception?",
+        options: ["Unchecked (RuntimeException)", "Checked", "Both", "Neither"],
+        correct: 1,
+        explanation: "Checked exceptions (Exception subclasses that are NOT RuntimeException) must be caught or listed in a throws clause."
+      },
+      {
+        question: "Which is an UNCHECKED exception?",
+        options: ["IOException", "SQLException", "NullPointerException", "A custom class extending Exception"],
+        correct: 2,
+        explanation: "NullPointerException extends RuntimeException, so it is unchecked. IOException/SQLException and a plain Exception subclass are checked."
+      },
+      {
+        question: "What is the output?",
+        code: "static int f() {\n    try { return 1; }\n    finally { System.out.println(\"finally\"); }\n}\n// called from main: System.out.println(f());",
+        options: [
+          "1",
+          "finally\\n1",
+          "1\\nfinally",
+          "finally only"
+        ],
+        correct: 1,
+        explanation: "finally runs before the method actually returns. So 'finally' prints first, then main prints the returned 1."
+      },
+      {
+        question: "Why is `catch (Exception e)` placed before `catch (IOException e)` a compile error?",
+        options: [
+          "IOException is misspelled",
+          "Exception is a superclass of IOException, so the IOException block could never be reached",
+          "You can only have one catch block",
+          "catch must be alphabetical"
+        ],
+        correct: 1,
+        explanation: "A broader catch must come after narrower ones, or the narrower one is unreachable dead code."
+      },
+      {
+        question: "`try (Scanner s = new Scanner(file)) { ... }` — what does the header guarantee?",
+        options: [
+          "The file is deleted afterwards",
+          "s.close() is called automatically when the block ends, even if an exception is thrown",
+          "The loop runs at least once",
+          "Nothing special"
+        ],
+        correct: 1,
+        explanation: "try-with-resources auto-closes any AutoCloseable declared in its header, removing the need for a manual finally { s.close(); }."
+      },
+      {
+        question: "`throw` vs `throws`:",
+        options: [
+          "They are the same keyword",
+          "`throw` raises an exception now (a statement); `throws` declares a method may let a checked exception escape (a clause)",
+          "`throw` is for methods, `throws` is for classes",
+          "`throws` raises, `throw` declares"
+        ],
+        correct: 1,
+        explanation: "throw new X(...) is an action. void m() throws X is a declaration on the method signature."
+      },
+      {
+        question: "To define your own checked exception, extend:",
+        options: ["Error", "RuntimeException", "Exception", "Throwable directly"],
+        correct: 2,
+        explanation: "Extend Exception for a checked custom type; extend RuntimeException for an unchecked one. Never extend Error."
+      },
+      {
+        question: "Which is BAD exception-handling practice?",
+        options: [
+          "Catching the most specific type you can handle",
+          "Leaving a catch block completely empty",
+          "Letting an exception propagate to a caller that can respond",
+          "Using try-with-resources for files"
+        ],
+        correct: 1,
+        explanation: "An empty catch silently swallows problems, hiding bugs. At minimum log; ideally handle or rethrow."
+      },
+      {
+        question: "You want the same handling for NumberFormatException and NullPointerException. The cleanest way:",
+        options: [
+          "Two identical catch blocks",
+          "catch (NumberFormatException | NullPointerException e) { ... }  (multi-catch)",
+          "catch (Object e)",
+          "Do not catch them"
+        ],
+        correct: 1,
+        explanation: "Multi-catch with | lets one block handle several unrelated exception types without duplication."
+      },
+      {
+        question: "Inside `parse()`, `Integer.parseInt` throws NumberFormatException, which you catch and then `throw new RecordFormatException(...)`. This technique is called:",
+        options: [
+          "Swallowing",
+          "Exception translation (wrapping a low-level exception in a domain-specific one)",
+          "Rethrowing the same exception",
+          "Suppressing"
+        ],
+        correct: 1,
+        explanation: "Translating a generic/low-level exception into a meaningful domain exception gives callers something specific to catch. Keep the cause when you can."
+      },
+      {
+        question: "Best way to avoid an ArrayIndexOutOfBoundsException in a loop:",
+        options: [
+          "Wrap every access in try/catch",
+          "Check the index against array.length before accessing — don't use exceptions for normal flow",
+          "Ignore it",
+          "Use a larger array"
+        ],
+        correct: 1,
+        explanation: "Exceptions are for exceptional situations. A simple bounds check (i < a.length) is clearer and faster than catching the error."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session11PostQuizData);
+  });
+</script>
+
+</body>
+</html>

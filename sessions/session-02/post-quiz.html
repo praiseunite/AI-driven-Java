@@ -35,7 +35,8 @@
       </div>
       <h1>🎯 Session 2 Post-Class Mastery Quiz</h1>
       <p class="description">
-        Assess your understanding of Java primitives, reference strings, operators, casting rules, and format specifiers.
+        Assess your understanding of Java primitives, reference strings, Scanner input,
+        operators, precedence, constants, the Math class, casting rules, and format specifiers.
       </p>
     </div>
 
@@ -57,7 +58,7 @@
 <script>
   const session2PostQuizData = {
     title: "Session 2 Mastery: Variables, Types & Operations",
-    description: "Answer all 8 questions to verify your technical mastery.",
+    description: "Answer all 13 questions to verify your technical mastery.",
     questions: [
       {
         question: "Which of the following data types is NOT a Java primitive type?",
@@ -147,6 +148,72 @@
         ],
         correct: 1,
         explanation: "Java bytes are signed 8-bit integers ranging from -128 to +127 (inclusive)."
+      },
+      {
+        question: "Which import is required before you can use `Scanner` to read keyboard input?",
+        options: [
+          "import java.io.Scanner;",
+          "import java.util.Scanner;",
+          "import java.lang.Scanner;",
+          "No import is needed; Scanner is built in like System"
+        ],
+        correct: 1,
+        explanation: "Scanner lives in the java.util package, so you write `import java.util.Scanner;` at the top of the file. (System and Math are in java.lang, which is imported automatically.)"
+      },
+      {
+        question: "A program calls `int age = sc.nextInt();` and then `String city = sc.nextLine();`. The user types 30, Enter, Lagos, Enter. What ends up in `city`?",
+        options: [
+          "\"Lagos\"",
+          "\"30\"",
+          "An empty string \"\"",
+          "It throws InputMismatchException"
+        ],
+        correct: 2,
+        explanation: "nextInt() reads 30 but leaves the newline in the buffer. The following nextLine() consumes that leftover newline and returns \"\". Fix: add a throwaway sc.nextLine(); after nextInt()."
+      },
+      {
+        question: "What is the value of `total` after: `int total = 10; total += 5; total *= 2;`?",
+        options: [
+          "17",
+          "30",
+          "20",
+          "40"
+        ],
+        correct: 1,
+        explanation: "total += 5 makes it 15 (10 + 5). total *= 2 makes it 30 (15 * 2). Compound assignment applies the operation then stores the result back."
+      },
+      {
+        question: "What does `int x = 2 + 3 * 4;` store in x?",
+        options: [
+          "20",
+          "14",
+          "24",
+          "9"
+        ],
+        correct: 1,
+        explanation: "Multiplication has higher precedence than addition, so 3 * 4 = 12 is evaluated first, then 2 + 12 = 14. Use parentheses (2 + 3) * 4 if you want 20."
+      },
+      {
+        question: "You write `final int MAX_TRIES = 3;` and later `MAX_TRIES = 5;`. What happens?",
+        options: [
+          "MAX_TRIES becomes 5",
+          "A compile-time error: cannot assign a value to final variable MAX_TRIES",
+          "A runtime exception",
+          "MAX_TRIES stays 3 but no error"
+        ],
+        correct: 1,
+        explanation: "`final` makes a variable a constant. Any attempt to reassign it is rejected by the compiler."
+      },
+      {
+        question: "What does `System.out.println(0.1 + 0.2 == 0.3);` print in Java?",
+        options: [
+          "true",
+          "false",
+          "0.3",
+          "Compilation error"
+        ],
+        correct: 1,
+        explanation: "double stores values in binary and cannot represent 0.1, 0.2, or 0.3 exactly. 0.1 + 0.2 is actually 0.30000000000000004, so the comparison is false. Never compare doubles with ==; check Math.abs(a - b) < a tiny value, or use BigDecimal."
       }
     ]
   };

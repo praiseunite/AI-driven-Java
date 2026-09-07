@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 10 Post-Quiz | Interfaces &amp; Nested Classes</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 10</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Post-Lecture Evaluation</span>
+        <span class="tag tag-purple">Session 10</span>
+        <span class="tag tag-yellow">Formative Assessment</span>
+      </div>
+      <h1>🎯 Session 10 Post-Class Mastery Quiz</h1>
+      <p class="description">Verify your grasp of interfaces, multiple implementation, <code>default</code> methods, <code>Comparable</code>, and nested / anonymous classes &amp; lambdas.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="assignment.html" class="nav-prev"><span>&larr; Session 10 Assignment</span></a>
+      <a href="../session-11/pre-quiz.html" class="nav-next"><span>Proceed to Session 11 Pre-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session10PostQuizData = {
+    title: "Session 10 Mastery: Interfaces & Nested Classes",
+    description: "Answer all 11 questions to verify your understanding.",
+    questions: [
+      {
+        question: "What is an interface in Java?",
+        options: [
+          "A class you can instantiate with new",
+          "A contract of method signatures that implementing classes must fulfil",
+          "A folder of classes",
+          "Another word for a package"
+        ],
+        correct: 1,
+        explanation: "An interface declares what a class can DO (method signatures), not how. Classes that `implements` it must provide each method."
+      },
+      {
+        question: "A class can extend ___ class(es) and implement ___ interface(s).",
+        options: ["many / one", "one / many", "one / one", "many / many"],
+        correct: 1,
+        explanation: "Single class inheritance, but any number of interfaces — that is how Java offers multi-capability without multiple inheritance of state."
+      },
+      {
+        question: "Your class implements Payable but the method is `double calculatePay()` (no `public`). Result?",
+        options: [
+          "Fine",
+          "Compile error: cannot reduce the visibility — interface methods are public",
+          "Runtime error",
+          "It becomes private automatically"
+        ],
+        correct: 1,
+        explanation: "Interface methods are implicitly public. An implementing method must be public too."
+      },
+      {
+        question: "What is a `default` method in an interface?",
+        options: [
+          "A method that must be overridden",
+          "A method WITH a body that implementers inherit unless they override it",
+          "The constructor",
+          "A private method"
+        ],
+        correct: 1,
+        explanation: "Since Java 8, default methods let an interface ship shared behaviour without forcing every existing implementer to change."
+      },
+      {
+        question: "`compareTo` returns a positive number. It means `this`:",
+        options: [
+          "sorts BEFORE the argument",
+          "sorts AFTER the argument (this is 'greater')",
+          "equals the argument",
+          "is null"
+        ],
+        correct: 1,
+        explanation: "Negative = before, 0 = equal ordering, positive = after. Use Integer.compare / Double.compare to produce it safely."
+      },
+      {
+        question: "Can you write `new Runnable()` where Runnable is an interface?",
+        options: [
+          "No, interfaces can never appear after new",
+          "Yes — as an anonymous class: new Runnable() { public void run() { ... } }",
+          "Only if Runnable has a constructor",
+          "Only inside main"
+        ],
+        correct: 1,
+        explanation: "`new Interface() { ... }` creates an anonymous class implementing it on the spot. You cannot instantiate the bare interface with no body."
+      },
+      {
+        question: "When can a lambda replace an anonymous class?",
+        options: [
+          "Always",
+          "When the target interface has exactly one abstract method (a functional interface)",
+          "Only for Comparable",
+          "Never in modern Java"
+        ],
+        correct: 1,
+        explanation: "A lambda is shorthand for implementing a single-abstract-method interface: `x -> body`."
+      },
+      {
+        question: "Difference between a static nested class and an inner (non-static) class?",
+        options: [
+          "None",
+          "A static nested class has no link to an outer instance; an inner class is tied to one and can use its fields",
+          "Inner classes cannot have methods",
+          "Static nested classes cannot be private"
+        ],
+        correct: 1,
+        explanation: "Inner (non-static) classes hold an implicit reference to the enclosing object (created via outer.new Inner()). Static nested classes do not."
+      },
+      {
+        question: "Which CANNOT appear in an interface?",
+        options: [
+          "An abstract method signature",
+          "A `public static final` constant",
+          "A `default` method with a body",
+          "A `private int count;` instance field"
+        ],
+        correct: 3,
+        explanation: "Interfaces hold no per-object state. Only constants (public static final), abstract methods, and default/static methods."
+      },
+      {
+        question: "'Program to an interface, not an implementation' means:",
+        options: [
+          "Never use classes",
+          "Declare variables/parameters/returns as the interface type so callers aren't locked to one concrete class",
+          "Put all code in interfaces",
+          "Avoid the `implements` keyword"
+        ],
+        correct: 1,
+        explanation: "Depending on `List` rather than `ArrayList`, or `Channel` rather than `SmsChannel`, keeps code flexible and swappable."
+      },
+      {
+        question: "`Arrays.sort(myBooks)` throws or won't compile. The likely cause:",
+        options: [
+          "The array is too big",
+          "Book does not implement Comparable (or you didn't pass a Comparator)",
+          "Books cannot be sorted",
+          "sort() needs an int argument"
+        ],
+        correct: 1,
+        explanation: "sort() needs an ordering. Either Book implements Comparable<Book>, or you call Arrays.sort(arr, comparator)."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session10PostQuizData);
+  });
+</script>
+
+</body>
+</html>

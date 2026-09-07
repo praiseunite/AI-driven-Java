@@ -32,7 +32,16 @@ Each session follows a structured, evidence-based learning sequence:
 ```text
 AI driven Java/
 ├── index.html                      # Interactive Course Hub & Visual Dashboard
+├── start-here.html                 # Course onboarding: how to study, use solutions, get unstuck
+├── intellij-guide.html             # Visual Orientation: Laptop & IntelliJ IDEA Cockpit Guide
 ├── README.md                       # High-level architecture & instructor guide
+├── setup/
+│   └── environment-setup.html      # Install JDK 25 LTS + IntelliJ (Win/macOS/Linux) & troubleshoot PATH/JAVA_HOME
+├── reference/
+│   ├── commands.html               # Every action done both ways: IntelliJ IDEA <-> command line
+│   ├── reading-errors.html         # Compile vs runtime errors, reading a stack trace, message decoder
+│   ├── ai-tutor-guide.html         # Using ChatGPT/Copilot/IntelliJ AI as a tutor, not a crutch
+│   └── glossary.html               # Master glossary — every term, plain English, grouped by topic
 ├── css/
 │   └── style.css                   # Glassmorphism dark-theme design system
 ├── js/
@@ -60,8 +69,8 @@ AI driven Java/
 
 ### Standard Artifacts Per Session
 Inside each `session-XX` directory, you will find:
-- **`lesson.html`**: Comprehensive, visual, interactive web lecture with line-by-line code breakdowns, real-world analogies, and sticky navigation.
-- **`lesson.md`**: Clean markdown edition for reading on GitHub, offline e-readers, or terminal viewers.
+- **`lesson.html`**: The canonical lesson — comprehensive, visual, interactive web lecture with line-by-line code breakdowns, real-world analogies, IDE + command-line workflows, "Trace it" tables, an "Ask Your AI Tutor" box, and sticky navigation.
+- **`lesson.md`**: A **quick-reference summary** of the lesson (30-second mental model, syntax card, glossary links, self-check questions). It is intentionally short; `lesson.html` is the full lesson.
 - **`pre-quiz.html`**: Pre-lecture diagnostic quiz evaluating readiness and intuition.
 - **`post-quiz.html`**: Post-lecture knowledge check with instant feedback and answer explanations.
 - **`class-tasks.html` / `class-tasks.md`**: Tiered in-class coding exercises with starter templates and expected outputs.
@@ -96,13 +105,18 @@ Inside each `session-XX` directory, you will find:
 ## 🚀 Getting Started for Instructors & Students
 
 1. **Launch the Dashboard**: Double-click [index.html](file:///c:/Projects/Aptech/AI%20driven%20Java/index.html) or serve using any static web server (e.g., Live Server, `python -m http.server 8000`, or `npx serve`).
-2. **Compile and Run Code Examples**:
-   ```bash
-   cd sessions/session-01/code-examples
-   javac HelloWorld.java
-   java HelloWorld
-   ```
-3. **Interactive Quizzes**: Open `pre-quiz.html` or `post-quiz.html` in any modern web browser to engage in interactive question-and-answer sessions with real-time scoring.
+2. **Read `start-here.html`**: How the course is structured, how to self-check with the reference solutions, and how to use an AI tutor responsibly.
+3. **Set up your machine**: Follow [setup/environment-setup.html](file:///c:/Projects/Aptech/AI%20driven%20Java/setup/environment-setup.html) to install **JDK 25 LTS** and **IntelliJ IDEA Community**, verify from the terminal, and fix `PATH` / `JAVA_HOME` problems.
+4. **First-Time Orientation**: Open [intellij-guide.html](file:///c:/Projects/Aptech/AI%20driven%20Java/intellij-guide.html) for an annotated visual tour of laptop folders, IntelliJ IDEA interface zones, keyboard shortcuts, and debugging workflows.
+5. **Compile and Run Code Examples**:
+   - **In IntelliJ IDEA**: Open the workspace root, right-click any `.java` file in `src/` or `sessions/`, and click **Run ▶**.
+   - **Via Terminal**:
+     ```bash
+     cd sessions/session-01/code-examples
+     javac HelloWorld.java
+     java HelloWorld
+     ```
+6. **Interactive Quizzes**: Open `pre-quiz.html` or `post-quiz.html` in any modern web browser to engage in interactive question-and-answer sessions with real-time scoring.
 
 ---
 *Developed for Aptech Training Centers — AI-Driven Java Programming Curriculum.*

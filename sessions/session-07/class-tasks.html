@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 7 In-Class Practical Tasks | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 7 Tasks</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html" class="active">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-teal">Hands-On Practicals</span>
+        <span class="tag tag-purple">Session 7</span>
+        <span class="tag tag-yellow">Lab Exercises</span>
+      </div>
+      <h1>💻 Session 7 In-Class Coding Tasks</h1>
+      <p class="description">
+        Practise <code>static</code> shared state, utility classes, access modifiers, and a real
+        package. Each task shows its exact output. Try first, then check
+        <a href="solution/solution.html">the solutions</a>.
+      </p>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-easy">🟢 Level 1: Easy</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 7.1: Auto-Numbered ID Cards (static counter)</h3>
+      <p class="task-objective"><strong>Objective:</strong> A <code>static</code> field hands out sequential numbers; each card keeps its own <code>final</code> number.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">IdCardDemo.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>class IdCard {
+    private static int nextNumber = 1000;   // shared: the next number to hand out
+    private final int cardNumber;            // per-card, set once
+    private final String holder;
+
+    IdCard(String holder) {
+        this.holder = holder;
+        this.cardNumber = nextNumber;
+        nextNumber++;
+    }
+
+    @Override
+    public String toString() {
+        return "Card #" + cardNumber + " - " + holder;
+    }
+
+    static int issued() {
+        return nextNumber - 1000;
+    }
+}
+
+public class IdCardDemo {
+    public static void main(String[] args) {
+        IdCard a = new IdCard("Ada");
+        IdCard b = new IdCard("Bob");
+        IdCard c = new IdCard("Cal");
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(c);
+        System.out.println("Total issued: " + IdCard.issued());
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>Card #1000 - Ada
+Card #1001 - Bob
+Card #1002 - Cal
+Total issued: 3</code></pre></div>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-medium">🟡 Level 2: Intermediate</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 7.2: <code>Temperature</code> Utility Class</h3>
+      <p class="task-objective"><strong>Objective:</strong> All-static conversion methods, a <code>private</code> constructor so nobody writes <code>new Temperature()</code>.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">Temperature.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class Temperature {
+    private Temperature() { }               // no instances
+
+    public static double cToF(double c) { return c * 9.0 / 5.0 + 32; }
+    public static double fToC(double f) { return (f - 32) * 5.0 / 9.0; }
+    public static double cToK(double c) { return c + 273.15; }
+
+    public static void main(String[] args) {
+        System.out.printf("100C = %.1fF%n", cToF(100));
+        System.out.printf("32F  = %.1fC%n", fToC(32));
+        System.out.printf("0C   = %.2fK%n", cToK(0));
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>100C = 212.0F
+32F  = 0.0C
+0C   = 273.15K</code></pre></div>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-hard">🔴 Level 3: Challenge</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 7.3: A Real Package — <code>com.aptech.geometry</code></h3>
+      <p class="task-objective"><strong>Objective:</strong> Put a utility class in a package (folder path must match), then use it from a driver via <code>import</code>.</p>
+      <h4>Instructions:</h4>
+      <ol style="margin-left: var(--space-lg); margin-bottom: var(--space-md); color: var(--text-secondary);">
+        <li>Create the folder <code>com/aptech/geometry/</code> and put <code>Shapes.java</code> in it, starting with <code>package com.aptech.geometry;</code>.</li>
+        <li>Give <code>Shapes</code> a <code>private</code> constructor and three <code>public static</code> methods: <code>circleArea</code>, <code>rectangleArea</code>, <code>triangleArea</code>.</li>
+        <li>Create <code>GeometryApp.java</code> in the parent folder, <code>import com.aptech.geometry.Shapes;</code>, and print the three areas.</li>
+        <li>Compile: <code>javac GeometryApp.java com/aptech/geometry/Shapes.java</code> &nbsp;then&nbsp; <code>java GeometryApp</code>.</li>
+      </ol>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">com/aptech/geometry/Shapes.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>package com.aptech.geometry;
+
+public class Shapes {
+    private Shapes() { }
+    public static double circleArea(double r)            { return Math.PI * r * r; }
+    public static double rectangleArea(double w, double h) { return w * h; }
+    public static double triangleArea(double base, double h) { return 0.5 * base * h; }
+}</code></pre>
+      </div>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">GeometryApp.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import com.aptech.geometry.Shapes;
+
+public class GeometryApp {
+    public static void main(String[] args) {
+        System.out.printf("Circle r=3        : %.2f%n", Shapes.circleArea(3));
+        System.out.printf("Rectangle 4x5     : %.2f%n", Shapes.rectangleArea(4, 5));
+        System.out.printf("Triangle b=6 h=8  : %.2f%n", Shapes.triangleArea(6, 8));
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>Circle r=3        : 28.27
+Rectangle 4x5     : 20.00
+Triangle b=6 h=8  : 24.00</code></pre></div>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-medium">🟡 Level 2: Intermediate</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 7.4: <code>PasswordVault</code> (access modifiers)</h3>
+      <p class="task-objective"><strong>Objective:</strong> A <code>private</code> field and a <code>private</code> helper the outside world cannot reach — only the <code>public</code> methods.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">PasswordVaultDemo.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>class PasswordVault {
+    private String password;              // private: no outside access
+
+    public PasswordVault(String initial) {
+        this.password = initial;
+    }
+
+    private boolean isStrong(String p) {  // private helper
+        return p.length() &gt;= 8 &amp;&amp; !p.equalsIgnoreCase("password");
+    }
+
+    public boolean changePassword(String current, String next) {
+        if (!password.equals(current)) {
+            System.out.println("Current password wrong.");
+            return false;
+        }
+        if (!isStrong(next)) {
+            System.out.println("New password too weak.");
+            return false;
+        }
+        password = next;
+        System.out.println("Password changed.");
+        return true;
+    }
+
+    public boolean verify(String attempt) {
+        return password.equals(attempt);
+    }
+}
+
+public class PasswordVaultDemo {
+    public static void main(String[] args) {
+        PasswordVault v = new PasswordVault("start123");
+
+        v.changePassword("wrong", "muchbetter1");   // rejected: current wrong
+        v.changePassword("start123", "short");        // rejected: weak
+        v.changePassword("start123", "muchbetter1");  // accepted
+
+        System.out.println("verify('muchbetter1') -> " + v.verify("muchbetter1"));
+        System.out.println("verify('start123')    -> " + v.verify("start123"));
+        // v.password;        // won't compile: password has private access
+        // v.isStrong("abc"); // won't compile: isStrong has private access
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>Current password wrong.
+New password too weak.
+Password changed.
+verify('muchbetter1') -> true
+verify('start123')    -> false</code></pre></div>
+    </div>
+
+    <div class="nav-footer">
+      <a href="lesson.html" class="nav-prev"><span>&larr; Back to Lesson 7</span></a>
+      <a href="assignment.html" class="nav-next"><span>Session 7 Assignment &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

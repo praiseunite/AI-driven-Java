@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 10 Pre-Quiz | Interfaces &amp; Nested Classes</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 10</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Course Home</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-yellow">Pre-Class Diagnostic</span>
+        <span class="tag tag-purple">Session 10</span>
+        <span class="tag tag-teal">Contracts</span>
+      </div>
+      <h1>🧠 Pre-Lecture Intuition Check</h1>
+      <p class="description">Five quick questions about contracts and interchangeable parts. A low score is expected.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="../../index.html" class="nav-prev"><span>&larr; Back to Dashboard</span></a>
+      <a href="lesson.html" class="nav-next"><span>Proceed to Lesson 10 &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session10PreQuizData = {
+    title: "Session 10 Readiness: Contracts & Interchangeable Parts",
+    description: "Pick the closest answer. Explanations unlock after each response.",
+    questions: [
+      {
+        question: "A payroll run must pay salaried staff, hourly contractors, and outside invoices. These are unrelated types. What lets one loop pay all of them?",
+        options: [
+          "Making them all extend one big class",
+          "Having each provide a `calculatePay()` method promised by a shared interface",
+          "Copying the pay code three times",
+          "Using a static method"
+        ],
+        correct: 1,
+        explanation: "An interface is a shared capability. Classes that don't share an ancestor can still be used interchangeably if they implement the same interface."
+      },
+      {
+        question: "A wall socket works with a lamp, a charger, and a kettle. What does the socket rely on?",
+        options: [
+          "All three being the same appliance",
+          "All three implementing the same plug 'contract' (shape + voltage)",
+          "The socket knowing every appliance in advance",
+          "Nothing; it's random"
+        ],
+        correct: 1,
+        explanation: "That is exactly an interface: define the contract once, and anything honouring it plugs in — including devices invented later."
+      },
+      {
+        question: "In Java, how many classes can a single class directly extend?",
+        options: ["As many as needed", "Exactly one", "Two", "Zero"],
+        correct: 1,
+        explanation: "Single inheritance for classes. But a class can implement many interfaces, which is how Java gets multi-capability flexibility."
+      },
+      {
+        question: "You want to sort an array of your own `Book` objects by page count. What must `Book` provide?",
+        options: [
+          "A static sort() method",
+          "A way to compare two books — e.g. by implementing Comparable and its compareTo",
+          "A toString()",
+          "A constructor with no arguments"
+        ],
+        correct: 1,
+        explanation: "Sorting needs an ordering. Implementing Comparable<Book> and defining compareTo tells Arrays.sort how to order them."
+      },
+      {
+        question: "You need a one-off object that just implements a single method, used in exactly one place. The lightest option is:",
+        options: [
+          "A full new top-level class in its own file",
+          "An anonymous class or a lambda written right where it's needed",
+          "A static nested class",
+          "An abstract class"
+        ],
+        correct: 1,
+        explanation: "Anonymous classes (and lambdas, for single-method interfaces) let you supply a tiny implementation inline without a named class."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session10PreQuizData);
+  });
+</script>
+
+</body>
+</html>

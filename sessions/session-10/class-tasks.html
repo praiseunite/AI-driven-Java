@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 10 In-Class Practical Tasks | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 10 Tasks</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html" class="active">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-teal">Hands-On Practicals</span>
+        <span class="tag tag-purple">Session 10</span>
+        <span class="tag tag-yellow">Lab Exercises</span>
+      </div>
+      <h1>💻 Session 10 In-Class Coding Tasks</h1>
+      <p class="description">
+        Define interfaces, implement them across unrelated classes, sort with
+        <code>Comparable</code>, and use anonymous classes and lambdas. Each task shows its exact
+        output. Try first, then check <a href="solution/solution.html">the solutions</a>.
+      </p>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-easy">🟢 Level 1: Easy</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 10.1: <code>Drawable</code> interface + default method</h3>
+      <p class="task-objective"><strong>Objective:</strong> One interface, two implementers, a loop over the interface type, and a <code>default</code> method every implementer inherits.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">ShapeApp.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>interface Drawable {
+    double area();
+    default String summary() { return getClass().getSimpleName() + " area=" + String.format("%.2f", area()); }
+}
+
+class Circle implements Drawable {
+    private final double r;
+    Circle(double r) { this.r = r; }
+    @Override public double area() { return Math.PI * r * r; }
+}
+
+class Triangle implements Drawable {
+    private final double base, height;
+    Triangle(double base, double height) { this.base = base; this.height = height; }
+    @Override public double area() { return 0.5 * base * height; }
+}
+
+public class ShapeApp {
+    public static void main(String[] args) {
+        Drawable[] shapes = { new Circle(2), new Triangle(6, 4), new Circle(1) };
+        double total = 0;
+        for (Drawable d : shapes) {
+            System.out.println(d.summary());
+            total += d.area();
+        }
+        System.out.printf("Total area: %.2f%n", total);
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>Circle area=12.57
+Triangle area=12.00
+Circle area=3.14
+Total area: 27.71</code></pre></div>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-medium">🟡 Level 2: Intermediate</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 10.2: Sort employees with <code>Comparable</code></h3>
+      <p class="task-objective"><strong>Objective:</strong> Implement <code>Comparable&lt;Employee&gt;</code> so <code>Arrays.sort</code> orders by salary <em>descending</em>.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">EmployeeSort.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.util.Arrays;
+
+class Employee implements Comparable&lt;Employee&gt; {
+    final String name;
+    final int salary;
+    Employee(String name, int salary) { this.name = name; this.salary = salary; }
+    @Override public int compareTo(Employee o) { return Integer.compare(o.salary, this.salary); } // descending
+    @Override public String toString() { return name + " ($" + salary + ")"; }
+}
+
+public class EmployeeSort {
+    public static void main(String[] args) {
+        Employee[] team = {
+            new Employee("Ada", 72000),
+            new Employee("Bode", 95000),
+            new Employee("Chi", 68000)
+        };
+        Arrays.sort(team);
+        for (Employee e : team) System.out.println(e);
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>Bode ($95000)
+Ada ($72000)
+Chi ($68000)</code></pre></div>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-hard">🔴 Level 3: Challenge</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 10.3: Button callbacks (anonymous class + lambda)</h3>
+      <p class="task-objective"><strong>Objective:</strong> A <code>Button</code> stores a <code>ClickHandler</code>. Wire one handler with an anonymous class and one with a lambda.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">ButtonDemo.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>interface ClickHandler {
+    void onClick(String button);
+}
+
+class Button {
+    private final String name;
+    private ClickHandler handler;
+    Button(String name) { this.name = name; }
+    void setHandler(ClickHandler h) { this.handler = h; }
+    void press() { if (handler != null) handler.onClick(name); }
+}
+
+public class ButtonDemo {
+    public static void main(String[] args) {
+        Button save = new Button("Save");
+        Button quit = new Button("Quit");
+
+        save.setHandler(new ClickHandler() {              // anonymous class
+            @Override public void onClick(String button) {
+                System.out.println("Saving... (" + button + " pressed)");
+            }
+        });
+
+        quit.setHandler(b -&gt; System.out.println("Bye! (" + b + " pressed)"));  // lambda
+
+        save.press();
+        quit.press();
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>Saving... (Save pressed)
+Bye! (Quit pressed)</code></pre></div>
+    </div>
+
+    <div class="nav-footer">
+      <a href="lesson.html" class="nav-prev"><span>&larr; Back to Lesson 10</span></a>
+      <a href="assignment.html" class="nav-next"><span>Session 10 Assignment &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

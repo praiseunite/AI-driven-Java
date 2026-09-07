@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="AI Tutor Guide — how a beginner uses ChatGPT, GitHub Copilot, and IntelliJ AI Assistant as a tutor and not a crutch: prompt patterns, verifying answers, spotting hallucinated APIs, and academic honesty.">
+  <title>AI Tutor Guide | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../start-here.html">Start Here</a></li>
+      <li><a href="../setup/environment-setup.html">Setup</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+      <li><a href="../index.html">Dashboard</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Reference</span>
+        <span class="tag tag-teal">AI-assisted learning</span>
+        <span class="tag tag-red">Read before Session 1</span>
+      </div>
+      <h1>Using an AI Tutor Well</h1>
+      <p class="description">
+        This is an <em>AI-driven</em> course, and you will use tools like ChatGPT, GitHub
+        Copilot, and IntelliJ's AI Assistant throughout your career. Used one way, they make
+        you faster and sharper. Used another way, they quietly stop you from learning. This
+        page is the difference.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+      <aside class="lesson-sidebar">
+        <h4>On this page</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#principle" class="active">The core principle</a></li>
+          <li><a href="#good-bad">Good uses vs bad uses</a></li>
+          <li><a href="#prompts">Prompt patterns that work</a></li>
+          <li><a href="#verify">How to catch a wrong answer</a></li>
+          <li><a href="#hallucination">Hallucinated APIs</a></li>
+          <li><a href="#honesty">Academic honesty</a></li>
+          <li><a href="#tools">The tools you might use</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <section class="content-section" id="principle">
+          <h2>The core principle</h2>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Use AI to <em>understand</em>, not to <em>produce</em></div>
+            <p>
+              If AI explains a concept, shows you an example you then rebuild yourself, or
+              helps you read an error — you are learning. If AI writes your task or assignment
+              and you submit it, you have learned nothing and it will show in the next quiz,
+              the exam, and your first job interview.
+            </p>
+          </div>
+          <p>
+            A simple test before you paste anything AI gave you: <strong>can you explain
+            every single line out loud?</strong> If not, ask it to explain, or to simplify to
+            your level, until you can.
+          </p>
+        </section>
+
+        <section class="content-section" id="good-bad">
+          <h2>Good uses vs bad uses (Weeks 1–3)</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>✅ Do this</th><th>❌ Not yet</th></tr></thead>
+              <tbody>
+                <tr><td>"Explain what <code>static</code> means to someone who just started Java."</td><td>"Write the Session 2 assignment for me."</td></tr>
+                <tr><td>"Here is my error message and my code. What does the error mean?"</td><td>"Fix my code" (without trying to read the error yourself first).</td></tr>
+                <tr><td>"Give me 5 practice problems on <code>for</code> loops, easy to hard, no solutions yet."</td><td>"Give me the answers to these practice problems."</td></tr>
+                <tr><td>"Trace this loop line by line and show the value of each variable."</td><td>Pasting a whole solution you cannot explain.</td></tr>
+                <tr><td>"Is there a simpler way to write this? Explain the difference."</td><td>Accepting a "simpler" version that uses features you have not learned.</td></tr>
+                <tr><td>"Quiz me on today's vocabulary with one question at a time."</td><td>Using AI during a quiz or exam.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="prompts">
+          <h2>Prompt patterns that work</h2>
+          <p>Always tell it <strong>who you are</strong> and <strong>what you want back</strong>.</p>
+
+          <div class="callout callout-example">
+            <div class="callout-title">🧩 Explain a concept</div>
+            <p><em>"I'm a complete beginner learning Java. Explain [the difference between <code>==</code> and <code>.equals()</code>] using a plain analogy and one tiny code example. Keep it under 150 words."</em></p>
+          </div>
+
+          <div class="callout callout-example">
+            <div class="callout-title">🐞 Understand an error</div>
+            <p><em>"I'm new to Java. I ran this code [paste code] and got this error [paste the full error]. Explain what the error means in plain English and point me to the line to look at. Do not rewrite my program."</em></p>
+          </div>
+
+          <div class="callout callout-example">
+            <div class="callout-title">🧭 Trace / predict output</div>
+            <p><em>"Trace this code line by line. Show a table with each variable's value after every line, and the final printed output. [paste code]"</em></p>
+          </div>
+
+          <div class="callout callout-example">
+            <div class="callout-title">🏋️ Generate practice (not answers)</div>
+            <p><em>"Give me 6 practice exercises on Java <code>switch</code> statements, ordered easy to hard. Only the problem statements and expected output — no solutions. I'll ask for hints if I need them."</em></p>
+          </div>
+
+          <div class="callout callout-example">
+            <div class="callout-title">🔍 Review your work (after you finish)</div>
+            <p><em>"I finished this exercise myself [paste code]. It works. As a mentor for a beginner, point out naming, formatting, or clarity I could improve — but only using concepts a Week 2 Java student would know."</em></p>
+          </div>
+        </section>
+
+        <section class="content-section" id="verify">
+          <h2>How to catch a wrong answer</h2>
+          <p>AI is confident even when wrong. Verify with these steps:</p>
+          <ol class="steps">
+            <li><strong>Run it.</strong> The compiler and the output are the truth. If AI's code does not compile or prints the wrong thing, AI was wrong.</li>
+            <li><strong>Check it against the lesson.</strong> If the lesson taught <code>printf</code> and AI uses <code>String.format</code> with a syntax you have not seen, pause and ask why.</li>
+            <li><strong>Watch for "too advanced".</strong> Streams, lambdas, <code>var</code>, records in Week 1 are a red flag that the answer is above where you are — ask for a beginner version.</li>
+            <li><strong>Ask it to double-check itself:</strong> <em>"Are you sure that method exists in Java 25? Show me the official signature."</em></li>
+            <li><strong>Cross-check the API</strong> in the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/" target="_blank" rel="noopener">official Java 25 documentation</a>.</li>
+          </ol>
+        </section>
+
+        <section class="content-section" id="hallucination">
+          <h2>Hallucinated APIs — a real example</h2>
+          <p>
+            AI sometimes invents methods that sound plausible but do not exist, e.g.
+            <code>myString.reverse()</code> (there is no such method on <code>String</code>) or
+            <code>Scanner.nextChar()</code> (does not exist). The give-aways:
+          </p>
+          <ul>
+            <li>Your IDE underlines it red: <em>"cannot find symbol"</em>.</li>
+            <li><code>javac</code> refuses to compile it.</li>
+            <li>You cannot find it in the official docs.</li>
+          </ul>
+          <p>
+            When this happens, tell the AI: <em>"That method doesn't compile — 'cannot find
+            symbol'. What's the correct way in standard Java 25?"</em>
+          </p>
+        </section>
+
+        <section class="content-section" id="honesty">
+          <h2>Academic honesty</h2>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Submitting AI work as your own is plagiarism</div>
+            <p>
+              Assignments are graded to measure <em>your</em> understanding. If you use AI to
+              help you learn a concept and then write the assignment yourself, that is
+              learning. If you paste an AI-generated assignment, that is misconduct under
+              Aptech's academic policy — and your instructor can tell, because they will ask
+              you to explain it.
+            </p>
+          </div>
+          <p>
+            When in doubt, keep a note of how you used AI ("asked it to explain recursion,
+            then wrote my own version"). Being able to describe your process is the honest
+            path.
+          </p>
+        </section>
+
+        <section class="content-section" id="tools">
+          <h2>The tools you might use</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Tool</th><th>What it is</th><th>Best for in this course</th></tr></thead>
+              <tbody>
+                <tr><td><strong>ChatGPT / Claude</strong> (web chat)</td><td>A conversational assistant.</td><td>Explanations, tracing, generating practice, understanding errors.</td></tr>
+                <tr><td><strong>GitHub Copilot</strong> (in-editor)</td><td>Autocompletes code as you type.</td><td>Turn it <strong>off</strong> for Weeks 1–3 — it will write the answers before you think. Revisit in Session 15.</td></tr>
+                <tr><td><strong>IntelliJ AI Assistant</strong></td><td>JetBrains' built-in chat + code actions.</td><td>"Explain this code", "Explain this error" from the right-click menu. Covered in Session 15.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Session 15 goes deep on AI-assisted development once you have the foundation to judge what the AI produces.</p>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="commands.html" class="nav-prev"><span>&larr; Commands: IDE ↔ Terminal</span></a>
+      <a href="glossary.html" class="nav-next"><span>Next: Master Glossary &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>AI-Driven Java Programming (JAVA-I) | © 2026 Aptech Limited | Module Ver. 1.0</p>
+  </div>
+</footer>
+
+<script src="../js/quiz.js"></script>
+</body>
+</html>

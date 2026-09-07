@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 10: Interfaces and Nested Classes in Java — defining contracts, implementing multiple interfaces, default methods, Comparable, and static / inner / local / anonymous classes plus a first look at lambdas.">
+  <title>Session 10: Interfaces &amp; Nested Classes | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 10</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Week 3 &bull; Day 2</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL10</span>
+      </div>
+      <h1>Session 10: Interfaces &amp; Nested Classes</h1>
+      <p class="description">
+        An <strong>interface</strong> is a promise: "any class that implements me can do X".
+        It lets unrelated classes be used interchangeably — a <code>SalariedEmployee</code>, a
+        <code>Contractor</code>, and an <code>Invoice</code> can all be "things to pay". Then we
+        look at classes defined <em>inside</em> other classes, ending with a first taste of
+        lambdas.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Table of Contents</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#what-is-interface">1. What is an Interface?</a></li>
+          <li><a href="#implementing">2. Implementing an Interface</a></li>
+          <li><a href="#interface-polymorphism">3. Programming to an Interface</a></li>
+          <li><a href="#multiple">4. Multiple Interfaces</a></li>
+          <li><a href="#default-methods">5. <code>default</code> &amp; <code>static</code> Methods</a></li>
+          <li><a href="#comparable">6. <code>Comparable</code> — a Built-in Interface</a></li>
+          <li><a href="#abstract-vs-interface">7. Abstract Class vs. Interface</a></li>
+          <li><a href="#nested">8. Nested Classes</a></li>
+          <li><a href="#anonymous-lambda">9. Anonymous Classes &amp; Lambdas</a></li>
+          <li><a href="#pitfalls">10. Common Pitfalls</a></li>
+          <li><a href="#cheat-sheet">11. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">12. Summary &amp; Self-Check</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: Flashback to Session 9</div>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Abstract classes (S9):</strong> a base type that can't be instantiated and can demand methods. An interface takes that idea further — pure contract, and a class can have many.</li>
+            <li><strong>Polymorphism (S9):</strong> one <code>Shape</code> reference, many shape objects. Interfaces give you the same power across classes that share <em>no</em> common ancestor.</li>
+            <li><strong>@Override (S5, S9):</strong> you write it on every method that fulfils an interface too.</li>
+          </ul>
+        </div>
+
+        <section class="content-section" id="what-is-interface">
+          <h2>1. What is an Interface?</h2>
+          <p>
+            An interface lists <strong>method signatures with no bodies</strong> — a capability,
+            not an implementation. A class that <code>implements</code> the interface promises to
+            provide every one of those methods.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>public interface Payable {
+    double calculatePay();          // no body — every implementer must supply one
+}</code></pre>
+          </div>
+          <div class="callout callout-think">
+            <div class="callout-title">🔌 Analogy: the wall socket</div>
+            <p>
+              A power socket is an interface: "provide a plug of this shape and I'll give you
+              240V". A lamp, a laptop charger, and a kettle are completely different devices, but
+              because they all <em>implement the plug contract</em>, the socket works with any of
+              them — and with devices that don't exist yet.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="implementing">
+          <h2>2. Implementing an Interface</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>class SalariedEmployee implements Payable {
+    private final double annual;
+    SalariedEmployee(double annual) { this.annual = annual; }
+    @Override public double calculatePay() { return annual / 12; }
+}
+
+class Contractor implements Payable {
+    private final double rate, hours;
+    Contractor(double rate, double hours) { this.rate = rate; this.hours = hours; }
+    @Override public double calculatePay() { return rate * hours; }
+}</code></pre>
+          </div>
+          <p>
+            Interface methods are implicitly <code>public</code> and <code>abstract</code>; your
+            implementing methods <strong>must</strong> be <code>public</code>. Forget to implement
+            one and the class won't compile (unless the class is itself <code>abstract</code>).
+          </p>
+        </section>
+
+        <section class="content-section" id="interface-polymorphism">
+          <h2>3. Programming to an Interface</h2>
+          <p>
+            The payoff: write code against the interface type, and it works with every current
+            and future implementer.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">PayrollDemo.java</span></div>
+            <pre><code>Payable[] toPay = {
+    new SalariedEmployee(90000),
+    new Contractor(45, 80),
+    new Invoice(1250.50)          // not an employee — still Payable
+};
+
+double total = 0;
+for (Payable p : toPay) {
+    total += p.calculatePay();    // the real class's version runs
+}
+// total = 7500.00 + 3600.00 + 1250.50 = 12350.50</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 The design rule</div>
+            <p>
+              "Program to an interface, not an implementation." Declare variables, parameters, and
+              return types as the interface (<code>List</code>, <code>Payable</code>), so callers
+              aren't locked to one concrete class.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="multiple">
+          <h2>4. Multiple Interfaces</h2>
+          <p>
+            A class extends only <em>one</em> class but can <code>implement</code> <em>many</em>
+            interfaces — this is how Java gets the flexibility of multiple inheritance without its
+            headaches.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>interface Printable { void print(); }
+interface Saveable  { void save(); }
+
+class Report implements Printable, Saveable {
+    @Override public void print() { System.out.println("printing..."); }
+    @Override public void save()  { System.out.println("saving...");   }
+}
+
+// A Report is-a Printable AND a Saveable:
+Printable p = new Report();
+Saveable  s = new Report();</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="default-methods">
+          <h2>5. <code>default</code> &amp; <code>static</code> Methods in Interfaces</h2>
+          <p>
+            Since Java 8, an interface may provide a <strong><code>default</code></strong> method
+            — a body that implementers inherit unless they override it. Useful for adding a
+            convenience method without breaking every existing implementer.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>public interface Payable {
+    double calculatePay();
+
+    default String payslip() {                 // implementers get this for free
+        return getClass().getSimpleName() + ": $" +
+               String.format("%.2f", calculatePay());
+    }
+
+    static Payable zero() {                     // a factory helper on the interface itself
+        return () -> 0.0;
+    }
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="comparable">
+          <h2>6. <code>Comparable</code> — a Built-in Interface</h2>
+          <p>
+            To let <code>Arrays.sort</code> / <code>Collections.sort</code> order your objects,
+            implement <code>Comparable&lt;T&gt;</code> and its one method <code>compareTo</code>:
+            return a negative number if <code>this</code> is "less", <code>0</code> if equal,
+            positive if "greater".
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">SortableDemo.java</span></div>
+            <pre><code>class Book implements Comparable&lt;Book&gt; {
+    final String title;
+    final int pages;
+    Book(String title, int pages) { this.title = title; this.pages = pages; }
+
+    @Override
+    public int compareTo(Book other) {
+        return Integer.compare(this.pages, other.pages);   // ascending by pages
+    }
+}
+
+Book[] shelf = { new Book("Epic", 900), new Book("Short", 40), new Book("Novella", 150) };
+Arrays.sort(shelf);   // -> [Short (40p), Novella (150p), Epic (900p)]</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Use the built-in comparators</div>
+            <p>
+              <code>Integer.compare(a, b)</code>, <code>Double.compare(a, b)</code>,
+              <code>a.compareTo(b)</code> for Strings — never <code>a - b</code> for
+              <code>compareTo</code> (it can overflow for large ints).
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="abstract-vs-interface">
+          <h2>7. Abstract Class vs. Interface</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th></th><th>Abstract class</th><th>Interface</th></tr></thead>
+              <tbody>
+                <tr><td>Instance fields (state)</td><td>Yes</td><td>No (only <code>public static final</code> constants)</td></tr>
+                <tr><td>Constructors</td><td>Yes</td><td>No</td></tr>
+                <tr><td>Method bodies</td><td>Yes</td><td><code>default</code> / <code>static</code> only</td></tr>
+                <tr><td>How many can a class have?</td><td>One (<code>extends</code>)</td><td>Many (<code>implements</code>)</td></tr>
+                <tr><td>Best for</td><td>"A partly-built base type" with shared state</td><td>"A capability" that unrelated classes can offer</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="nested">
+          <h2>8. Nested Classes</h2>
+          <p>A class defined inside another class. Four flavours:</p>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Kind</th><th>Declared</th><th>Sees outer instance fields?</th><th>Typical use</th></tr></thead>
+              <tbody>
+                <tr><td><strong>static nested</strong></td><td><code>static class Point { }</code></td><td>No</td><td>A helper type that logically belongs to the outer class (e.g. <code>Map.Entry</code>).</td></tr>
+                <tr><td><strong>inner (non-static)</strong></td><td><code>class Tagger { }</code></td><td>Yes</td><td>A helper that needs the enclosing object's data. Created as <code>outer.new Tagger()</code>.</td></tr>
+                <tr><td><strong>local</strong></td><td>inside a method</td><td>The method's <code>final</code>/effectively-final locals</td><td>A one-method-only helper.</td></tr>
+                <tr><td><strong>anonymous</strong></td><td><code>new Runnable() { ... }</code></td><td>Yes</td><td>A one-off implementation of an interface/abstract class, inline.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>public class NestedDemo {
+    static class Point {                        // static nested
+        final int x, y;
+        Point(int x, int y) { this.x = x; this.y = y; }
+    }
+
+    private String label = "outer";
+    class Tagger {                              // inner — can read 'label'
+        String tag(String s) { return "[" + label + "] " + s; }
+    }
+
+    public static void main(String[] args) {
+        Point p = new Point(3, 4);
+        NestedDemo demo = new NestedDemo();
+        NestedDemo.Tagger t = demo.new Tagger();   // inner needs an outer instance
+        System.out.println(t.tag("hello"));         // [outer] hello
+    }
+}</code></pre>
+          </div>
+          <p>Day to day you'll mostly write <strong>static nested</strong> classes and
+            <strong>anonymous</strong> ones (or their lambda replacements).</p>
+        </section>
+
+        <section class="content-section" id="anonymous-lambda">
+          <h2>9. Anonymous Classes &amp; Lambdas</h2>
+          <p>
+            An <strong>anonymous class</strong> implements an interface right where you need it,
+            without a separate named class:
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>interface Greeter { String greet(String name); }
+
+Greeter g = new Greeter() {
+    @Override public String greet(String name) { return "Hi, " + name + "!"; }
+};
+System.out.println(g.greet("Ada"));        // Hi, Ada!</code></pre>
+          </div>
+          <p>
+            When the interface has exactly <strong>one</strong> abstract method (a
+            <em>functional interface</em>), a <strong>lambda</strong> says the same thing far more
+            compactly:
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>Greeter g2 = name -> "Hey, " + name + ".";
+System.out.println(g2.greet("Bode"));      // Hey, Bode.</code></pre>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ This is a bridge to Session 14</div>
+            <p>
+              Lambdas + functional interfaces power the Streams API you'll meet in Week 4. For now,
+              just recognise <code>x -> expression</code> as "a tiny method with no name".
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="pitfalls">
+          <h2>10. Common Pitfalls</h2>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Implementing method not <code>public</code></div>
+            <p>Interface methods are <code>public</code>; your override must be too. <code>double calculatePay()</code>
+              without <code>public</code> → <em>"attempting to assign weaker access privileges"</em>.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Trying to instantiate an interface</div>
+            <p><code>new Payable()</code> — no. You instantiate a class that implements it, or use an
+              anonymous class / lambda.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Putting instance fields in an interface</div>
+            <p>An interface can only hold constants (<code>public static final</code>). If you need
+              per-object state, that's an abstract class.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>compareTo</code> using <code>a - b</code></div>
+            <p>Integer subtraction can overflow. Use <code>Integer.compare(a, b)</code>.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Creating an inner class without an outer instance</div>
+            <p>A non-static inner class needs <code>outer.new Inner()</code>. If it doesn't use the
+              outer object, make it <code>static</code>.</p>
+          </div>
+        </section>
+
+        <section class="content-section" id="cheat-sheet">
+          <h2>11. Executive Quick-Recap &amp; Cheat Sheet</h2>
+
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The 30-Second Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              An <strong>interface</strong> is a contract of method signatures; a class
+              <code>implements</code> as many as it likes and must supply every method
+              (<code>public</code>). Program to the interface type for maximum flexibility.
+              <code>default</code> methods add shared bodies. <code>Comparable</code> makes objects
+              sortable. <strong>Nested classes</strong>: static nested (no outer link), inner
+              (has one), anonymous (one-off implementation) — and a <strong>lambda</strong>
+              replaces an anonymous class for single-method interfaces.
+            </p>
+          </div>
+
+          <h3>Core Syntax at a Glance</h3>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java Cheat Sheet</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>interface Shape {
+    double area();
+    default String label() { return getClass().getSimpleName() + " " + area(); }
+}
+
+class Circle implements Shape {
+    private final double r;
+    Circle(double r) { this.r = r; }
+    @Override public double area() { return Math.PI * r * r; }
+}
+
+class Square implements Shape, Comparable&lt;Square&gt; {
+    private final double side;
+    Square(double side) { this.side = side; }
+    @Override public double area() { return side * side; }
+    @Override public int compareTo(Square o) { return Double.compare(side, o.side); }
+}
+
+Shape[] shapes = { new Circle(2), new Square(3) };
+for (Shape s : shapes) System.out.println(s.label());
+
+Runnable r = () -&gt; System.out.println("ran");   // lambda for a 1-method interface
+r.run();</code></pre>
+          </div>
+
+          <h3>Plain-English Glossary</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Interface</div><p class="glossary-def">A contract of method signatures a class promises to implement.</p></div>
+            <div class="glossary-item"><div class="glossary-term">implements</div><p class="glossary-def">Keyword declaring a class fulfils one or more interfaces.</p></div>
+            <div class="glossary-item"><div class="glossary-term">default method</div><p class="glossary-def">An interface method with a body that implementers inherit unless overridden.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Comparable</div><p class="glossary-def">Built-in interface; <code>compareTo</code> defines a natural ordering for sorting.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Program to an interface</div><p class="glossary-def">Use the interface as the variable/parameter type, not a concrete class.</p></div>
+            <div class="glossary-item"><div class="glossary-term">static nested class</div><p class="glossary-def">A class inside another with no reference to an outer instance.</p></div>
+            <div class="glossary-item"><div class="glossary-term">inner class</div><p class="glossary-def">A non-static nested class bound to an outer object, able to use its fields.</p></div>
+            <div class="glossary-item"><div class="glossary-term">anonymous class</div><p class="glossary-def">A class with no name, defined and instantiated in one expression.</p></div>
+            <div class="glossary-item"><div class="glossary-term">functional interface</div><p class="glossary-def">An interface with exactly one abstract method — a lambda's target type.</p></div>
+            <div class="glossary-item"><div class="glossary-term">lambda</div><p class="glossary-def"><code>args -&gt; body</code> — a compact anonymous method.</p></div>
+          </div>
+          <p style="margin-top: var(--space-md);">Full definitions: <a href="../../reference/glossary.html">Master Glossary</a>.</p>
+        </section>
+
+        <section class="content-section" id="summary">
+          <h2>12. Summary &amp; Interactive Self-Checks</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Try these, then verify against this lesson (<a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"When do I use an interface vs an abstract class? Give me a decision checklist with examples."</li>
+              <li>"Show a functional interface, an anonymous-class implementation, and the equivalent lambda side by side."</li>
+              <li>"Write a <code>Comparable</code> for a <code>Student</code> that sorts by score descending, then by name. Explain <code>compareTo</code>'s return value."</li>
+            </ul>
+          </div>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Q1: How many interfaces can one class implement? How many classes can it extend?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Many interfaces; exactly one class.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q2: Can an interface have instance fields?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> No. Only <code>public static final</code> constants. Per-object state means you want an abstract class.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q3: <code>compareTo</code> returns a negative number. What does that mean?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>this</code> object should sort <em>before</em> the argument (it is "less"). <code>0</code> = equal ordering; positive = after.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q4: When can a lambda replace an anonymous class?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> When the target interface has exactly one abstract method (a functional interface), e.g. <code>Runnable</code>, <code>Comparator</code>, <code>Greeter</code>.</div>
+            </details>
+          </div>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start Class Tasks</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Post-Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 10 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Session 10 Class Tasks &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 6 Post-Quiz | Arrays and Strings</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 6</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Post-Lecture Evaluation</span>
+        <span class="tag tag-purple">Session 6</span>
+        <span class="tag tag-yellow">Formative Assessment</span>
+      </div>
+      <h1>🎯 Session 6 Post-Class Mastery Quiz</h1>
+      <p class="description">Verify your grasp of arrays, indexing, <code>for-each</code>, 2D grids, <code>ArrayList</code>, wrappers, and <code>StringBuilder</code>.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="assignment.html" class="nav-prev"><span>&larr; Session 6 Assignment</span></a>
+      <a href="../session-07/pre-quiz.html" class="nav-next"><span>Proceed to Session 7 Pre-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session6PostQuizData = {
+    title: "Session 6 Mastery: Arrays, Lists & Text",
+    description: "Answer all 12 questions to verify your understanding.",
+    questions: [
+      {
+        question: "An array `int[] a` has `a.length == 6`. Which is the last valid index?",
+        options: ["6", "5", "0", "7"],
+        correct: 1,
+        explanation: "Indexes run 0..length-1, so the last valid index is 5. Accessing a[6] throws ArrayIndexOutOfBoundsException."
+      },
+      {
+        question: "What is printed?",
+        code: "int[] a = {1, 2, 3};\nint[] b = a;\nb[0] = 99;\nSystem.out.println(a[0]);",
+        options: ["1", "99", "0", "Compilation error"],
+        correct: 1,
+        explanation: "Arrays are objects. `b = a` copies the reference, so a and b point at the same array; changing b[0] changes a[0]."
+      },
+      {
+        question: "Which loop correctly zeroes every element of `int[] a`?",
+        options: [
+          "for (int v : a) v = 0;",
+          "for (int i = 0; i < a.length; i++) a[i] = 0;",
+          "for (int i = 0; i <= a.length; i++) a[i] = 0;",
+          "a = 0;"
+        ],
+        correct: 1,
+        explanation: "for-each gives a COPY of each element, so `v = 0` changes nothing. You need the index form. Option C also runs one index too far (<=)."
+      },
+      {
+        question: "For `int[][] grid = new int[3][4];`, what does `grid.length` return?",
+        options: ["12", "3 (the number of rows)", "4 (the number of columns)", "0"],
+        correct: 1,
+        explanation: "A 2D array is an array of rows. grid.length is the row count (3); grid[0].length is that row's width (4)."
+      },
+      {
+        question: "You need a collection that starts empty and grows as the user adds items. Which type?",
+        options: ["int[]", "String", "ArrayList", "char"],
+        correct: 2,
+        explanation: "Array length is fixed at creation. ArrayList grows and shrinks with add()/remove()."
+      },
+      {
+        question: "How do you get the number of elements currently in an `ArrayList<String> list`?",
+        options: ["list.length", "list.size()", "list.count", "list.length()"],
+        correct: 1,
+        explanation: "Arrays use the field `.length`; ArrayList uses the method `.size()`; String uses the method `.length()`."
+      },
+      {
+        question: "Why is `ArrayList<int>` not valid Java?",
+        options: [
+          "int is misspelled",
+          "Generic collections hold objects, not primitives — use ArrayList<Integer>",
+          "ArrayList only holds Strings",
+          "You must write ArrayList<int[]>"
+        ],
+        correct: 1,
+        explanation: "Generics require reference types. Use the wrapper: ArrayList<Integer>. Java autoboxes int values in and unboxes them out."
+      },
+      {
+        question: "After `String s = \"hello\"; s.toUpperCase();` (result not stored) — what does `System.out.println(s)` print?",
+        options: ["HELLO", "hello", "null", "Compilation error"],
+        correct: 1,
+        explanation: "String is immutable. toUpperCase() returns a NEW string; since it wasn't stored, s is unchanged. Write `s = s.toUpperCase();`."
+      },
+      {
+        question: "You are concatenating 50,000 pieces of text inside a loop. What should you use?",
+        options: [
+          "String with += each time",
+          "StringBuilder with append(), then toString() once",
+          "An int",
+          "A 2D array"
+        ],
+        correct: 1,
+        explanation: "Each += builds a whole new String object. StringBuilder edits one buffer in place — far less work and memory."
+      },
+      {
+        question: "What does `\"a,b,c\".split(\",\")` return?",
+        options: [
+          "The string \"abc\"",
+          "A String array [\"a\", \"b\", \"c\"]",
+          "3",
+          "An error"
+        ],
+        correct: 1,
+        explanation: "split() breaks a string on the given separator and returns a String[] of the pieces. String.join(sep, parts) glues them back."
+      },
+      {
+        question: "What is the output?",
+        code: "int[] a = {4, 9, 2, 9, 7};\nint max = a[0];\nfor (int v : a) if (v > max) max = v;\nSystem.out.println(max);",
+        options: ["4", "9", "7", "31"],
+        correct: 1,
+        explanation: "Running-best pattern: start max at the first element, then raise it whenever a larger value appears. The largest here is 9."
+      },
+      {
+        question: "Iterating a list with `for (String s : list) { list.remove(s); }` typically causes:",
+        options: [
+          "Nothing; it works fine",
+          "ConcurrentModificationException — you changed the list while looping it",
+          "The program to run twice",
+          "A compile error"
+        ],
+        correct: 1,
+        explanation: "Modifying a collection during a for-each over it is not allowed. Loop by index going backwards, or collect items to remove and remove them afterwards."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session6PostQuizData);
+  });
+</script>
+
+</body>
+</html>

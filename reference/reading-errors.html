@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Reading Error Messages — how a Java beginner turns red text into a fix: compile errors vs runtime exceptions, reading a stack trace, fixing the first error first, and a decoder for the most common messages.">
+  <title>Reading Error Messages | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../start-here.html">Start Here</a></li>
+      <li><a href="../setup/environment-setup.html">Setup</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+      <li><a href="../index.html">Dashboard</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Reference</span>
+        <span class="tag tag-teal">Come back often</span>
+        <span class="tag tag-yellow">Weeks 1–4</span>
+      </div>
+      <h1>Reading Error Messages</h1>
+      <p class="description">
+        Error messages are not the computer being rude — they are the computer telling you
+        <em>exactly</em> what and where the problem is. Learning to read them is the single
+        biggest speed-up in your first month. This page shows you how.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+      <aside class="lesson-sidebar">
+        <h4>On this page</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#two-kinds" class="active">Two kinds of error</a></li>
+          <li><a href="#compile">Reading a compile error</a></li>
+          <li><a href="#first">Fix the first error first</a></li>
+          <li><a href="#stack">Reading a stack trace</a></li>
+          <li><a href="#decoder">Common message decoder</a></li>
+          <li><a href="#method">A calm method</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <section class="content-section" id="two-kinds">
+          <h2>Two kinds of error</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th></th><th>Compile-time error</th><th>Runtime error (exception)</th></tr></thead>
+              <tbody>
+                <tr><td><strong>When</strong></td><td>When you run <code>javac</code> / press Run — <em>before</em> the program starts.</td><td>While the program is <em>running</em>.</td></tr>
+                <tr><td><strong>Meaning</strong></td><td>Your code is not valid Java. The compiler refuses to build it.</td><td>The code was valid, but something went wrong as it executed (bad data, missing file, dividing by zero).</td></tr>
+                <tr><td><strong>Looks like</strong></td><td><code>HelloWorld.java:5: error: ';' expected</code></td><td><code>Exception in thread "main" java.lang.ArithmeticException: / by zero</code></td></tr>
+                <tr><td><strong>Your job</strong></td><td>Fix the syntax the message points to.</td><td>Read the exception type + the line number in <em>your</em> file, then guard against that case.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="compile">
+          <h2>Reading a compile error</h2>
+          <p>Every <code>javac</code> error has the same shape:</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Terminal</span></div>
+            <pre><code>Receipt.java:7: error: ';' expected
+        System.out.println("Total")
+                                   ^
+1 error</code></pre>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Part</th><th>What it tells you</th></tr></thead>
+              <tbody>
+                <tr><td><code>Receipt.java</code></td><td>Which file.</td></tr>
+                <tr><td><code>:7</code></td><td>Which line. <strong>Start here.</strong></td></tr>
+                <tr><td><code>error: ';' expected</code></td><td>What is wrong: a semicolon is missing.</td></tr>
+                <tr><td>The <code>^</code> caret</td><td>Points at (or just after) the spot. Here: end of line 7 — add <code>;</code>.</td></tr>
+                <tr><td><code>1 error</code></td><td>How many problems the compiler found this round.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 The message points at the symptom, not always the cause</div>
+            <p>
+              A missing <code>}</code> on line 12 can make the compiler complain about line 20.
+              If line 20 looks fine, check the lines <em>above</em> it for an unclosed brace,
+              bracket, or quote.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="first">
+          <h2>Fix the first error first</h2>
+          <p>
+            One small mistake often produces a wall of red. Do <strong>not</strong> read all
+            of it. Scroll to the <strong>top</strong>, fix that one error, then compile again.
+            Very often ten errors become zero.
+          </p>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Don't panic-edit</div>
+            <p>
+              Changing five things at once and re-running means you no longer know which
+              change helped. One change, one recompile.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="stack">
+          <h2>Reading a stack trace (runtime exception)</h2>
+          <p>When a running program crashes, Java prints a <strong>stack trace</strong>:</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Terminal</span></div>
+            <pre><code>Exception in thread "main" java.lang.ArithmeticException: / by zero
+    at Salary.calculateDaily(Salary.java:14)
+    at Salary.main(Salary.java:6)</code></pre>
+          </div>
+          <p>Read it <strong>top to bottom</strong>:</p>
+          <ol>
+            <li><strong><code>java.lang.ArithmeticException</code></strong> — the <em>type</em> of problem. This one means bad arithmetic.</li>
+            <li><strong><code>: / by zero</code></strong> — the detail. You divided by zero.</li>
+            <li><strong><code>at Salary.calculateDaily(Salary.java:14)</code></strong> — where it actually blew up: line 14. <strong>Look here first.</strong></li>
+            <li><strong><code>at Salary.main(Salary.java:6)</code></strong> — who called that code: line 6 called <code>calculateDaily</code>. This is the trail of how you got there.</li>
+          </ol>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Find your own file name</div>
+            <p>
+              A long trace may have many <code>at ...</code> lines from Java's own libraries.
+              Scan for the first line that names <em>your</em> file (<code>Salary.java</code>) —
+              that is the line you can fix.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="decoder">
+          <h2>Common message decoder</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Message</th><th>Usually means</th><th>Fix</th></tr></thead>
+              <tbody>
+                <tr><td><code>';' expected</code></td><td>Missing semicolon at end of a statement.</td><td>Add <code>;</code> where the caret points.</td></tr>
+                <tr><td><code>cannot find symbol</code></td><td>A name you used is not declared, is misspelled, or has the wrong capitals.</td><td>Check spelling/case; declare the variable; add the <code>import</code>.</td></tr>
+                <tr><td><code>incompatible types: double cannot be converted to int</code></td><td>Assigning a wider value into a narrower type.</td><td>Change the variable's type, or cast on purpose: <code>(int) x</code>.</td></tr>
+                <tr><td><code>reached end of file while parsing</code></td><td>A <code>}</code> is missing.</td><td>Count your braces; let the IDE auto-indent to reveal the gap.</td></tr>
+                <tr><td><code>class X is public, should be declared in a file named X.java</code></td><td>File name ≠ public class name.</td><td>Rename the file to match exactly.</td></tr>
+                <tr><td><code>NullPointerException</code></td><td>You used a variable that holds <code>null</code> (no object) as if it held one.</td><td>Check what was never assigned / what a method returned. Guard with an <code>if</code>.</td></tr>
+                <tr><td><code>ArrayIndexOutOfBoundsException: 5</code></td><td>Asked for index 5 of an array that does not have one (valid indexes are 0..length-1).</td><td>Fix the loop bound (<code>&lt;</code> vs <code>&lt;=</code>) or the index.</td></tr>
+                <tr><td><code>InputMismatchException</code></td><td><code>Scanner.nextInt()</code> got text that is not a number.</td><td>Validate input, or read with <code>nextLine()</code> and convert.</td></tr>
+                <tr><td><code>Could not find or load main class</code></td><td>Ran <code>java File.class</code>, wrong folder, or no <code>main</code>.</td><td><code>java File</code> (no extension), from the folder holding the <code>.class</code>.</td></tr>
+                <tr><td><code>error: &lt;identifier&gt; expected</code></td><td>Code placed directly in the class body instead of inside a method.</td><td>Move executable statements inside <code>main</code> (or another method).</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="method">
+          <h2>A calm method for any error</h2>
+          <ol class="steps">
+            <li><strong>Stop.</strong> An error is information, not failure.</li>
+            <li><strong>Find the first error</strong> (compile) or the first line naming your file (runtime).</li>
+            <li><strong>Read the file name and line number.</strong> Open that line.</li>
+            <li><strong>Read the words</strong> of the message. Translate them using the decoder above.</li>
+            <li><strong>Make one change.</strong></li>
+            <li><strong>Recompile / rerun.</strong></li>
+            <li>Still stuck after 15 minutes? <strong>Ask your AI tutor to explain the error</strong> (not to rewrite your code) — see the <a href="ai-tutor-guide.html">AI Tutor Guide</a> — then your instructor.</li>
+          </ol>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="../index.html" class="nav-prev"><span>&larr; Dashboard</span></a>
+      <a href="commands.html" class="nav-next"><span>Next: Commands — IDE ↔ Terminal &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>AI-Driven Java Programming (JAVA-I) | © 2026 Aptech Limited | Module Ver. 1.0</p>
+  </div>
+</footer>
+
+<script src="../js/quiz.js"></script>
+</body>
+</html>

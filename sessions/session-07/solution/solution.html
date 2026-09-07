@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 7 Solutions | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 7 Solutions</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../../index.html">Dashboard</a></li>
+      <li><a href="../lesson.html">Lesson</a></li>
+      <li><a href="../class-tasks.html">Class Tasks</a></li>
+      <li><a href="../assignment.html">Assignment</a></li>
+      <li><a href="solution.html" class="active">Solutions</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl); max-width: 900px;">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Reference Solutions</span>
+        <span class="tag tag-purple">Session 7</span>
+      </div>
+      <h1>✅ Session 7 — Reference Solutions</h1>
+      <p class="description">Four tasks and the packaged café assignment, run-verified. Matching <code>.java</code> files are in this folder (the package tasks keep their <code>com/aptech/...</code> subfolders).</p>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ The 20-minute rule</div>
+      <p style="margin-bottom:0;">Try each yourself for 20 minutes first, then read, close, retype.</p>
+    </div>
+
+    <h2>Class Tasks</h2>
+
+    <details class="self-check-card">
+      <summary>🟢 Task 7.1 — IdCardDemo (static counter)</summary>
+      <div class="self-check-answer">
+        <p><code>nextNumber</code> is one shared value; each constructor reads it into the card's own
+          <code>final cardNumber</code> and then increments it.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">IdCardDemo.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>class IdCard {
+    private static int nextNumber = 1000;
+    private final int cardNumber;
+    private final String holder;
+
+    IdCard(String holder) {
+        this.holder = holder;
+        this.cardNumber = nextNumber;
+        nextNumber++;
+    }
+
+    @Override
+    public String toString() { return "Card #" + cardNumber + " - " + holder; }
+
+    static int issued() { return nextNumber - 1000; }
+}
+
+public class IdCardDemo {
+    public static void main(String[] args) {
+        IdCard a = new IdCard("Ada");
+        IdCard b = new IdCard("Bob");
+        IdCard c = new IdCard("Cal");
+        System.out.println(a);
+        System.out.println(b);
+        System.out.println(c);
+        System.out.println("Total issued: " + IdCard.issued());
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Card #1000 - Ada
+Card #1001 - Bob
+Card #1002 - Cal
+Total issued: 3</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 7.2 — Temperature (utility class)</summary>
+      <div class="self-check-answer">
+        <p>Every method is <code>static</code>; the <code>private</code> constructor blocks
+          <code>new Temperature()</code>. Same design as <code>java.lang.Math</code>.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">Temperature.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class Temperature {
+    private Temperature() { }
+
+    public static double cToF(double c) { return c * 9.0 / 5.0 + 32; }
+    public static double fToC(double f) { return (f - 32) * 5.0 / 9.0; }
+    public static double cToK(double c) { return c + 273.15; }
+
+    public static void main(String[] args) {
+        System.out.printf("100C = %.1fF%n", cToF(100));
+        System.out.printf("32F  = %.1fC%n", fToC(32));
+        System.out.printf("0C   = %.2fK%n", cToK(0));
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>100C = 212.0F
+32F  = 0.0C
+0C   = 273.15K</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🔴 Task 7.3 — com.aptech.geometry package</summary>
+      <div class="self-check-answer">
+        <p>Two files: <code>Shapes</code> declares the package and lives at
+          <code>com/aptech/geometry/Shapes.java</code>; <code>GeometryApp</code> imports it and runs.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">com/aptech/geometry/Shapes.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>package com.aptech.geometry;
+
+public class Shapes {
+    private Shapes() { }
+    public static double circleArea(double r)              { return Math.PI * r * r; }
+    public static double rectangleArea(double w, double h) { return w * h; }
+    public static double triangleArea(double base, double h) { return 0.5 * base * h; }
+}</code></pre></div>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">GeometryApp.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import com.aptech.geometry.Shapes;
+
+public class GeometryApp {
+    public static void main(String[] args) {
+        System.out.printf("Circle r=3        : %.2f%n", Shapes.circleArea(3));
+        System.out.printf("Rectangle 4x5     : %.2f%n", Shapes.rectangleArea(4, 5));
+        System.out.printf("Triangle b=6 h=8  : %.2f%n", Shapes.triangleArea(6, 8));
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Compile &amp; run</h5><pre><code>$ javac GeometryApp.java com/aptech/geometry/Shapes.java
+$ java GeometryApp
+Circle r=3        : 28.27
+Rectangle 4x5     : 20.00
+Triangle b=6 h=8  : 24.00</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 7.4 — PasswordVault (access modifiers)</summary>
+      <div class="self-check-answer">
+        <p><code>password</code> and <code>isStrong</code> are <code>private</code>; the outside world
+          can only go through <code>changePassword</code> / <code>verify</code>.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">PasswordVaultDemo.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>class PasswordVault {
+    private String password;
+
+    public PasswordVault(String initial) { this.password = initial; }
+
+    private boolean isStrong(String p) {
+        return p.length() &gt;= 8 &amp;&amp; !p.equalsIgnoreCase("password");
+    }
+
+    public boolean changePassword(String current, String next) {
+        if (!password.equals(current)) { System.out.println("Current password wrong."); return false; }
+        if (!isStrong(next))           { System.out.println("New password too weak."); return false; }
+        password = next;
+        System.out.println("Password changed.");
+        return true;
+    }
+
+    public boolean verify(String attempt) { return password.equals(attempt); }
+}
+
+public class PasswordVaultDemo {
+    public static void main(String[] args) {
+        PasswordVault v = new PasswordVault("start123");
+        v.changePassword("wrong", "muchbetter1");
+        v.changePassword("start123", "short");
+        v.changePassword("start123", "muchbetter1");
+        System.out.println("verify('muchbetter1') -> " + v.verify("muchbetter1"));
+        System.out.println("verify('start123')    -> " + v.verify("start123"));
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Current password wrong.
+New password too weak.
+Password changed.
+verify('muchbetter1') -> true
+verify('start123')    -> false</code></pre></div>
+      </div>
+    </details>
+
+    <h2>Assignment 7 — Café Order System (package + JAR)</h2>
+
+    <details class="self-check-card">
+      <summary>📋 com.aptech.cafe — full solution &amp; walkthrough</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> <code>MenuItem</code> carries a class-wide constant
+          (<code>TAX_RATE</code>) and a shared counter; <code>CafeApp</code> is the entry point in
+          the same package. Build a JAR that records <code>com.aptech.cafe.CafeApp</code> as its
+          main class and it runs with <code>java -jar</code>.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">com/aptech/cafe/MenuItem.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>package com.aptech.cafe;
+
+public class MenuItem {
+    public static final double TAX_RATE = 0.08;
+    private static int itemsOnMenu = 0;
+
+    private final String name;
+    private final double price;
+
+    public MenuItem(String name, double price) {
+        this.name = name;
+        this.price = Math.max(price, 0);
+        itemsOnMenu++;
+    }
+
+    public String getName()  { return name; }
+    public double getPrice() { return price; }
+    public double priceWithTax() { return price * (1 + TAX_RATE); }
+
+    public static int getItemsOnMenu() { return itemsOnMenu; }
+
+    @Override
+    public String toString() {
+        return String.format("%-16s $%6.2f  (with tax $%6.2f)", name, price, priceWithTax());
+    }
+}</code></pre></div>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">com/aptech/cafe/CafeApp.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>package com.aptech.cafe;
+
+public class CafeApp {
+    public static void main(String[] args) {
+        MenuItem[] order = {
+            new MenuItem("Espresso", 2.50),
+            new MenuItem("Muffin", 3.25),
+            new MenuItem("Sandwich", 5.75)
+        };
+
+        double subtotal = 0;
+        System.out.println("=== APTECH CAFE RECEIPT ===");
+        for (MenuItem item : order) {
+            System.out.println(item);
+            subtotal += item.getPrice();
+        }
+        double tax = subtotal * MenuItem.TAX_RATE;
+        System.out.println("---------------------------------------------");
+        System.out.printf("Subtotal%29s$%6.2f%n", "", subtotal);
+        System.out.printf("Tax (8%%)%29s$%6.2f%n", "", tax);
+        System.out.printf("TOTAL%32s$%6.2f%n", "", subtotal + tax);
+        System.out.println("Distinct items defined on menu: " + MenuItem.getItemsOnMenu());
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Build &amp; run</h5><pre><code>$ javac -d out $(find . -name "*.java")
+$ jar --create --file cafe.jar --main-class com.aptech.cafe.CafeApp -C out .
+$ java -jar cafe.jar
+=== APTECH CAFE RECEIPT ===
+Espresso         $  2.50  (with tax $  2.70)
+Muffin           $  3.25  (with tax $  3.51)
+Sandwich         $  5.75  (with tax $  6.21)
+---------------------------------------------
+Subtotal                             $ 11.50
+Tax (8%)                             $  0.92
+TOTAL                                $ 12.42
+Distinct items defined on menu: 3</code></pre></div>
+      </div>
+    </details>
+
+    <div class="nav-footer">
+      <a href="../class-tasks.html" class="nav-prev"><span>&larr; Class Tasks</span></a>
+      <a href="../post-quiz.html" class="nav-next"><span>Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../../js/quiz.js"></script>
+</body>
+</html>

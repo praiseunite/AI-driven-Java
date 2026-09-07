@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 9 Solutions | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 9 Solutions</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../../index.html">Dashboard</a></li>
+      <li><a href="../lesson.html">Lesson</a></li>
+      <li><a href="../class-tasks.html">Class Tasks</a></li>
+      <li><a href="../assignment.html">Assignment</a></li>
+      <li><a href="solution.html" class="active">Solutions</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl); max-width: 900px;">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Reference Solutions</span>
+        <span class="tag tag-purple">Session 9</span>
+      </div>
+      <h1>✅ Session 9 — Reference Solutions</h1>
+      <p class="description">Three tasks and the Media Library assignment, run-verified. Matching <code>.java</code> files are in this folder.</p>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ The 20-minute rule</div>
+      <p style="margin-bottom:0;">Attempt each yourself for 20 minutes first, then read, close, retype.</p>
+    </div>
+
+    <details class="self-check-card">
+      <summary>🟢 Task 9.1 — VehicleDemo</summary>
+      <div class="self-check-answer">
+        <p><code>SportsCar</code> replaces <code>accelerate</code>; <code>Truck</code> extends
+          <code>describe</code> with <code>super.describe()</code>. The loop calls the version
+          matching each object's real type.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">VehicleDemo.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>class Vehicle {
+    protected final String name;
+    protected int speed = 0;
+    Vehicle(String name) { this.name = name; }
+    void accelerate(int d) { speed += d; }
+    String describe() { return name + " at " + speed + " km/h"; }
+}
+
+class SportsCar extends Vehicle {
+    SportsCar(String name) { super(name); }
+    @Override void accelerate(int d) { speed += d * 2; }
+}
+
+class Truck extends Vehicle {
+    private final int cargo;
+    Truck(String name, int cargo) { super(name); this.cargo = cargo; }
+    @Override String describe() { return super.describe() + " carrying " + cargo + "kg"; }
+}
+
+public class VehicleDemo {
+    public static void main(String[] args) {
+        Vehicle[] fleet = { new Vehicle("Sedan"), new SportsCar("Viper"), new Truck("Hauler", 500) };
+        for (Vehicle v : fleet) v.accelerate(20);
+        for (Vehicle v : fleet) System.out.println(v.describe());
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Sedan at 20 km/h
+Viper at 40 km/h
+Hauler at 20 km/h carrying 500kg</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 9.2 — AccountDemo</summary>
+      <div class="self-check-answer">
+        <p><code>OverdraftAccount</code> overrides <code>withdraw</code> to permit
+          <code>balance + limit</code>. <code>SavingsAccount</code> adds a new method rather than
+          overriding one.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">AccountDemo.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>class BankAccount {
+    protected double balance;
+    BankAccount(double opening) { this.balance = Math.max(opening, 0); }
+    void deposit(double a) { if (a &gt; 0) balance += a; }
+    boolean withdraw(double a) {
+        if (a &gt; 0 &amp;&amp; a &lt;= balance) { balance -= a; return true; }
+        return false;
+    }
+    @Override public String toString() { return String.format("balance $%.2f", balance); }
+}
+
+class SavingsAccount extends BankAccount {
+    private final double rate;
+    SavingsAccount(double opening, double rate) { super(opening); this.rate = rate; }
+    void addInterest() { balance += balance * rate; }
+}
+
+class OverdraftAccount extends BankAccount {
+    private final double limit;
+    OverdraftAccount(double opening, double limit) { super(opening); this.limit = limit; }
+    @Override boolean withdraw(double a) {
+        if (a &gt; 0 &amp;&amp; a &lt;= balance + limit) { balance -= a; return true; }
+        return false;
+    }
+}
+
+public class AccountDemo {
+    public static void main(String[] args) {
+        SavingsAccount s = new SavingsAccount(1000, 0.05);
+        s.addInterest();
+        System.out.println("Savings  : " + s);
+
+        OverdraftAccount o = new OverdraftAccount(100, 200);
+        boolean ok = o.withdraw(250);
+        System.out.println("Overdraft: withdraw 250 -&gt; " + ok + ", " + o);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Savings  : balance $1050.00
+Overdraft: withdraw 250 -&gt; true, balance $-150.00</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🔴 Task 9.3 — MoneyDemo</summary>
+      <div class="self-check-answer">
+        <p>Store cents as a <code>long</code> to avoid float error. <code>equals</code> compares the
+          cent count; <code>hashCode</code> is derived from the same field so equal amounts hash
+          alike.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">MoneyDemo.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.util.Objects;
+
+class Money {
+    private final long cents;
+    Money(long cents) { this.cents = cents; }
+    Money plus(Money other) { return new Money(cents + other.cents); }
+
+    @Override public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Money)) return false;
+        return cents == ((Money) o).cents;
+    }
+    @Override public int hashCode() { return Objects.hash(cents); }
+    @Override public String toString() { return String.format("$%d.%02d", cents / 100, cents % 100); }
+}
+
+public class MoneyDemo {
+    public static void main(String[] args) {
+        Money a = new Money(1250);
+        Money b = new Money(1250);
+        Money sum = a.plus(new Money(75));
+
+        System.out.println("a           : " + a);
+        System.out.println("a == b      : " + (a == b));
+        System.out.println("a.equals(b) : " + a.equals(b));
+        System.out.println("a + $0.75   : " + sum);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>a           : $12.50
+a == b      : false
+a.equals(b) : true
+a + $0.75   : $13.25</code></pre></div>
+      </div>
+    </details>
+
+    <h2>Assignment 9 — Campus Media Library</h2>
+
+    <details class="self-check-card">
+      <summary>📋 MediaLibrary — full solution &amp; walkthrough</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> everything shared (check-out state, fee formula, printing) lives in
+          <code>abstract MediaItem</code>. Each subclass supplies one number via
+          <code>lateFeePerDay()</code>. The driver never mentions <code>Book</code>/<code>DVD</code>/<code>Magazine</code>
+          after construction — it works through <code>MediaItem</code>.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">MediaLibrary.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>abstract class MediaItem {
+    private final String title;
+    private boolean checkedOut = false;
+
+    MediaItem(String title) { this.title = title; }
+
+    String getTitle() { return title; }
+    boolean isCheckedOut() { return checkedOut; }
+
+    void checkOut() {
+        if (checkedOut) System.out.println("\"" + title + "\" is already out.");
+        else { checkedOut = true; System.out.println("Checked out: " + title); }
+    }
+
+    void checkIn(int daysLate) {
+        if (!checkedOut) { System.out.println("\"" + title + "\" was not out."); return; }
+        checkedOut = false;
+        double fee = Math.max(daysLate, 0) * lateFeePerDay();
+        System.out.printf("Returned: %-22s %d days late  fee $%.2f%n", title, Math.max(daysLate, 0), fee);
+    }
+
+    abstract double lateFeePerDay();
+
+    @Override public String toString() {
+        return String.format("%-22s [%s]  ($%.2f/day late)",
+                title, checkedOut ? "OUT" : "IN", lateFeePerDay());
+    }
+}
+
+class Book extends MediaItem {
+    Book(String title) { super(title); }
+    @Override double lateFeePerDay() { return 0.25; }
+}
+class DVD extends MediaItem {
+    DVD(String title) { super(title); }
+    @Override double lateFeePerDay() { return 1.00; }
+}
+class Magazine extends MediaItem {
+    Magazine(String title) { super(title); }
+    @Override double lateFeePerDay() { return 0.10; }
+}
+
+public class MediaLibrary {
+    public static void main(String[] args) {
+        MediaItem[] shelf = {
+            new Book("Effective Java"),
+            new DVD("The Matrix"),
+            new Magazine("Nature - Jan")
+        };
+
+        System.out.println("=== CATALOGUE ===");
+        for (MediaItem m : shelf) System.out.println(m);
+
+        System.out.println("\n=== ACTIVITY ===");
+        shelf[0].checkOut();
+        shelf[1].checkOut();
+        shelf[1].checkOut();
+        shelf[0].checkIn(3);
+        shelf[1].checkIn(5);
+        shelf[2].checkIn(2);
+
+        double totalFees = 0;
+        int[] lateDays = {3, 5, 0};
+        for (int i = 0; i &lt; shelf.length; i++) {
+            totalFees += lateDays[i] * shelf[i].lateFeePerDay();
+        }
+        System.out.printf("%nTotal late fees this session: $%.2f%n", totalFees);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>=== CATALOGUE ===
+Effective Java         [IN]  ($0.25/day late)
+The Matrix             [IN]  ($1.00/day late)
+Nature - Jan           [IN]  ($0.10/day late)
+
+=== ACTIVITY ===
+Checked out: Effective Java
+Checked out: The Matrix
+"The Matrix" is already out.
+Returned: Effective Java         3 days late  fee $0.75
+Returned: The Matrix             5 days late  fee $5.00
+"Nature - Jan" was not out.
+
+Total late fees this session: $5.75</code></pre></div>
+      </div>
+    </details>
+
+    <div class="nav-footer">
+      <a href="../class-tasks.html" class="nav-prev"><span>&larr; Class Tasks</span></a>
+      <a href="../post-quiz.html" class="nav-next"><span>Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../../js/quiz.js"></script>
+</body>
+</html>

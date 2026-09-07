@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Commands: IDE vs Terminal — the same Java action done both ways in IntelliJ IDEA and on the command line: create a project, add a class, compile, run, run with arguments, and package a JAR.">
+  <title>Commands: IDE ↔ Terminal | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../start-here.html">Start Here</a></li>
+      <li><a href="../setup/environment-setup.html">Setup</a></li>
+      <li><a href="glossary.html">Glossary</a></li>
+      <li><a href="../index.html">Dashboard</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Reference</span>
+        <span class="tag tag-teal">IntelliJ + command line</span>
+      </div>
+      <h1>Commands: IDE ↔ Terminal</h1>
+      <p class="description">
+        The IDE's buttons are shortcuts for terminal commands. Knowing both means you are
+        never stuck on a machine without your favourite editor, and you actually understand
+        what "Run" does. Every row below is the <strong>same action</strong>, two ways.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+      <aside class="lesson-sidebar">
+        <h4>On this page</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#core" class="active">Core workflow</a></li>
+          <li><a href="#args">Running with arguments</a></li>
+          <li><a href="#input">Feeding input to Scanner</a></li>
+          <li><a href="#jar">Packaging a JAR</a></li>
+          <li><a href="#shortcuts">IntelliJ shortcuts</a></li>
+          <li><a href="#mental-model">The mental model</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <section class="content-section" id="core">
+          <h2>Core workflow</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Goal</th><th>In IntelliJ IDEA</th><th>In the terminal</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>Create a project</td>
+                  <td>Welcome screen &rarr; <strong>New Project</strong> &rarr; Java, pick JDK &rarr; <strong>Create</strong></td>
+                  <td><code>mkdir MyApp &amp;&amp; cd MyApp</code> (just a folder)</td>
+                </tr>
+                <tr>
+                  <td>Add a class</td>
+                  <td>Right-click <code>src</code> &rarr; <strong>New &rarr; Java Class</strong> &rarr; name it</td>
+                  <td>Create a file <code>MyClass.java</code> in your editor</td>
+                </tr>
+                <tr>
+                  <td>Compile</td>
+                  <td>Automatic on save; or <strong>Build &rarr; Build Project</strong> (<kbd>Ctrl</kbd>+<kbd>F9</kbd>)</td>
+                  <td><code>javac MyClass.java</code> &rarr; produces <code>MyClass.class</code></td>
+                </tr>
+                <tr>
+                  <td>Run</td>
+                  <td>Click the green ▶ next to <code>main</code> &rarr; <strong>Run</strong> (<kbd>Shift</kbd>+<kbd>F10</kbd> re-runs)</td>
+                  <td><code>java MyClass</code> &nbsp;(<strong>no</strong> <code>.class</code>, <strong>no</strong> <code>.java</code>)</td>
+                </tr>
+                <tr>
+                  <td>Compile many files</td>
+                  <td>Automatic</td>
+                  <td><code>javac *.java</code> &nbsp;or&nbsp; <code>javac -d out src/*.java</code></td>
+                </tr>
+                <tr>
+                  <td>See compiled output location</td>
+                  <td><code>out/production/&lt;project&gt;/</code> inside the project</td>
+                  <td>Next to the source, unless you used <code>-d &lt;folder&gt;</code></td>
+                </tr>
+                <tr>
+                  <td>Run a single file quickly (JDK 11+)</td>
+                  <td>Green ▶</td>
+                  <td><code>java MyClass.java</code> &nbsp;(compiles + runs in memory, one file only)</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="args">
+          <h2>Running with command-line arguments</h2>
+          <p>These land in <code>String[] args</code> in <code>main</code>.</p>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>In IntelliJ IDEA</th><th>In the terminal</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><strong>Run &rarr; Edit Configurations…</strong> &rarr; <strong>Program arguments</strong> field &rarr; type <code>Ada Abuja</code> &rarr; Run</td>
+                  <td><code>java TerminalGreeter Ada Abuja</code></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ Arguments vs input</div>
+            <p>
+              <strong>Arguments</strong> are given <em>once, at launch</em> (<code>args[0]</code>, <code>args[1]</code>…).
+              <strong>Input</strong> is typed <em>while the program runs</em> and is read with <code>Scanner</code>. They are different things.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="input">
+          <h2>Feeding input to <code>Scanner</code> without typing it every time</h2>
+          <p>Useful for testing a program that reads several lines. You "pipe" the lines in:</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Terminal (macOS / Linux / Git Bash)</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>printf '2026\n1\n5\n' | java AtmBankingEngine</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Terminal (Windows PowerShell)</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>"2026`n1`n5" | java AtmBankingEngine</code></pre>
+          </div>
+          <p>Each <code>\n</code> (or <code>`n</code> in PowerShell) is one press of Enter. In IntelliJ you just type into the Run panel, or tick <strong>"Redirect input from"</strong> in the run configuration and point it at a text file.</p>
+        </section>
+
+        <section class="content-section" id="jar">
+          <h2>Packaging an executable JAR (Session 7)</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>In IntelliJ IDEA</th><th>In the terminal</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>File &rarr; Project Structure &rarr; Artifacts</strong> &rarr; <strong>+</strong> &rarr; JAR &rarr; <em>From modules with dependencies</em> &rarr; pick the main class &rarr; OK.
+                    Then <strong>Build &rarr; Build Artifacts &rarr; Build</strong>.
+                  </td>
+                  <td>
+                    <code>javac -d out src/*.java</code><br>
+                    <code>jar --create --file app.jar --main-class MyClass -C out .</code><br>
+                    <code>java -jar app.jar</code>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="shortcuts">
+          <h2>IntelliJ shortcuts worth memorising early</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Action</th><th>Windows / Linux</th><th>macOS</th></tr></thead>
+              <tbody>
+                <tr><td>Run again</td><td><kbd>Shift</kbd>+<kbd>F10</kbd></td><td><kbd>Ctrl</kbd>+<kbd>R</kbd></td></tr>
+                <tr><td>Reformat code (fix indentation)</td><td><kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>L</kbd></td><td><kbd>⌥</kbd>+<kbd>⌘</kbd>+<kbd>L</kbd></td></tr>
+                <tr><td>Show error details</td><td>Hover, or <kbd>Ctrl</kbd>+<kbd>F1</kbd></td><td>Hover, or <kbd>⌘</kbd>+<kbd>F1</kbd></td></tr>
+                <tr><td>Quick-fix suggestion</td><td><kbd>Alt</kbd>+<kbd>Enter</kbd></td><td><kbd>⌥</kbd>+<kbd>Enter</kbd></td></tr>
+                <tr><td>Comment / uncomment line</td><td><kbd>Ctrl</kbd>+<kbd>/</kbd></td><td><kbd>⌘</kbd>+<kbd>/</kbd></td></tr>
+                <tr><td>Rename everywhere</td><td><kbd>Shift</kbd>+<kbd>F6</kbd></td><td><kbd>Shift</kbd>+<kbd>F6</kbd></td></tr>
+                <tr><td>Generate (constructor, getters…)</td><td><kbd>Alt</kbd>+<kbd>Insert</kbd></td><td><kbd>⌘</kbd>+<kbd>N</kbd></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="mental-model">
+          <h2>The mental model</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">What "Run" really does</span></div>
+            <pre><code>  MyClass.java   --javac-->   MyClass.class   --java-->   output on screen
+  (your text)                 (bytecode)                  (program runs)</code></pre>
+          </div>
+          <p>
+            The IDE watches your files, runs <code>javac</code> for you when they change, then
+            runs <code>java</code> when you click ▶ — plus it manages folders, the classpath,
+            and arguments. Nothing magic; just automation.
+          </p>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="reading-errors.html" class="nav-prev"><span>&larr; Reading Error Messages</span></a>
+      <a href="ai-tutor-guide.html" class="nav-next"><span>Next: AI Tutor Guide &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>AI-Driven Java Programming (JAVA-I) | © 2026 Aptech Limited | Module Ver. 1.0</p>
+  </div>
+</footer>
+
+<script src="../js/quiz.js"></script>
+</body>
+</html>

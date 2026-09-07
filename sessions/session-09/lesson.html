@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 9: Inheritance and Polymorphism in Java — extends, super, method overriding, dynamic dispatch, abstract classes, and overriding Object methods (toString, equals, hashCode).">
+  <title>Session 9: Inheritance &amp; Polymorphism | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 9</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Week 3 &bull; Day 1</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL9</span>
+      </div>
+      <h1>Session 9: Inheritance and Polymorphism</h1>
+      <p class="description">
+        Real systems have families of related types: a <code>Manager</code> <em>is an</em>
+        <code>Employee</code>; a <code>Circle</code> <em>is a</em> <code>Shape</code>.
+        <strong>Inheritance</strong> lets one class build on another without copy-paste.
+        <strong>Polymorphism</strong> lets one line of code — <code>shape.area()</code> — do the
+        right thing for whatever shape it actually holds.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Table of Contents</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#is-a">1. The "is-a" Relationship</a></li>
+          <li><a href="#extends">2. <code>extends</code> &amp; Inherited Members</a></li>
+          <li><a href="#super">3. <code>super</code></a></li>
+          <li><a href="#overriding">4. Method Overriding</a></li>
+          <li><a href="#override-vs-overload">5. Override vs. Overload</a></li>
+          <li><a href="#polymorphism">6. Polymorphism &amp; Dynamic Dispatch</a></li>
+          <li><a href="#abstract">7. <code>abstract</code> Classes</a></li>
+          <li><a href="#object-methods">8. Overriding <code>Object</code> Methods</a></li>
+          <li><a href="#final-inheritance">9. <code>final</code> &amp; <code>instanceof</code></a></li>
+          <li><a href="#pitfalls">10. Common Pitfalls</a></li>
+          <li><a href="#cheat-sheet">11. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">12. Summary &amp; Self-Check</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: Flashback to Weeks 1–2</div>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Classes &amp; objects (S5):</strong> fields = state, methods = behavior, constructors set things up. Inheritance reuses all of it.</li>
+            <li><strong><code>@Override</code> on <code>toString()</code> (S5):</strong> you have already overridden a method inherited from <code>Object</code>. Today you do it deliberately.</li>
+            <li><strong><code>protected</code> (S7):</strong> the access level that means "this package + subclasses" — designed for exactly today's topic.</li>
+          </ul>
+        </div>
+
+        <section class="content-section" id="is-a">
+          <h2>1. The "is-a" Relationship</h2>
+          <p>
+            Use inheritance only when the subclass genuinely <strong>is a</strong> kind of the
+            superclass. A <code>Dog</code> <em>is an</em> <code>Animal</code>. A
+            <code>SavingsAccount</code> <em>is a</em> <code>BankAccount</code>. If the sentence
+            "X is a Y" sounds wrong, you want a field ("has-a"), not inheritance.
+          </p>
+          <div class="callout callout-think">
+            <div class="callout-title">🧬 Analogy: a family recipe</div>
+            <p>
+              The superclass is grandma's base bread recipe. A subclass is "the same, plus
+              olives" — you don't rewrite the whole recipe, you say "start from the base, then
+              add this step". You can also <em>replace</em> a step (bake at a different
+              temperature) — that is overriding.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="extends">
+          <h2>2. <code>extends</code> &amp; Inherited Members</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>class Animal {
+    protected String name;                 // visible to subclasses
+    Animal(String name) { this.name = name; }
+    String speak() { return name + " makes a sound"; }
+}
+
+class Dog extends Animal {                 // Dog gets name + speak() for free
+    Dog(String name) { super(name); }      // call Animal's constructor
+    void fetch() { System.out.println(name + " fetches the ball"); }
+}
+
+Dog d = new Dog("Rex");
+d.fetch();                 // Dog's own method
+System.out.println(d.speak());   // inherited from Animal -> "Rex makes a sound"</code></pre>
+          </div>
+          <p>A subclass inherits all <code>public</code> and <code>protected</code> members. It
+            does <strong>not</strong> inherit <code>private</code> members (though they still
+            exist inside the object) and it does <strong>not</strong> inherit constructors.</p>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ Every class extends <code>Object</code></div>
+            <p>
+              If you write no <code>extends</code>, your class implicitly extends
+              <code>java.lang.Object</code> — which is why every object already has
+              <code>toString()</code>, <code>equals()</code>, and <code>hashCode()</code>.
+              Java has <strong>single inheritance</strong>: a class has exactly one direct
+              superclass. (Multiple <em>interfaces</em> come in Session 10.)
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="super">
+          <h2>3. <code>super</code></h2>
+          <p><code>super</code> refers to the superclass part of the current object. Two uses:</p>
+          <ul>
+            <li><strong><code>super(...)</code></strong> — call a superclass constructor. Must be the <em>first statement</em> of the subclass constructor. If you don't write it, Java inserts <code>super()</code> automatically (and that fails if the superclass has no no-arg constructor).</li>
+            <li><strong><code>super.method()</code></strong> — call the superclass's version of a method you have overridden, so you can <em>extend</em> it rather than fully replace it.</li>
+          </ul>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>class Manager extends Employee {
+    private final double bonus;
+
+    Manager(String name, double baseSalary, double annualBonus) {
+        super(name, baseSalary);              // run Employee's constructor first
+        this.bonus = annualBonus;
+    }
+
+    @Override
+    double monthlyPay() {
+        return super.monthlyPay() + bonus / 12;   // base pay PLUS the bonus share
+    }
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="overriding">
+          <h2>4. Method Overriding</h2>
+          <p>
+            A subclass <strong>overrides</strong> a method by declaring one with the
+            <em>same signature</em> (name + parameter types) as the superclass's. From then on,
+            calling that method on such an object runs the subclass version.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>class Animal {
+    String speak() { return name + " makes a sound"; }
+}
+class Dog extends Animal {
+    @Override
+    String speak() { return name + " says Woof"; }   // replaces Animal's version for Dogs
+}</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Always write <code>@Override</code></div>
+            <p>
+              It is optional, but it makes the compiler check that you really <em>are</em>
+              overriding something. Misspell the name or get a parameter type wrong and you'll get
+              an error instead of a silently-new method that never gets called.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="override-vs-overload">
+          <h2>5. Override vs. Overload — don't confuse them</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th></th><th>Overriding</th><th>Overloading</th></tr></thead>
+              <tbody>
+                <tr><td>Where</td><td>Subclass redefines a superclass method</td><td>Same class (or inherited), multiple methods</td></tr>
+                <tr><td>Signature</td><td><strong>Same</strong> name + parameters</td><td>Same name, <strong>different</strong> parameters</td></tr>
+                <tr><td>Chosen</td><td>At <em>run time</em>, by the object's real type</td><td>At <em>compile time</em>, by the argument types</td></tr>
+                <tr><td>Marker</td><td><code>@Override</code></td><td>(none)</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="polymorphism">
+          <h2>6. Polymorphism &amp; Dynamic Dispatch</h2>
+          <p>
+            A superclass variable can point at any subclass object. When you call an overridden
+            method through it, Java runs the version belonging to the object's <strong>actual</strong>
+            type — decided at run time. This is <strong>dynamic dispatch</strong>, and it is what
+            makes polymorphism useful.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">AnimalDemo.java</span></div>
+            <pre><code>Animal[] zoo = { new Dog("Rex"), new Cat("Milo"), new Animal("Thing") };
+
+for (Animal a : zoo) {
+    System.out.println(a.speak());
+}
+// Output:
+//   Rex says Woof        &lt;- Dog.speak()
+//   Milo says Meow       &lt;- Cat.speak()
+//   Thing makes a sound  &lt;- Animal.speak()</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Why this matters</div>
+            <p>
+              The loop knows nothing about dogs or cats. Add a <code>Cow</code> class tomorrow and
+              this code prints "Moo" with <strong>no change</strong>. Polymorphism lets you write
+              code against the general type and extend the specifics later.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="abstract">
+          <h2>7. <code>abstract</code> Classes</h2>
+          <p>
+            Sometimes the superclass is a concept with no sensible standalone instance — a
+            "Shape" that isn't a specific shape. Mark it <code>abstract</code>: it cannot be
+            instantiated, and it may declare <code>abstract</code> methods (no body) that every
+            concrete subclass <em>must</em> implement.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>abstract class Shape {
+    abstract double area();                 // no body — subclasses must supply one
+
+    void describe() {                        // a normal method, using the abstract one
+        System.out.printf("%s area %.2f%n", getClass().getSimpleName(), area());
+    }
+}
+
+class Circle extends Shape {
+    private final double r;
+    Circle(double r) { this.r = r; }
+    @Override double area() { return Math.PI * r * r; }
+}
+
+// new Shape();          // COMPILE ERROR: Shape is abstract and cannot be instantiated
+Shape s = new Circle(3); // fine — a Circle IS a Shape
+s.describe();            // "Circle area 28.27"</code></pre>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ Abstract class vs interface (preview)</div>
+            <p>
+              An abstract class can hold state (fields) and finished methods, and a class extends
+              only one. An <strong>interface</strong> (Session 10) is a pure contract that a class
+              can implement many of. Use an abstract class for "a partly-built base type".
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="object-methods">
+          <h2>8. Overriding <code>Object</code> Methods</h2>
+          <p>Every class inherits these from <code>Object</code>; overriding them makes your type behave sensibly:</p>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Method</th><th>Default</th><th>Override to…</th></tr></thead>
+              <tbody>
+                <tr><td><code>toString()</code></td><td><code>ClassName@1b6d3586</code></td><td>return a readable description</td></tr>
+                <tr><td><code>equals(Object)</code></td><td><code>==</code> (same object)</td><td>compare by <em>contents</em></td></tr>
+                <tr><td><code>hashCode()</code></td><td>identity-based number</td><td>match <code>equals</code> — equal objects must return equal hash codes</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">Point.java</span></div>
+            <pre><code>import java.util.Objects;
+
+class Point {
+    private final int x, y;
+    Point(int x, int y) { this.x = x; this.y = y; }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Point)) return false;
+        Point p = (Point) o;
+        return x == p.x &amp;&amp; y == p.y;
+    }
+
+    @Override
+    public int hashCode() { return Objects.hash(x, y); }
+
+    @Override
+    public String toString() { return "(" + x + ", " + y + ")"; }
+}
+
+new Point(2, 3).equals(new Point(2, 3));   // true  (contents)
+new Point(2, 3) == new Point(2, 3);        // false (different objects)</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Let the IDE write these</div>
+            <p>
+              IntelliJ: <kbd>Alt</kbd>+<kbd>Insert</kbd> &rarr; <strong>equals() and hashCode()</strong>,
+              and <strong>toString()</strong>. Always generate <code>equals</code> and
+              <code>hashCode</code> <em>together</em>.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="final-inheritance">
+          <h2>9. <code>final</code> &amp; <code>instanceof</code></h2>
+          <ul>
+            <li><strong><code>final</code> method</strong> — a subclass cannot override it.</li>
+            <li><strong><code>final</code> class</strong> — cannot be subclassed at all (<code>String</code>, <code>Integer</code>).</li>
+            <li><strong><code>instanceof</code></strong> — tests an object's type before a cast:</li>
+          </ul>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>for (Animal a : zoo) {
+    if (a instanceof Dog) {
+        Dog d = (Dog) a;      // safe cast — we just checked
+        d.fetch();
+    }
+}
+
+// Modern "pattern" form (Java 16+):
+if (a instanceof Dog d) {
+    d.fetch();                // d is already the cast Dog
+}</code></pre>
+          </div>
+          <p>Reach for polymorphism (an overridden method) first; use <code>instanceof</code> only
+            when a subtype has behaviour the base type genuinely doesn't.</p>
+        </section>
+
+        <section class="content-section" id="pitfalls">
+          <h2>10. Common Pitfalls</h2>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>super(...)</code> not first</div>
+            <p>The call to a superclass constructor must be the very first statement of the subclass
+              constructor. Anything before it is a compile error.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Superclass has no no-arg constructor</div>
+            <p>If <code>Animal</code> only has <code>Animal(String)</code>, a subclass constructor
+              that doesn't call <code>super(name)</code> won't compile — Java's implicit
+              <code>super()</code> has nothing to call.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 "Overriding" with a different signature</div>
+            <p><code>String speak(int volume)</code> in the subclass does <strong>not</strong>
+              override <code>String speak()</code> — it's an unrelated overload. <code>@Override</code>
+              would have caught this.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>equals</code> without <code>hashCode</code></div>
+            <p>Override one, override the other. Objects that are <code>equals</code> but have
+              different hash codes break <code>HashMap</code> / <code>HashSet</code>.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>ClassCastException</code></div>
+            <p><code>(Dog) someCat</code> compiles but throws at run time. Guard casts with
+              <code>instanceof</code>.</p>
+          </div>
+        </section>
+
+        <section class="content-section" id="cheat-sheet">
+          <h2>11. Executive Quick-Recap &amp; Cheat Sheet</h2>
+
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The 30-Second Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              <code>class Sub extends Super</code> — Sub gets Super's <code>public</code>/<code>protected</code>
+              members. <code>super(...)</code> (first line) runs the parent constructor;
+              <code>super.m()</code> calls the parent's method. <strong>Overriding</strong> = same
+              signature in a subclass, chosen at run time by the object's real type
+              (<strong>dynamic dispatch</strong>). <code>abstract</code> classes can't be
+              instantiated and can demand methods. Override <code>toString</code>/<code>equals</code>/<code>hashCode</code>
+              (the last two together) for value-like types.
+            </p>
+          </div>
+
+          <h3>Core Syntax at a Glance</h3>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java Cheat Sheet</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>abstract class Payment {
+    protected final double amount;
+    Payment(double amount) { this.amount = amount; }
+    abstract double fee();                        // subclasses must define
+    final double total() { return amount + fee(); }   // cannot be overridden
+}
+
+class CardPayment extends Payment {
+    CardPayment(double amount) { super(amount); }
+    @Override double fee() { return amount * 0.029 + 0.30; }
+}
+
+class CashPayment extends Payment {
+    CashPayment(double amount) { super(amount); }
+    @Override double fee() { return 0; }
+}
+
+Payment[] batch = { new CardPayment(100), new CashPayment(100) };
+for (Payment p : batch) System.out.printf("%.2f%n", p.total());   // 103.20 then 100.00</code></pre>
+          </div>
+
+          <h3>Plain-English Glossary</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Inheritance</div><p class="glossary-def">A class reusing and extending another's members via <code>extends</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Superclass / subclass</div><p class="glossary-def">The parent being extended / the child extending it.</p></div>
+            <div class="glossary-item"><div class="glossary-term">is-a</div><p class="glossary-def">The test for using inheritance: "a Dog is an Animal" is true.</p></div>
+            <div class="glossary-item"><div class="glossary-term">super</div><p class="glossary-def"><code>super(...)</code> calls the parent constructor; <code>super.m()</code> the parent method.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Overriding</div><p class="glossary-def">A subclass redefining a superclass method with the same signature.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Polymorphism</div><p class="glossary-def">One reference type, many possible object types; the right method runs automatically.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Dynamic dispatch</div><p class="glossary-def">Choosing the overridden method at run time based on the object's real class.</p></div>
+            <div class="glossary-item"><div class="glossary-term">abstract</div><p class="glossary-def">A class that can't be instantiated; an abstract method has no body and must be implemented.</p></div>
+            <div class="glossary-item"><div class="glossary-term">instanceof</div><p class="glossary-def">Tests whether an object is (a subtype of) a given type, before casting.</p></div>
+            <div class="glossary-item"><div class="glossary-term">equals / hashCode</div><p class="glossary-def">Override together so value-equal objects also hash equally.</p></div>
+          </div>
+          <p style="margin-top: var(--space-md);">Full definitions: <a href="../../reference/glossary.html">Master Glossary</a>.</p>
+        </section>
+
+        <section class="content-section" id="summary">
+          <h2>12. Summary &amp; Interactive Self-Checks</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Try these, then verify against this lesson (<a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"Explain dynamic dispatch with a 3-class example (a base type and two subclasses) a beginner can follow."</li>
+              <li>"When should I use inheritance vs. just a field? Give 3 'is-a' and 3 'has-a' examples."</li>
+              <li>"Why must I override <code>hashCode</code> whenever I override <code>equals</code>? Show what breaks."</li>
+            </ul>
+          </div>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Q1: <code>Animal a = new Dog("Rex"); a.speak();</code> — whose <code>speak()</code> runs?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>Dog</code>'s. The method is chosen at run time by the object's real type (dynamic dispatch), not by the variable's declared type.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q2: Where must <code>super(name)</code> appear in a subclass constructor?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> As the first statement. If omitted, Java inserts <code>super()</code>, which fails when the superclass has no no-arg constructor.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q3: Can you write <code>new Shape()</code> if <code>Shape</code> is <code>abstract</code>?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> No — abstract classes cannot be instantiated. You instantiate a concrete subclass and can store it in a <code>Shape</code> variable.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q4: You override <code>equals</code> but not <code>hashCode</code>. What breaks?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Hash-based collections (<code>HashSet</code>, <code>HashMap</code>). Two "equal" objects can land in different buckets, so lookups miss.</div>
+            </details>
+          </div>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start Class Tasks</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Post-Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 9 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Session 9 Class Tasks &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

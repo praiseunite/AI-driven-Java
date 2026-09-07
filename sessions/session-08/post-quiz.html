@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 8 Post-Quiz | Week 2 Comprehensive Review</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 8</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Review Guide</a></li>
+      <li><a href="class-tasks.html">Try It Yourself</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Week 2 Comprehensive Quiz</span>
+        <span class="tag tag-purple">Session 8</span>
+        <span class="tag tag-yellow">12 Questions</span>
+      </div>
+      <h1>🏆 Week 2 Mastery Evaluation: Sessions 5–7</h1>
+      <p class="description">Test your grasp of classes, objects, methods, arrays, ArrayList, access modifiers, static, final, and packages before Week 3.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev"><span>&larr; Try It Yourself Tasks</span></a>
+      <a href="../session-09/pre-quiz.html" class="nav-next"><span>Proceed to Week 3 (Session 9) &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session8PostQuizData = {
+    title: "Week 2 Comprehensive: OOP Foundations",
+    description: "Complete all 12 questions to benchmark your readiness for Week 3 (Inheritance & Interfaces).",
+    questions: [
+      {
+        question: "What runs when you write `new Account(\"Ada\", 100)`?",
+        options: [
+          "Only main()",
+          "The matching constructor, which initialises the new object's fields",
+          "The toString() method",
+          "Nothing until you call a method"
+        ],
+        correct: 1,
+        explanation: "`new` allocates the object and immediately runs the constructor whose parameter list matches the arguments."
+      },
+      {
+        question: "`int[] a = {1,2,3}; int[] b = a; b[1] = 9;` — what is `a[1]`?",
+        options: ["2", "9", "0", "Error"],
+        correct: 1,
+        explanation: "Arrays are objects; `b = a` copies the reference. a and b are the same array."
+      },
+      {
+        question: "Which declaration is a valid method overload of `int area(int w, int h)`?",
+        options: [
+          "double area(int w, int h)",
+          "int area(double w, double h)",
+          "int area(int w, int h, String unit) with a different body only",
+          "void area()"
+        ],
+        correct: 1,
+        explanation: "Overloads must differ in the parameter list (types/number). Differing only by return type is illegal; option C differs but 'different body only' misstates it — B changes parameter types, the clean overload."
+      },
+      {
+        question: "You want ONE shared count of every Invoice ever created. The field should be:",
+        options: ["private int count in each Invoice", "private static int count on Invoice", "a local variable in main", "final only"],
+        correct: 1,
+        explanation: "static = one copy for the class. Incrementing it in the constructor gives a running total across all instances."
+      },
+      {
+        question: "`private final double rate;` — when can `rate` be assigned?",
+        options: [
+          "Any time, any number of times",
+          "Exactly once, typically in the constructor",
+          "Never",
+          "Only in a static method"
+        ],
+        correct: 1,
+        explanation: "final = assign-once. The constructor is the usual place; after that any assignment is a compile error."
+      },
+      {
+        question: "`ArrayList<String> list;` then `list.add(\"x\");` throws NullPointerException. Why?",
+        options: [
+          "add() is spelled wrong",
+          "list was declared but never assigned an object with `new ArrayList<>()`",
+          "String cannot go in an ArrayList",
+          "ArrayList needs an import"
+        ],
+        correct: 1,
+        explanation: "The reference is null. You must create the list: `list = new ArrayList<>();` before using it."
+      },
+      {
+        question: "Inside `public static void main`, calling a non-static method `render()` of the same class directly gives:",
+        options: [
+          "It works fine",
+          "'non-static method render() cannot be referenced from a static context'",
+          "A NullPointerException",
+          "An ArrayIndexOutOfBoundsException"
+        ],
+        correct: 1,
+        explanation: "There is no current object in static main. Make render() static, or create an instance and call it on that."
+      },
+      {
+        question: "Which needs no parentheses?",
+        options: ["myList.size()", "myArray.length", "myString.length()", "myList.get(0)"],
+        correct: 1,
+        explanation: "Array `.length` is a field. size() and length() are methods."
+      },
+      {
+        question: "A method returns an object from a list; the caller mutates it. The list's element:",
+        options: [
+          "Is unaffected — a copy was returned",
+          "Is changed — the same object was returned by reference",
+          "Becomes null",
+          "Is duplicated"
+        ],
+        correct: 1,
+        explanation: "Java returns a reference to the actual object, not a copy. Mutating it mutates what the list holds."
+      },
+      {
+        question: "`package com.aptech.report;` must be:",
+        options: [
+          "Anywhere in the file",
+          "The first line of code (comments may precede it), with the file under com/aptech/report/",
+          "In its own file",
+          "Repeated in every method"
+        ],
+        correct: 1,
+        explanation: "One package declaration, first line of code, and the folder path must match the package name."
+      },
+      {
+        question: "You built app.jar but `java -jar app.jar` says 'no main manifest attribute'. Fix:",
+        options: [
+          "Rename the jar",
+          "Rebuild the JAR specifying the class that contains main (Main-Class in the manifest)",
+          "Delete the .class files",
+          "Add more imports"
+        ],
+        correct: 1,
+        explanation: "An executable JAR needs Main-Class in META-INF/MANIFEST.MF. Set it with jar --main-class ... or the IDE artifact dialog."
+      },
+      {
+        question: "Best default when designing a new class:",
+        options: [
+          "All fields public",
+          "Fields private with a validating constructor; expose behaviour through methods",
+          "Everything static",
+          "One giant method"
+        ],
+        correct: 1,
+        explanation: "Encapsulation: private state + a constructor that leaves the object valid + methods for behaviour. Open up access only where genuinely needed."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session8PostQuizData);
+  });
+</script>
+
+</body>
+</html>

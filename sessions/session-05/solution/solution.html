@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 5 Solutions | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 5 Solutions</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../../index.html">Dashboard</a></li>
+      <li><a href="../lesson.html">Lesson</a></li>
+      <li><a href="../class-tasks.html">Class Tasks</a></li>
+      <li><a href="../assignment.html">Assignment</a></li>
+      <li><a href="solution.html" class="active">Solutions</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl); max-width: 900px;">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Reference Solutions</span>
+        <span class="tag tag-purple">Session 5</span>
+      </div>
+      <h1>✅ Session 5 — Reference Solutions</h1>
+      <p class="description">The four class-design tasks and the Library assignment, run-verified. Matching <code>.java</code> files are in this folder.</p>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ The 20-minute rule</div>
+      <p style="margin-bottom:0;">Design each class yourself for 20 minutes before opening a solution. Then read it, close it, retype it.</p>
+    </div>
+
+    <h2>Class Tasks</h2>
+
+    <details class="self-check-card">
+      <summary>🟢 Task 5.1 — Rectangle</summary>
+      <div class="self-check-answer">
+        <p>Two private fields set in the constructor with <code>this.</code>; <code>area()</code> and
+          <code>perimeter()</code> each <strong>return</strong> a value the caller then formats.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">Rectangle.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class Rectangle {
+    private double width, height;
+
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public double area()      { return width * height; }
+    public double perimeter() { return 2 * (width + height); }
+
+    public static void main(String[] args) {
+        Rectangle a = new Rectangle(3, 4);
+        Rectangle b = new Rectangle(5.5, 2);
+        System.out.printf("A: area=%.2f perimeter=%.2f%n", a.area(), a.perimeter());
+        System.out.printf("B: area=%.2f perimeter=%.2f%n", b.area(), b.perimeter());
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>A: area=12.00 perimeter=14.00
+B: area=11.00 perimeter=15.00</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 5.2 — Wallet</summary>
+      <div class="self-check-answer">
+        <p><code>balance</code> is <code>private</code>; it only moves through <code>add()</code> /
+          <code>spend()</code>, each validating first, so it can never go negative.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">Wallet.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class Wallet {
+    private String owner;
+    private double balance;
+
+    public Wallet(String owner, double opening) {
+        this.owner = owner;
+        this.balance = Math.max(opening, 0);
+    }
+
+    public void add(double amt) {
+        if (amt <= 0) { System.out.println("Amount must be positive."); return; }
+        balance += amt;
+        System.out.printf("%s added $%.2f -> $%.2f%n", owner, amt, balance);
+    }
+
+    public void spend(double amt) {
+        if (amt <= 0) {
+            System.out.println("Amount must be positive.");
+        } else if (amt > balance) {
+            System.out.printf("%s cannot spend $%.2f (only $%.2f).%n", owner, amt, balance);
+        } else {
+            balance -= amt;
+            System.out.printf("%s spent $%.2f -> $%.2f%n", owner, amt, balance);
+        }
+    }
+
+    public double getBalance() { return balance; }
+
+    public static void main(String[] args) {
+        Wallet w = new Wallet("Ada", 20.00);
+        w.add(15.50);
+        w.spend(10.00);
+        w.spend(100.00);
+        System.out.printf("Final balance: $%.2f%n", w.getBalance());
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Ada added $15.50 -> $35.50
+Ada spent $10.00 -> $25.50
+Ada cannot spend $100.00 (only $25.50).
+Final balance: $25.50</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🔴 Task 5.3 — Student</summary>
+      <div class="self-check-answer">
+        <p>The 2-arg constructor calls <code>this(name, track, 0)</code> as its first line.
+          <code>grade()</code> returns a letter; <code>toString()</code> is overridden.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">Student.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class Student {
+    private String name, track;
+    private int score;
+
+    public Student(String name, String track, int score) {
+        this.name = name;
+        this.track = track;
+        this.score = score;
+    }
+
+    public Student(String name, String track) {
+        this(name, track, 0);
+    }
+
+    public void addScore(int delta) { score += delta; }
+
+    public String grade() {
+        if (score >= 80) return "A";
+        if (score >= 70) return "B";
+        if (score >= 50) return "C";
+        return "F";
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s [%s] score=%d grade=%s", name, track, score, grade());
+    }
+
+    public static void main(String[] args) {
+        Student s1 = new Student("Amara", "AI-Driven Java", 68);
+        Student s2 = new Student("Ken", "AI-Driven Java");
+        s1.addScore(7);
+        s2.addScore(82);
+        System.out.println(s1);
+        System.out.println(s2);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Amara [AI-Driven Java] score=75 grade=B
+Ken [AI-Driven Java] score=82 grade=A</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 5.4 — Calculator</summary>
+      <div class="self-check-answer">
+        <p>Three <code>multiply</code> methods; the compiler picks by argument count/type at each call.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">Calculator.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class Calculator {
+    int multiply(int a, int b)          { return a * b; }
+    int multiply(int a, int b, int c)   { return a * b * c; }
+    double multiply(double a, double b) { return a * b; }
+
+    public static void main(String[] args) {
+        Calculator c = new Calculator();
+        System.out.println("multiply(4, 5)      = " + c.multiply(4, 5));
+        System.out.println("multiply(2, 3, 4)   = " + c.multiply(2, 3, 4));
+        System.out.println("multiply(1.5, 2.0)  = " + c.multiply(1.5, 2.0));
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>multiply(4, 5)      = 20
+multiply(2, 3, 4)   = 24
+multiply(1.5, 2.0)  = 3.0</code></pre></div>
+      </div>
+    </details>
+
+    <h2>Assignment 5 — Library Book Tracker</h2>
+
+    <details class="self-check-card">
+      <summary>📋 LibraryBook — full solution &amp; walkthrough</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> two counters that only ever move one-for-one between "available"
+          and "lent", each transition guarded. <code>status()</code> and <code>toString()</code>
+          return strings; nothing outside the class can reach the counters.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">LibraryBook.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class LibraryBook {
+    private String title;
+    private String author;
+    private int copiesAvailable;
+    private int copiesLent;
+
+    public LibraryBook(String title, String author, int totalCopies) {
+        this.title = title;
+        this.author = author;
+        this.copiesAvailable = Math.max(totalCopies, 0);
+        this.copiesLent = 0;
+    }
+
+    public void borrow() {
+        if (copiesAvailable == 0) {
+            System.out.printf("\"%s\": no copies available to borrow.%n", title);
+        } else {
+            copiesAvailable--;
+            copiesLent++;
+            System.out.printf("Borrowed \"%s\". Available: %d, Lent: %d%n", title, copiesAvailable, copiesLent);
+        }
+    }
+
+    public void returnCopy() {
+        if (copiesLent == 0) {
+            System.out.printf("\"%s\": no copies are currently lent.%n", title);
+        } else {
+            copiesLent--;
+            copiesAvailable++;
+            System.out.printf("Returned \"%s\". Available: %d, Lent: %d%n", title, copiesAvailable, copiesLent);
+        }
+    }
+
+    public int getCopiesAvailable() { return copiesAvailable; }
+
+    public String status() {
+        if (copiesAvailable == 0) return "ALL OUT";
+        if (copiesLent == 0)      return "FULLY STOCKED";
+        return "PARTIALLY LENT";
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s by %s [%s] (avail %d / lent %d)",
+                title, author, status(), copiesAvailable, copiesLent);
+    }
+
+    public static void main(String[] args) {
+        LibraryBook effJava = new LibraryBook("Effective Java", "Bloch", 2);
+
+        effJava.borrow();
+        effJava.borrow();
+        effJava.borrow();       // rejected
+        effJava.returnCopy();
+        effJava.returnCopy();
+        effJava.returnCopy();   // rejected
+
+        System.out.println(effJava);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Borrowed "Effective Java". Available: 1, Lent: 1
+Borrowed "Effective Java". Available: 0, Lent: 2
+"Effective Java": no copies available to borrow.
+Returned "Effective Java". Available: 1, Lent: 1
+Returned "Effective Java". Available: 2, Lent: 0
+"Effective Java": no copies are currently lent.
+Effective Java by Bloch [FULLY STOCKED] (avail 2 / lent 0)</code></pre></div>
+      </div>
+    </details>
+
+    <div class="nav-footer">
+      <a href="../class-tasks.html" class="nav-prev"><span>&larr; Class Tasks</span></a>
+      <a href="../post-quiz.html" class="nav-next"><span>Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../../js/quiz.js"></script>
+</body>
+</html>

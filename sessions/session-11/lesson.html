@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 11: Exception Handling in Java — errors vs exceptions, checked vs unchecked, try/catch/finally, try-with-resources, throw and throws, custom exceptions, and best practices.">
+  <title>Session 11: Exception Handling | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 11</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Week 3 &bull; Day 3</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL11</span>
+      </div>
+      <h1>Session 11: Exception Handling</h1>
+      <p class="description">
+        Things go wrong: a user types letters where a number is expected, a file is missing, a
+        number is divided by zero. Without handling, your program prints a stack trace and dies.
+        <strong>Exception handling</strong> lets you catch the failure, respond sensibly, and
+        keep running.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Table of Contents</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#what-why">1. What &amp; Why</a></li>
+          <li><a href="#hierarchy">2. The Exception Hierarchy</a></li>
+          <li><a href="#checked-unchecked">3. Checked vs. Unchecked</a></li>
+          <li><a href="#try-catch">4. <code>try / catch</code></a></li>
+          <li><a href="#multi-catch">5. Multiple &amp; Multi-catch</a></li>
+          <li><a href="#finally">6. <code>finally</code></a></li>
+          <li><a href="#try-resources">7. try-with-resources</a></li>
+          <li><a href="#throw-throws">8. <code>throw</code> &amp; <code>throws</code></a></li>
+          <li><a href="#custom">9. Custom Exceptions</a></li>
+          <li><a href="#best-practices">10. Best Practices</a></li>
+          <li><a href="#cheat-sheet">11. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">12. Summary &amp; Self-Check</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: Flashback</div>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Reading a stack trace (S4):</strong> <code>Exception in thread "main" ... at File.java:12</code> — kind of problem, then the line to open. Today you handle these instead of letting them crash the program.</li>
+            <li><strong>Common exceptions you've met:</strong> <code>ArithmeticException</code> (÷0), <code>NullPointerException</code>, <code>ArrayIndexOutOfBoundsException</code>, <code>NumberFormatException</code>, <code>InputMismatchException</code>.</li>
+            <li><strong>Inheritance (S9):</strong> every exception type is a subclass of <code>Throwable</code>. Catching a superclass catches its subclasses too.</li>
+          </ul>
+        </div>
+
+        <section class="content-section" id="what-why">
+          <h2>1. What &amp; Why</h2>
+          <p>
+            An <strong>exception</strong> is an object Java creates when something goes wrong at
+            run time. If nothing "catches" it, it propagates up the call stack; reaching
+            <code>main</code> uncaught, it prints a stack trace and the program stops.
+          </p>
+          <div class="callout callout-think">
+            <div class="callout-title">🪂 Analogy: a fire drill, not a fire</div>
+            <p>
+              A crash is a building burning down. An exception is the smoke alarm: it interrupts
+              normal activity and routes everyone to a planned response (the <code>catch</code>
+              block). Handled well, the building is fine and work resumes.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="hierarchy">
+          <h2>2. The Exception Hierarchy</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Type tree</span></div>
+            <pre><code>Throwable
+├── Error              (serious JVM problems — OutOfMemoryError, StackOverflowError; don't catch these)
+└── Exception
+    ├── RuntimeException        UNCHECKED  (NullPointerException, ArithmeticException,
+    │                                       IllegalArgumentException, IndexOutOfBoundsException, ...)
+    └── (everything else)       CHECKED    (IOException, SQLException, your custom ones, ...)</code></pre>
+          </div>
+          <p>Catching a type also catches all its subclasses. <code>catch (Exception e)</code>
+            catches almost everything — usually too broad (see best practices).</p>
+        </section>
+
+        <section class="content-section" id="checked-unchecked">
+          <h2>3. Checked vs. Unchecked</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th></th><th>Checked</th><th>Unchecked (<code>RuntimeException</code>)</th></tr></thead>
+              <tbody>
+                <tr><td>Compiler forces you to…</td><td>catch it, or declare <code>throws</code></td><td>nothing — handling is optional</td></tr>
+                <tr><td>Represents</td><td>expected, recoverable external problems (missing file, network down)</td><td>programming bugs (null, bad index, bad argument)</td></tr>
+                <tr><td>Examples</td><td><code>IOException</code>, <code>SQLException</code></td><td><code>NullPointerException</code>, <code>ArithmeticException</code>, <code>IllegalArgumentException</code></td></tr>
+                <tr><td>Right fix</td><td>handle gracefully</td><td>usually: fix the code so it can't happen</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="try-catch">
+          <h2>4. <code>try / catch</code></h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>try {
+    int n = Integer.parseInt(userText);   // may throw NumberFormatException
+    System.out.println("Doubled: " + (n * 2));
+} catch (NumberFormatException e) {
+    System.out.println("That wasn't a whole number.");
+}
+// execution continues here whether or not the exception happened</code></pre>
+          </div>
+          <p>
+            When the <code>try</code> body throws, Java <em>immediately</em> jumps to a matching
+            <code>catch</code> — the rest of the <code>try</code> is skipped. The exception object
+            <code>e</code> carries a message (<code>e.getMessage()</code>) and the trace
+            (<code>e.printStackTrace()</code>).
+          </p>
+        </section>
+
+        <section class="content-section" id="multi-catch">
+          <h2>5. Multiple <code>catch</code> &amp; Multi-catch</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>try {
+    process(input);
+} catch (NumberFormatException e) {          // most specific first
+    System.out.println("bad number");
+} catch (NullPointerException e) {
+    System.out.println("missing value");
+} catch (Exception e) {                       // catch-all last
+    System.out.println("something else: " + e.getMessage());
+}
+
+// Multi-catch: same handling for several types
+try {
+    risky();
+} catch (NumberFormatException | NullPointerException e) {
+    System.out.println("input problem: " + e.getMessage());
+}</code></pre>
+          </div>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Order matters</div>
+            <p>
+              A <code>catch</code> for a superclass must come <em>after</em> its subclasses.
+              <code>catch (Exception e)</code> before <code>catch (NumberFormatException e)</code>
+              is a compile error — the second could never be reached.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="finally">
+          <h2>6. <code>finally</code></h2>
+          <p>
+            A <code>finally</code> block runs <strong>no matter what</strong> — after a normal
+            <code>try</code>, after a caught exception, even after a <code>return</code>. Use it
+            for cleanup that must always happen.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">ExceptionBasics.java (excerpt)</span></div>
+            <pre><code>static int safeDivide(int a, int b) {
+    try {
+        return a / b;                 // 10/0 throws here
+    } catch (ArithmeticException e) {
+        System.out.println("catch: " + e.getMessage());   // "/ by zero"
+        return 0;
+    } finally {
+        System.out.println("finally: always runs");        // prints in BOTH cases
+    }
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="try-resources">
+          <h2>7. try-with-resources</h2>
+          <p>
+            Anything that implements <code>AutoCloseable</code> (files, streams, database
+            connections, <code>Scanner</code>) can be opened in the <code>try (...)</code>
+            header. Java calls its <code>close()</code> automatically when the block ends —
+            success or exception — so you never leak a resource.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>try (Scanner file = new Scanner(new File("data.txt"))) {
+    while (file.hasNextLine()) {
+        System.out.println(file.nextLine());
+    }
+} catch (IOException e) {
+    System.out.println("Could not read file: " + e.getMessage());
+}
+// file.close() was called for you — even if an exception was thrown</code></pre>
+          </div>
+          <p>This is far safer than a manual <code>finally { file.close(); }</code>, which is
+            easy to forget and awkward when <code>close()</code> itself can throw.</p>
+        </section>
+
+        <section class="content-section" id="throw-throws">
+          <h2>8. <code>throw</code> &amp; <code>throws</code></h2>
+          <ul>
+            <li><strong><code>throw</code></strong> (statement) — raise an exception <em>now</em>: <code>throw new IllegalArgumentException("age must be &gt;= 0");</code></li>
+            <li><strong><code>throws</code></strong> (method clause) — declare that a method <em>might</em> let a checked exception escape: <code>void load() throws IOException { ... }</code></li>
+          </ul>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>static int parsePositive(String s) {
+    int n = Integer.parseInt(s);              // may throw NumberFormatException (unchecked)
+    if (n &lt; 0) {
+        throw new IllegalArgumentException("must be non-negative, got " + n);
+    }
+    return n;
+}</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Fail fast on bad arguments</div>
+            <p>
+              Validate a method's inputs at the top and <code>throw new IllegalArgumentException</code>
+              immediately. A clear exception at the call site beats a mysterious
+              <code>NullPointerException</code> ten methods deep.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="custom">
+          <h2>9. Custom Exceptions</h2>
+          <p>
+            Define your own type when you want callers to catch <em>your</em> specific failure.
+            Extend <code>Exception</code> for a checked one, or <code>RuntimeException</code> for
+            unchecked.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">BankErrors.java (excerpt)</span></div>
+            <pre><code>class InsufficientFundsException extends Exception {     // checked
+    InsufficientFundsException(String message) { super(message); }
+}
+
+class Account {
+    private double balance;
+
+    void withdraw(double amount) throws InsufficientFundsException {
+        if (amount &gt; balance) {
+            throw new InsufficientFundsException(
+                String.format("need $%.2f but balance is $%.2f", amount, balance));
+        }
+        balance -= amount;
+    }
+}
+
+// caller:
+try {
+    acc.withdraw(200);
+} catch (InsufficientFundsException e) {
+    System.out.println("declined: " + e.getMessage());
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="best-practices">
+          <h2>10. Best Practices</h2>
+          <ul>
+            <li><strong>Catch specific types</strong>, not a bare <code>Exception</code>, so you don't accidentally swallow bugs.</li>
+            <li><strong>Never leave a <code>catch</code> block empty.</strong> At minimum log it. Silently ignored exceptions are the worst kind of bug.</li>
+            <li><strong>Don't use exceptions for normal flow.</strong> Checking <code>if (index &lt; array.length)</code> beats catching <code>ArrayIndexOutOfBoundsException</code>.</li>
+            <li><strong>Handle where you can actually respond.</strong> If a method can't recover, let the exception propagate to a caller that can.</li>
+            <li><strong>Preserve the cause</strong> when re-throwing: <code>throw new AppException("load failed", e);</code>.</li>
+            <li><strong>Prefer try-with-resources</strong> over manual <code>finally</code> cleanup.</li>
+            <li><strong>Validate inputs early</strong> with <code>IllegalArgumentException</code> / <code>IllegalStateException</code>.</li>
+          </ul>
+        </section>
+
+        <section class="content-section" id="cheat-sheet">
+          <h2>11. Executive Quick-Recap &amp; Cheat Sheet</h2>
+
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The 30-Second Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              An <strong>exception</strong> unwinds the call stack until something
+              <code>catch</code>es it (or it crashes <code>main</code>). <strong>Checked</strong>
+              exceptions must be caught or declared <code>throws</code>; <strong>unchecked</strong>
+              (<code>RuntimeException</code>) need not be. <code>try</code> runs the risky code,
+              <code>catch</code> handles a type (specific first), <code>finally</code> always
+              runs, <strong>try-with-resources</strong> auto-closes. <code>throw</code> raises one;
+              custom exceptions extend <code>Exception</code> or <code>RuntimeException</code>.
+            </p>
+          </div>
+
+          <h3>Core Syntax at a Glance</h3>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java Cheat Sheet</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>class OutOfStockException extends Exception {
+    OutOfStockException(String m) { super(m); }
+}
+
+static void buy(int stock, int qty) throws OutOfStockException {
+    if (qty &lt;= 0) throw new IllegalArgumentException("qty must be positive");   // unchecked
+    if (qty &gt; stock) throw new OutOfStockException("only " + stock + " left");   // checked
+    System.out.println("sold " + qty);
+}
+
+public static void main(String[] args) {
+    try {
+        buy(3, 5);
+    } catch (OutOfStockException e) {
+        System.out.println("sorry: " + e.getMessage());
+    } catch (IllegalArgumentException e) {
+        System.out.println("bad request: " + e.getMessage());
+    } finally {
+        System.out.println("transaction attempt logged");
+    }
+}</code></pre>
+          </div>
+
+          <h3>Plain-English Glossary</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Exception</div><p class="glossary-def">An object representing a runtime problem; unwinds the stack until caught.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Checked</div><p class="glossary-def">Must be caught or declared with <code>throws</code>; for expected external failures.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Unchecked</div><p class="glossary-def">Subclass of <code>RuntimeException</code>; handling optional; usually a bug.</p></div>
+            <div class="glossary-item"><div class="glossary-term">try / catch</div><p class="glossary-def">Run risky code; on a matching exception, jump to the handler.</p></div>
+            <div class="glossary-item"><div class="glossary-term">finally</div><p class="glossary-def">A block that always runs — cleanup that must happen no matter what.</p></div>
+            <div class="glossary-item"><div class="glossary-term">try-with-resources</div><p class="glossary-def"><code>try (Resource r = ...)</code> — auto-calls <code>r.close()</code> at the end.</p></div>
+            <div class="glossary-item"><div class="glossary-term">throw</div><p class="glossary-def">Statement that raises an exception now.</p></div>
+            <div class="glossary-item"><div class="glossary-term">throws</div><p class="glossary-def">Method clause declaring a checked exception may escape.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Custom exception</div><p class="glossary-def">Your own class extending <code>Exception</code> (checked) or <code>RuntimeException</code> (unchecked).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Stack trace</div><p class="glossary-def">The chain of method calls an uncaught exception prints; read top-down.</p></div>
+          </div>
+          <p style="margin-top: var(--space-md);">Full definitions: <a href="../../reference/glossary.html">Master Glossary</a> &bull; <a href="../../reference/reading-errors.html">Reading Error Messages</a>.</p>
+        </section>
+
+        <section class="content-section" id="summary">
+          <h2>12. Summary &amp; Interactive Self-Checks</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Try these, then verify against this lesson (<a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"Explain checked vs unchecked exceptions with one example of each and when to use them."</li>
+              <li>"Why is an empty <code>catch</code> block dangerous? Show a bug it hides."</li>
+              <li>"Rewrite this manual <code>finally { close() }</code> as try-with-resources. <em>[paste]</em>"</li>
+            </ul>
+          </div>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Q1: Does a <code>finally</code> block run if the <code>try</code> block executes <code>return</code>?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Yes. <code>finally</code> runs before the method actually returns — it always runs (barring <code>System.exit</code> or a JVM crash).</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q2: The compiler forces you to handle which kind of exception?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Checked exceptions (subclasses of <code>Exception</code> but not <code>RuntimeException</code>) — catch them or add <code>throws</code>. Unchecked ones are optional.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q3: Why must <code>catch (NumberFormatException e)</code> come before <code>catch (Exception e)</code>?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>Exception</code> is a superclass and would catch everything first, making the specific block unreachable — a compile error.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q4: What does try-with-resources save you from writing?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> A manual <code>finally { resource.close(); }</code> — it calls <code>close()</code> automatically, even on exception.</div>
+            </details>
+          </div>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start Class Tasks</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Post-Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 11 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Session 11 Class Tasks &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

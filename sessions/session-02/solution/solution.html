@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 2 Solutions | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 2 Solutions</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../../index.html">Dashboard</a></li>
+      <li><a href="../lesson.html">Lesson</a></li>
+      <li><a href="../class-tasks.html">Class Tasks</a></li>
+      <li><a href="../assignment.html">Assignment</a></li>
+      <li><a href="solution.html" class="active">Solutions</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl); max-width: 900px;">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Reference Solutions</span>
+        <span class="tag tag-purple">Session 2</span>
+      </div>
+      <h1>✅ Session 2 — Reference Solutions</h1>
+      <p class="description">
+        Every class task and the assignment, solved and explained, with the exact console
+        output. Each `.java` file also lives in this <code>solution/</code> folder so you can
+        compile and run it.
+      </p>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ The 20-minute rule</div>
+      <p style="margin-bottom:0;">
+        Don't open a solution until you've genuinely tried the problem for 20 minutes. When
+        you do, read it, close it, and retype it from memory. If you can't, you haven't
+        learned it yet — that's useful information, not failure.
+      </p>
+    </div>
+
+    <h2>Class Tasks</h2>
+
+    <details class="self-check-card">
+      <summary>🟢 Task 2.1 — TemperatureConverter</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> the only trap is integer division. <code>9 / 5</code> is <code>1</code>;
+          <code>9.0 / 5.0</code> is <code>1.8</code>. Keep the formula in <code>double</code>.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">TemperatureConverter.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code>public class TemperatureConverter {
+    public static void main(String[] args) {
+        double celsius = 37.5;
+        double fahrenheit = (celsius * 9.0 / 5.0) + 32; // 99.5
+
+        System.out.println("=== WEATHER MONITORING SYSTEM ===");
+        System.out.printf("Celsius Reading    : %.1f °C%n", celsius);
+        System.out.printf("Fahrenheit Reading : %.1f °F%n", fahrenheit);
+    }
+}</code></pre>
+        </div>
+        <div class="expected-output"><h5>Output</h5><pre><code>=== WEATHER MONITORING SYSTEM ===
+Celsius Reading    : 37.5 °C
+Fahrenheit Reading : 99.5 °F</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 2.2 — LoanCalculator</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> translate the three formulas directly, then align the table.
+          <code>%10.2f</code> = right-aligned, width 10, 2 decimals. <code>%%</code> prints a literal <code>%</code>.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">LoanCalculator.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code>public class LoanCalculator {
+    public static void main(String[] args) {
+        double principal = 5000.00;
+        double annualRate = 6.5;
+        int durationYears = 2;
+
+        double totalInterest = (principal * annualRate * durationYears) / 100.0;
+        double totalRepayment = principal + totalInterest;
+        double monthlyInstallment = totalRepayment / (durationYears * 12);
+
+        System.out.println("========================================");
+        System.out.println("     STUDENT LAPTOP LOAN SUMMARY        ");
+        System.out.println("========================================");
+        System.out.printf("Principal Borrowed : $%10.2f%n", principal);
+        System.out.printf("Interest Rate      : %9.1f%%%n", annualRate);
+        System.out.printf("Total Interest Fee : $%10.2f%n", totalInterest);
+        System.out.printf("Total Repayment    : $%10.2f%n", totalRepayment);
+        System.out.printf("Monthly Payment    : $%10.2f%n", monthlyInstallment);
+        System.out.println("========================================");
+    }
+}</code></pre>
+        </div>
+        <div class="expected-output"><h5>Output</h5><pre><code>========================================
+     STUDENT LAPTOP LOAN SUMMARY
+========================================
+Principal Borrowed : $   5000.00
+Interest Rate      :       6.5%
+Total Interest Fee : $    650.00
+Total Repayment    : $   5650.00
+Monthly Payment    : $    235.42
+========================================</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🔴 Task 2.3 — BmiCalculator</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> <code>(int) bmi</code> truncates (22.88 &rarr; 22, not 23).
+          The healthy band needs <code>&amp;&amp;</code> — both ends must hold. The ternary picks the label.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">BmiCalculator.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code>public class BmiCalculator {
+    public static void main(String[] args) {
+        double weightKg = 72.5;
+        double heightM = 1.78;
+
+        double bmi = weightKg / (heightM * heightM);   // 22.88...
+        int truncatedBmi = (int) bmi;                  // 22
+
+        boolean isNormalRange = (bmi >= 18.5) && (bmi <= 24.9);
+        String evaluation = isNormalRange ? "NORMAL WEIGHT" : "ATTENTION NEEDED";
+
+        System.out.println("=== SMART HEALTH DIAGNOSTIC ===");
+        System.out.printf("Weight (kg)        : %.1f%n", weightKg);
+        System.out.printf("Height (m)         : %.2f%n", heightM);
+        System.out.printf("Exact BMI          : %.2f%n", bmi);
+        System.out.printf("Truncated BMI (int): %d%n", truncatedBmi);
+        System.out.printf("Health Status      : %s%n", evaluation);
+    }
+}</code></pre>
+        </div>
+        <div class="expected-output"><h5>Output</h5><pre><code>=== SMART HEALTH DIAGNOSTIC ===
+Weight (kg)        : 72.5
+Height (m)         : 1.78
+Exact BMI          : 22.88
+Truncated BMI (int): 22
+Health Status      : NORMAL WEIGHT</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 2.4 — TipSplitter (Scanner)</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> read a <code>double</code> then an <code>int</code>. This task never calls
+          <code>nextLine()</code> afterwards, so the newline trap doesn't bite. <code>Math.round(x*100)</code>
+          gives whole cents.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">TipSplitter.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code>import java.util.Scanner;
+
+public class TipSplitter {
+    public static void main(String[] args) {
+        final double TIP_RATE = 0.15;
+        Scanner in = new Scanner(System.in);
+
+        System.out.print("Bill amount: ");
+        double bill = in.nextDouble();
+
+        System.out.print("Number of people: ");
+        int people = in.nextInt();
+
+        double tip = bill * TIP_RATE;
+        double total = bill + tip;
+        double perPerson = total / people;
+
+        System.out.printf("Tip (15%%)   : $%.2f%n", tip);
+        System.out.printf("Total       : $%.2f%n", total);
+        System.out.printf("Per person  : $%.2f%n", perPerson);
+        System.out.printf("Per person  : %d cents%n", Math.round(perPerson * 100));
+
+        in.close();
+    }
+}</code></pre>
+        </div>
+        <div class="expected-output"><h5>Output — input <code>86.40</code>, <code>4</code></h5><pre><code>Bill amount: Number of people: Tip (15%)   : $12.96
+Total       : $99.36
+Per person  : $24.84
+Per person  : 2484 cents</code></pre></div>
+      </div>
+    </details>
+
+    <h2>Assignment 2 — Retail POS Billing Engine</h2>
+
+    <details class="self-check-card">
+      <summary>📋 RetailBillingEngine — full solution &amp; walkthrough</summary>
+      <div class="self-check-answer">
+        <p><strong>Pipeline:</strong> line totals &rarr; gross subtotal &rarr; 8% discount <em>only if</em>
+          gross &gt; $150 (ternary) &rarr; 7.5% VAT on the discounted amount &rarr; final total &rarr;
+          <code>(int)(finalTotal * 100)</code> for whole cents.</p>
+        <p><strong>Watch the cast:</strong> the final total displays as <code>$259.36</code> but the cent
+          count is <code>25935</code>, not <code>25936</code> — <code>(int)</code> truncates
+          <code>25935.536</code>. That's the lesson's "narrowing casts don't round" point in action.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">RetailBillingEngine.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code>public class RetailBillingEngine {
+    public static void main(String[] args) {
+        final double VAT_RATE = 0.075;
+        final double DISCOUNT_RATE = 0.08;
+        final double DISCOUNT_THRESHOLD = 150.00;
+
+        String p1 = "Mechanical Keyboard"; double p1Price = 85.50; int p1Qty = 2;
+        String p2 = "USB-C Hub";           double p2Price = 34.99; int p2Qty = 1;
+        String p3 = "128GB Flash Drive";   double p3Price = 18.75; int p3Qty = 3;
+
+        double p1Total = p1Price * p1Qty;
+        double p2Total = p2Price * p2Qty;
+        double p3Total = p3Price * p3Qty;
+        double grossSubtotal = p1Total + p2Total + p3Total;
+
+        double discount = (grossSubtotal > DISCOUNT_THRESHOLD)
+                        ? grossSubtotal * DISCOUNT_RATE : 0.0;
+        double discountedSubtotal = grossSubtotal - discount;
+
+        double vat = discountedSubtotal * VAT_RATE;
+        double finalTotal = discountedSubtotal + vat;
+        int totalCents = (int) (finalTotal * 100);
+
+        System.out.println("+==============================================================+");
+        System.out.println("|            APTECH CAMPUS TECH STORE  -  SALES RECEIPT         |");
+        System.out.println("+==============================================================+");
+        System.out.printf("%-22s %5s %10s %12s%n", "ITEM", "QTY", "UNIT", "LINE TOTAL");
+        System.out.println("----------------------------------------------------------------");
+        System.out.printf("%-22s %5d %10.2f %12.2f%n", p1, p1Qty, p1Price, p1Total);
+        System.out.printf("%-22s %5d %10.2f %12.2f%n", p2, p2Qty, p2Price, p2Total);
+        System.out.printf("%-22s %5d %10.2f %12.2f%n", p3, p3Qty, p3Price, p3Total);
+        System.out.println("----------------------------------------------------------------");
+        System.out.printf("%-38s $%10.2f%n", "Gross Subtotal", grossSubtotal);
+        System.out.printf("%-38s $%10.2f%n", "Promotional Discount (8%)", discount);
+        System.out.printf("%-38s $%10.2f%n", "Subtotal After Discount", discountedSubtotal);
+        System.out.printf("%-38s $%10.2f%n", "VAT (7.5%)", vat);
+        System.out.println("----------------------------------------------------------------");
+        System.out.printf("%-38s $%10.2f%n", "FINAL INVOICE TOTAL", finalTotal);
+        System.out.printf("%-38s %11d%n", "Total in whole cents (int cast)", totalCents);
+        System.out.println("+==============================================================+");
+    }
+}</code></pre>
+        </div>
+        <div class="expected-output"><h5>Output</h5><pre><code>+==============================================================+
+|            APTECH CAMPUS TECH STORE  -  SALES RECEIPT         |
++==============================================================+
+ITEM                     QTY       UNIT   LINE TOTAL
+----------------------------------------------------------------
+Mechanical Keyboard        2      85.50       171.00
+USB-C Hub                  1      34.99        34.99
+128GB Flash Drive          3      18.75        56.25
+----------------------------------------------------------------
+Gross Subtotal                         $    262.24
+Promotional Discount (8%)              $     20.98
+Subtotal After Discount                $    241.26
+VAT (7.5%)                             $     18.09
+----------------------------------------------------------------
+FINAL INVOICE TOTAL                    $    259.36
+Total in whole cents (int cast)              25935
++==============================================================+</code></pre></div>
+      </div>
+    </details>
+
+    <div class="nav-footer">
+      <a href="../class-tasks.html" class="nav-prev"><span>&larr; Class Tasks</span></a>
+      <a href="../post-quiz.html" class="nav-next"><span>Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../../js/quiz.js"></script>
+</body>
+</html>
