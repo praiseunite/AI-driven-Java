@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 9 Pre-Quiz | Inheritance &amp; Polymorphism</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 9</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Course Home</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-yellow">Pre-Class Diagnostic</span>
+        <span class="tag tag-purple">Session 9</span>
+        <span class="tag tag-teal">Week 3 Begins</span>
+      </div>
+      <h1>🧠 Pre-Lecture Intuition Check</h1>
+      <p class="description">Five quick questions about families of related types. A low score is expected.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="../../index.html" class="nav-prev"><span>&larr; Back to Dashboard</span></a>
+      <a href="lesson.html" class="nav-next"><span>Proceed to Lesson 9 &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session9PreQuizData = {
+    title: "Session 9 Readiness: Families of Types",
+    description: "Pick the closest answer. Explanations unlock after each response.",
+    questions: [
+      {
+        question: "You have classes Car, Truck, and Motorcycle that share a lot of code (fuel, speed, start/stop). What is the tidiest way to avoid copy-pasting?",
+        options: [
+          "Copy the shared code into all three anyway",
+          "Put the shared parts in a Vehicle class the three EXTEND",
+          "Make everything static",
+          "Use one giant class with an int 'type' field"
+        ],
+        correct: 1,
+        explanation: "A shared superclass holds the common state and behavior once; each subclass adds or changes only what is specific to it."
+      },
+      {
+        question: "Which sentence signals that inheritance is appropriate?",
+        options: [
+          "A Car HAS an Engine",
+          "A SavingsAccount IS A BankAccount",
+          "A Library CONTAINS Books",
+          "An Order USES a PaymentGateway"
+        ],
+        correct: 1,
+        explanation: "Inheritance models 'is-a'. 'has-a' / 'contains' / 'uses' relationships are better expressed as fields."
+      },
+      {
+        question: "A method `draw()` is called on a variable typed as `Shape`, but the object is actually a `Circle`. Which `draw()` should run?",
+        options: [
+          "Shape's, because that's the variable's type",
+          "Circle's, because that's what the object really is",
+          "Neither; it's an error",
+          "Both, one after the other"
+        ],
+        correct: 1,
+        explanation: "Java uses the object's real (runtime) type to pick an overridden method. This is polymorphism / dynamic dispatch."
+      },
+      {
+        question: "Why might a 'Shape' class have no sensible object of its own?",
+        options: [
+          "Shapes are too big for memory",
+          "'Shape' is an abstract idea — you can draw a circle or a square, but not a generic 'shape'",
+          "Java forbids one-word class names",
+          "It has too many fields"
+        ],
+        correct: 1,
+        explanation: "Such a class is declared `abstract`: it defines what all shapes share and demands that each concrete subclass supply the specifics (like area())."
+      },
+      {
+        question: "Two Point objects both hold (2, 3). `pointA == pointB` is false. Why?",
+        options: [
+          "The coordinates are wrong",
+          "== checks whether they are the SAME object in memory, not whether their contents match",
+          "Points cannot be compared",
+          "One of them is null"
+        ],
+        correct: 1,
+        explanation: "For objects, == compares identity. To compare by value you override and call equals() — today's lesson shows how."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session9PreQuizData);
+  });
+</script>
+
+</body>
+</html>

@@ -32,3 +32,18 @@ Prototype the core state-machine and transaction handler for an ATM kiosk named 
 - **Formatting & Style (20 Pts)**: Clean indentation, currency formatting, and comments.
 
 **Submission**: Upload `AtmBankingEngine.java` via ProConnect under *Work Assignments -> Session 3*.
+
+---
+
+## What this builds on
+
+Everything needed is already taught: `Scanner` input and `final` constants (Session 2);
+`while`, `switch`, `break` (Session 3). Put it **all in one `main` method** — user-defined
+methods come in Session 5. Console input is not masked; the typed PIN is visible (normal for a
+console prototype).
+
+**Starter skeleton + full compiled reference solution with a scripted run:**
+[solution/solution.html](solution/solution.html)
+
+Quick scripted test:
+`printf '2026\n3\n600\n3\n200\n5\n' | java AtmBankingEngine`

@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 3 Solutions | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 3 Solutions</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../../index.html">Dashboard</a></li>
+      <li><a href="../lesson.html">Lesson</a></li>
+      <li><a href="../class-tasks.html">Class Tasks</a></li>
+      <li><a href="../assignment.html">Assignment</a></li>
+      <li><a href="solution.html" class="active">Solutions</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl); max-width: 900px;">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Reference Solutions</span>
+        <span class="tag tag-purple">Session 3</span>
+      </div>
+      <h1>✅ Session 3 — Reference Solutions</h1>
+      <p class="description">
+        The four class tasks and the ATM assignment, solved, explained, and run-verified. The
+        matching <code>.java</code> files are in this <code>solution/</code> folder.
+      </p>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ The 20-minute rule</div>
+      <p style="margin-bottom:0;">
+        Struggle with each problem for 20 minutes before opening its solution. Then read it,
+        close it, and retype it from memory.
+      </p>
+    </div>
+
+    <h2>Class Tasks</h2>
+
+    <details class="self-check-card">
+      <summary>🟢 Task 3.1 — TrafficController</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> one <code>switch</code> on <code>signal.toUpperCase()</code>; a
+          <code>break</code> on every case; <code>default</code> is the safety net for anything
+          unexpected.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">TrafficController.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code>public class TrafficController {
+    public static void main(String[] args) {
+        String signal = "YELLOW";
+
+        System.out.println("=== AI VEHICLE NAVIGATION SYSTEM ===");
+        System.out.println("Detected Signal: " + signal);
+
+        switch (signal.toUpperCase()) {
+            case "RED":
+                System.out.println("ACTION: Full Brake! Bring vehicle to complete stop.");
+                break;
+            case "YELLOW":
+                System.out.println("ACTION: Decelerate cautiously. Prepare to stop at line.");
+                break;
+            case "GREEN":
+                System.out.println("ACTION: Accelerate and proceed safely through intersection.");
+                break;
+            case "FLASHING_YELLOW":
+                System.out.println("ACTION: Yield right of way and proceed with extreme caution.");
+                break;
+            default:
+                System.out.println("ALERT: Sensor malfunction or unknown signal! Engaging emergency stop.");
+                break;
+        }
+    }
+}</code></pre>
+        </div>
+        <div class="expected-output"><h5>Output</h5><pre><code>=== AI VEHICLE NAVIGATION SYSTEM ===
+Detected Signal: YELLOW
+ACTION: Decelerate cautiously. Prepare to stop at line.</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 3.2 — NumberSeriesAnalyzer</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> <code>if (i % 2 != 0) continue;</code> jumps odd numbers straight
+          to <code>i++</code>. Cast to <code>double</code> before dividing or the average truncates.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">NumberSeriesAnalyzer.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code>public class NumberSeriesAnalyzer {
+    public static void main(String[] args) {
+        int sumOfEvens = 0;
+        int evenCount = 0;
+
+        System.out.println("Iterating numbers 1 to 20 (processing evens only):");
+        for (int i = 1; i <= 20; i++) {
+            if (i % 2 != 0) {
+                continue;
+            }
+            System.out.print(i + " ");
+            sumOfEvens += i;
+            evenCount++;
+        }
+
+        System.out.println();
+        System.out.println("----------------------------------------");
+        System.out.println("Total Even Numbers Found: " + evenCount);
+        System.out.println("Sum of All Even Numbers : " + sumOfEvens);
+        System.out.printf("Average of Evens        : %.2f%n", (double) sumOfEvens / evenCount);
+    }
+}</code></pre>
+        </div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Iterating numbers 1 to 20 (processing evens only):
+2 4 6 8 10 12 14 16 18 20
+----------------------------------------
+Total Even Numbers Found: 10
+Sum of All Even Numbers : 110
+Average of Evens        : 11.00</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🔴 Task 3.3 — PatternGenerator</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> outer loop = row, inner loop = column. <code>%4d</code> right-pads
+          every number to 4 columns so the table lines up. In the pyramid the inner bound
+          <code>j &lt;= i</code> shrinks with the outer counter.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">PatternGenerator.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code>public class PatternGenerator {
+    public static void main(String[] args) {
+        System.out.println("=== 1. 10 x 10 MULTIPLICATION TABLE ===");
+        for (int r = 1; r <= 10; r++) {
+            for (int c = 1; c <= 10; c++) {
+                System.out.printf("%4d", (r * c));
+            }
+            System.out.println();
+        }
+
+        System.out.println("\n=== 2. INVERTED NUMBER PYRAMID ===");
+        for (int i = 5; i >= 1; i--) {
+            for (int j = 1; j <= i; j++) {
+                System.out.print(j + " ");
+            }
+            System.out.println();
+        }
+    }
+}</code></pre>
+        </div>
+        <div class="expected-output"><h5>Output</h5><pre><code>=== 1. 10 x 10 MULTIPLICATION TABLE ===
+   1   2   3   4   5   6   7   8   9  10
+   2   4   6   8  10  12  14  16  18  20
+   3   6   9  12  15  18  21  24  27  30
+   4   8  12  16  20  24  28  32  36  40
+   5  10  15  20  25  30  35  40  45  50
+   6  12  18  24  30  36  42  48  54  60
+   7  14  21  28  35  42  49  56  63  70
+   8  16  24  32  40  48  56  64  72  80
+   9  18  27  36  45  54  63  72  81  90
+  10  20  30  40  50  60  70  80  90 100
+
+=== 2. INVERTED NUMBER PYRAMID ===
+1 2 3 4 5
+1 2 3 4
+1 2 3
+1 2
+1</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 3.4 — PinGate (Scanner + while + break)</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> loop <code>while (tries &lt; MAX_TRIES)</code>; <code>break</code>
+          the instant the PIN is right; a <code>boolean</code> remembers <em>how</em> you left the
+          loop so the message after it is correct.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">PinGate.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code>import java.util.Scanner;
+
+public class PinGate {
+    public static void main(String[] args) {
+        final int CORRECT_PIN = 2026;
+        final int MAX_TRIES = 3;
+
+        Scanner in = new Scanner(System.in);
+        int tries = 0;
+        boolean unlocked = false;
+
+        while (tries < MAX_TRIES) {
+            System.out.print("Enter PIN: ");
+            int pin = in.nextInt();
+
+            if (pin == CORRECT_PIN) {
+                unlocked = true;
+                break;
+            }
+            tries++;
+            System.out.println("Wrong PIN. Attempts left: " + (MAX_TRIES - tries));
+        }
+
+        if (unlocked) {
+            System.out.println("Access granted. Welcome.");
+        } else {
+            System.out.println("Card retained. Please contact your bank.");
+        }
+        in.close();
+    }
+}</code></pre>
+        </div>
+        <div class="expected-output"><h5>Output — input <code>1111</code>, <code>2222</code>, <code>2026</code></h5><pre><code>Enter PIN: Wrong PIN. Attempts left: 2
+Enter PIN: Wrong PIN. Attempts left: 1
+Enter PIN: Access granted. Welcome.</code></pre></div>
+        <div class="expected-output"><h5>Output — input <code>1</code>, <code>2</code>, <code>3</code></h5><pre><code>Enter PIN: Wrong PIN. Attempts left: 2
+Enter PIN: Wrong PIN. Attempts left: 1
+Enter PIN: Wrong PIN. Attempts left: 0
+Card retained. Please contact your bank.</code></pre></div>
+      </div>
+    </details>
+
+    <h2>Assignment 3 — ATM Banking Engine</h2>
+
+    <details class="self-check-card">
+      <summary>📋 AtmBankingEngine — full solution &amp; walkthrough</summary>
+      <div class="self-check-answer">
+        <p><strong>Structure:</strong> one PIN <code>while</code> loop (break on success, return on
+          lock-out), then one menu <code>while (choice != 5)</code> loop with a <code>switch</code>.
+          Withdrawal rules are checked in order — <code>&lt;= 0</code>, then over the
+          single-transaction limit, then over balance — each with its own message.</p>
+        <p><strong>No methods:</strong> everything is in <code>main</code>; Session 5 will show how
+          to break this into <code>authenticate()</code>, <code>withdraw()</code>, etc.</p>
+        <div class="code-block">
+          <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">AtmBankingEngine.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+          <pre><code>import java.util.Scanner;
+
+public class AtmBankingEngine {
+    public static void main(String[] args) {
+        final int CORRECT_PIN = 2026;
+        final int MAX_TRIES = 3;
+        final double SINGLE_WITHDRAWAL_LIMIT = 500.00;
+
+        Scanner in = new Scanner(System.in);
+        double balance = 1500.00;
+        int transactionCount = 0;
+
+        System.out.println("==================================================");
+        System.out.println("           APEX NATIONAL BANK - SMART ATM          ");
+        System.out.println("==================================================");
+
+        int tries = 0;
+        boolean authenticated = false;
+        while (tries < MAX_TRIES) {
+            System.out.print("Enter Security PIN: ");
+            int pin = in.nextInt();
+            if (pin == CORRECT_PIN) { authenticated = true; break; }
+            tries++;
+            System.out.println("Incorrect PIN. Attempts remaining: " + (MAX_TRIES - tries));
+        }
+        if (!authenticated) {
+            System.out.println("Card retained after 3 failed attempts. Please contact your bank.");
+            in.close();
+            return;
+        }
+        System.out.println("PIN Verified! Welcome, Account Holder #8921.");
+
+        int choice = 0;
+        while (choice != 5) {
+            System.out.println();
+            System.out.println("--- MAIN TRANSACTION MENU ---");
+            System.out.println("1. Check Account Balance");
+            System.out.println("2. Deposit Money");
+            System.out.println("3. Withdraw Cash");
+            System.out.println("4. Transaction Summary");
+            System.out.println("5. Exit / Eject Card");
+            System.out.print("Choice: ");
+            choice = in.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.printf("Current balance: $%.2f%n", balance);
+                    break;
+                case 2:
+                    System.out.print("Enter deposit amount: $");
+                    double deposit = in.nextDouble();
+                    if (deposit <= 0) {
+                        System.out.println("ERROR: Deposit must be greater than $0.00.");
+                    } else {
+                        balance += deposit;
+                        transactionCount++;
+                        System.out.printf("SUCCESS: Deposited $%.2f. Updated balance: $%.2f%n", deposit, balance);
+                    }
+                    break;
+                case 3:
+                    System.out.print("Enter withdrawal amount: $");
+                    double amount = in.nextDouble();
+                    if (amount <= 0) {
+                        System.out.println("ERROR: Amount must be greater than $0.00.");
+                    } else if (amount > SINGLE_WITHDRAWAL_LIMIT) {
+                        System.out.printf("ERROR: Exceeds single-transaction limit of $%.2f!%n", SINGLE_WITHDRAWAL_LIMIT);
+                    } else if (amount > balance) {
+                        System.out.println("ERROR: Insufficient funds.");
+                    } else {
+                        balance -= amount;
+                        transactionCount++;
+                        System.out.printf("SUCCESS: Dispensing $%.2f cash.%n", amount);
+                        System.out.printf("Updated Balance: $%.2f%n", balance);
+                    }
+                    break;
+                case 4:
+                    System.out.println("--- MINI STATEMENT ---");
+                    System.out.println("Completed transactions this session: " + transactionCount);
+                    System.out.printf("Final balance: $%.2f%n", balance);
+                    break;
+                case 5:
+                    System.out.println("Thank you for banking with Apex National Bank! Card ejected.");
+                    break;
+                default:
+                    System.out.println("Invalid option. Please choose 1-5.");
+                    break;
+            }
+        }
+        in.close();
+    }
+}</code></pre>
+        </div>
+        <div class="expected-output"><h5>Scripted run — <code>printf '2026\n3\n600\n3\n200\n1\n4\n5\n' | java AtmBankingEngine</code></h5><pre><code>==================================================
+           APEX NATIONAL BANK - SMART ATM
+==================================================
+Enter Security PIN: PIN Verified! Welcome, Account Holder #8921.
+
+--- MAIN TRANSACTION MENU ---
+1. Check Account Balance
+2. Deposit Money
+3. Withdraw Cash
+4. Transaction Summary
+5. Exit / Eject Card
+Choice: Enter withdrawal amount: $ERROR: Exceeds single-transaction limit of $500.00!
+
+--- MAIN TRANSACTION MENU ---
+1. Check Account Balance
+2. Deposit Money
+3. Withdraw Cash
+4. Transaction Summary
+5. Exit / Eject Card
+Choice: Enter withdrawal amount: $SUCCESS: Dispensing $200.00 cash.
+Updated Balance: $1300.00
+
+--- MAIN TRANSACTION MENU ---
+1. Check Account Balance
+2. Deposit Money
+3. Withdraw Cash
+4. Transaction Summary
+5. Exit / Eject Card
+Choice: Current balance: $1300.00
+
+--- MAIN TRANSACTION MENU ---
+1. Check Account Balance
+2. Deposit Money
+3. Withdraw Cash
+4. Transaction Summary
+5. Exit / Eject Card
+Choice: --- MINI STATEMENT ---
+Completed transactions this session: 1
+Final balance: $1300.00
+
+--- MAIN TRANSACTION MENU ---
+1. Check Account Balance
+2. Deposit Money
+3. Withdraw Cash
+4. Transaction Summary
+5. Exit / Eject Card
+Choice: Thank you for banking with Apex National Bank! Card ejected.</code></pre></div>
+      </div>
+    </details>
+
+    <div class="nav-footer">
+      <a href="../class-tasks.html" class="nav-prev"><span>&larr; Class Tasks</span></a>
+      <a href="../post-quiz.html" class="nav-next"><span>Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../../js/quiz.js"></script>
+</body>
+</html>

@@ -17,6 +17,7 @@
       <span>Java-I &bull; Session 1</span>
     </a>
     <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
       <li><a href="../../index.html">Dashboard</a></li>
       <li><a href="pre-quiz.html">Pre-Quiz</a></li>
       <li><a href="lesson.html" class="active">Lesson</a></li>
@@ -59,11 +60,12 @@
           <li><a href="#jvm-jre-jdk">5. JVM vs. JRE vs. JDK</a></li>
           <li><a href="#wora-explained">6. Write Once, Run Anywhere</a></li>
           <li><a href="#jdk-installation">7. Installing the JDK</a></li>
-          <li><a href="#first-program">8. Your First Java Program</a></li>
-          <li><a href="#line-by-line">9. Line-by-Line Breakdown</a></li>
-          <li><a href="#common-pitfalls">10. Common Beginner Traps</a></li>
-          <li><a href="#cheat-sheet">11. Executive Cheat Sheet</a></li>
-          <li><a href="#summary">12. Summary &amp; Self-Check</a></li>
+          <li><a href="#intellij-cockpit">8. IntelliJ IDEA Navigation</a></li>
+          <li><a href="#first-program">9. Your First Java Program</a></li>
+          <li><a href="#line-by-line">10. Line-by-Line Breakdown</a></li>
+          <li><a href="#common-pitfalls">11. Common Beginner Traps</a></li>
+          <li><a href="#cheat-sheet">12. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">13. Summary &amp; Self-Check</a></li>
         </ul>
       </aside>
 
@@ -364,14 +366,60 @@
                 <pre><code>javac -version
 java -version</code></pre>
               </div>
-              <p>If you see version numbers printed (e.g. <code>javac 21.0.x</code> or <code>openjdk 25</code>), your development environment is fully operational!</p>
+              <p>If you see version numbers printed (e.g. <code>javac 25.0.x</code> — JDK 25 LTS is the course standard; anything 17 or newer works), your development environment is fully operational! Full install &amp; troubleshooting steps: <a href="../../setup/environment-setup.html">Environment Setup</a>.</p>
             </li>
           </ol>
         </section>
 
-        <!-- 8. Your First Java Program -->
+        <!-- 8. IntelliJ IDEA Navigation -->
+        <section class="content-section" id="intellij-cockpit">
+          <h2>8. IntelliJ IDEA: Your Development Cockpit</h2>
+          <p>
+            While you can write code in a simple text editor and compile it via terminal, professional software engineers use an <strong>Integrated Development Environment (IDE)</strong>. In this course, we use <strong>IntelliJ IDEA</strong> &mdash; the industry gold standard for Java engineering.
+          </p>
+
+          <figure class="lesson-figure">
+            <img src="../../assets/images/intellij_navigation_map.jpg" alt="IntelliJ IDEA Java Developer UI Overview" loading="lazy">
+            <figcaption class="figure-caption">📌 Figure 1.3: IntelliJ IDEA Cockpit Map — 1. Project Tool Window, 2. Code Editor, 3. Gutter Run Buttons, 4. Top Run Toolbar, 5. Bottom Run Console.</figcaption>
+          </figure>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">🚀 Complete Student Visual Orientation Guide</div>
+            <p>
+              New to IntelliJ IDEA or navigating your laptop folders? Check out our dedicated visual roadmap:
+              <br><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; display: inline-block; margin-top: var(--space-xs); font-weight: 600;">💻 Open the Complete IntelliJ IDEA &amp; Laptop Navigation Guide &rarr;</a>
+            </p>
+          </div>
+
+          <h3>The 4-Step IntelliJ IDEA Workflow</h3>
+          <p>
+            Whenever you work on in-class tasks, coding labs, or assignments, follow this simple 4-step sequence:
+          </p>
+
+          <figure class="lesson-figure">
+            <img src="../../assets/images/intellij_coding_workflow.jpg" alt="4-Step Coding Workflow in IntelliJ IDEA" loading="lazy">
+            <figcaption class="figure-caption">📌 Figure 1.4: 4-Step Coding Workflow — 1. Create Class &rarr; 2. Fast Autocomplete (psvm, sout) &rarr; 3. Run Program &rarr; 4. View Run Console.</figcaption>
+          </figure>
+
+          <ol class="steps">
+            <li>
+              <strong>Create Class:</strong> In the Project Tool Window (left sidebar), right-click the <code>src</code> folder &rarr; <strong>New</strong> &rarr; <strong>Java Class</strong> &rarr; Type <code>HelloWorld</code> and press <kbd>Enter</kbd>.
+            </li>
+            <li>
+              <strong>Fast Boilerplate Autocomplete:</strong> Inside the class brackets, type <code>psvm</code> and press <kbd>Tab</kbd> to automatically generate <code>public static void main(String[] args) {}</code>. Inside the method, type <code>sout</code> and press <kbd>Tab</kbd> to generate <code>System.out.println();</code>!
+            </li>
+            <li>
+              <strong>Run Program:</strong> Click the green play button <strong>▶</strong> in the code gutter next to the main method, or click the green triangle in the top toolbar (<kbd>Ctrl + Shift + F10</kbd> on Windows, <kbd>Ctrl + Shift + R</kbd> on Mac).
+            </li>
+            <li>
+              <strong>View Output:</strong> The bottom Run Console window opens immediately with your output and confirmation <code>Process finished with exit code 0</code>!
+            </li>
+          </ol>
+        </section>
+
+        <!-- 9. Your First Java Program -->
         <section class="content-section" id="first-program">
-          <h2>8. Writing, Compiling, and Running Your First Program</h2>
+          <h2>9. Writing, Compiling, and Running Your First Program</h2>
           <p>
             Let's create the time-honored traditional first program for every software engineer: <strong>HelloWorld</strong>!
           </p>
@@ -389,8 +437,13 @@ java -version</code></pre>
 }</code></pre>
           </div>
 
-          <h3>How to Compile and Execute:</h3>
-          <p>Open your terminal in the directory where you saved <code>HelloWorld.java</code> and type:</p>
+          <h3>Two Ways to Execute Your Code:</h3>
+          <p>
+            <strong>Method A (In IntelliJ IDEA):</strong> Simply click the green play button <strong>▶</strong> in the gutter next to line 2. IntelliJ compiles and runs the program in one click.
+          </p>
+          <p>
+            <strong>Method B (Via Terminal / Command Prompt):</strong> Open your terminal in the directory where you saved <code>HelloWorld.java</code> and type:
+          </p>
 
           <div class="code-block">
             <div class="code-header">
@@ -410,9 +463,9 @@ java HelloWorld</code></pre>
           </div>
         </section>
 
-        <!-- 9. Line-by-Line Breakdown -->
+        <!-- 10. Line-by-Line Breakdown -->
         <section class="content-section" id="line-by-line">
-          <h2>9. Line-by-Line Code Anatomy</h2>
+          <h2>10. Line-by-Line Code Anatomy</h2>
           <p>
             Every single word in a Java program has an exact purpose. Let's dissect our program with surgical precision:
           </p>
@@ -475,9 +528,9 @@ java HelloWorld</code></pre>
           </div>
         </section>
 
-        <!-- 10. Common Beginner Traps -->
+        <!-- 11. Common Beginner Traps -->
         <section class="content-section" id="common-pitfalls">
-          <h2>10. Beginner Traps &amp; How to Avoid Them</h2>
+          <h2>11. Beginner Traps &amp; How to Avoid Them</h2>
 
           <div class="callout callout-danger">
             <div class="callout-title">🚨 Trap 1: Case Sensitivity</div>
@@ -507,9 +560,9 @@ java HelloWorld</code></pre>
           </div>
         </section>
 
-        <!-- 11. Executive Cheat Sheet -->
+        <!-- 12. Executive Cheat Sheet -->
         <section class="content-section" id="cheat-sheet">
-          <h2>11. Executive Quick-Recap &amp; Cheat Sheet</h2>
+          <h2>12. Executive Quick-Recap &amp; Cheat Sheet</h2>
           <p>Need a quick revision before the post-quiz or tomorrow's class? Here is everything distilled down to the bare essentials:</p>
 
           <div class="cheat-sheet-card">
@@ -571,9 +624,9 @@ public class MainApp {
           </div>
         </section>
 
-        <!-- 12. Summary & Self-Check -->
+        <!-- 13. Summary & Self-Check -->
         <section class="content-section" id="summary">
-          <h2>12. Summary &amp; Interactive Self-Checks</h2>
+          <h2>13. Summary &amp; Interactive Self-Checks</h2>
           <p>Before moving on to the class tasks and post-quiz, test your memory on these three quick questions. Click each card to reveal the answer:</p>
 
           <div class="self-check-container">

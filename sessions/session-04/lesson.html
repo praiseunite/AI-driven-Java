@@ -16,10 +16,12 @@
       <span>Java-I &bull; Session 4</span>
     </a>
     <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
       <li><a href="../../index.html">Dashboard</a></li>
       <li><a href="pre-quiz.html">Pre-Quiz</a></li>
       <li><a href="lesson.html" class="active">Review Guide</a></li>
       <li><a href="class-tasks.html">Try It Yourself</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
       <li><a href="post-quiz.html">Post-Quiz</a></li>
     </ul>
   </div>
@@ -48,11 +50,12 @@
           <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
           <li><a href="#week1-map">1. Week 1 Concept Map</a></li>
           <li><a href="#syntax-refresher">2. Core Syntax Refresher</a></li>
-          <li><a href="#loop-patterns">3. Classic Loop Patterns</a></li>
-          <li><a href="#debugging-playbook">4. The Debugging Playbook</a></li>
-          <li><a href="#tracing-code">5. Code Tracing Workshop</a></li>
-          <li><a href="#cheat-sheet">6. Executive Cheat Sheet</a></li>
-          <li><a href="#next-steps">7. Summary &amp; Week 2 Preview</a></li>
+          <li><a href="#string-methods">3. Essential String Methods</a></li>
+          <li><a href="#loop-patterns">4. Classic Loop Patterns</a></li>
+          <li><a href="#debugging-playbook">5. The Debugging Playbook</a></li>
+          <li><a href="#tracing-code">6. Code Tracing Workshop</a></li>
+          <li><a href="#cheat-sheet">7. Executive Cheat Sheet</a></li>
+          <li><a href="#next-steps">8. Summary &amp; Week 2 Preview</a></li>
         </ul>
       </aside>
 
@@ -140,9 +143,62 @@
           </div>
         </section>
 
-        <!-- 3. Loop Patterns -->
+        <!-- 3. Essential String Methods -->
+        <section class="content-section" id="string-methods">
+          <h2>3. Essential <code>String</code> Methods</h2>
+          <p>
+            You have been using a few of these already (<code>.equals()</code>,
+            <code>.toUpperCase()</code>). Here is the core set for Week 1. Remember: a
+            <code>String</code> is <strong>immutable</strong> — every method below returns a
+            <em>new</em> string and leaves the original untouched.
+          </p>
+
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Method</th><th>What it gives back</th><th>Example (<code>s = "Java Rocks"</code>)</th></tr></thead>
+              <tbody>
+                <tr><td><code>s.length()</code></td><td>number of characters (an <code>int</code>)</td><td><code>10</code></td></tr>
+                <tr><td><code>s.charAt(i)</code></td><td>the <code>char</code> at index <code>i</code> (0-based)</td><td><code>s.charAt(0)</code> → <code>'J'</code></td></tr>
+                <tr><td><code>s.substring(a)</code></td><td>from index <code>a</code> to the end</td><td><code>s.substring(5)</code> → <code>"Rocks"</code></td></tr>
+                <tr><td><code>s.substring(a, b)</code></td><td>index <code>a</code> up to <em>but not including</em> <code>b</code></td><td><code>s.substring(0, 4)</code> → <code>"Java"</code></td></tr>
+                <tr><td><code>s.toUpperCase()</code> / <code>s.toLowerCase()</code></td><td>same text, changed case</td><td><code>"JAVA ROCKS"</code> / <code>"java rocks"</code></td></tr>
+                <tr><td><code>s.equals(t)</code></td><td><code>boolean</code> — exact character match</td><td><code>s.equals("Java Rocks")</code> → <code>true</code></td></tr>
+                <tr><td><code>s.equalsIgnoreCase(t)</code></td><td><code>boolean</code> — match ignoring case</td><td><code>s.equalsIgnoreCase("java rocks")</code> → <code>true</code></td></tr>
+                <tr><td><code>s.contains(t)</code></td><td><code>boolean</code> — is <code>t</code> somewhere inside <code>s</code>?</td><td><code>s.contains("Rock")</code> → <code>true</code></td></tr>
+                <tr><td><code>s.indexOf(t)</code></td><td>first index of <code>t</code>, or <code>-1</code> if absent</td><td><code>s.indexOf("Rocks")</code> → <code>5</code></td></tr>
+                <tr><td><code>s.trim()</code></td><td>same text with leading/trailing spaces removed</td><td><code>"  hi  ".trim()</code> → <code>"hi"</code></td></tr>
+                <tr><td><code>s.replace(a, b)</code></td><td>every <code>a</code> swapped for <code>b</code></td><td><code>s.replace("Rocks", "Rules")</code> → <code>"Java Rules"</code></td></tr>
+                <tr><td><code>s.isEmpty()</code></td><td><code>boolean</code> — is the length 0?</td><td><code>"".isEmpty()</code> → <code>true</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Two String gotchas</div>
+            <p>
+              <strong>1.</strong> Index out of range throws
+              <code>StringIndexOutOfBoundsException</code>. Valid indexes are <code>0</code> to
+              <code>s.length() - 1</code>.
+              <br><strong>2.</strong> <code>s.toUpperCase();</code> on its own does nothing useful —
+              you must <em>capture</em> the result: <code>s = s.toUpperCase();</code>.
+            </p>
+          </div>
+
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">Palindrome check with String methods</span></div>
+            <pre><code>String word = "level";
+String reversed = "";
+for (int i = word.length() - 1; i >= 0; i--) {
+    reversed += word.charAt(i);          // build "level" back-to-front
+}
+boolean isPalindrome = word.equalsIgnoreCase(reversed);
+System.out.println(word + " palindrome? " + isPalindrome);   // true</code></pre>
+          </div>
+        </section>
+
+        <!-- 4. Loop Patterns -->
         <section class="content-section" id="loop-patterns">
-          <h2>3. Four Classic Algorithmic Loop Patterns</h2>
+          <h2>4. Four Classic Algorithmic Loop Patterns</h2>
           <p>Every software engineer uses these four loop design patterns daily:</p>
 
           <ol class="steps">
@@ -187,9 +243,9 @@ for (int i = 2; i * i <= n; i++) {
           </ol>
         </section>
 
-        <!-- 4. The Debugging Playbook -->
+        <!-- 5. The Debugging Playbook -->
         <section class="content-section" id="debugging-playbook">
-          <h2>4. The Professional Debugging Playbook</h2>
+          <h2>5. The Professional Debugging Playbook</h2>
           <div class="callout callout-danger">
             <div class="callout-title">🚨 Bug 1: Integer Division Sneak Attack</div>
             <p>
@@ -214,13 +270,40 @@ for (int i = 2; i * i <= n; i++) {
               <br><strong>Fix:</strong> Always use <code>if (input.equals("YES"))</code> or <code>if (input.equalsIgnoreCase("YES"))</code>.
             </p>
           </div>
+
+          <h3>Reading a stack trace (when the program crashes while running)</h3>
+          <p>
+            A compile error stops <code>javac</code>. A <strong>runtime exception</strong> happens
+            while the program runs and prints a <em>stack trace</em>. Read it top-down:
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Console</span></div>
+            <pre><code>Exception in thread "main" java.lang.ArithmeticException: / by zero
+    at Averager.main(Averager.java:8)</code></pre>
+          </div>
+          <ul>
+            <li><strong><code>java.lang.ArithmeticException</code></strong> — the <em>kind</em> of problem.</li>
+            <li><strong><code>: / by zero</code></strong> — the detail: you divided by zero.</li>
+            <li><strong><code>Averager.java:8</code></strong> — the exact file and line to open. Start here.</li>
+          </ul>
+          <p>
+            Common Week 1 exceptions: <code>ArithmeticException</code> (integer <code>/</code> or
+            <code>%</code> by zero), <code>InputMismatchException</code> (<code>Scanner.nextInt()</code>
+            got non-numeric text), <code>StringIndexOutOfBoundsException</code> (bad
+            <code>charAt</code>/<code>substring</code> index), <code>NullPointerException</code>
+            (using a variable that holds <code>null</code>). Full guide:
+            <a href="../../reference/reading-errors.html">Reading Error Messages</a>.
+          </p>
         </section>
 
-        <!-- 5. Tracing Code -->
+        <!-- 6. Tracing Code -->
         <section class="content-section" id="tracing-code">
-          <h2>5. Mental Code Tracing: The Trace Table Method</h2>
+          <h2>6. Mental Code Tracing: The Trace Table Method</h2>
           <p>
-            When a loop is misbehaving, don't guess—draw a <strong>Trace Table</strong> on paper. Record every variable's value on every step:
+            When a loop is misbehaving, don't guess — draw a <strong>Trace Table</strong> on paper.
+            The method: one column per variable (plus the condition), one row per pass. After each
+            line, write the new value. When the condition is false, the loop exits and the last row
+            holds your answer. Trace the loop below: <code>int total = 0; for (int i = 1; i &lt;= 3; i++) total += i;</code>
           </p>
 
           <div class="table-wrapper">
@@ -268,9 +351,9 @@ for (int i = 2; i * i <= n; i++) {
           </div>
         </section>
 
-        <!-- 6. Executive Cheat Sheet -->
+        <!-- 7. Executive Cheat Sheet -->
         <section class="content-section" id="cheat-sheet">
-          <h2>6. Week 1 Executive Synthesis &amp; Master Cheat Sheet</h2>
+          <h2>7. Week 1 Executive Synthesis &amp; Master Cheat Sheet</h2>
           <p>Everything you mastered across Week 1 condensed into a high-density reference sheet:</p>
 
           <div class="cheat-sheet-card">
@@ -334,10 +417,21 @@ int dollars = (int) currentBalance;</code></pre>
           </div>
         </section>
 
-        <!-- 7. Summary & Self-Check -->
+        <!-- 8. Summary & Self-Check -->
         <section class="content-section" id="next-steps">
-          <h2>7. Summary, Self-Check &amp; Week 2 Preview</h2>
-          <p>Test your comprehensive Week 1 knowledge with these three diagnostic self-checks:</p>
+          <h2>8. Summary, Self-Check &amp; Week 2 Preview</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Consolidate Week 1 — try these, then verify (<a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"Quiz me on Week 1 Java one question at a time: primitives, casting, Scanner, operators, if/switch, loops. Wait for my answer before the next."</li>
+              <li>"Here's my code and the stack trace it printed. Which line do I look at, and what does the exception mean? <em>[paste both]</em>"</li>
+              <li>"Give me 5 short 'what does this print?' tracing puzzles using for-loops and String methods, problems only."</li>
+            </ul>
+          </div>
+
+          <p>Test your comprehensive Week 1 knowledge with these diagnostic self-checks:</p>
 
           <div class="self-check-container">
             <details class="self-check-card">

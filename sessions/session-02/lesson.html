@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Session 2: Variables, Data Types, and Operators in Java — Primitives, Reference Types, Casting, and Formatting.">
+  <meta name="description" content="Session 2: Variables, Data Types, and Operators in Java — primitives, reference types, Scanner input, operators, precedence, constants, the Math class, casting, and money precision.">
   <title>Session 2: Variables, Data Types &amp; Operators | AI-Driven Java Programming</title>
   <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -16,6 +16,7 @@
       <span>Java-I &bull; Session 2</span>
     </a>
     <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
       <li><a href="../../index.html">Dashboard</a></li>
       <li><a href="pre-quiz.html">Pre-Quiz</a></li>
       <li><a href="lesson.html" class="active">Lesson</a></li>
@@ -37,8 +38,10 @@
       </div>
       <h1>Session 2: Variables, Data Types, and Operators</h1>
       <p class="description">
-        Programs don't just print static text—they process live information!
-        In this session, you will learn how computer memory stores numbers, letters, and decisions, how to perform computations, and how to format professional output.
+        Programs don't just print static text — they process live information.
+        In this session you will learn how memory stores numbers, letters, and true/false values,
+        how to read input typed by a user, how to compute with operators, and how to format
+        professional output.
       </p>
     </header>
 
@@ -54,26 +57,29 @@
           <li><a href="#reference-types">4. Reference Types (String)</a></li>
           <li><a href="#escape-sequences">5. Escape Sequences</a></li>
           <li><a href="#format-specifiers">6. Formatted Output (printf)</a></li>
-          <li><a href="#operators">7. Java Operators</a></li>
-          <li><a href="#type-casting">8. Type Casting</a></li>
-          <li><a href="#traps">9. Common Pitfalls</a></li>
-          <li><a href="#cheat-sheet">10. Executive Cheat Sheet</a></li>
-          <li><a href="#summary">11. Summary &amp; Self-Check</a></li>
+          <li><a href="#scanner">7. Reading Input with Scanner</a></li>
+          <li><a href="#operators">8. Java Operators</a></li>
+          <li><a href="#precedence">9. Operator Precedence</a></li>
+          <li><a href="#constants">10. Constants with <code>final</code></a></li>
+          <li><a href="#math-class">11. The Math Class</a></li>
+          <li><a href="#type-casting">12. Type Casting</a></li>
+          <li><a href="#money">13. Money &amp; Floating Point</a></li>
+          <li><a href="#traps">14. Common Pitfalls</a></li>
+          <li><a href="#cheat-sheet">15. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">16. Summary &amp; Self-Check</a></li>
         </ul>
       </aside>
 
       <main class="lesson-content">
 
-        <!-- Memory Booster: Concepts You Might Have Forgotten -->
+        <!-- Memory Booster -->
         <div class="callout callout-memory" id="memory-booster">
           <div class="callout-title">🧠 Memory Booster: Flashback to Session 1</div>
-          <p>
-            Before we dive into manipulating numbers and text, let's connect today's lesson with what you learned in Session 1:
-          </p>
+          <p>Before we manipulate numbers and text, connect today's lesson with Session 1:</p>
           <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
-            <li><strong>Where Does Code Live?</strong> All code we write today will sit inside a <code>public class</code>, specifically between the curly braces of <code>public static void main(String[] args) { ... }</code>.</li>
-            <li><strong>Compilation vs Execution:</strong> If you spell a variable type wrong (e.g. typing <code>Int</code> instead of <code>int</code>), <code>javac</code> will catch it during compilation before the program ever runs!</li>
-            <li><strong>RAM Lifecycle:</strong> In Session 1, we learned that RAM is volatile memory. The variables you create today only exist while your program is actively executing. As soon as <code>main()</code> finishes, their memory is reclaimed.</li>
+            <li><strong>Where code lives:</strong> everything today sits inside <code>public static void main(String[] args) { ... }</code>.</li>
+            <li><strong>Compile vs run:</strong> spell a type wrong (<code>Int</code> instead of <code>int</code>) and <code>javac</code> stops you before the program ever runs.</li>
+            <li><strong>RAM is temporary:</strong> the variables you create today exist only while the method runs; when <code>main()</code> returns, that memory is reclaimed.</li>
           </ul>
         </div>
 
@@ -81,77 +87,58 @@
         <section class="content-section" id="variables-concept">
           <h2>1. What is a Variable?</h2>
           <p>
-            When a program runs, it needs to store information temporarily in your computer's RAM (Random Access Memory).
-            A <strong>variable</strong> is simply a reserved slot in memory that has been given a human-friendly name.
+            When a program runs it needs to store information in your computer's RAM.
+            A <strong>variable</strong> is a reserved slot in memory that has been given a human-friendly name.
           </p>
 
           <div class="callout callout-think">
             <div class="callout-title">📦 Analogy: The Labeled Cardboard Box</div>
             <p>
-              Imagine a warehouse filled with empty cardboard boxes:
-              <br>1. You slap a sticker label on a box that reads: <code>studentAge</code>.
-              <br>2. You declare what kind of items can go inside (e.g. only whole numbers).
-              <br>3. You put the number <code>21</code> inside the box.
-              <br>4. Later on, when the student celebrates a birthday, you can replace the number with <code>22</code>.
+              Imagine a warehouse of empty boxes:
+              <br>1. You put a label on a box: <code>studentAge</code>.
+              <br>2. You declare what may go inside (e.g. only whole numbers).
+              <br>3. You place the number <code>21</code> inside.
+              <br>4. On the student's birthday you replace it with <code>22</code>.
             </p>
           </div>
 
-          <h3>Syntax of Variable Declaration &amp; Initialization:</h3>
+          <h3>Declaration &amp; Initialization</h3>
           <div class="code-block">
             <div class="code-header">
               <span class="code-lang">Java</span>
               <span class="code-filename">Variable Syntax</span>
             </div>
-            <pre><code>// Step 1: Declaration (Reserve memory of a specific type with a name)
+            <pre><code>// Step 1: Declaration (reserve memory of a type, with a name)
 int score;
 
-// Step 2: Initialization (Place the first value inside the box)
+// Step 2: Initialization (put the first value in the box)
 score = 95;
 
-// Combined (Declaration + Initialization in one clean step - Best Practice!)
+// Combined (declaration + initialization — best practice)
 int age = 24;
 double hourlyRate = 35.50;
 String studentName = "Ada Lovelace";</code></pre>
           </div>
         </section>
 
-        <!-- 2. Naming Rules & Conventions -->
+        <!-- 2. Naming Rules -->
         <section class="content-section" id="naming-rules">
           <h2>2. Variable Naming Rules &amp; Best Practices</h2>
           <p>
-            Java has strict <strong>grammatical rules</strong> (which cause compiler errors if broken) and community <strong>conventions</strong> (which make your code readable and professional).
+            Java has strict <strong>rules</strong> (break them and the compiler errors) and community
+            <strong>conventions</strong> (follow them and your code reads professionally).
           </p>
 
           <div class="table-wrapper">
             <table>
               <thead>
-                <tr>
-                  <th>Rule Category</th>
-                  <th>Legal Examples ✅</th>
-                  <th>Illegal / Non-Compliant Examples ❌</th>
-                </tr>
+                <tr><th>Rule</th><th>Legal ✅</th><th>Illegal / non-compliant ❌</th></tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><strong>Cannot start with a digit</strong></td>
-                  <td><code>player1Score</code>, <code>total2</code></td>
-                  <td><code>1stPlayer</code> (Compiler Error!)</td>
-                </tr>
-                <tr>
-                  <td><strong>Allowed characters</strong></td>
-                  <td>Letters, numbers, <code>_</code> (underscore), <code>$</code> (dollar)</td>
-                  <td><code>user-name</code>, <code>total#</code>, <code>price@tax</code> (Symbols not allowed)</td>
-                </tr>
-                <tr>
-                  <td><strong>Cannot use Java Keywords</strong></td>
-                  <td><code>classNumber</code>, <code>intVal</code></td>
-                  <td><code>class</code>, <code>public</code>, <code>static</code>, <code>void</code> (Reserved words!)</td>
-                </tr>
-                <tr>
-                  <td><strong>Convention: camelCase</strong></td>
-                  <td><code>userAccountBalance</code>, <code>maximumSpeed</code></td>
-                  <td><code>user_account_balance</code> (Python style), <code>MaxSpeed</code> (Reserved for Classes)</td>
-                </tr>
+                <tr><td><strong>Cannot start with a digit</strong></td><td><code>player1Score</code>, <code>total2</code></td><td><code>1stPlayer</code> (compiler error)</td></tr>
+                <tr><td><strong>Allowed characters</strong></td><td>letters, digits, <code>_</code>, <code>$</code></td><td><code>user-name</code>, <code>total#</code>, <code>price@tax</code></td></tr>
+                <tr><td><strong>No Java keywords</strong></td><td><code>classNumber</code>, <code>intVal</code></td><td><code>class</code>, <code>public</code>, <code>static</code>, <code>void</code></td></tr>
+                <tr><td><strong>Convention: camelCase</strong></td><td><code>userAccountBalance</code>, <code>maximumSpeed</code></td><td><code>user_account_balance</code>, <code>MaxSpeed</code> (Pascal is for classes)</td></tr>
               </tbody>
             </table>
           </div>
@@ -161,106 +148,59 @@ String studentName = "Ada Lovelace";</code></pre>
         <section class="content-section" id="primitive-types">
           <h2>3. The 8 Java Primitive Data Types</h2>
           <p>
-            Java is a <strong>strongly-typed language</strong>. That means you must tell the compiler exactly what type of data each variable holds before using it.
-            Java provides 8 foundational building blocks called <strong>primitive types</strong>:
+            Java is <strong>strongly typed</strong>: you must tell the compiler exactly what kind of
+            data each variable holds. There are 8 built-in <strong>primitive types</strong>:
           </p>
 
           <div class="table-wrapper">
             <table>
               <thead>
-                <tr>
-                  <th>Type</th>
-                  <th>Category</th>
-                  <th>Size in RAM</th>
-                  <th>Range of Values</th>
-                  <th>Example</th>
-                </tr>
+                <tr><th>Type</th><th>Category</th><th>Size in RAM</th><th>Range</th><th>Example</th></tr>
               </thead>
               <tbody>
-                <tr>
-                  <td><code>byte</code></td>
-                  <td>Integer</td>
-                  <td>1 byte (8 bits)</td>
-                  <td>-128 to 127</td>
-                  <td><code>byte age = 25;</code></td>
-                </tr>
-                <tr>
-                  <td><code>short</code></td>
-                  <td>Integer</td>
-                  <td>2 bytes (16 bits)</td>
-                  <td>-32,768 to 32,767</td>
-                  <td><code>short altitude = 15000;</code></td>
-                </tr>
-                <tr>
-                  <td><code>int</code></td>
-                  <td>Integer</td>
-                  <td>4 bytes (32 bits)</td>
-                  <td>-2.14 Billion to +2.14 Billion</td>
-                  <td><code>int cityPopulation = 1450000;</code> (Standard integer)</td>
-                </tr>
-                <tr>
-                  <td><code>long</code></td>
-                  <td>Integer</td>
-                  <td>8 bytes (64 bits)</td>
-                  <td>-9 Quintillion to +9 Quintillion</td>
-                  <td><code>long worldPopulation = 8000000000L;</code> (Notice 'L' suffix)</td>
-                </tr>
-                <tr>
-                  <td><code>float</code></td>
-                  <td>Decimal</td>
-                  <td>4 bytes (32 bits)</td>
-                  <td>6 to 7 decimal digits of precision</td>
-                  <td><code>float price = 19.99f;</code> (Notice 'f' suffix)</td>
-                </tr>
-                <tr>
-                  <td><code>double</code></td>
-                  <td>Decimal</td>
-                  <td>8 bytes (64 bits)</td>
-                  <td>15 to 16 decimal digits precision</td>
-                  <td><code>double pi = 3.14159265359;</code> (Standard decimal)</td>
-                </tr>
-                <tr>
-                  <td><code>char</code></td>
-                  <td>Character</td>
-                  <td>2 bytes (16 bits)</td>
-                  <td>Single Unicode character</td>
-                  <td><code>char grade = 'A';</code> (Enclosed in single quotes)</td>
-                </tr>
-                <tr>
-                  <td><code>boolean</code></td>
-                  <td>Truth Value</td>
-                  <td>1 bit (effective)</td>
-                  <td><code>true</code> or <code>false</code> only</td>
-                  <td><code>boolean isEnrolled = true;</code></td>
-                </tr>
+                <tr><td><code>byte</code></td><td>Integer</td><td>1 byte (8 bits)</td><td>-128 to 127</td><td><code>byte age = 25;</code></td></tr>
+                <tr><td><code>short</code></td><td>Integer</td><td>2 bytes (16 bits)</td><td>-32,768 to 32,767</td><td><code>short altitude = 15000;</code></td></tr>
+                <tr><td><code>int</code></td><td>Integer</td><td>4 bytes (32 bits)</td><td>-2.14 billion to +2.14 billion</td><td><code>int cityPopulation = 1450000;</code></td></tr>
+                <tr><td><code>long</code></td><td>Integer</td><td>8 bytes (64 bits)</td><td>-9 quintillion to +9 quintillion</td><td><code>long worldPopulation = 8000000000L;</code></td></tr>
+                <tr><td><code>float</code></td><td>Decimal</td><td>4 bytes (32 bits)</td><td>~6–7 decimal digits</td><td><code>float price = 19.99f;</code></td></tr>
+                <tr><td><code>double</code></td><td>Decimal</td><td>8 bytes (64 bits)</td><td>~15–16 decimal digits</td><td><code>double pi = 3.14159265359;</code></td></tr>
+                <tr><td><code>char</code></td><td>Character</td><td>2 bytes (16 bits)</td><td>one Unicode character</td><td><code>char grade = 'A';</code></td></tr>
+                <tr><td><code>boolean</code></td><td>Truth value</td><td>1 bit (effective)</td><td><code>true</code> / <code>false</code></td><td><code>boolean isEnrolled = true;</code></td></tr>
               </tbody>
             </table>
           </div>
 
           <div class="callout callout-tip">
-            <div class="callout-title">💡 The 90% Rule for Everyday Coding</div>
+            <div class="callout-title">💡 The 90% rule for everyday coding</div>
             <p>
-              Although there are 8 primitive types, 90% of real-world enterprise code uses just four:
-              <br>&bull; Whole numbers &rarr; use <code>int</code>
-              <br>&bull; Decimal numbers &rarr; use <code>double</code>
-              <br>&bull; Yes/No flags &rarr; use <code>boolean</code>
-              <br>&bull; Text words and sentences &rarr; use <code>String</code>
+              There are 8 primitives, but most real code uses four choices:
+              whole numbers &rarr; <code>int</code>; decimals &rarr; <code>double</code>;
+              yes/no &rarr; <code>boolean</code>; text &rarr; <code>String</code>.
             </p>
           </div>
 
           <figure class="lesson-figure">
-            <img src="../../assets/images/java_memory_boxes.jpg" alt="Java Variables and Memory Model in RAM" loading="lazy">
-            <figcaption class="figure-caption">📌 Figure 2.1: Java Variables &amp; Memory Layout — Stack frames storing primitive values versus Heap memory storing Reference Objects (Strings).</figcaption>
+            <img src="../../assets/images/java_memory_boxes.jpg" alt="Java variables and memory model: stack frames holding primitive values, heap holding String objects" loading="lazy">
+            <figcaption class="figure-caption">📌 Figure 2.1: Java Variables &amp; Memory Layout — stack frames store primitive values; the heap stores reference objects (Strings).</figcaption>
           </figure>
+          <div class="callout callout-info">
+            <div class="callout-title">📖 Figure 2.1 in words</div>
+            <p>
+              The <strong>stack</strong> (left) holds one box per local variable: <code>int age</code> holds
+              <code>24</code> directly. A <code>String name</code> box on the stack does <em>not</em> hold the
+              text — it holds an arrow (address) pointing to a <code>"Ada"</code> object in the
+              <strong>heap</strong> (right), where larger objects live.
+            </p>
+          </div>
         </section>
 
         <!-- 4. Reference Types -->
         <section class="content-section" id="reference-types">
           <h2>4. Primitive vs. Reference Types (Strings)</h2>
           <p>
-            Notice that <code>String</code> is NOT in the list of 8 primitives!
-            A <strong>primitive</strong> variable holds its raw binary value directly in memory (like a pocket holding a coin).
-            A <strong>reference type</strong> holds an address (a reference pointer) pointing to a complex object in heap memory.
+            <code>String</code> is <em>not</em> in the list of 8 primitives.
+            A <strong>primitive</strong> holds its raw value directly (a pocket holding a coin).
+            A <strong>reference type</strong> holds an address that points to an object in heap memory.
           </p>
 
           <div class="code-block">
@@ -269,17 +209,26 @@ String studentName = "Ada Lovelace";</code></pre>
               <span class="code-filename">Working with Strings</span>
               <button class="copy-btn" onclick="copyCode(this)">Copy</button>
             </div>
-            <pre><code>// Notice String starts with a capital 'S' because it is a Class!
+            <pre><code>// String starts with a capital 'S' because it is a class
 String firstName = "Ada";
-String lastName = "Lovelace";
+String lastName  = "Lovelace";
 
-// String concatenation using the '+' operator
+// Concatenation with the '+' operator
 String fullName = firstName + " " + lastName;
-System.out.println("Welcome, " + fullName); // Prints: Welcome, Ada Lovelace
+System.out.println("Welcome, " + fullName);   // Welcome, Ada Lovelace
 
-// Finding the length of a string
-int nameLength = fullName.length();
-System.out.println("Character count: " + nameLength); // Prints: 12</code></pre>
+// A few String methods you'll use a lot (full set in Session 4)
+System.out.println(fullName.length());         // 12
+System.out.println(fullName.toUpperCase());     // ADA LOVELACE
+System.out.println(fullName.equals("Ada Lovelace")); // true</code></pre>
+          </div>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Compare text with <code>.equals()</code>, not <code>==</code></div>
+            <p>
+              <code>==</code> asks "are these the same object in memory?" For text you almost always
+              want "do these hold the same characters?" — that is <code>a.equals(b)</code>. Session 3
+              relies on this.
+            </p>
           </div>
         </section>
 
@@ -287,173 +236,328 @@ System.out.println("Character count: " + nameLength); // Prints: 12</code></pre>
         <section class="content-section" id="escape-sequences">
           <h2>5. Escape Sequences</h2>
           <p>
-            What if you want to print a quotation mark inside a string: <code>She said "Hello"</code>?
-            If you type <code>"She said "Hello""</code>, Java thinks the string ends after <code>said</code>!
-            An <strong>escape sequence</strong> begins with a backslash (<code>\</code>) and tells the compiler to treat the following character specially:
+            How do you print a quote inside a string: <code>She said "Hello"</code>? Typing
+            <code>"She said "Hello""</code> makes Java think the string ended after <code>said</code>.
+            An <strong>escape sequence</strong> starts with a backslash and gives the next character a special meaning:
           </p>
 
           <div class="table-wrapper">
             <table>
-              <thead>
-                <tr>
-                  <th>Escape Code</th>
-                  <th>Meaning</th>
-                  <th>Code Example</th>
-                  <th>Visual Output</th>
-                </tr>
-              </thead>
+              <thead><tr><th>Code</th><th>Meaning</th><th>Example</th><th>Output</th></tr></thead>
               <tbody>
-                <tr>
-                  <td><code>\n</code></td>
-                  <td>Newline (moves to the next line)</td>
-                  <td><code>System.out.print("Line 1\nLine 2");</code></td>
-                  <td>Line 1<br>Line 2</td>
-                </tr>
-                <tr>
-                  <td><code>\t</code></td>
-                  <td>Tab (inserts horizontal spacing)</td>
-                  <td><code>System.out.print("Item:\t$50");</code></td>
-                  <td>Item:&nbsp;&nbsp;&nbsp;&nbsp;$50</td>
-                </tr>
-                <tr>
-                  <td><code>\"</code></td>
-                  <td>Double quote inside string</td>
-                  <td><code>System.out.print("He said \"Hi!\"");</code></td>
-                  <td>He said "Hi!"</td>
-                </tr>
-                <tr>
-                  <td><code>\\</code></td>
-                  <td>A literal backslash</td>
-                  <td><code>System.out.print("C:\\Users\\DELL");</code></td>
-                  <td>C:\Users\DELL</td>
-                </tr>
+                <tr><td><code>\n</code></td><td>Newline</td><td><code>System.out.print("Line 1\nLine 2");</code></td><td>Line 1<br>Line 2</td></tr>
+                <tr><td><code>\t</code></td><td>Tab</td><td><code>System.out.print("Item:\t$50");</code></td><td>Item:&nbsp;&nbsp;&nbsp;&nbsp;$50</td></tr>
+                <tr><td><code>\"</code></td><td>Double quote</td><td><code>System.out.print("He said \"Hi!\"");</code></td><td>He said "Hi!"</td></tr>
+                <tr><td><code>\\</code></td><td>Literal backslash</td><td><code>System.out.print("C:\\Users\\DELL");</code></td><td>C:\Users\DELL</td></tr>
               </tbody>
             </table>
           </div>
         </section>
 
-        <!-- 6. Format Specifiers -->
+        <!-- 6. printf -->
         <section class="content-section" id="format-specifiers">
           <h2>6. Formatted Printing with <code>System.out.printf()</code></h2>
           <p>
-            When building financial dashboards or inventory tables, concatenation with <code>+</code> gets messy and cannot control decimal rounding.
-            Java provides <code>System.out.printf()</code> (Print Formatted) using <strong>format specifiers</strong>:
+            Joining values with <code>+</code> gets messy and cannot control rounding or column widths.
+            <code>System.out.printf()</code> ("print formatted") uses <strong>format specifiers</strong>:
           </p>
 
           <div class="table-wrapper">
             <table>
-              <thead>
-                <tr>
-                  <th>Specifier</th>
-                  <th>Data Type</th>
-                  <th>Usage Example</th>
-                  <th>Result</th>
-                </tr>
-              </thead>
+              <thead><tr><th>Specifier</th><th>For</th><th>Example</th><th>Result</th></tr></thead>
               <tbody>
-                <tr>
-                  <td><code>%s</code></td>
-                  <td>String text</td>
-                  <td><code>printf("User: %s", "Alex")</code></td>
-                  <td>User: Alex</td>
-                </tr>
-                <tr>
-                  <td><code>%d</code></td>
-                  <td>Decimal Integer (int, long)</td>
-                  <td><code>printf("Items: %d", 42)</code></td>
-                  <td>Items: 42</td>
-                </tr>
-                <tr>
-                  <td><code>%f</code></td>
-                  <td>Floating-point (float, double)</td>
-                  <td><code>printf("Tax: %f", 7.5)</code></td>
-                  <td>Tax: 7.500000</td>
-                </tr>
-                <tr>
-                  <td><code>%.2f</code></td>
-                  <td>Float rounded to 2 decimal places</td>
-                  <td><code>printf("Price: $%.2f", 19.995)</code></td>
-                  <td>Price: $20.00</td>
-                </tr>
-                <tr>
-                  <td><code>%-15s</code></td>
-                  <td>Left-aligned string in 15 spaces</td>
-                  <td><code>printf("%-15s", "Total")</code></td>
-                  <td>Total&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                </tr>
-                <tr>
-                  <td><code>%n</code></td>
-                  <td>Platform-independent newline</td>
-                  <td><code>printf("End%n")</code></td>
-                  <td>Jumps to next line</td>
-                </tr>
+                <tr><td><code>%s</code></td><td>String text</td><td><code>printf("User: %s", "Alex")</code></td><td>User: Alex</td></tr>
+                <tr><td><code>%d</code></td><td>integer (int, long)</td><td><code>printf("Items: %d", 42)</code></td><td>Items: 42</td></tr>
+                <tr><td><code>%f</code></td><td>floating-point</td><td><code>printf("Tax: %f", 7.5)</code></td><td>Tax: 7.500000</td></tr>
+                <tr><td><code>%.2f</code></td><td>float, 2 decimals (rounded)</td><td><code>printf("Price: $%.2f", 19.995)</code></td><td>Price: $20.00</td></tr>
+                <tr><td><code>%-15s</code></td><td>left-aligned in 15 columns</td><td><code>printf("%-15s|", "Total")</code></td><td>Total&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|</td></tr>
+                <tr><td><code>%n</code></td><td>newline (portable)</td><td><code>printf("End%n")</code></td><td>jumps to next line</td></tr>
               </tbody>
             </table>
           </div>
         </section>
 
-        <!-- 7. Java Operators -->
-        <section class="content-section" id="operators">
-          <h2>7. Java Operators Demystified</h2>
-
-          <h3>A. Arithmetic Operators</h3>
-          <p><code>+</code> (Addition), <code>-</code> (Subtraction), <code>*</code> (Multiplication), <code>/</code> (Division), <code>%</code> (Modulus / Remainder).</p>
-
-          <div class="callout callout-warning">
-            <div class="callout-title">⚠️ The Integer Division Trap</div>
-            <p>
-              When you divide two integers, Java drops any fractional decimal part completely!
-              <br><code>int result = 7 / 2; // Evaluates to 3, NOT 3.5!</code>
-              <br>To get decimal precision, at least one number must be a decimal:
-              <br><code>double correct = 7.0 / 2; // Evaluates to 3.5</code>
-            </p>
-          </div>
-
-          <h3>B. Relational (Comparison) Operators</h3>
-          <p>Always evaluate to a <code>boolean</code> (either <code>true</code> or <code>false</code>):</p>
-          <ul>
-            <li><code>==</code> : Equal to (e.g. <code>5 == 5</code> is true)</li>
-            <li><code>!=</code> : Not equal to (e.g. <code>5 != 3</code> is true)</li>
-            <li><code>&gt;</code> and <code>&gt;=</code> : Greater than, Greater than or equal to</li>
-            <li><code>&lt;</code> and <code>&lt;=</code> : Less than, Less than or equal to</li>
-          </ul>
-
-          <h3>C. Logical Operators</h3>
-          <ul>
-            <li><code>&amp;&amp;</code> (Logical AND): Returns <code>true</code> ONLY if BOTH sides are true.</li>
-            <li><code>||</code> (Logical OR): Returns <code>true</code> if AT LEAST ONE side is true.</li>
-            <li><code>!</code> (Logical NOT): Flips <code>true</code> to <code>false</code> and vice versa.</li>
-          </ul>
-
-          <h3>D. Increment / Decrement Operators</h3>
+        <!-- 7. Scanner (NEW) -->
+        <section class="content-section" id="scanner">
+          <h2>7. Reading Keyboard Input with <code>Scanner</code></h2>
           <p>
-            <code>count++</code> (Postfix: use current value, then add 1)<br>
-            <code>++count</code> (Prefix: add 1 immediately, then use new value)
+            So far our programs decide everything in advance. To react to a <em>user</em>, we read what
+            they type. Java's <code>Scanner</code> class does this. It lives in the <code>java.util</code>
+            package, so we <code>import</code> it at the very top of the file.
           </p>
 
-          <h3>E. The Ternary Operator (Inline If/Else)</h3>
           <div class="code-block">
             <div class="code-header">
               <span class="code-lang">Java</span>
+              <span class="code-filename">GreetUser.java</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
             </div>
-            <pre><code>// Syntax: variable = (condition) ? valueIfTrue : valueIfFalse;
+            <pre><code>import java.util.Scanner;              // 1. make Scanner available
+
+public class GreetUser {
+    public static void main(String[] args) {
+        Scanner input = new Scanner(System.in);   // 2. read from the keyboard
+
+        System.out.print("Enter your name: ");     // prompt (no newline)
+        String name = input.nextLine();            // 3a. read a whole line of text
+
+        System.out.print("Enter your age: ");
+        int age = input.nextInt();                 // 3b. read one integer
+
+        System.out.printf("Hi %s, next year you will be %d.%n", name, age + 1);
+
+        input.close();                             // 4. tidy up
+    }
+}</code></pre>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Method</th><th>Reads</th><th>Example input</th><th>You get</th></tr></thead>
+              <tbody>
+                <tr><td><code>nextLine()</code></td><td>the rest of the current line, as text</td><td><code>Ada Lovelace</code></td><td><code>"Ada Lovelace"</code></td></tr>
+                <tr><td><code>next()</code></td><td>one word (up to the next space)</td><td><code>Ada Lovelace</code></td><td><code>"Ada"</code></td></tr>
+                <tr><td><code>nextInt()</code></td><td>one whole number</td><td><code>42</code></td><td><code>42</code></td></tr>
+                <tr><td><code>nextDouble()</code></td><td>one decimal number</td><td><code>3.5</code></td><td><code>3.5</code></td></tr>
+                <tr><td><code>nextBoolean()</code></td><td><code>true</code> or <code>false</code></td><td><code>true</code></td><td><code>true</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 The <code>nextLine()</code>-after-<code>nextInt()</code> trap</div>
+            <p>
+              <code>nextInt()</code> reads the number but leaves the invisible Enter (<code>\n</code>) sitting
+              in the buffer. The next <code>nextLine()</code> then reads that leftover and returns an empty
+              string <code>""</code> — it looks like your program "skipped" a question.
+            </p>
+            <p style="margin-bottom:0;">
+              <strong>Fix:</strong> after reading a number, add one throwaway <code>input.nextLine();</code>
+              before the next <code>nextLine()</code>. Or read everything with <code>nextLine()</code> and
+              convert: <code>int age = Integer.parseInt(input.nextLine());</code>.
+            </p>
+          </div>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Bad input crashes <code>nextInt()</code></div>
+            <p>
+              If the user types <code>hello</code> when you called <code>nextInt()</code>, the program stops
+              with <code>InputMismatchException</code>. For now, assume cooperative input; Session 11 shows
+              how to handle it gracefully.
+            </p>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">▶ Run it two ways</div>
+            <p><strong>In IntelliJ IDEA:</strong> click the green ▶ next to <code>main</code>. When the program
+              pauses, click inside the <strong>Run</strong> panel, type your answer, press Enter.</p>
+            <p style="margin-bottom:0;"><strong>In the terminal:</strong></p>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">Terminal</span></div>
+              <pre><code>javac GreetUser.java
+java GreetUser
+# type answers when prompted, OR feed them in:
+printf 'Ada Lovelace\n36\n' | java GreetUser</code></pre>
+            </div>
+          </div>
+
+          <div class="callout callout-example">
+            <div class="callout-title">🧭 Trace it: what does <code>age + 1</code> print?</div>
+            <p>Input: <code>Ada Lovelace</code> then <code>36</code>.</p>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Line</th><th>name</th><th>age</th><th>Output so far</th></tr></thead>
+                <tbody>
+                  <tr><td><code>nextLine()</code></td><td>"Ada Lovelace"</td><td>—</td><td>Enter your name:&nbsp;</td></tr>
+                  <tr><td><code>nextInt()</code></td><td>"Ada Lovelace"</td><td>36</td><td>Enter your age:&nbsp;</td></tr>
+                  <tr><td><code>printf(... age + 1)</code></td><td>"Ada Lovelace"</td><td>36</td><td>Hi Ada Lovelace, next year you will be 37.</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- 8. Operators -->
+        <section class="content-section" id="operators">
+          <h2>8. Java Operators Demystified</h2>
+
+          <h3>A. Arithmetic operators</h3>
+          <p><code>+</code> add, <code>-</code> subtract, <code>*</code> multiply, <code>/</code> divide, <code>%</code> modulus (remainder).</p>
+
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ The integer-division trap</div>
+            <p>
+              Dividing two integers throws away the fraction:
+              <br><code>int result = 7 / 2;   // 3, not 3.5</code>
+              <br>Make at least one side a decimal to keep precision:
+              <br><code>double correct = 7.0 / 2;   // 3.5</code>
+            </p>
+          </div>
+          <p><code>%</code> gives the remainder: <code>17 % 5</code> is <code>2</code>. The classic use is
+            testing even/odd: <code>n % 2 == 0</code>.</p>
+
+          <h3>B. Relational (comparison) operators</h3>
+          <p>Each produces a <code>boolean</code>:</p>
+          <ul>
+            <li><code>==</code> equal, <code>!=</code> not equal</li>
+            <li><code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code></li>
+          </ul>
+
+          <h3>C. Logical operators</h3>
+          <ul>
+            <li><code>&amp;&amp;</code> (AND): true only if <em>both</em> sides are true.</li>
+            <li><code>||</code> (OR): true if <em>at least one</em> side is true.</li>
+            <li><code>!</code> (NOT): flips a boolean.</li>
+          </ul>
+          <p><strong>Short-circuit:</strong> <code>&amp;&amp;</code> stops at the first <code>false</code>;
+            <code>||</code> stops at the first <code>true</code>. The rest is not even evaluated.</p>
+
+          <h3>D. Assignment &amp; compound assignment</h3>
+          <p>
+            <code>=</code> stores a value. The compound forms combine an operation with assignment:
+          </p>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Shorthand</th><th>Means</th><th>If <code>total = 10</code></th></tr></thead>
+              <tbody>
+                <tr><td><code>total += 5;</code></td><td><code>total = total + 5;</code></td><td>15</td></tr>
+                <tr><td><code>total -= 3;</code></td><td><code>total = total - 3;</code></td><td>7</td></tr>
+                <tr><td><code>total *= 2;</code></td><td><code>total = total * 2;</code></td><td>20</td></tr>
+                <tr><td><code>total /= 4;</code></td><td><code>total = total / 4;</code></td><td>2</td></tr>
+                <tr><td><code>total %= 3;</code></td><td><code>total = total % 3;</code></td><td>1</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3>E. Increment / decrement</h3>
+          <p>
+            <code>++</code> adds 1, <code>--</code> subtracts 1. Position matters when the result is used
+            in the same expression:
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>int i = 5;
+System.out.println(i++);   // prints 5, THEN i becomes 6  (post-increment)
+System.out.println(i);     // 6
+
+int j = 5;
+System.out.println(++j);   // j becomes 6 FIRST, then prints 6  (pre-increment)</code></pre>
+          </div>
+          <p>In a loop header (<code>for (int k = 0; k &lt; 10; k++)</code>) the position makes no difference —
+            either way <code>k</code> goes up by 1 each pass.</p>
+
+          <h3>F. The ternary operator (inline if/else)</h3>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>// variable = (condition) ? valueIfTrue : valueIfFalse;
 int examScore = 78;
 String outcome = (examScore >= 50) ? "PASSED" : "FAILED";</code></pre>
           </div>
         </section>
 
-        <!-- 8. Type Casting -->
-        <section class="content-section" id="type-casting">
-          <h2>8. Type Casting: Widening vs. Narrowing</h2>
+        <!-- 9. Precedence (NEW) -->
+        <section class="content-section" id="precedence">
+          <h2>9. Operator Precedence — the order things happen</h2>
           <p>
-            <strong>Type Casting</strong> is converting a value from one data type into another.
+            Java evaluates an expression using a fixed priority order, just like maths (<em>BODMAS/PEMDAS</em>).
+            From highest to lowest, the ones you meet now:
           </p>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Priority</th><th>Operators</th><th>Note</th></tr></thead>
+              <tbody>
+                <tr><td>1 (highest)</td><td><code>()</code></td><td>parentheses always win</td></tr>
+                <tr><td>2</td><td><code>++</code> <code>--</code> <code>!</code> (unary)</td><td>and unary <code>-</code></td></tr>
+                <tr><td>3</td><td><code>*</code> <code>/</code> <code>%</code></td><td>left to right</td></tr>
+                <tr><td>4</td><td><code>+</code> <code>-</code></td><td>left to right</td></tr>
+                <tr><td>5</td><td><code>&lt;</code> <code>&lt;=</code> <code>&gt;</code> <code>&gt;=</code></td><td>comparisons</td></tr>
+                <tr><td>6</td><td><code>==</code> <code>!=</code></td><td>equality</td></tr>
+                <tr><td>7</td><td><code>&amp;&amp;</code></td><td>logical AND</td></tr>
+                <tr><td>8</td><td><code>||</code></td><td>logical OR</td></tr>
+                <tr><td>9 (lowest)</td><td><code>=</code> <code>+=</code> <code>-=</code> …</td><td>assignment happens last</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>int a = 2 + 3 * 4;        // 14, not 20  (* before +)
+int b = (2 + 3) * 4;     // 20           (parentheses first)
+boolean ok = 5 > 3 && 2 == 2;   // true  (comparisons before &&)
+double avg = a + b / 2;         // 14 + 10 = 24, maybe not what you meant!
+double avg2 = (a + b) / 2.0;    // 19.0  — clearer</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 When unsure, parenthesise</div>
+            <p>Extra parentheses cost nothing and make intent obvious to the next reader (often future-you).</p>
+          </div>
+        </section>
+
+        <!-- 10. Constants (NEW) -->
+        <section class="content-section" id="constants">
+          <h2>10. Constants with <code>final</code></h2>
+          <p>
+            Some values must never change while the program runs — a maximum retry count, a tax rate, π.
+            Mark them <code>final</code>. The compiler then rejects any attempt to reassign them.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>final int    MAX_ATTEMPTS = 3;
+final double VAT_RATE     = 0.075;
+final String COURSE_CODE  = "JAVA-I";
+
+MAX_ATTEMPTS = 5;   // compile error: cannot assign a value to final variable</code></pre>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ Convention</div>
+            <p>
+              Constants are written in <code>UPPER_SNAKE_CASE</code> so readers instantly know the value is
+              fixed. Using a named constant also beats sprinkling a "magic number" like <code>0.075</code>
+              through your code.
+            </p>
+          </div>
+        </section>
+
+        <!-- 11. Math class (NEW) -->
+        <section class="content-section" id="math-class">
+          <h2>11. The <code>Math</code> Class</h2>
+          <p>
+            Java ships a built-in <code>Math</code> class full of ready-made calculations. You do not
+            <code>import</code> it — it is always available. Call its methods with <code>Math.</code> in front.
+          </p>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Call</th><th>Does</th><th>Example &rarr; result</th></tr></thead>
+              <tbody>
+                <tr><td><code>Math.abs(x)</code></td><td>absolute value</td><td><code>Math.abs(-7)</code> &rarr; <code>7</code></td></tr>
+                <tr><td><code>Math.pow(b, e)</code></td><td>b to the power e</td><td><code>Math.pow(2, 10)</code> &rarr; <code>1024.0</code></td></tr>
+                <tr><td><code>Math.sqrt(x)</code></td><td>square root</td><td><code>Math.sqrt(144)</code> &rarr; <code>12.0</code></td></tr>
+                <tr><td><code>Math.round(x)</code></td><td>nearest whole number</td><td><code>Math.round(2.6)</code> &rarr; <code>3</code></td></tr>
+                <tr><td><code>Math.min(a,b)</code> / <code>Math.max(a,b)</code></td><td>smaller / larger</td><td><code>Math.max(4, 9)</code> &rarr; <code>9</code></td></tr>
+                <tr><td><code>Math.random()</code></td><td>random <code>double</code> in <code>[0.0, 1.0)</code></td><td><code>(int)(Math.random() * 6) + 1</code> &rarr; dice 1–6</td></tr>
+                <tr><td><code>Math.PI</code></td><td>the constant π</td><td><code>3.141592653589793</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>double radius = 3;
+double area = Math.PI * Math.pow(radius, 2);
+System.out.printf("Area = %.2f%n", area);   // Area = 28.27</code></pre>
+          </div>
+        </section>
+
+        <!-- 12. Type Casting -->
+        <section class="content-section" id="type-casting">
+          <h2>12. Type Casting: Widening vs. Narrowing</h2>
+          <p><strong>Type casting</strong> converts a value from one type to another.</p>
 
           <div class="callout callout-think">
-            <div class="callout-title">☕ Analogy: The Coffee Mug and the Thermos</div>
+            <div class="callout-title">☕ Analogy: the espresso cup and the thermos</div>
             <p>
-              Pouring a small espresso cup into a large thermos is completely safe—it won't spill. That's <strong>Widening (Implicit) Casting</strong>.
-              <br>Pouring a gallon thermos into a small espresso cup risks hot coffee spilling all over the table. That's <strong>Narrowing (Explicit) Casting</strong>—you must confirm you accept the spill!
+              Pouring a small espresso into a big thermos never spills — that is
+              <strong>widening</strong> (automatic). Pouring a full thermos into an espresso cup risks
+              spillage — that is <strong>narrowing</strong>, and Java makes you confirm it with
+              <code>(type)</code>.
             </p>
           </div>
 
@@ -462,132 +566,153 @@ String outcome = (examScore >= 50) ? "PASSED" : "FAILED";</code></pre>
               <span class="code-lang">Java</span>
               <span class="code-filename">Casting Syntax</span>
             </div>
-            <pre><code>// 1. Widening (Implicit / Automatic) - Smaller to Larger: SAFE
+            <pre><code>// 1. Widening (implicit / automatic) — smaller to larger: SAFE
 int smallCup = 100;
-double largeThermos = smallCup; // Automatic conversion to 100.0
+double largeThermos = smallCup;   // becomes 100.0
 
-// 2. Narrowing (Explicit / Manual) - Larger to Smaller: DATA LOSS POSSIBLE
+// 2. Narrowing (explicit / manual) — larger to smaller: data loss possible
 double exactBill = 89.95;
-int wholeDollars = (int) exactBill; // Truncates .95! wholeDollars is 89!</code></pre>
+int wholeDollars = (int) exactBill;   // truncates .95 -> 89 (no rounding!)</code></pre>
           </div>
 
           <figure class="lesson-figure">
-            <img src="../../assets/images/type_casting_containers.jpg" alt="Java Type Casting Widening and Narrowing Metaphor" loading="lazy">
-            <figcaption class="figure-caption">📌 Figure 2.2: Java Type Casting — Safe Widening (implicit) versus Narrowing with potential data loss (explicit cast required).</figcaption>
+            <img src="../../assets/images/type_casting_containers.jpg" alt="Type casting metaphor: safe widening from small to large container, lossy narrowing from large to small" loading="lazy">
+            <figcaption class="figure-caption">📌 Figure 2.2: Java Type Casting — safe widening (implicit) versus narrowing with possible data loss (explicit cast required).</figcaption>
           </figure>
+          <div class="callout callout-info">
+            <div class="callout-title">📖 Figure 2.2 in words</div>
+            <p>
+              Left: a small container's contents pour fully into a larger one — nothing lost (<code>int</code>
+              &rarr; <code>double</code>, automatic). Right: a large container overflows a small one — the
+              excess is discarded, which is why Java forces you to write <code>(int)</code> and accept the loss.
+            </p>
+          </div>
         </section>
 
-        <!-- 9. Common Pitfalls -->
+        <!-- 13. Money & floating point (NEW) -->
+        <section class="content-section" id="money">
+          <h2>13. Money &amp; Floating-Point Precision</h2>
+          <p>
+            <code>double</code> and <code>float</code> store numbers in binary, and just as
+            <code>1/3</code> cannot be written exactly in decimal, many decimals cannot be written exactly
+            in binary. So:
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>System.out.println(0.1 + 0.2);          // 0.30000000000000004  (!)
+System.out.println(0.1 + 0.2 == 0.3);   // false</code></pre>
+          </div>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ What to do about it (for now)</div>
+            <ul style="margin-bottom:0;">
+              <li><strong>Displaying money:</strong> round at print time with <code>printf("%.2f", amount)</code>. This is what the assignments expect in Week 1.</li>
+              <li><strong>Never</strong> test two <code>double</code>s with <code>==</code>. Check they are "close enough": <code>Math.abs(a - b) &lt; 0.001</code>.</li>
+              <li><strong>Real financial software</strong> uses <code>java.math.BigDecimal</code> (exact decimal arithmetic) or counts whole cents as <code>long</code>. You will meet <code>BigDecimal</code> later — just know <code>double</code> is not the professional choice for currency.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- 14. Pitfalls -->
         <section class="content-section" id="traps">
-          <h2>9. Common Beginner Mistakes to Avoid</h2>
+          <h2>14. Common Beginner Mistakes</h2>
           <div class="callout callout-danger">
-            <div class="callout-title">🚨 Forgetting the 'L' on Long or 'F' on Float</div>
+            <div class="callout-title">🚨 Forgetting <code>L</code> on long or <code>f</code> on float</div>
             <p>
-              By default, Java treats whole numbers as <code>int</code> and decimals as <code>double</code>.
-              <br><code>long big = 9000000000; // Error: integer number too large!</code>
-              <br>Fix: Append an 'L' &rarr; <code>long big = 9000000000L;</code>
-              <br><code>float price = 9.99; // Error: incompatible types: possible lossy conversion from double to float!</code>
-              <br>Fix: Append an 'f' &rarr; <code>float price = 9.99f;</code>
+              Whole literals default to <code>int</code>, decimals to <code>double</code>.
+              <br><code>long big = 9000000000;</code> &rarr; error: integer number too large &rarr; use <code>9000000000L</code>.
+              <br><code>float price = 9.99;</code> &rarr; error: lossy conversion &rarr; use <code>9.99f</code>.
             </p>
           </div>
           <div class="callout callout-danger">
-            <div class="callout-title">🚨 Comparing with '=' instead of '=='</div>
-            <p>
-              A single equals <code>=</code> is the <strong>assignment operator</strong> (stores a value).
-              A double equals <code>==</code> is the <strong>comparison operator</strong> (checks equality).
-            </p>
+            <div class="callout-title">🚨 <code>=</code> vs <code>==</code></div>
+            <p>One <code>=</code> assigns. Two <code>==</code> compares. Mixing them up is a classic bug.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Using a variable before assigning it</div>
+            <p><code>int x; System.out.println(x);</code> &rarr; <em>variable x might not have been initialized</em>. Give it a starting value.</p>
           </div>
         </section>
 
-        <!-- 10. Executive Cheat Sheet -->
+        <!-- 15. Cheat sheet -->
         <section class="content-section" id="cheat-sheet">
-          <h2>10. Executive Quick-Recap &amp; Cheat Sheet</h2>
-          <p>Everything you need to remember about Java variables and data types at a single glance:</p>
+          <h2>15. Executive Quick-Recap &amp; Cheat Sheet</h2>
 
           <div class="cheat-sheet-card">
             <h4 style="color: var(--accent); margin-top: 0;">⚡ The 30-Second Mental Model</h4>
             <p style="margin-bottom: 0;">
-              RAM is organized into named slots. <strong>Primitives</strong> (like <code>int</code> and <code>double</code>) hold their actual bits right in stack memory.
-              <strong>References</strong> (like <code>String</code>) hold memory addresses pointing to objects on the heap.
-              Narrowing a type (pouring a gallon into a cup) chops off extra bits—always be intentional with type casting!
+              RAM is named slots. <strong>Primitives</strong> hold their bits directly; <strong>references</strong>
+              (like <code>String</code>) hold an address to a heap object. Read user input with
+              <code>Scanner</code>. <code>*</code> <code>/</code> <code>%</code> run before <code>+</code>
+              <code>-</code>; assignment runs last. <code>final</code> locks a value. Narrowing casts
+              <em>truncate</em>, they do not round. Format money for display with <code>%.2f</code>.
             </p>
           </div>
 
-          <h3>Common Variable Declarations</h3>
+          <h3>Core Syntax at a Glance</h3>
           <div class="code-block">
             <div class="code-header">
               <span class="code-lang">Java Cheat Sheet</span>
               <button class="copy-btn" onclick="copyCode(this)">Copy</button>
             </div>
-            <pre><code>// 1. Primitive Declarations
-int count = 42;
-double price = 19.99;
-boolean isCompleted = true;
-char status = 'A';
+            <pre><code>import java.util.Scanner;
 
-// 2. Literals with Suffixes
-long nationalId = 9876543210L; // 'L' suffix
-float taxRate = 0.075f;        // 'f' suffix
+final double VAT_RATE = 0.075;         // constant
 
-// 3. Formatted Currency Output
-System.out.printf("Invoice Total: $%-8.2f (Tax: %.1f%%)%n", price, (taxRate * 100));
+Scanner in = new Scanner(System.in);
+System.out.print("Price: ");
+double price = in.nextDouble();
 
-// 4. Casting
-int roundedDollars = (int) price; // Explicit cast: 19.99 -> 19</code></pre>
+double withTax = price * (1 + VAT_RATE);
+int    cents   = (int) Math.round(withTax * 100);   // narrowing + Math
+
+System.out.printf("Total: $%.2f (%d cents)%n", withTax, cents);
+in.close();</code></pre>
           </div>
 
           <h3>Plain-English Glossary</h3>
           <div class="glossary-grid">
-            <div class="glossary-item">
-              <div class="glossary-term">Primitive Type</div>
-              <p class="glossary-def">One of 8 built-in Java data types that directly store raw values (integers, floating points, characters, or booleans) in memory.</p>
-            </div>
-            <div class="glossary-item">
-              <div class="glossary-term">Reference Type (String)</div>
-              <p class="glossary-def">A variable that does not hold the data directly, but stores a pointer/address to an object located in heap memory.</p>
-            </div>
-            <div class="glossary-item">
-              <div class="glossary-term">Widening (Implicit)</div>
-              <p class="glossary-def">Automatically converting a smaller numeric type (e.g. <code>int</code>) into a larger type (e.g. <code>double</code>) with zero chance of data loss.</p>
-            </div>
-            <div class="glossary-item">
-              <div class="glossary-term">Narrowing (Explicit)</div>
-              <p class="glossary-def">Manually converting a larger type into a smaller type using <code>(targetType)</code>, which may discard decimal fractions or cause integer overflow.</p>
-            </div>
-            <div class="glossary-item">
-              <div class="glossary-term">Modulus (%)</div>
-              <p class="glossary-def">An arithmetic operator that returns the mathematical remainder after integer division (e.g. <code>14 % 4 = 2</code>).</p>
-            </div>
-            <div class="glossary-item">
-              <div class="glossary-term">Format Specifier (%.2f)</div>
-              <p class="glossary-def">A placeholder code used in <code>System.out.printf()</code> to control exact decimal alignment and padding.</p>
-            </div>
+            <div class="glossary-item"><div class="glossary-term">Primitive type</div><p class="glossary-def">One of 8 built-in types storing a raw value directly in memory.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Reference type</div><p class="glossary-def">A variable holding an address that points to an object on the heap (e.g. <code>String</code>).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Scanner</div><p class="glossary-def">A class from <code>java.util</code> that reads typed input: <code>nextLine</code>, <code>nextInt</code>, <code>nextDouble</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Compound assignment</div><p class="glossary-def"><code>+= -= *= /= %=</code>. <code>x += 2</code> means <code>x = x + 2</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Operator precedence</div><p class="glossary-def">The fixed order operators apply. Parentheses override it.</p></div>
+            <div class="glossary-item"><div class="glossary-term">final</div><p class="glossary-def">A modifier making a variable a constant — it cannot be reassigned.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Truncation</div><p class="glossary-def">Dropping the fraction with no rounding, during integer division or a narrowing cast.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Floating-point imprecision</div><p class="glossary-def"><code>double</code> can't store every decimal exactly, so <code>0.1 + 0.2 != 0.3</code>.</p></div>
           </div>
+          <p style="margin-top: var(--space-md);">Full definitions: <a href="../../reference/glossary.html">Master Glossary</a>.</p>
         </section>
 
-        <!-- 11. Summary & Self-Check -->
+        <!-- 16. Summary -->
         <section class="content-section" id="summary">
-          <h2>11. Summary &amp; Interactive Self-Checks</h2>
-          <p>Test your intuition on these three quick scenario checks before proceeding to the class lab:</p>
+          <h2>16. Summary &amp; Interactive Self-Checks</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Try these, then check the answer against this lesson (see the <a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"I'm a Java beginner. Explain the <code>nextLine()</code> after <code>nextInt()</code> problem with a tiny example and the fix."</li>
+              <li>"Give me 5 short exercises on Java operator precedence, easy to hard, problems only — no solutions."</li>
+              <li>"Why is <code>0.1 + 0.2</code> not exactly <code>0.3</code> in Java? Keep it under 120 words."</li>
+            </ul>
+          </div>
 
           <div class="self-check-container">
             <details class="self-check-card">
-              <summary>❓ Question 1: What is stored in `int answer = 7 / 2;` and why isn't it 3.5?</summary>
-              <div class="self-check-answer">
-                <strong>Answer:</strong> <code>answer</code> will hold <code>3</code>. In Java, dividing two integers performs integer division, which truncates (discards) the fractional <code>.5</code>. To get 3.5, write <code>7.0 / 2</code> or <code>7 / 2.0</code>.
-              </div>
+              <summary>❓ Q1: What is stored in <code>int answer = 7 / 2;</code> and why isn't it 3.5?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>3</code>. Two integers divide with integer division, truncating the <code>.5</code>. Use <code>7.0 / 2</code> for <code>3.5</code>.</div>
             </details>
             <details class="self-check-card">
-              <summary>❓ Question 2: Why do we write `float f = 4.5f;` but `double d = 4.5;`?</summary>
-              <div class="self-check-answer">
-                <strong>Answer:</strong> In Java, all decimal literals are treated as 64-bit <code>double</code> values by default. Without the <code>f</code> suffix, assigning a 64-bit double to a 32-bit float causes a compiler error for potential loss of precision.
-              </div>
+              <summary>❓ Q2: After <code>int i = 5;</code>, what does <code>System.out.println(i++);</code> print, and what is <code>i</code> afterwards?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> It prints <code>5</code> (post-increment uses the old value first), then <code>i</code> becomes <code>6</code>.</div>
             </details>
             <details class="self-check-card">
-              <summary>❓ Question 3: Does casting `(int) 9.99` round the number up to 10?</summary>
-              <div class="self-check-answer">
-                <strong>Answer:</strong> No! Type casting does not perform mathematical rounding; it simply chops off the decimal part entirely. <code>(int) 9.99</code> yields <code>9</code>.
-              </div>
+              <summary>❓ Q3: Your program asks a name with <code>nextLine()</code> right after reading an <code>int</code> with <code>nextInt()</code>, and the name comes back blank. Why?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>nextInt()</code> left the newline in the buffer; <code>nextLine()</code> consumed that and returned <code>""</code>. Add a throwaway <code>input.nextLine();</code> after the <code>nextInt()</code>.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q4: Does <code>(int) 9.99</code> round to 10?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> No. A narrowing cast truncates — you get <code>9</code>. Use <code>Math.round(9.99)</code> for <code>10</code>.</div>
             </details>
           </div>
 
@@ -601,12 +726,8 @@ int roundedDollars = (int) price; // Explicit cast: 19.99 -> 19</code></pre>
     </div>
 
     <div class="nav-footer">
-      <a href="pre-quiz.html" class="nav-prev">
-        <span>&larr; Session 2 Pre-Quiz</span>
-      </a>
-      <a href="class-tasks.html" class="nav-next">
-        <span>Session 2 Class Tasks &rarr;</span>
-      </a>
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 2 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Session 2 Class Tasks &rarr;</span></a>
     </div>
 
   </div>

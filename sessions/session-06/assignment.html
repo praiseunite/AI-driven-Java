@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 6 Take-Home Assignment | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 6</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html" class="active">Assignment</a></li>
+      <li><a href="solution/solution.html">Solution</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-red">Take-Home Lab Assignment</span>
+        <span class="tag tag-purple">Session 6</span>
+        <span class="tag tag-yellow">Due Before Session 7</span>
+      </div>
+      <h1>📋 Assignment 6: Weekly Weather Station Report</h1>
+      <p class="description">
+        Process a week of temperature readings with parallel arrays, the accumulator /
+        min-index / max-index patterns, and a text bar chart built with <code>StringBuilder</code>.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom: var(--space-xl);">
+      <h3 style="color: var(--accent); margin-top: 0;">🏢 Scenario</h3>
+      <p>
+        A campus weather station logs one temperature per day for a week. Write
+        <code>WeatherReport.java</code> that summarises the week and prints a simple chart.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2>Requirements</h2>
+      <ol style="margin-left: var(--space-lg); line-height: 1.8;">
+        <li><strong>Data:</strong> a <code>String[] days</code> of the 7 day names and a <code>double[] temps</code> of 7 readings (use the values in the expected output).</li>
+        <li><strong>Average:</strong> sum the readings and divide by <code>temps.length</code> (cast to keep decimals). Print with <code>%.2f</code>.</li>
+        <li><strong>Hottest &amp; coldest day:</strong> track the <em>index</em> of the max and min while looping; print the matching day name and temperature.</li>
+        <li><strong>Days above average:</strong> a second pass counting readings greater than the average.</li>
+        <li><strong>Bar chart:</strong> for each day, build a line with the day name, a divider, one <code>#</code> per whole degree (<code>(int) temps[i]</code>), and the numeric value — all assembled in a single <code>StringBuilder</code>, printed once.</li>
+      </ol>
+
+      <div class="expected-output">
+        <h5>Expected Console Output:</h5>
+        <pre><code>=== WEEKLY WEATHER REPORT ===
+Average temperature : 22.50 C
+Hottest day         : Sat (27.5 C)
+Coldest day         : Fri (18.0 C)
+Days above average  : 3
+
+Mon | ################### 19.5
+Tue | ###################### 22.0
+Wed | ######################### 25.5
+Thu | ##################### 21.0
+Fri | ################## 18.0
+Sat | ########################### 27.5
+Sun | ######################## 24.0</code></pre>
+      </div>
+      <p style="color: var(--text-secondary);">Readings: <code>{19.5, 22.0, 25.5, 21.0, 18.0, 27.5, 24.0}</code>.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Grading Rubric (100 Points)</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Criterion</th><th>Details</th><th>Points</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Array traversal</strong></td><td>Correct sum/average; index-based min &amp; max tracking.</td><td>30</td></tr>
+            <tr><td><strong>Second-pass counting</strong></td><td>"Days above average" uses the computed average.</td><td>20</td></tr>
+            <tr><td><strong>StringBuilder chart</strong></td><td>One buffer, correct <code>#</code> count per day, printed once.</td><td>30</td></tr>
+            <tr><td><strong>Code quality</strong></td><td>Meaningful names, comments, clean formatting.</td><td>20</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Submission:</strong> Upload <code>WeatherReport.java</code> via ProConnect under <em>Work Assignments &rarr; Session 6</em>. Full reference implementation: <a href="solution/solution.html">the solution</a>.</p>
+    </div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev"><span>&larr; Session 6 Class Tasks</span></a>
+      <a href="post-quiz.html" class="nav-next"><span>Session 6 Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

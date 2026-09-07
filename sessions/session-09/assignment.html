@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 9 Take-Home Assignment | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 9</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html" class="active">Assignment</a></li>
+      <li><a href="solution/solution.html">Solution</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-red">Take-Home Lab Assignment</span>
+        <span class="tag tag-purple">Session 9</span>
+        <span class="tag tag-yellow">Due Before Session 10</span>
+      </div>
+      <h1>📋 Assignment 9: Campus Media Library</h1>
+      <p class="description">
+        Design an <code>abstract</code> base type with concrete subclasses that differ only in
+        one calculation, then drive them polymorphically from a single array.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom: var(--space-xl);">
+      <h3 style="color: var(--accent); margin-top: 0;">🏢 Scenario</h3>
+      <p>
+        The library lends books, DVDs, and magazines. They share almost all behaviour
+        (check-out, check-in, "is it out?") but charge <em>different late fees per day</em>.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2>Requirements</h2>
+      <ol style="margin-left: var(--space-lg); line-height: 1.8;">
+        <li><strong><code>abstract class MediaItem</code></strong> (file <code>MediaLibrary.java</code>):
+          <ul>
+            <li><code>private final String title;</code> and <code>private boolean checkedOut = false;</code>.</li>
+            <li>Constructor takes the title. Getters <code>getTitle()</code>, <code>isCheckedOut()</code>.</li>
+            <li><code>checkOut()</code> — reject if already out; else mark out and print.</li>
+            <li><code>checkIn(int daysLate)</code> — reject if not out; else mark in, compute fee = <code>max(daysLate,0) * lateFeePerDay()</code>, print it.</li>
+            <li><strong><code>abstract double lateFeePerDay();</code></strong> — no body.</li>
+            <li><code>toString()</code> — title, <code>[IN]</code>/<code>[OUT]</code>, and the daily fee.</li>
+          </ul>
+        </li>
+        <li><strong>Subclasses</strong> <code>Book</code> ($0.25/day), <code>DVD</code> ($1.00/day), <code>Magazine</code> ($0.10/day) — each just implements <code>lateFeePerDay()</code>.</li>
+        <li><strong><code>main</code></strong> in <code>MediaLibrary</code>: put one of each in a <code>MediaItem[]</code>; print the catalogue; check out the book and DVD (try the DVD twice); check the book in 3 days late, the DVD 5 days late, the magazine (which was never out); then print the total late fees for the session.</li>
+      </ol>
+
+      <div class="expected-output">
+        <h5>Expected Console Output:</h5>
+        <pre><code>=== CATALOGUE ===
+Effective Java         [IN]  ($0.25/day late)
+The Matrix             [IN]  ($1.00/day late)
+Nature - Jan           [IN]  ($0.10/day late)
+
+=== ACTIVITY ===
+Checked out: Effective Java
+Checked out: The Matrix
+"The Matrix" is already out.
+Returned: Effective Java         3 days late  fee $0.75
+Returned: The Matrix             5 days late  fee $5.00
+"Nature - Jan" was not out.
+
+Total late fees this session: $5.75</code></pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Grading Rubric (100 Points)</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Criterion</th><th>Details</th><th>Points</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Abstract base</strong></td><td><code>MediaItem</code> is <code>abstract</code>, holds the shared state/behaviour, declares <code>abstract lateFeePerDay()</code>.</td><td>25</td></tr>
+            <tr><td><strong>Subclasses</strong></td><td>Three concrete subclasses; each supplies only its fee; each <code>@Override</code>.</td><td>25</td></tr>
+            <tr><td><strong>Polymorphism</strong></td><td>Catalogue + fee totals computed by looping a <code>MediaItem[]</code> and calling overridden methods.</td><td>25</td></tr>
+            <tr><td><strong>State &amp; validation</strong></td><td><code>checkOut</code>/<code>checkIn</code> guard the already-out / not-out cases; fields <code>private</code>.</td><td>25</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Submission:</strong> Upload <code>MediaLibrary.java</code> via ProConnect under <em>Work Assignments &rarr; Session 9</em>. Full reference implementation: <a href="solution/solution.html">the solution</a>.</p>
+    </div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev"><span>&larr; Session 9 Class Tasks</span></a>
+      <a href="post-quiz.html" class="nav-next"><span>Session 9 Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

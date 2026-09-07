@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 11 Pre-Quiz | Exception Handling</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 11</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Course Home</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-yellow">Pre-Class Diagnostic</span>
+        <span class="tag tag-purple">Session 11</span>
+        <span class="tag tag-teal">Handling Failure</span>
+      </div>
+      <h1>🧠 Pre-Lecture Intuition Check</h1>
+      <p class="description">Five quick questions about things going wrong. A low score is expected.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="../../index.html" class="nav-prev"><span>&larr; Back to Dashboard</span></a>
+      <a href="lesson.html" class="nav-next"><span>Proceed to Lesson 11 &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session11PreQuizData = {
+    title: "Session 11 Readiness: When Things Go Wrong",
+    description: "Pick the closest answer. Explanations unlock after each response.",
+    questions: [
+      {
+        question: "Your program divides by a number the user entered, and they entered 0. With no special handling, what happens?",
+        options: [
+          "It quietly returns 0",
+          "It prints a stack trace (ArithmeticException) and the program stops",
+          "The computer restarts",
+          "Nothing; Java skips that line"
+        ],
+        correct: 1,
+        explanation: "An unhandled exception unwinds to main, prints a trace, and terminates the program. Handling it lets you respond and keep going."
+      },
+      {
+        question: "A user is asked for a number and types 'banana'. What is the SENSIBLE response?",
+        options: [
+          "Crash",
+          "Catch the parse failure and ask them to try again",
+          "Store 'banana' as the number",
+          "Delete the program"
+        ],
+        correct: 1,
+        explanation: "Bad user input is expected. Catch the exception, show a friendly message, and re-prompt — the program continues."
+      },
+      {
+        question: "Which situation is a PROGRAMMING BUG rather than an expected external problem?",
+        options: [
+          "A file the program needs is missing",
+          "The network is down",
+          "The code calls a method on a variable that is null",
+          "A database is temporarily unavailable"
+        ],
+        correct: 2,
+        explanation: "NullPointerException usually means the code forgot to assign or check something. The others are external conditions to handle gracefully."
+      },
+      {
+        question: "You open a file, read it, and want to be SURE it gets closed even if reading fails halfway. What concept helps?",
+        options: [
+          "A loop",
+          "A block of cleanup code that always runs (finally), or better, try-with-resources",
+          "A static method",
+          "An interface"
+        ],
+        correct: 1,
+        explanation: "finally always runs; try-with-resources goes further and closes the resource for you automatically."
+      },
+      {
+        question: "You write your own exception type, InsufficientFundsException, so callers can react to that specific failure. This is:",
+        options: [
+          "Not possible in Java",
+          "A custom exception — a class that extends Exception (or RuntimeException)",
+          "A new keyword",
+          "Only for the JDK team"
+        ],
+        correct: 1,
+        explanation: "Any class extending Exception or RuntimeException is a usable exception type you can throw and catch by name."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session11PreQuizData);
+  });
+</script>
+
+</body>
+</html>

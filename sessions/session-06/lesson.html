@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 6: Arrays and Strings in Java — 1D and 2D arrays, length and indexing, for vs for-each, ArrayList, wrapper types and autoboxing, String immutability and StringBuilder.">
+  <title>Session 6: Arrays and Strings | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 6</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Week 2 &bull; Day 2</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL6</span>
+      </div>
+      <h1>Session 6: Arrays and Strings</h1>
+      <p class="description">
+        One variable holds one value. Real programs handle <em>lists</em> of things — 30 exam
+        scores, a shopping cart, the words in a sentence. Today you learn the two workhorses:
+        the fixed-size <strong>array</strong>, the growable <strong>ArrayList</strong>, and how
+        to build text efficiently with <strong>StringBuilder</strong>.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Table of Contents</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#why-arrays">1. Why Arrays?</a></li>
+          <li><a href="#declaring">2. Creating Arrays</a></li>
+          <li><a href="#indexing">3. Indexing &amp; <code>.length</code></a></li>
+          <li><a href="#looping">4. <code>for</code> vs <code>for-each</code></a></li>
+          <li><a href="#algorithms">5. Array Algorithms</a></li>
+          <li><a href="#twod">6. 2D Arrays</a></li>
+          <li><a href="#arrays-are-objects">7. Arrays Are Objects</a></li>
+          <li><a href="#arraylist">8. <code>ArrayList</code></a></li>
+          <li><a href="#wrappers">9. Wrappers &amp; Autoboxing</a></li>
+          <li><a href="#strings-builder">10. Strings &amp; <code>StringBuilder</code></a></li>
+          <li><a href="#pitfalls">11. Common Pitfalls</a></li>
+          <li><a href="#cheat-sheet">12. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">13. Summary &amp; Self-Check</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: Flashback to Sessions 2 &amp; 5</div>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Reference types (S2):</strong> a <code>String</code> variable holds an address to a heap object. Arrays and <code>ArrayList</code>s are the same — the variable points, the data lives on the heap.</li>
+            <li><strong>Objects have methods (S5):</strong> <code>list.add(x)</code>, <code>text.length()</code> — you call behavior on the object.</li>
+            <li><strong>The four loop patterns (S4):</strong> accumulator, counter/filter, sentinel, digit-extraction — you will run all of them over arrays today.</li>
+          </ul>
+        </div>
+
+        <section class="content-section" id="why-arrays">
+          <h2>1. Why Arrays?</h2>
+          <p>
+            To average 30 scores without arrays you would need <code>score1 … score30</code> — 30
+            names, and a formula 30 terms long. An <strong>array</strong> is a single named,
+            numbered row of slots, all of the same type. You reach each slot by its position
+            (its <strong>index</strong>) and you can walk the whole row with one loop.
+          </p>
+          <div class="callout callout-think">
+            <div class="callout-title">🗄️ Analogy: a row of numbered lockers</div>
+            <p>
+              An array is a bank of lockers bolted together. The whole bank has one name
+              (<code>scores</code>). Each locker has a number starting at <strong>0</strong>. The
+              number of lockers is fixed when the bank is built (<code>scores.length</code>) — you
+              cannot bolt on more later.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="declaring">
+          <h2>2. Creating Arrays</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>// A) Create and fill in one step (you know the values)
+int[] scores = {88, 72, 95, 64, 100};
+
+// B) Create empty, fill later (you know the size, not yet the values)
+int[] readings = new int[5];      // five slots, all 0
+readings[0] = 21;
+readings[1] = 23;
+
+// Arrays of other types
+String[] names   = new String[3];       // three slots, all null
+double[] prices  = {9.99, 4.50, 19.00};
+boolean[] flags  = new boolean[4];      // all false</code></pre>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ Fresh arrays are pre-filled with defaults</div>
+            <p>
+              <code>new int[5]</code> gives five <code>0</code>s; <code>new double[5]</code> five
+              <code>0.0</code>s; <code>new boolean[5]</code> five <code>false</code>s;
+              <code>new String[5]</code> five <code>null</code>s. (A <code>null</code> slot is a
+              classic source of <code>NullPointerException</code> — see §11.)
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="indexing">
+          <h2>3. Indexing &amp; <code>.length</code></h2>
+          <p>
+            The first slot is index <strong>0</strong>; the last is <strong><code>length - 1</code></strong>.
+            <code>scores.length</code> is a <em>field</em> (no parentheses), unlike
+            <code>String.length()</code> which is a method.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>int[] scores = {88, 72, 95, 64, 100};
+//  index:       0   1   2   3    4
+
+System.out.println(scores[0]);              // 88
+System.out.println(scores[4]);              // 100
+System.out.println(scores.length);         // 5
+System.out.println(scores[scores.length-1]); // 100 (last, safely)
+
+System.out.println(scores[5]);   // ArrayIndexOutOfBoundsException: Index 5 out of bounds for length 5</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="looping">
+          <h2>4. <code>for</code> vs <code>for-each</code></h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Traditional <code>for</code></th><th>Enhanced <code>for-each</code></th></tr></thead>
+              <tbody>
+                <tr>
+                  <td><pre style="margin:0;"><code>for (int i = 0; i &lt; a.length; i++) {
+    System.out.println(i + ": " + a[i]);
+}</code></pre></td>
+                  <td><pre style="margin:0;"><code>for (int value : a) {
+    System.out.println(value);
+}</code></pre></td>
+                </tr>
+                <tr><td>You have the <strong>index</strong> <code>i</code> — needed to change elements, compare neighbours, or print positions.</td><td>Cleaner when you only need each <strong>value</strong>, read-only, front to back.</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ for-each cannot change the array</div>
+            <p>
+              In <code>for (int v : a) { v = 0; }</code>, <code>v</code> is a <em>copy</em> of each
+              element — the array is untouched. To zero every element you need the index form:
+              <code>a[i] = 0;</code>.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="algorithms">
+          <h2>5. Array Algorithms (the patterns from Session 4)</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>int[] a = {4, 9, 2, 9, 7};
+
+// Sum (accumulator)
+int total = 0;
+for (int v : a) total += v;                       // 31
+
+// Max (running best) — start from the first element
+int max = a[0];
+for (int v : a) if (v &gt; max) max = v;             // 9
+
+// Count matches (counter/filter)
+int nines = 0;
+for (int v : a) if (v == 9) nines++;              // 2
+
+// Linear search (sentinel / early exit)
+int target = 2, foundAt = -1;
+for (int i = 0; i &lt; a.length; i++) {
+    if (a[i] == target) { foundAt = i; break; }   // 2
+}
+
+// Reverse in place (two indexes walking inward)
+for (int i = 0, j = a.length - 1; i &lt; j; i++, j--) {
+    int tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="twod">
+          <h2>6. Two-Dimensional Arrays</h2>
+          <p>
+            A 2D array is an <strong>array of arrays</strong> — a grid of rows and columns.
+            <code>grid.length</code> is the number of rows; <code>grid[r].length</code> is the
+            width of row <code>r</code>.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>int[][] grid = {
+    {1, 2, 3},
+    {4, 5, 6},
+    {7, 8, 9}
+};
+
+for (int r = 0; r &lt; grid.length; r++) {
+    for (int c = 0; c &lt; grid[r].length; c++) {
+        System.out.print(grid[r][c] + " ");
+    }
+    System.out.println();          // newline after each row
+}
+// grid[1][2] is 6 : row 1, column 2</code></pre>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">📖 Picture it</div>
+            <p>
+              <code>grid</code> is a column of 3 arrows. Each arrow points at a little row-array of
+              3 numbers. <code>grid[1]</code> follows the second arrow to <code>{4, 5, 6}</code>;
+              <code>grid[1][2]</code> then takes index 2 of that, which is <code>6</code>.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="arrays-are-objects">
+          <h2>7. Arrays Are Objects</h2>
+          <p>An array variable is a reference. Two consequences:</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>int[] a = {1, 2, 3};
+int[] b = a;          // b points at the SAME array
+b[0] = 99;
+System.out.println(a[0]);          // 99
+
+int[] c = {1, 2, 3};
+System.out.println(a == c);        // false — different objects, even with equal contents
+System.out.println(java.util.Arrays.equals(a, c)); // compares contents
+
+System.out.println(java.util.Arrays.toString(a));  // [99, 2, 3]  (nice printing)
+java.util.Arrays.sort(a);                          // sorts in place</code></pre>
+          </div>
+          <p><code>import java.util.Arrays;</code> at the top lets you drop the <code>java.util.</code> prefix.</p>
+        </section>
+
+        <section class="content-section" id="arraylist">
+          <h2>8. <code>ArrayList</code> — when the size can change</h2>
+          <p>
+            An array's length is fixed at creation. When you need to add and remove freely, use
+            <code>ArrayList</code> from <code>java.util</code>. The <code>&lt;String&gt;</code> in
+            angle brackets says what type it holds.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>import java.util.ArrayList;
+
+ArrayList&lt;String&gt; cart = new ArrayList&lt;&gt;();   // empty
+
+cart.add("Keyboard");          // append
+cart.add("Mouse");
+cart.add(0, "Monitor");        // insert at index 0
+
+cart.get(1);                   // "Keyboard"
+cart.set(1, "Mechanical KB");  // replace
+cart.size();                   // 3
+cart.contains("Mouse");        // true
+cart.remove("Mouse");          // remove by value
+cart.remove(0);                // remove by index
+cart.isEmpty();                // false
+
+for (String item : cart) {     // iterate
+    System.out.println(item);
+}</code></pre>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th></th><th>Array</th><th>ArrayList</th></tr></thead>
+              <tbody>
+                <tr><td>Size</td><td>Fixed at creation</td><td>Grows / shrinks any time</td></tr>
+                <tr><td>Element access</td><td><code>a[i]</code></td><td><code>list.get(i)</code></td></tr>
+                <tr><td>Length</td><td><code>a.length</code> (field)</td><td><code>list.size()</code> (method)</td></tr>
+                <tr><td>Holds primitives?</td><td>Yes (<code>int[]</code>)</td><td>No — needs wrappers (<code>ArrayList&lt;Integer&gt;</code>)</td></tr>
+                <tr><td>Best when</td><td>Size known, performance-critical</td><td>Size varies, convenience matters</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="wrappers">
+          <h2>9. Wrapper Types &amp; Autoboxing</h2>
+          <p>
+            Generic containers like <code>ArrayList</code> hold <em>objects</em>, not primitives.
+            Each primitive has an object <strong>wrapper class</strong>:
+          </p>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Primitive</th><th>Wrapper</th></tr></thead>
+              <tbody>
+                <tr><td><code>int</code></td><td><code>Integer</code></td></tr>
+                <tr><td><code>double</code></td><td><code>Double</code></td></tr>
+                <tr><td><code>boolean</code></td><td><code>Boolean</code></td></tr>
+                <tr><td><code>char</code></td><td><code>Character</code></td></tr>
+                <tr><td><code>long</code></td><td><code>Long</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>ArrayList&lt;Integer&gt; nums = new ArrayList&lt;&gt;();
+nums.add(10);          // autoboxing: int 10 -> Integer automatically
+nums.add(20);
+
+int first = nums.get(0);   // auto-unboxing: Integer -> int automatically
+
+// Wrappers also parse text:
+int n = Integer.parseInt("42");
+double d = Double.parseDouble("3.14");</code></pre>
+          </div>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Compare wrapper values with <code>.equals()</code></div>
+            <p>
+              <code>Integer a = 1000, b = 1000; a == b</code> can be <code>false</code> — they are
+              distinct objects. Use <code>a.equals(b)</code>, or compare as primitives.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="strings-builder">
+          <h2>10. Strings &amp; <code>StringBuilder</code></h2>
+          <p>
+            A <code>String</code> is <strong>immutable</strong>: <code>s.toUpperCase()</code>,
+            <code>s.replace(...)</code>, <code>s + "x"</code> all return a <em>new</em> string and
+            leave the original alone. That is safe but wasteful when you build text in a loop —
+            each <code>+=</code> creates and discards an object.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>// Wasteful in a big loop: N throwaway String objects
+String slow = "";
+for (int i = 1; i &lt;= 5; i++) slow += i + ",";
+
+// Efficient: one buffer, appended in place
+StringBuilder sb = new StringBuilder();
+for (int i = 1; i &lt;= 5; i++) sb.append(i).append(",");
+String fast = sb.toString();            // "1,2,3,4,5,"</code></pre>
+          </div>
+          <p><strong>Splitting and joining:</strong></p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>String csv = "red,green,blue";
+String[] parts = csv.split(",");        // ["red", "green", "blue"]
+String back = String.join(" | ", parts); // "red | green | blue"</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Rule of thumb</div>
+            <p>
+              A handful of concatenations: plain <code>+</code> is fine and readable. Building a
+              string inside a loop: use <code>StringBuilder</code>.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="pitfalls">
+          <h2>11. Common Pitfalls</h2>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>ArrayIndexOutOfBoundsException</code></div>
+            <p><code>for (int i = 0; i &lt;= a.length; i++)</code> — the <code>&lt;=</code> reads
+              one slot past the end. Use <code>&lt;</code>.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>NullPointerException</code> on <code>String[]</code></div>
+            <p><code>String[] names = new String[3];</code> then <code>names[0].length()</code> →
+              the slot is <code>null</code>. Assign strings before calling methods on them.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Comparing arrays / wrappers with <code>==</code></div>
+            <p>Use <code>Arrays.equals(a, b)</code> for arrays and <code>x.equals(y)</code> for
+              wrappers and Strings. <code>==</code> compares addresses.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Removing from a list while <code>for-each</code>-ing it</div>
+            <p><code>for (String s : list) list.remove(s);</code> throws
+              <code>ConcurrentModificationException</code>. Loop with an index going
+              <em>backwards</em>, or build a new list.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>a.length</code> vs <code>s.length()</code></div>
+            <p>Array: <code>length</code>, no parentheses. String / ArrayList:
+              <code>length()</code> / <code>size()</code>, with parentheses.</p>
+          </div>
+        </section>
+
+        <section class="content-section" id="cheat-sheet">
+          <h2>12. Executive Quick-Recap &amp; Cheat Sheet</h2>
+
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The 30-Second Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              An <strong>array</strong> is a fixed row of same-type slots, indexed
+              <code>0..length-1</code>. Walk it with <code>for</code> (need the index) or
+              <code>for-each</code> (need only values). <strong>ArrayList</strong> grows and
+              shrinks; it holds objects, so primitives are auto-boxed into wrappers
+              (<code>Integer</code>). <strong>String</strong> is immutable — build text in loops
+              with <strong>StringBuilder</strong>.
+            </p>
+          </div>
+
+          <h3>Core Syntax at a Glance</h3>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java Cheat Sheet</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>import java.util.ArrayList;
+import java.util.Arrays;
+
+int[] a = {5, 2, 8, 1};
+for (int v : a) System.out.print(v + " ");
+Arrays.sort(a);                       // [1, 2, 5, 8]
+System.out.println(Arrays.toString(a));
+
+int[][] grid = new int[3][4];         // 3 rows, 4 cols, all 0
+grid[2][3] = 9;
+
+ArrayList&lt;String&gt; list = new ArrayList&lt;&gt;();
+list.add("x"); list.add("y");
+list.remove("x");
+System.out.println(list.size());      // 1
+
+StringBuilder sb = new StringBuilder();
+for (String s : list) sb.append(s).append(",");
+System.out.println(sb);               // y,</code></pre>
+          </div>
+
+          <h3>Plain-English Glossary</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Array</div><p class="glossary-def">A fixed-size, indexed sequence of values of one type.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Index</div><p class="glossary-def">A position number, starting at 0; valid range is <code>0..length-1</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>.length</code></div><p class="glossary-def">An array's size — a field, no parentheses.</p></div>
+            <div class="glossary-item"><div class="glossary-term">for-each</div><p class="glossary-def"><code>for (T v : collection)</code> — reads each value; no index, read-only.</p></div>
+            <div class="glossary-item"><div class="glossary-term">2D array</div><p class="glossary-def">An array of arrays — a grid; <code>grid[r][c]</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">ArrayList</div><p class="glossary-def">A resizable list from <code>java.util</code>: <code>add</code>, <code>get</code>, <code>set</code>, <code>remove</code>, <code>size</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Wrapper class</div><p class="glossary-def">The object form of a primitive: <code>Integer</code>, <code>Double</code>, <code>Boolean</code>…</p></div>
+            <div class="glossary-item"><div class="glossary-term">Autoboxing</div><p class="glossary-def">Java automatically converting between a primitive and its wrapper.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Immutable</div><p class="glossary-def">Cannot be changed after creation; <code>String</code> methods return new strings.</p></div>
+            <div class="glossary-item"><div class="glossary-term">StringBuilder</div><p class="glossary-def">A mutable text buffer; <code>append(...)</code> then <code>toString()</code>.</p></div>
+          </div>
+          <p style="margin-top: var(--space-md);">Full definitions: <a href="../../reference/glossary.html">Master Glossary</a>.</p>
+        </section>
+
+        <section class="content-section" id="summary">
+          <h2>13. Summary &amp; Interactive Self-Checks</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Try these, then verify against this lesson (<a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"Give me a trace table for a loop that finds the max of <code>{4, 9, 2, 9, 7}</code>."</li>
+              <li>"When should I use an array vs an ArrayList? Give 3 concrete examples of each."</li>
+              <li>"Show me the bug in <code>for (int i = 0; i &lt;= a.length; i++)</code> and the fix."</li>
+            </ul>
+          </div>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Q1: An array has <code>length</code> 5. What are its valid indexes?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>0</code> to <code>4</code>. <code>a[5]</code> throws <code>ArrayIndexOutOfBoundsException</code>.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q2: <code>int[] b = a; b[0] = 99;</code> — what is <code>a[0]</code>?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>99</code>. <code>b</code> and <code>a</code> refer to the same array object.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q3: Why can't <code>ArrayList&lt;int&gt;</code> be written?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Generic types hold objects, not primitives. Use <code>ArrayList&lt;Integer&gt;</code>; Java autoboxes <code>int</code> values in and out.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q4: You build a 10,000-character string by <code>+=</code> in a loop. What is the smarter tool?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>StringBuilder</code> — one buffer appended in place, instead of thousands of throwaway <code>String</code> objects.</div>
+            </details>
+          </div>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start Class Tasks</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Post-Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 6 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Session 6 Class Tasks &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

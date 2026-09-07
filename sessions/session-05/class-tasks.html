@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 5 In-Class Practical Tasks | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 5 Tasks</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html" class="active">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-teal">Hands-On Practicals</span>
+        <span class="tag tag-purple">Session 5</span>
+        <span class="tag tag-yellow">Lab Exercises</span>
+      </div>
+      <h1>💻 Session 5 In-Class Coding Tasks</h1>
+      <p class="description">
+        Design and use your own classes: fields, constructors, methods, overloading, and
+        <code>toString()</code>. Each task shows its exact output. Try first, then check
+        <a href="solution/solution.html">the solutions</a>.
+      </p>
+    </div>
+
+    <!-- Task 1 -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-easy">🟢 Level 1: Easy</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 5.1: The <code>Rectangle</code> Class</h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> Write a class with two <code>private</code> fields, a
+        constructor, and two methods that <em>return</em> a computed value.
+      </p>
+      <h4>Instructions:</h4>
+      <ol style="margin-left: var(--space-lg); margin-bottom: var(--space-md); color: var(--text-secondary);">
+        <li>Create <code>Rectangle.java</code> with <code>private double width, height;</code>.</li>
+        <li>Constructor <code>Rectangle(double width, double height)</code> using <code>this.</code>.</li>
+        <li><code>area()</code> returns <code>width * height</code>; <code>perimeter()</code> returns <code>2 * (width + height)</code>.</li>
+        <li>In <code>main</code>, make a 3&times;4 and a 5.5&times;2 rectangle and print both with <code>%.2f</code>.</li>
+      </ol>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">Rectangle.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class Rectangle {
+    private double width, height;
+
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    public double area()      { return width * height; }
+    public double perimeter() { return 2 * (width + height); }
+
+    public static void main(String[] args) {
+        Rectangle a = new Rectangle(3, 4);
+        Rectangle b = new Rectangle(5.5, 2);
+        System.out.printf("A: area=%.2f perimeter=%.2f%n", a.area(), a.perimeter());
+        System.out.printf("B: area=%.2f perimeter=%.2f%n", b.area(), b.perimeter());
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>A: area=12.00 perimeter=14.00
+B: area=11.00 perimeter=15.00</code></pre></div>
+    </div>
+
+    <!-- Task 2 -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-medium">🟡 Level 2: Intermediate</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 5.2: The <code>Wallet</code> Class (Encapsulation)</h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> A <code>private double balance</code> that can only change
+        through validating methods.
+      </p>
+      <h4>Instructions:</h4>
+      <ol style="margin-left: var(--space-lg); margin-bottom: var(--space-md); color: var(--text-secondary);">
+        <li>Fields: <code>private String owner; private double balance;</code>. Constructor takes both (clamp a negative opening balance to 0).</li>
+        <li><code>add(double amt)</code>: reject <code>&le; 0</code>; else add and print the new balance.</li>
+        <li><code>spend(double amt)</code>: reject <code>&le; 0</code>; reject more than <code>balance</code>; else subtract and print.</li>
+        <li><code>getBalance()</code> returns the balance. Test the sequence in the starter.</li>
+      </ol>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">Wallet.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class Wallet {
+    private String owner;
+    private double balance;
+
+    public Wallet(String owner, double opening) {
+        this.owner = owner;
+        this.balance = Math.max(opening, 0);
+    }
+
+    public void add(double amt) {
+        if (amt <= 0) { System.out.println("Amount must be positive."); return; }
+        balance += amt;
+        System.out.printf("%s added $%.2f -> $%.2f%n", owner, amt, balance);
+    }
+
+    public void spend(double amt) {
+        if (amt <= 0) {
+            System.out.println("Amount must be positive.");
+        } else if (amt > balance) {
+            System.out.printf("%s cannot spend $%.2f (only $%.2f).%n", owner, amt, balance);
+        } else {
+            balance -= amt;
+            System.out.printf("%s spent $%.2f -> $%.2f%n", owner, amt, balance);
+        }
+    }
+
+    public double getBalance() { return balance; }
+
+    public static void main(String[] args) {
+        Wallet w = new Wallet("Ada", 20.00);
+        w.add(15.50);
+        w.spend(10.00);
+        w.spend(100.00);
+        System.out.printf("Final balance: $%.2f%n", w.getBalance());
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>Ada added $15.50 -> $35.50
+Ada spent $10.00 -> $25.50
+Ada cannot spend $100.00 (only $25.50).
+Final balance: $25.50</code></pre></div>
+    </div>
+
+    <!-- Task 3 -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-hard">🔴 Level 3: Challenge</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 5.3: The <code>Student</code> Class (Constructor Overloading + <code>toString</code>)</h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> Two constructors (one delegating with <code>this(...)</code>),
+        a <code>grade()</code> that <em>returns</em> a letter, and a readable <code>toString()</code>.
+      </p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">Student.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class Student {
+    private String name, track;
+    private int score;
+
+    public Student(String name, String track, int score) {
+        this.name = name;
+        this.track = track;
+        this.score = score;
+    }
+
+    public Student(String name, String track) {
+        this(name, track, 0);          // delegate to the full constructor
+    }
+
+    public void addScore(int delta) { score += delta; }
+
+    public String grade() {
+        if (score >= 80) return "A";
+        if (score >= 70) return "B";
+        if (score >= 50) return "C";
+        return "F";
+    }
+
+    @Override
+    public String toString() {
+        return String.format("%s [%s] score=%d grade=%s", name, track, score, grade());
+    }
+
+    public static void main(String[] args) {
+        Student s1 = new Student("Amara", "AI-Driven Java", 68);
+        Student s2 = new Student("Ken", "AI-Driven Java");
+        s1.addScore(7);
+        s2.addScore(82);
+        System.out.println(s1);
+        System.out.println(s2);
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>Amara [AI-Driven Java] score=75 grade=B
+Ken [AI-Driven Java] score=82 grade=A</code></pre></div>
+    </div>
+
+    <!-- Task 4 -->
+    <div class="task-card">
+      <span class="task-difficulty difficulty-medium">🟡 Level 2: Intermediate</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 5.4: The <code>Calculator</code> Class (Method Overloading)</h3>
+      <p class="task-objective">
+        <strong>Objective:</strong> Three methods all named <code>multiply</code>, told apart by
+        their parameter lists.
+      </p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">Calculator.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class Calculator {
+    int multiply(int a, int b)            { return a * b; }
+    int multiply(int a, int b, int c)     { return a * b * c; }
+    double multiply(double a, double b)   { return a * b; }
+
+    public static void main(String[] args) {
+        Calculator c = new Calculator();
+        System.out.println("multiply(4, 5)      = " + c.multiply(4, 5));
+        System.out.println("multiply(2, 3, 4)   = " + c.multiply(2, 3, 4));
+        System.out.println("multiply(1.5, 2.0)  = " + c.multiply(1.5, 2.0));
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>multiply(4, 5)      = 20
+multiply(2, 3, 4)   = 24
+multiply(1.5, 2.0)  = 3.0</code></pre></div>
+    </div>
+
+    <div class="nav-footer">
+      <a href="lesson.html" class="nav-prev"><span>&larr; Back to Lesson 5</span></a>
+      <a href="assignment.html" class="nav-next"><span>Session 5 Assignment &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

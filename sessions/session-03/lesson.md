@@ -1,132 +1,74 @@
-# Session 3: Decision-Making Constructs and Loops 🔀
+# Session 3: Decision-Making & Loops — Quick Reference 🔀
 
-> **Module:** JAVA-I-TL3 | **Duration:** 2 Hours | **Aptech Certified Courseware (2026)**  
-> **Prerequisites:** Session 2 (Variables, Data Types & Operators)
-
----
-
-## 🧠 Memory Booster: Flashback to Session 2 Logic
-Before writing branching and looping code, connect today's logic with Session 2:
-- **Boolean Power:** Every decision in Java comes down to a boolean expression (`true` or `false`) produced by relational operators (`>`, `<`, `==`, `!=`).
-- **Logical Connectors:** Use `&&` (AND) when all conditions must hold, and `||` (OR) when any condition suffices.
-- **String Comparison:** Always compare text with `.equals()`, not `==`! `name.equals("Alice")` compares the characters; `name == "Alice"` compares memory addresses.
+> 📄 **This is a summary.** The full lesson (analogies, trace tables, off-by-one & infinite-loop
+> recovery, the `Scanner` menu example) is in **[lesson.html](lesson.html)**. Read that first.
 
 ---
 
-## 1. The Power of Control Flow
+## 30-Second Mental Model
 
-In computing, **Control Flow** refers to the order in which statements are evaluated. Java provides:
-- **Decision-Making (Branching)**: `if`, `if-else`, `if-else-if`, `nested if`, `switch-case`
-- **Loops (Iteration)**: `for`, `while`, `do-while`
-- **Jump Statements**: `break`, `continue`
-
-![Java Control Flow Architecture](../../assets/images/control_flow_diagram.jpg)
-*Figure 3.1: Java Control Flow Architecture — Branching decisions and loop cycle mechanics.*
+**Branching** (`if`/`else`, `switch`) chooses *which* block runs. **Loops** (`for`, `while`,
+`do-while`) choose *how many times* a block repeats. `while`/`for` test **before** the body (can
+run 0 times); `do-while` tests **after** (runs at least once). Every decision reduces to a
+`boolean`.
 
 ---
 
-## 2. Decision-Making: `if` Statements
+## Core Syntax
 
 ```java
-// 1. Simple if
-if (score >= 50) {
-    System.out.println("Passed");
+// if - else if - else
+if (score >= 90)      grade = 'A';
+else if (score >= 80) grade = 'B';
+else                  grade = 'F';
+
+// switch (classic form — needs break; can fall through)
+switch (role) {
+    case "ADMIN": grantFullAccess(); break;
+    case "USER":  grantUserAccess(); break;
+    default:      denyAccess();      break;
 }
 
-// 2. if - else
-if (isMember) {
-    discount = 0.15;
-} else {
-    discount = 0.0;
-}
+// for — known repeat count
+for (int i = 0; i < 5; i++) { /* runs 5 times: 0..4 */ }
 
-// 3. if - else if - else ladder
-if (gpa >= 3.5) {
-    status = "First Class";
-} else if (gpa >= 3.0) {
-    status = "Second Class Upper";
-} else {
-    status = "General Standing";
-}
+// while — condition-driven
+while (balance > 0) { makePayment(); }
+
+// do-while — guaranteed at least once (menus, prompts)
+do { showMenu(); choice = in.nextInt(); } while (choice != 3);
+
+// jumps
+if (found) break;      // exit the loop now
+if (skip)  continue;   // skip to the next iteration
 ```
 
 ---
 
-## 3. The `switch-case` Statement
+## Must-Remember Points
 
-Best suited for evaluating a single variable against discrete constants:
-
-```java
-String courseCode = "JAVA-I";
-
-switch (courseCode) {
-    case "JAVA-I":
-        System.out.println("AI-Driven Java Programming");
-        break; // Crucial: prevents fall-through!
-    case "PY-I":
-        System.out.println("Python for AI & Data Science");
-        break;
-    default:
-        System.out.println("Elective / General Study");
-        break;
-}
-```
-
-### Supported Types in `switch`:
-`byte`, `short`, `char`, `int`, `String`, and `enum`. *(No floats, doubles, or booleans!)*
+- **`switch` allows** `byte short char int String enum` — **not** `float double boolean`.
+- **Fall-through:** omit `break;` in the classic form and execution runs on into later cases.
+- **Arrow form** `case 1 -> ...` (Java 14+, Session 14) needs no `break` and can't fall through.
+- **Off-by-one:** `<` vs `<=`, or start `0` vs `1`, changes the count by one.
+  - loop *n* times from 0: `for (int i = 0; i < n; i++)`
+  - loop 1..*n* inclusive: `for (int i = 1; i <= n; i++)`
+- **Infinite loop:** the condition never turns false (forgot the update, wrong variable). **Stop
+  it:** `Ctrl+C` in the terminal, or the red ■ Stop button in IntelliJ.
+- **Nested loops:** inner finishes fully for each outer pass; `outer × inner` total body runs.
+- **`;` right after `if`/`for`/`while` header** is a bug — the body then runs unconditionally /
+  the loop body is empty.
+- **Trace tables:** step through by hand, recording each variable after each line — this is how
+  you find loop bugs.
 
 ---
 
-## 4. Loops: `while`, `do-while`, and `for`
+## Self-Check
 
-| Loop Type | Classification | When to Use | Syntax Summary |
-| :--- | :--- | :--- | :--- |
-| `for` | Entry-Controlled | Iterations count is known in advance | `for (init; cond; update) { ... }` |
-| `while` | Entry-Controlled | Iterations depend on a changing condition | `while (cond) { ... }` |
-| `do-while` | Exit-Controlled | Body must execute at least once (e.g. interactive menu) | `do { ... } while (cond);` |
+1. **Can a `double` be the `switch` selector?** — No; binary rounding makes equality unreliable.
+2. **Output of `for (int i = 1; i <= 3; i++); { System.out.print(i); }`?** — Won't compile: the
+   `;` ends the loop, and `i` is out of scope in the block.
+3. **Outer 3 × inner 4 — how many inner-body runs?** — 12.
+4. **Minimum runs of a `do-while`?** — 1 (condition checked at the end).
 
----
-
-## 5. Jump Statements
-
-- `break`: Aborts the loop or switch entirely.
-- `continue`: Skips the remainder of the current loop iteration and moves to the next.
-
----
-
-## 6. Executive Quick-Recap & Cheat Sheet
-
-### ⚡ The 30-Second Mental Model
-Branching chooses *which* path of code to take. Looping chooses *how many times* to repeat a path. Entry-controlled loops (`for`/`while`) test first; exit-controlled loops (`do-while`) test after executing once.
-
-### Core Syntax at a Glance
-```java
-// Branching
-if (x > 0) { ... } else { ... }
-
-// switch
-switch (choice) { case 1: break; default: break; }
-
-// Count-controlled loop
-for (int i = 0; i < 10; i++) { ... }
-
-// Jumps
-if (found) break; // exit immediately
-if (skipThis) continue; // skip to next lap
-```
-
-### Plain-English Vocabulary Glossary
-- **Branching**: Choosing an alternative execution path based on boolean true/false.
-- **Fall-Through**: Omitting `break;` in a switch statement, causing subsequent cases to execute uncontrollably.
-- **Entry-Controlled**: Testing condition before the loop body runs (can execute 0 times).
-- **Exit-Controlled**: Testing condition after the loop body runs (guaranteed to execute at least 1 time).
-- **Infinite Loop**: A loop condition that never becomes false, freezing the application.
-
-### Self-Check Questions
-1. *Why can't `double` or `float` be used inside a switch statement?*
-   **Answer:** Floating-point rounding inaccuracies can cause unexpected equality mismatches.
-2. *What is the minimum number of times a `do-while` loop executes?*
-   **Answer:** At least 1 time, because its condition check is located at the exit.
-3. *What does `continue` do inside a for loop?*
-   **Answer:** It skips the rest of the current iteration body and jumps directly to the update step (`i++`).
-
+Glossary: [../../reference/glossary.html](../../reference/glossary.html)

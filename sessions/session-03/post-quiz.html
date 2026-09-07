@@ -57,7 +57,7 @@
 <script>
   const session3PostQuizData = {
     title: "Session 3 Mastery: Decision Constructs & Loops",
-    description: "Answer all 8 questions to verify your understanding of Java control flow.",
+    description: "Answer all 12 questions to verify your understanding of Java control flow.",
     questions: [
       {
         question: "What will happen if you accidentally omit the `break;` statement at the end of a `case` block in a `switch` statement?",
@@ -148,6 +148,53 @@
         ],
         correct: 2,
         explanation: "The `default:` label inside a switch statement executes when no matching `case` value is found."
+      },
+      {
+        question: "How many times does the body of this loop run?",
+        code: "for (int i = 0; i < 5; i++) {\n    System.out.println(i);\n}",
+        options: [
+          "4 times",
+          "5 times",
+          "6 times",
+          "Infinite"
+        ],
+        correct: 1,
+        explanation: "i takes the values 0, 1, 2, 3, 4 — that is 5 iterations. The loop stops when i becomes 5 because 5 < 5 is false. Changing < to <= would make it run 6 times (0..5): a classic off-by-one."
+      },
+      {
+        question: "What is printed?",
+        code: "int total = 0;\nfor (int i = 1; i <= 4; i++) {\n    total += i;\n}\nSystem.out.println(total);",
+        options: [
+          "4",
+          "10",
+          "24",
+          "0"
+        ],
+        correct: 1,
+        explanation: "This is the accumulator pattern. total goes 0 -> 1 -> 3 -> 6 -> 10 as i takes 1, 2, 3, 4. Tracing by hand (a value per row) is the reliable way to answer these."
+      },
+      {
+        question: "What does this code do?",
+        code: "for (int i = 1; i <= 3; i++);\n{\n    System.out.println(\"Hi\");\n}",
+        options: [
+          "Prints \"Hi\" three times",
+          "Prints \"Hi\" once, because the ; ends the loop and the block runs on its own",
+          "Prints nothing",
+          "Infinite loop"
+        ],
+        correct: 1,
+        explanation: "The semicolon right after the for header is the entire loop body (an empty statement), so the loop just counts to 3 doing nothing. The { ... } block that follows is then an ordinary block that runs once, printing \"Hi\" a single time. Never put ; after a loop or if header."
+      },
+      {
+        question: "Your program is stuck in an infinite loop and the console keeps scrolling. What is the correct way to stop it?",
+        options: [
+          "Wait; Java stops infinite loops automatically after 60 seconds",
+          "Press Ctrl+C in the terminal, or click the red square Stop button in IntelliJ's Run panel",
+          "Add a semicolon somewhere",
+          "Close and reopen the browser"
+        ],
+        correct: 1,
+        explanation: "Java will not rescue you from an infinite loop. Stop the process with Ctrl+C (terminal) or the red Stop button (IDE), then fix the loop so the variable in its condition actually moves toward making the condition false."
       }
     ]
   };

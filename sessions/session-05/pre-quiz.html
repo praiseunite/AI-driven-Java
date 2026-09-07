@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 5 Pre-Quiz | Classes, Objects &amp; Methods</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 5</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Course Home</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-yellow">Pre-Class Diagnostic</span>
+        <span class="tag tag-purple">Session 5</span>
+        <span class="tag tag-teal">Week 2 Begins</span>
+      </div>
+      <h1>🧠 Pre-Lecture Intuition Check</h1>
+      <p class="description">
+        Five quick questions before we build our first real classes. A low score is expected —
+        this is here to prime your thinking about modelling the world as objects.
+      </p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="../../index.html" class="nav-prev"><span>&larr; Back to Dashboard</span></a>
+      <a href="lesson.html" class="nav-next"><span>Proceed to Lesson 5 &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session5PreQuizData = {
+    title: "Session 5 Readiness: Thinking in Objects",
+    description: "Pick the option that best matches your intuition. Explanations unlock after each answer.",
+    questions: [
+      {
+        question: "You are asked to model 5,000 bank accounts in a program. Which approach scales best?",
+        options: [
+          "5,000 separate pairs of variables like acct1Balance, acct1Owner, acct2Balance, ...",
+          "One 'account' concept that bundles a balance and an owner together, created 5,000 times",
+          "A single shared balance variable that every account reads and writes",
+          "Store everything in the method name"
+        ],
+        correct: 1,
+        explanation: "This is exactly what a class + objects gives you: define the 'account' shape once, then create as many independent account objects as you need."
+      },
+      {
+        question: "In the real world, a coffee mug has properties (color, volume, is-it-full) and actions (fill, empty, sip). In OOP terms, the properties are the object's ___ and the actions are its ___.",
+        options: [
+          "methods; fields",
+          "fields (state); methods (behavior)",
+          "classes; objects",
+          "parameters; return values"
+        ],
+        correct: 1,
+        explanation: "Fields hold what an object HAS (its state); methods define what it DOES (its behavior)."
+      },
+      {
+        question: "A 'class' in Java is best described as:",
+        options: [
+          "A running thing that holds live data",
+          "A blueprint or template — you build actual things from it",
+          "Another word for a method",
+          "A folder on your hard drive"
+        ],
+        correct: 1,
+        explanation: "A class is the design. An object (instance) is a concrete thing built from that design at runtime using 'new'."
+      },
+      {
+        question: "Why might a class hide its data behind methods instead of letting any code change it directly?",
+        options: [
+          "To make the program run faster",
+          "So the object can enforce its own rules and never end up in an invalid state",
+          "Because Java forbids public data",
+          "To use less memory"
+        ],
+        correct: 1,
+        explanation: "This is encapsulation. A withdraw() method can refuse an overdraft; a raw public balance field cannot protect itself."
+      },
+      {
+        question: "You write `Dog d = new Dog();`. What is `d`?",
+        options: [
+          "The Dog object itself, stored in the variable",
+          "A reference (address) that points to a Dog object living in memory",
+          "A copy of the Dog class",
+          "The name of a method"
+        ],
+        correct: 1,
+        explanation: "`new` creates the object in heap memory and returns its address. `d` stores that address — it points at the object rather than containing it."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session5PreQuizData);
+  });
+</script>
+
+</body>
+</html>

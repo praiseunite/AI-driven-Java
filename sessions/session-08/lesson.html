@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 8: Week 2 Review — consolidating classes, objects, methods, arrays, ArrayList, Strings, access modifiers, static, final, and packages, plus an OOP-era debugging playbook.">
+  <title>Session 8: Week 2 Review &amp; Consolidation | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 8</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Review Guide</a></li>
+      <li><a href="class-tasks.html">Try It Yourself</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-green">Week 2 &bull; Day 4</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL8</span>
+      </div>
+      <h1>Session 8: Week 2 Review &amp; Consolidation</h1>
+      <p class="description">
+        You now have the whole object-oriented toolkit: classes and objects, methods and
+        overloading, arrays and <code>ArrayList</code>, access modifiers, <code>static</code>,
+        <code>final</code>, and packages. Today you connect them, review the assignments from
+        Sessions 5–7, and drill the bugs that appear once programs have many objects.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Review Blueprint</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#map">1. Week 2 Concept Map</a></li>
+          <li><a href="#syntax">2. Syntax Refresher</a></li>
+          <li><a href="#worked">3. Worked Example: It All Fits</a></li>
+          <li><a href="#design-checklist">4. Class Design Checklist</a></li>
+          <li><a href="#debugging">5. OOP-Era Debugging Playbook</a></li>
+          <li><a href="#assignments">6. Assignments S5–S7 Review</a></li>
+          <li><a href="#cheat-sheet">7. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">8. Summary &amp; Week 3 Preview</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: The 3 Pillars of Week 2</div>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Pillar 1 — Objects (S5):</strong> a class bundles fields (state) and methods (behavior). <code>new</code> makes an instance on the heap; a variable holds a reference to it.</li>
+            <li><strong>Pillar 2 — Collections (S6):</strong> fixed-size <code>array</code> vs growable <code>ArrayList</code>; wrappers &amp; autoboxing; immutable <code>String</code> vs <code>StringBuilder</code>.</li>
+            <li><strong>Pillar 3 — Structure (S7):</strong> access levels control visibility; <code>static</code> belongs to the class; <code>final</code> locks a value; packages organise and namespace code; a JAR ships it.</li>
+          </ul>
+        </div>
+
+        <section class="content-section" id="map">
+          <h2>1. Week 2 Concept Map</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Mental Model</span><span class="code-filename">How Week 2 fits together</span></div>
+            <pre><code>                       ┌──────────────  CLASS  ──────────────┐
+                       │  fields (state)   methods (behavior) │
+                       │  private          public / private   │
+                       │  static (shared)  static / instance  │
+                       │  final (locked)                      │
+                       └───────────────┬─────────────────────┘
+                                       │ new
+                                       ▼
+                              OBJECT on the heap  ◄── reference variable (stack)
+                                       │
+             ┌─────────────────────────┼─────────────────────────┐
+             ▼                         ▼                         ▼
+      stored in an array        stored in an ArrayList    described by toString()
+      (fixed size, a[i])        (grows, list.get(i))      (readable printing)
+
+      Many classes  ─────►  grouped into a PACKAGE  ─────►  bundled into a JAR</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="syntax">
+          <h2>2. Rapid-Fire Syntax Refresher</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Pattern</th><th>Example</th><th>Golden rule</th></tr></thead>
+              <tbody>
+                <tr><td>Class + constructor</td><td><code>public Item(String n) { this.name = n; }</code></td><td>Same name as class, no return type.</td></tr>
+                <tr><td>Getter</td><td><code>public String getName() { return name; }</code></td><td>Return, don't print.</td></tr>
+                <tr><td>Overload</td><td><code>add(int,int)</code> &amp; <code>add(double,double)</code></td><td>Parameter list must differ.</td></tr>
+                <tr><td>Array loop</td><td><code>for (int v : a) { ... }</code></td><td>Read-only; use index form to modify.</td></tr>
+                <tr><td>ArrayList</td><td><code>list.add(x); list.get(i); list.size();</code></td><td>Holds objects; wrappers for primitives.</td></tr>
+                <tr><td>Shared constant</td><td><code>public static final double VAT = 0.075;</code></td><td><code>static</code> = one copy; <code>final</code> = fixed.</td></tr>
+                <tr><td>Package</td><td><code>package com.aptech.app;</code></td><td>First line; folder path matches.</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="worked">
+          <h2>3. Worked Example: It All Fits Together</h2>
+          <p>
+            A <code>Gradebook</code> holds an <code>ArrayList</code> of <code>Student</code>
+            objects and computes statistics over them. Every Week 2 idea appears here.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">Gradebook.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>import java.util.ArrayList;
+
+class Student {
+    private final String name;      // encapsulated + final
+    private int score;
+    Student(String name, int score) { this.name = name; this.score = score; }
+    String getName() { return name; }
+    int getScore()   { return score; }
+    void adjust(int delta) { score += delta; }
+    @Override public String toString() { return name + " (" + score + ")"; }
+}
+
+public class Gradebook {
+    private final ArrayList&lt;Student&gt; students = new ArrayList&lt;&gt;();
+
+    void add(Student s) { students.add(s); }
+
+    double classAverage() {                     // accumulator over a collection
+        if (students.isEmpty()) return 0;
+        int total = 0;
+        for (Student s : students) total += s.getScore();
+        return (double) total / students.size();
+    }
+
+    Student topStudent() {                       // running-best over a collection
+        Student top = students.get(0);
+        for (Student s : students)
+            if (s.getScore() &gt; top.getScore()) top = s;
+        return top;
+    }
+
+    public static void main(String[] args) {
+        Gradebook gb = new Gradebook();
+        gb.add(new Student("Ada", 82));
+        gb.add(new Student("Bob", 74));
+        gb.add(new Student("Cal", 91));
+        gb.add(new Student("Dee", 68));
+
+        System.out.printf("Class average : %.2f%n", gb.classAverage());   // 78.75
+        System.out.println("Top student   : " + gb.topStudent());          // Cal (91)
+
+        gb.topStudent().adjust(-50);     // returns a REFERENCE to Cal — really changes him
+        System.out.println("After penalty : " + gb.topStudent());          // Ada (82)
+    }
+}</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 The subtle bit</div>
+            <p>
+              <code>topStudent()</code> returns a <em>reference</em> to the actual
+              <code>Student</code> object, not a copy. Calling <code>.adjust(-50)</code> on it
+              really lowers Cal's score to 41 — so the <em>next</em> call to
+              <code>topStudent()</code> now finds Ada. References, not values.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="design-checklist">
+          <h2>4. Class Design Checklist</h2>
+          <ol class="steps">
+            <li><strong>What does one object represent?</strong> Name the class as a noun (<code>Student</code>, <code>Invoice</code>).</li>
+            <li><strong>What does it know?</strong> List the fields. Make them <code>private</code>. Mark those that never change <code>final</code>.</li>
+            <li><strong>How is it born?</strong> Write a constructor that leaves the object in a valid state (clamp/validate inputs).</li>
+            <li><strong>What can it do?</strong> Public methods for behaviour outside code needs; <code>private</code> helpers for the rest. Methods <em>return</em> results.</li>
+            <li><strong>Anything shared by all objects?</strong> A count, a rate, a constant → <code>static</code> (and <code>final</code> if constant).</li>
+            <li><strong>How should it print?</strong> Override <code>toString()</code>.</li>
+          </ol>
+        </section>
+
+        <section class="content-section" id="debugging">
+          <h2>5. OOP-Era Debugging Playbook</h2>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>NullPointerException</code> on an object you "made"</div>
+            <p>You declared the reference but never <code>new</code>'d it, or an array/list slot is
+              still <code>null</code>. Trace back to where it should have been assigned.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 "non-static ... cannot be referenced from a static context"</div>
+            <p><code>main</code> is static and is calling an instance method/field directly. Make the
+              target <code>static</code>, or create an object first.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 "x has private access in Y"</div>
+            <p>Outside code is touching a <code>private</code> field. Add a getter/setter, or move
+              the logic into the class.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>ConcurrentModificationException</code></div>
+            <p>You called <code>list.remove(...)</code> inside a <code>for-each</code> over that
+              list. Loop backwards by index, or collect then remove.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Two references, one object surprise</div>
+            <p><code>b = a</code> for objects/arrays copies the <em>address</em>. Changing through
+              <code>b</code> changes what <code>a</code> sees. If you need an independent copy, make
+              one explicitly.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Comparing objects with <code>==</code></div>
+            <p>Use <code>.equals()</code> for <code>String</code> and wrapper values;
+              <code>Arrays.equals()</code> for arrays. (Writing your own <code>equals</code> for
+              custom classes is Session 9.)</p>
+          </div>
+        </section>
+
+        <section class="content-section" id="assignments">
+          <h2>6. Assignments S5–S7 — What to Check</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Assignment</th><th>Self-review questions</th></tr></thead>
+              <tbody>
+                <tr><td><strong>S5 — LibraryBook</strong></td><td>Are all four fields <code>private</code>? Do <code>borrow()</code>/<code>returnCopy()</code> guard the zero cases so counts never go negative and always sum to the total? Do <code>status()</code>/<code>toString()</code> <em>return</em> strings?</td></tr>
+                <tr><td><strong>S6 — WeatherReport</strong></td><td>Is the average a <code>double</code> (cast before dividing)? Are hottest/coldest found by tracking the <em>index</em>? Is the chart built in one <code>StringBuilder</code>?</td></tr>
+                <tr><td><strong>S7 — Café / JAR</strong></td><td>Does every file have the correct <code>package</code> line under a matching folder? Is <code>TAX_RATE</code> <code>static final</code> and the counter <code>static</code>? Does <code>java -jar cafe.jar</code> produce the expected receipt?</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Compare against the reference solutions:
+            <a href="../session-05/solution/solution.html">S5</a> &bull;
+            <a href="../session-06/solution/solution.html">S6</a> &bull;
+            <a href="../session-07/solution/solution.html">S7</a>.
+          </p>
+        </section>
+
+        <section class="content-section" id="cheat-sheet">
+          <h2>7. Week 2 Executive Cheat Sheet</h2>
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The Week 2 Grand Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              Model the domain as <strong>classes</strong> (state + behavior, fields
+              <code>private</code>). Build <strong>objects</strong> with <code>new</code>; variables
+              hold <strong>references</strong>. Keep many objects in an <strong>array</strong>
+              (fixed) or an <strong>ArrayList</strong> (growable). Share class-wide data with
+              <strong><code>static</code></strong>, lock it with <strong><code>final</code></strong>.
+              Organise files into <strong>packages</strong>; ship them in a <strong>JAR</strong>.
+              Most new bugs are <code>null</code>, static-context, private-access, or
+              two-references-one-object.
+            </p>
+          </div>
+          <h3>Plain-English Master Glossary (Week 2)</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Object vs reference</div><p class="glossary-def">The object lives on the heap; the variable holds its address. Assigning the variable copies the address, not the object.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Constructor</div><p class="glossary-def">Runs at <code>new</code> time to set an object up; class name, no return type.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Overloading</div><p class="glossary-def">Same method/constructor name, different parameter lists.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Array vs ArrayList</div><p class="glossary-def">Fixed size + <code>a[i]</code> + <code>.length</code> vs growable + <code>.get(i)</code> + <code>.size()</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Wrapper / autobox</div><p class="glossary-def"><code>Integer</code> for <code>int</code>; Java converts automatically for generic collections.</p></div>
+            <div class="glossary-item"><div class="glossary-term">static</div><p class="glossary-def">Belongs to the class — one shared copy, callable without an object.</p></div>
+            <div class="glossary-item"><div class="glossary-term">final</div><p class="glossary-def">Assign-once variable / non-overridable method / non-extendable class.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Access levels</div><p class="glossary-def"><code>public</code> &gt; <code>protected</code> &gt; package-private &gt; <code>private</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Package</div><p class="glossary-def">Named folder of classes; path matches name; <code>import</code> to use.</p></div>
+            <div class="glossary-item"><div class="glossary-term">JAR</div><p class="glossary-def">Zipped classes; executable if the manifest names a <code>Main-Class</code>.</p></div>
+          </div>
+          <p style="margin-top: var(--space-md);">Everything, in one place: <a href="../../reference/glossary.html">Master Glossary</a>.</p>
+        </section>
+
+        <section class="content-section" id="summary">
+          <h2>8. Summary, Self-Check &amp; Week 3 Preview</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Consolidate Week 2 (<a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"Quiz me one question at a time on Week 2 Java: classes, references, arrays, ArrayList, static, packages."</li>
+              <li>"Review my class design for a <code>BankAccount</code>: is the encapsulation right, do methods return vs print, is anything wrongly static? <em>[paste]</em>"</li>
+              <li>"Give me one integrative exercise that needs a custom class stored in an ArrayList plus a static counter."</li>
+            </ul>
+          </div>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Q1: A method returns a <code>Student</code> from an <code>ArrayList</code>. You call a mutating method on the result. Does the list's object change?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Yes. The method returns a reference to the same object in the list, so mutating it changes what the list holds.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q2: When do you choose <code>static</code> for a field?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> When the data describes the class as a whole (a total count, a shared rate/constant) rather than one object's state.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q3: <code>list.size()</code>, <code>a.length</code>, <code>s.length()</code> — which needs no parentheses?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>a.length</code> (array). It is a field. <code>ArrayList.size()</code> and <code>String.length()</code> are methods.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q4: Your <code>static main</code> calls <code>process()</code>, a non-static method, and won't compile. Two fixes?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Make <code>process()</code> <code>static</code>, or create an object and call <code>obj.process()</code>.</div>
+            </details>
+          </div>
+
+          <h3 style="margin-top: var(--space-xl);">Looking Ahead: Week 3</h3>
+          <p>
+            Week 3 goes deeper into OOP: <strong>inheritance</strong> (one class building on
+            another), <strong>polymorphism</strong> (one call, many behaviours),
+            <strong>interfaces</strong> (contracts), and <strong>exception handling</strong>
+            (dealing with failure without crashing).
+          </p>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start "Try It Yourself" Challenges</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Week 2 Review Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 8 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Try It Yourself Tasks &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

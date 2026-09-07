@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 10 Take-Home Assignment | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 10</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html" class="active">Assignment</a></li>
+      <li><a href="solution/solution.html">Solution</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-red">Take-Home Lab Assignment</span>
+        <span class="tag tag-purple">Session 10</span>
+        <span class="tag tag-yellow">Due Before Session 11</span>
+      </div>
+      <h1>📋 Assignment 10: Notification Dispatcher</h1>
+      <p class="description">
+        Design a <code>Channel</code> interface, implement three unrelated channels plus a
+        lambda channel, and drive them all from one dispatcher that never mentions a concrete
+        channel class.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom: var(--space-xl);">
+      <h3 style="color: var(--accent); margin-top: 0;">🏢 Scenario</h3>
+      <p>
+        A campus system sends alerts by email, SMS, and push notification. Only some channels
+        are suitable for <em>urgent</em> alerts. New channels get added often, so the dispatcher
+        must not depend on any specific one.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2>Requirements</h2>
+      <ol style="margin-left: var(--space-lg); line-height: 1.8;">
+        <li><strong><code>interface Channel</code></strong> (file <code>NotificationCenter.java</code>):
+          <ul>
+            <li><code>String send(String message);</code> — returns a one-line log string (does not print).</li>
+            <li><code>default boolean isUrgentCapable() { return false; }</code>.</li>
+          </ul>
+        </li>
+        <li><strong>Implementers:</strong>
+          <ul>
+            <li><code>EmailChannel(String address)</code> — <code>"EMAIL -&gt; &lt;address&gt; : &lt;message&gt;"</code>; not urgent-capable (inherits the default).</li>
+            <li><code>SmsChannel(String number)</code> — <code>"SMS   -&gt; &lt;number&gt; : &lt;message&gt;"</code>; overrides <code>isUrgentCapable()</code> to <code>true</code>.</li>
+            <li><code>PushChannel(String deviceId)</code> — <code>"PUSH  -&gt; &lt;deviceId&gt; : &lt;message&gt;"</code>; urgent-capable.</li>
+          </ul>
+        </li>
+        <li><strong><code>Dispatcher</code></strong>: holds an <code>ArrayList&lt;Channel&gt;</code>; <code>register(Channel)</code>; <code>broadcast(String)</code> sends through every channel; <code>broadcastUrgent(String)</code> sends only through urgent-capable channels, prefixing <code>"[URGENT] "</code>.</li>
+        <li><strong><code>main</code></strong>: register one of each channel <em>plus</em> a one-off <strong>lambda</strong> channel that returns <code>"LOG   -&gt; console : &lt;message&gt;"</code>. Then <code>broadcast</code> a maintenance notice and <code>broadcastUrgent</code> a "Database down!" alert.</li>
+      </ol>
+
+      <div class="expected-output">
+        <h5>Expected Console Output:</h5>
+        <pre><code>--- broadcast ---
+EMAIL -> ada@example.com : Server maintenance at 22:00
+SMS   -> +234-800-0000 : Server maintenance at 22:00
+PUSH  -> device-42 : Server maintenance at 22:00
+LOG   -> console : Server maintenance at 22:00
+--- urgent only ---
+[URGENT] SMS   -> +234-800-0000 : Database down!
+[URGENT] PUSH  -> device-42 : Database down!</code></pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Grading Rubric (100 Points)</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Criterion</th><th>Details</th><th>Points</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Interface design</strong></td><td><code>Channel</code> with an abstract method and a <code>default</code> method; <code>send</code> returns, doesn't print.</td><td>25</td></tr>
+            <tr><td><strong>Implementers</strong></td><td>Three concrete classes; only SMS/Push override <code>isUrgentCapable()</code>; all methods <code>public</code>.</td><td>25</td></tr>
+            <tr><td><strong>Program to the interface</strong></td><td><code>Dispatcher</code> stores &amp; loops <code>Channel</code>; no concrete channel type appears in its code.</td><td>25</td></tr>
+            <tr><td><strong>Lambda channel</strong></td><td>A functional-interface lambda registered alongside the classes and treated identically.</td><td>25</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Submission:</strong> Upload <code>NotificationCenter.java</code> via ProConnect under <em>Work Assignments &rarr; Session 10</em>. Full reference implementation: <a href="solution/solution.html">the solution</a>.</p>
+    </div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev"><span>&larr; Session 10 Class Tasks</span></a>
+      <a href="post-quiz.html" class="nav-next"><span>Session 10 Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

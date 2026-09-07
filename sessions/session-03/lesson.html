@@ -16,11 +16,13 @@
       <span>Java-I &bull; Session 3</span>
     </a>
     <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
       <li><a href="../../index.html">Dashboard</a></li>
       <li><a href="pre-quiz.html">Pre-Quiz</a></li>
       <li><a href="lesson.html" class="active">Lesson</a></li>
       <li><a href="class-tasks.html">Class Tasks</a></li>
       <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
       <li><a href="post-quiz.html">Post-Quiz</a></li>
     </ul>
   </div>
@@ -92,9 +94,19 @@
           </ul>
 
           <figure class="lesson-figure">
-            <img src="../../assets/images/control_flow_diagram.jpg" alt="Java Control Flow Decision Making and Loop Mechanics" loading="lazy">
+            <img src="../../assets/images/control_flow_diagram.jpg" alt="Flowchart: a decision diamond splitting into true/false branches, and a loop arrow cycling a body back to a condition test" loading="lazy">
             <figcaption class="figure-caption">📌 Figure 3.1: Java Control Flow Architecture — Decision branching (if-else, switch) and Loop mechanics (entry-controlled vs. exit-controlled).</figcaption>
           </figure>
+          <div class="callout callout-info">
+            <div class="callout-title">📖 Figure 3.1 in words</div>
+            <p>
+              <strong>Branching</strong> is drawn as a diamond: the condition is tested once, and
+              exactly one arrow out of it (the <code>true</code> path or the <code>false</code> path)
+              is followed. <strong>Looping</strong> is drawn as an arrow that curls back: the body
+              runs, then flow returns to the condition; while it stays <code>true</code> the body
+              repeats, and when it turns <code>false</code> flow exits downward.
+            </p>
+          </div>
         </section>
 
         <!-- 2. Forms of the if Statement -->
@@ -216,6 +228,24 @@ switch (dayNumber) {
             <code>byte</code>, <code>short</code>, <code>char</code>, <code>int</code>, <code>String</code> (since Java 7), and <code>enum</code>.
             <em>Note: <code>float</code>, <code>double</code>, and <code>boolean</code> are NOT allowed in a switch!</em>
           </p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">👀 You'll also see the arrow form (Week 4)</div>
+            <p>
+              Modern Java has a tidier <code>switch</code> that needs no <code>break;</code> and
+              cannot fall through:
+            </p>
+            <pre style="margin:0;"><code>switch (dayNumber) {
+    case 1 -&gt; System.out.println("Monday");
+    case 2, 3, 4 -&gt; System.out.println("Mid-week");
+    default -&gt; System.out.println("Weekend");
+}</code></pre>
+            <p style="margin-bottom:0;">
+              We teach the classic <code>case:</code> + <code>break;</code> form now because it is
+              everywhere in existing code and it makes fall-through visible. Session 14 covers the
+              arrow form and <code>switch</code> <em>expressions</em>.
+            </p>
+          </div>
         </section>
 
         <!-- 4. if-else vs switch -->
@@ -286,6 +316,44 @@ while (count <= 5) { // 2. Condition Check
     count++; // 3. Update / Increment (CRITICAL to avoid infinite loops!)
 }</code></pre>
           </div>
+
+          <div class="callout callout-example">
+            <div class="callout-title">🧭 Trace it: run the loop by hand</div>
+            <p>Write down every variable after every line. This is the #1 skill for finding loop bugs.</p>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th>Pass</th><th><code>count</code> at test</th><th><code>count &lt;= 5</code>?</th><th>Prints</th><th><code>count</code> after <code>count++</code></th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>1</td><td>true</td><td>… record #1</td><td>2</td></tr>
+                  <tr><td>2</td><td>2</td><td>true</td><td>… record #2</td><td>3</td></tr>
+                  <tr><td>3</td><td>3</td><td>true</td><td>… record #3</td><td>4</td></tr>
+                  <tr><td>4</td><td>4</td><td>true</td><td>… record #4</td><td>5</td></tr>
+                  <tr><td>5</td><td>5</td><td>true</td><td>… record #5</td><td>6</td></tr>
+                  <tr><td>6</td><td>6</td><td><strong>false</strong> → exit</td><td>—</td><td>—</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="margin-bottom:0;">The body ran <strong>5</strong> times. Change the test to
+              <code>count &lt; 5</code> and it would run only 4 times — that one character is an
+              <em>off-by-one</em> error.</p>
+          </div>
+
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Two loop bugs every beginner hits</div>
+            <p>
+              <strong>1. Off-by-one.</strong> <code>&lt;</code> vs <code>&lt;=</code>, or starting at
+              <code>0</code> vs <code>1</code>, changes the count by one. To loop <em>n</em> times from
+              0: <code>for (int i = 0; i &lt; n; i++)</code>. To loop from 1 to <em>n</em> inclusive:
+              <code>for (int i = 1; i &lt;= n; i++)</code>.
+            </p>
+            <p style="margin-bottom:0;">
+              <strong>2. Infinite loop.</strong> If the condition never becomes false — you forgot
+              <code>count++</code>, or you update the wrong variable — the program hangs forever.
+              <strong>To stop a runaway program:</strong> press <kbd>Ctrl</kbd>+<kbd>C</kbd> in the
+              terminal, or click the red ■ <em>Stop</em> button in IntelliJ's Run panel. Then find
+              which variable the condition depends on and make sure the body changes it toward false.
+            </p>
+          </div>
         </section>
 
         <!-- 7. do-while Loop -->
@@ -306,6 +374,40 @@ do {
     System.out.println("Attempting server handshake...");
     attempts++;
 } while (attempts < 1); // Note the required semicolon after the while condition!</code></pre>
+          </div>
+
+          <p>A realistic use: a menu that must be shown at least once and repeats until the user
+            chooses "Exit". This combines <code>do-while</code> with the <code>Scanner</code> from
+            Session 2 and a <code>switch</code>:</p>
+          <div class="code-block">
+            <div class="code-header">
+              <span class="code-lang">Java</span>
+              <span class="code-filename">MenuLoop.java</span>
+              <button class="copy-btn" onclick="copyCode(this)">Copy</button>
+            </div>
+            <pre><code>import java.util.Scanner;
+
+public class MenuLoop {
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        int choice;
+
+        do {
+            System.out.println("\n1) Say hello  2) Show time left  3) Exit");
+            System.out.print("Choose: ");
+            choice = in.nextInt();
+
+            switch (choice) {
+                case 1 -> System.out.println("Hello!");
+                case 2 -> System.out.println("Two hours of class remain.");
+                case 3 -> System.out.println("Goodbye.");
+                default -> System.out.println("Unknown option, try again.");
+            }
+        } while (choice != 3);      // repeats until the user picks 3
+
+        in.close();
+    }
+}</code></pre>
           </div>
         </section>
 
@@ -347,6 +449,23 @@ for (int step = 1   ; step <= 5     ; step++    ) {
     }
     System.out.println(); // Jump to next line after row finishes
 }</code></pre>
+          </div>
+
+          <div class="callout callout-example">
+            <div class="callout-title">🧭 Trace it: the order things print</div>
+            <p>The inner loop finishes completely before the outer loop advances. Total body runs: 3 × 4 = 12.</p>
+            <div class="table-wrapper">
+              <table>
+                <thead><tr><th><code>row</code></th><th><code>col</code> goes</th><th>Line printed</th></tr></thead>
+                <tbody>
+                  <tr><td>1</td><td>1,2,3,4</td><td><code>[1,1] [1,2] [1,3] [1,4]</code></td></tr>
+                  <tr><td>2</td><td>1,2,3,4</td><td><code>[2,1] [2,2] [2,3] [2,4]</code></td></tr>
+                  <tr><td>3</td><td>1,2,3,4</td><td><code>[3,1] [3,2] [3,3] [3,4]</code></td></tr>
+                </tbody>
+              </table>
+            </div>
+            <p style="margin-bottom:0;">The lone <code>System.out.println()</code> after the inner loop
+              is what ends each row — remove it and all 12 cells print on one line.</p>
           </div>
         </section>
 
@@ -455,7 +574,18 @@ do { displayMenu(); } while (userChoice != 5);
         <!-- 12. Summary & Self-Check -->
         <section class="content-section" id="summary">
           <h2>12. Summary &amp; Interactive Self-Checks</h2>
-          <p>Test your logic skills on these three quick scenario checks before proceeding to the class lab:</p>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Try these, then verify against this lesson (see the <a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"Trace this loop line by line and show a table of each variable per pass: <code>for (int i = 0; i &lt;= 5; i++) sum += i;</code>"</li>
+              <li>"Here is a loop that runs one time too many. What's the off-by-one mistake? <em>[paste your code]</em>"</li>
+              <li>"Give me 6 practice problems on nested loops (patterns, grids, tables), easy to hard, problems only."</li>
+            </ul>
+          </div>
+
+          <p>Test your logic skills on these quick scenario checks before proceeding to the class lab:</p>
 
           <div class="self-check-container">
             <details class="self-check-card">

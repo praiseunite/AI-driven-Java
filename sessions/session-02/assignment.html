@@ -19,6 +19,7 @@
       <li><a href="lesson.html">Lesson</a></li>
       <li><a href="class-tasks.html">Class Tasks</a></li>
       <li><a href="assignment.html" class="active">Assignment</a></li>
+      <li><a href="solution/solution.html">Solution</a></li>
       <li><a href="post-quiz.html">Post-Quiz</a></li>
     </ul>
   </div>
@@ -93,11 +94,24 @@ Promotional Discount (8%)                                 $   -20.98
 Taxable Amount                                            $   241.26
 VAT / Sales Tax (7.5%)                                    $    18.09
 ==========================================================================
-FINAL AMOUNT DUE                                          $   259.35
+FINAL AMOUNT DUE                                          $   259.36
 ==========================================================================
 Total Amount in Cents (Explicit Cast to int): 25935 cents
-Loyalty Points Earned (1 point per whole $10): 25 points
 Thank you for shopping at Aptech Tech Store!</code></pre>
+      </div>
+
+      <div class="callout callout-info">
+        <div class="callout-title">ℹ️ About this output</div>
+        <p style="margin-bottom:0;">
+          The <em>layout</em> above is one acceptable design — your columns and borders may
+          differ. What is graded is that the <strong>numbers</strong> are correct:
+          gross <code>262.24</code>, discount <code>20.98</code>, taxable <code>241.26</code>,
+          VAT <code>18.09</code>, final <code>259.36</code> (that's <code>%.2f</code> rounding
+          <code>259.35536</code>), and the explicit cast gives <code>25935</code> cents —
+          note <code>(int)</code> <em>truncates</em> <code>25935.536</code>, it does not round to
+          <code>25936</code>. A complete, compiled reference implementation is in
+          <a href="solution/solution.html">the solution</a>.
+        </p>
       </div>
     </div>
 

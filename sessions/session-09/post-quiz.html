@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 9 Post-Quiz | Inheritance &amp; Polymorphism</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 9</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Post-Lecture Evaluation</span>
+        <span class="tag tag-purple">Session 9</span>
+        <span class="tag tag-yellow">Formative Assessment</span>
+      </div>
+      <h1>🎯 Session 9 Post-Class Mastery Quiz</h1>
+      <p class="description">Verify your grasp of <code>extends</code>, <code>super</code>, overriding, dynamic dispatch, <code>abstract</code>, and the <code>Object</code> methods.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="assignment.html" class="nav-prev"><span>&larr; Session 9 Assignment</span></a>
+      <a href="../session-10/pre-quiz.html" class="nav-next"><span>Proceed to Session 10 Pre-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session9PostQuizData = {
+    title: "Session 9 Mastery: Inheritance & Polymorphism",
+    description: "Answer all 12 questions to verify your understanding.",
+    questions: [
+      {
+        question: "`class Dog extends Animal` — what does Dog inherit?",
+        options: [
+          "Everything, including private fields and constructors",
+          "Animal's public and protected members; NOT its private members directly, NOT its constructors",
+          "Only public methods",
+          "Nothing until you copy the code"
+        ],
+        correct: 1,
+        explanation: "Subclasses inherit public/protected members. private members exist in the object but aren't directly accessible; constructors are never inherited."
+      },
+      {
+        question: "What is the output?",
+        code: "Animal a = new Dog(\"Rex\");   // Dog overrides speak()\nSystem.out.println(a.speak());",
+        options: [
+          "Whatever Animal.speak() returns",
+          "Whatever Dog.speak() returns",
+          "A compile error",
+          "null"
+        ],
+        correct: 1,
+        explanation: "Dynamic dispatch: the method is chosen by the object's real type (Dog), not the variable's declared type (Animal)."
+      },
+      {
+        question: "Where must `super(name)` appear in a subclass constructor?",
+        options: ["Anywhere", "As the first statement", "As the last statement", "It is not allowed"],
+        correct: 1,
+        explanation: "A call to a superclass constructor must be the first statement. If omitted, the compiler inserts super()."
+      },
+      {
+        question: "A subclass constructor does NOT call super(...) and the superclass has only `Animal(String name)`. Result?",
+        options: [
+          "It works; Java figures it out",
+          "Compile error — the implicit super() has no matching no-arg constructor to call",
+          "Runtime NullPointerException",
+          "The name becomes null"
+        ],
+        correct: 1,
+        explanation: "Java inserts super() by default, but Animal has no no-arg constructor, so compilation fails. Call super(name) explicitly."
+      },
+      {
+        question: "`@Override` on a method that does NOT actually match any superclass method causes:",
+        options: [
+          "Nothing; it's ignored",
+          "A compile error — which is exactly why you use the annotation",
+          "The method to run twice",
+          "A warning only"
+        ],
+        correct: 1,
+        explanation: "@Override makes the compiler verify you really override something. A typo'd signature becomes an error instead of a silent new method."
+      },
+      {
+        question: "Difference between overriding and overloading?",
+        options: [
+          "They are the same",
+          "Overriding = same signature in a subclass, chosen at run time; overloading = different parameters in one class, chosen at compile time",
+          "Overloading needs @Override",
+          "Overriding changes the parameter list"
+        ],
+        correct: 1,
+        explanation: "Overriding replaces a parent method (same signature). Overloading is multiple same-named methods with different parameter lists."
+      },
+      {
+        question: "Which is true of an `abstract` class?",
+        options: [
+          "You can create objects of it with new",
+          "You cannot instantiate it directly; it may declare abstract methods that subclasses must implement",
+          "It cannot have any concrete methods",
+          "It cannot have fields"
+        ],
+        correct: 1,
+        explanation: "An abstract class is a partly-built base type: no direct instances, can mix concrete and abstract methods, can hold state."
+      },
+      {
+        question: "You override `equals()` on a class but not `hashCode()`. What is likely to break?",
+        options: [
+          "Nothing",
+          "HashSet / HashMap behaviour — equal objects may not be found because their hash codes differ",
+          "toString()",
+          "The constructor"
+        ],
+        correct: 1,
+        explanation: "The contract says equal objects must have equal hash codes. Break it and hash-based collections misbehave. Override both together."
+      },
+      {
+        question: "`super.monthlyPay()` inside `Manager.monthlyPay()` does what?",
+        options: [
+          "Infinite recursion",
+          "Calls the Employee (superclass) version, so Manager can add to it rather than replace it",
+          "Nothing",
+          "Calls Manager's own version again"
+        ],
+        correct: 1,
+        explanation: "super.method() explicitly invokes the superclass implementation, letting you extend behaviour: base pay + bonus share."
+      },
+      {
+        question: "`Object o = new Cat(); Dog d = (Dog) o;` — what happens?",
+        options: [
+          "d becomes a Dog",
+          "ClassCastException at run time — o is really a Cat",
+          "Compile error",
+          "d is null"
+        ],
+        correct: 1,
+        explanation: "The cast compiles but fails at run time because the object is not a Dog. Guard with `if (o instanceof Dog)` first."
+      },
+      {
+        question: "How many direct superclasses can a Java class have?",
+        options: ["As many as you list", "Exactly one (plus any number of interfaces)", "Zero", "Two"],
+        correct: 1,
+        explanation: "Java has single inheritance for classes. A class can implement many interfaces (Session 10), but extends exactly one class."
+      },
+      {
+        question: "Why is polymorphism useful in `for (Shape s : shapes) s.area();`?",
+        options: [
+          "It runs faster",
+          "The loop works for any current and future Shape subtype without being changed",
+          "It avoids using a loop",
+          "It removes the need for classes"
+        ],
+        correct: 1,
+        explanation: "Code written against the base type automatically calls the right overridden method. Add a new subclass later and this loop needs no edits."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session9PostQuizData);
+  });
+</script>
+
+</body>
+</html>

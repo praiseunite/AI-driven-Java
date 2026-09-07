@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 11 Take-Home Assignment | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 11</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html" class="active">Assignment</a></li>
+      <li><a href="solution/solution.html">Solution</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-red">Take-Home Lab Assignment</span>
+        <span class="tag tag-purple">Session 11</span>
+        <span class="tag tag-yellow">Due Before Session 12</span>
+      </div>
+      <h1>📋 Assignment 11: Robust CSV Line Processor</h1>
+      <p class="description">
+        Parse a batch of comma-separated records, rejecting every malformed line with a clear
+        reason — and never letting one bad line stop the batch.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom: var(--space-xl);">
+      <h3 style="color: var(--accent); margin-top: 0;">🏢 Scenario</h3>
+      <p>
+        A registration import feeds you lines of the form <code>name,age,score</code>. Real
+        uploads are messy: missing fields, non-numeric ages, out-of-range scores, blank names.
+        The importer must process every good line and log every bad one.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2>Requirements</h2>
+      <ol style="margin-left: var(--space-lg); line-height: 1.8;">
+        <li><strong>Custom checked exception</strong> <code>RecordFormatException extends Exception</code> with a message constructor.</li>
+        <li><strong><code>Person</code></strong> class: <code>final String name; final int age; final int score;</code> + a readable <code>toString()</code>.</li>
+        <li><strong><code>static Person parse(String line) throws RecordFormatException</code></strong>:
+          <ul>
+            <li>Split on <code>,</code>. If not exactly 3 fields → throw with "expected 3 fields, got N".</li>
+            <li>Trim the name. If blank → throw "name is blank".</li>
+            <li>Parse age and score. Catch <code>NumberFormatException</code> and re-throw a <code>RecordFormatException</code> ("age/score not a number: ...").</li>
+            <li>If <code>age &lt; 0</code> or <code>score</code> outside <code>0..100</code> → throw "age/score out of range".</li>
+            <li>Otherwise return a <code>Person</code>.</li>
+          </ul>
+        </li>
+        <li><strong><code>main</code></strong>: loop the sample lines below; for each, <code>try</code> to <code>parse</code> and print <code>OK   : &lt;person&gt;</code>, or <code>catch</code> and print <code>SKIP : "&lt;line&gt;"  (&lt;reason&gt;)</code>. Track valid count, invalid count, and total score of valid records; print a summary with the average score of valid records.</li>
+      </ol>
+
+      <div class="expected-output">
+        <h5>Expected Console Output (sample lines shown in the solution):</h5>
+        <pre><code>=== PROCESSING ===
+OK   : Ada      age 30 score 88
+OK   : Bode     age 25 score 72
+SKIP : "Chi, twenty, 60"  (age/score not a number: For input string: "twenty")
+SKIP : "Dee, 40"  (expected 3 fields, got 2)
+SKIP : ", 22, 91"  (name is blank)
+SKIP : "Eze, 19, 130"  (age/score out of range)
+
+=== SUMMARY ===
+Valid records   : 2
+Invalid records : 4
+Average score    : 80.00</code></pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Grading Rubric (100 Points)</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Criterion</th><th>Details</th><th>Points</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Custom exception</strong></td><td><code>RecordFormatException</code> extends <code>Exception</code>; used with a helpful message.</td><td>20</td></tr>
+            <tr><td><strong>Validation coverage</strong></td><td>All four bad cases detected and reported distinctly.</td><td>30</td></tr>
+            <tr><td><strong>Exception translation</strong></td><td><code>NumberFormatException</code> caught inside <code>parse</code> and re-thrown as <code>RecordFormatException</code>.</td><td>25</td></tr>
+            <tr><td><strong>Batch resilience &amp; summary</strong></td><td>One bad line never stops the loop; counts and average are correct.</td><td>25</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Submission:</strong> Upload <code>RecordProcessor.java</code> via ProConnect under <em>Work Assignments &rarr; Session 11</em>. Full reference implementation: <a href="solution/solution.html">the solution</a>.</p>
+    </div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev"><span>&larr; Session 11 Class Tasks</span></a>
+      <a href="post-quiz.html" class="nav-next"><span>Session 11 Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

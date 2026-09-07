@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Master Glossary — every term in the AI-Driven Java Programming course explained in plain English, grouped by topic, from 'algorithm' to 'WORA'.">
+  <title>Master Glossary | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../start-here.html">Start Here</a></li>
+      <li><a href="../setup/environment-setup.html">Setup</a></li>
+      <li><a href="glossary.html" class="active">Glossary</a></li>
+      <li><a href="../index.html">Dashboard</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Reference</span>
+        <span class="tag tag-teal">Every term, plain English</span>
+      </div>
+      <h1>Master Glossary</h1>
+      <p class="description">
+        One place for every word the course uses. Grouped by topic so related ideas sit
+        together. When a lesson introduces a term, this is the canonical definition.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+      <aside class="lesson-sidebar">
+        <h4>Jump to</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#platform" class="active">Platform &amp; tooling</a></li>
+          <li><a href="#program">Program structure</a></li>
+          <li><a href="#data">Variables &amp; data</a></li>
+          <li><a href="#operators">Operators</a></li>
+          <li><a href="#io">Input &amp; output</a></li>
+          <li><a href="#flow">Control flow</a></li>
+          <li><a href="#debug">Errors &amp; debugging</a></li>
+          <li><a href="#oop">Objects &amp; OOP (Week 2+)</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <section class="content-section" id="platform">
+          <h2>Platform &amp; tooling</h2>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Algorithm</div><p class="glossary-def">A precise, step-by-step recipe for solving a problem, with no ambiguity.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Bytecode (<code>.class</code>)</div><p class="glossary-def">The intermediate, platform-independent instructions produced by <code>javac</code>. The JVM runs bytecode, not your source.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Compiler</div><p class="glossary-def">A tool that translates a whole program at once into another form. Java's is <code>javac</code>: <code>.java</code> &rarr; <code>.class</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Interpreter</div><p class="glossary-def">A tool that reads and executes code line by line at runtime rather than translating it all up front.</p></div>
+            <div class="glossary-item"><div class="glossary-term">JDK (Java Development Kit)</div><p class="glossary-def">The full toolkit for writing Java: JRE + <code>javac</code>, <code>jar</code>, <code>jdb</code>, <code>javadoc</code>. What a developer installs.</p></div>
+            <div class="glossary-item"><div class="glossary-term">JRE (Java Runtime Environment)</div><p class="glossary-def">JVM + standard libraries. Enough to <em>run</em> Java apps, not to compile them.</p></div>
+            <div class="glossary-item"><div class="glossary-term">JVM (Java Virtual Machine)</div><p class="glossary-def">The software engine that loads and executes bytecode, translating it to your CPU's machine code as it runs (via the JIT compiler).</p></div>
+            <div class="glossary-item"><div class="glossary-term">JIT (Just-In-Time) compiler</div><p class="glossary-def">A part of the JVM that converts frequently-run bytecode into fast native machine code while the program runs.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>javac</code></div><p class="glossary-def">The Java compiler command. <code>javac Hello.java</code> produces <code>Hello.class</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>java</code></div><p class="glossary-def">The launcher command. <code>java Hello</code> starts the JVM and runs <code>Hello.class</code> from its <code>main</code> method. No file extension.</p></div>
+            <div class="glossary-item"><div class="glossary-term">IDE</div><p class="glossary-def">Integrated Development Environment — an editor that also compiles, runs, and debugs. This course uses IntelliJ IDEA Community.</p></div>
+            <div class="glossary-item"><div class="glossary-term">PATH</div><p class="glossary-def">A list of folders your terminal searches for commands. The JDK's <code>bin</code> must be on it for <code>javac</code>/<code>java</code> to work anywhere.</p></div>
+            <div class="glossary-item"><div class="glossary-term">JAVA_HOME</div><p class="glossary-def">An environment variable pointing at your JDK install folder. Many tools read it to find Java.</p></div>
+            <div class="glossary-item"><div class="glossary-term">WORA ("Write Once, Run Anywhere")</div><p class="glossary-def">Java's promise: compile to bytecode once, and it runs unchanged on any OS that has a JVM.</p></div>
+            <div class="glossary-item"><div class="glossary-term">JAR</div><p class="glossary-def">A single zipped archive of <code>.class</code> files (and resources). An <em>executable</em> JAR names a main class and runs with <code>java -jar app.jar</code>. (Session 7.)</p></div>
+          </div>
+        </section>
+
+        <section class="content-section" id="program">
+          <h2>Program structure</h2>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Class</div><p class="glossary-def">A named block that holds code. In Java every line of code lives inside a class. Also a blueprint for objects (Week 2).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Method</div><p class="glossary-def">A named, reusable block of statements, e.g. <code>main</code>. It can take inputs (parameters) and give back a result (return value).</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>main</code> method</div><p class="glossary-def">The exact entry point the JVM looks for: <code>public static void main(String[] args)</code>. Execution starts here.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Statement</div><p class="glossary-def">One complete instruction, ended with a semicolon <code>;</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Block <code>{ }</code></div><p class="glossary-def">Curly braces grouping statements — the body of a class, method, loop, or <code>if</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Keyword</div><p class="glossary-def">A word reserved by Java with a fixed meaning (<code>class</code>, <code>public</code>, <code>if</code>, <code>int</code>…). Cannot be used as a name.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Identifier</div><p class="glossary-def">A name you choose for a class, variable, or method.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Comment</div><p class="glossary-def">Text the compiler ignores, for humans: <code>// line</code>, <code>/* block */</code>, <code>/** doc */</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Case-sensitive</div><p class="glossary-def">Java treats <code>Total</code>, <code>total</code>, and <code>TOTAL</code> as three different names.</p></div>
+            <div class="glossary-item"><div class="glossary-term">camelCase / PascalCase</div><p class="glossary-def">Naming styles: variables &amp; methods use <code>camelCase</code>; classes use <code>PascalCase</code>; constants use <code>UPPER_SNAKE_CASE</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>import</code></div><p class="glossary-def">A line that makes a class from another package usable by its short name, e.g. <code>import java.util.Scanner;</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Package</div><p class="glossary-def">A named folder-like grouping of related classes (Session 7).</p></div>
+          </div>
+        </section>
+
+        <section class="content-section" id="data">
+          <h2>Variables &amp; data</h2>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Variable</div><p class="glossary-def">A named box in memory that holds a value you can read and change.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Data type</div><p class="glossary-def">What kind of value a variable holds and how big it is (<code>int</code>, <code>double</code>, <code>boolean</code>, <code>String</code>…).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Primitive type</div><p class="glossary-def">One of Java's 8 built-in simple types that store a raw value directly: <code>byte, short, int, long, float, double, char, boolean</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Reference type</div><p class="glossary-def">A variable that holds the <em>address</em> of an object (e.g. <code>String</code>, arrays, any class). The object lives on the heap.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Literal</div><p class="glossary-def">A fixed value written directly in code: <code>42</code>, <code>3.14</code>, <code>'A'</code>, <code>"hi"</code>, <code>true</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Literal suffix</div><p class="glossary-def">A trailing letter setting a number's type: <code>100L</code> (long), <code>9.99f</code> (float).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Initialise</div><p class="glossary-def">Give a variable its first value: <code>int x = 5;</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Constant (<code>final</code>)</div><p class="glossary-def">A variable whose value cannot change after it is set: <code>final int MAX_TRIES = 3;</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Stack</div><p class="glossary-def">Fast, orderly memory for method calls and their local primitive variables. Frees automatically when a method returns.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Heap</div><p class="glossary-def">Flexible memory where objects live. Cleaned up by the garbage collector when nothing refers to them.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Type casting</div><p class="glossary-def">Converting a value from one type to another.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Widening (implicit)</div><p class="glossary-def">Small type &rarr; larger type. Safe and automatic: <code>int</code> &rarr; <code>double</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Narrowing (explicit)</div><p class="glossary-def">Larger type &rarr; smaller type. Requires <code>(type)</code> and may lose data: <code>(int) 8.95</code> &rarr; <code>8</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Truncation</div><p class="glossary-def">Dropping the fractional part with no rounding, during integer division or narrowing.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Overflow</div><p class="glossary-def">A value too big for its type wraps around to a wrong number (e.g. <code>int</code> past ~2.1 billion).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Floating-point imprecision</div><p class="glossary-def"><code>double</code>/<code>float</code> cannot store every decimal exactly, so <code>0.1 + 0.2 != 0.3</code>. Use rounding for display, <code>BigDecimal</code> for real money.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>String</code></div><p class="glossary-def">A sequence of characters. A reference type, and immutable (methods return a new String rather than changing it).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Concatenation</div><p class="glossary-def">Joining strings (and other values turned into text) with <code>+</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Escape sequence</div><p class="glossary-def">A backslash code inside a string: <code>\n</code> newline, <code>\t</code> tab, <code>\"</code> quote, <code>\\</code> backslash.</p></div>
+          </div>
+        </section>
+
+        <section class="content-section" id="operators">
+          <h2>Operators</h2>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Operator</div><p class="glossary-def">A symbol that computes a value from one or more operands: <code>+ - * / %</code>, <code>&amp;&amp; || !</code>, <code>== &lt; &gt;</code>…</p></div>
+            <div class="glossary-item"><div class="glossary-term">Arithmetic operators</div><p class="glossary-def"><code>+ - * /</code> and <code>%</code> (modulus / remainder).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Integer division</div><p class="glossary-def">Dividing two ints throws away the remainder: <code>7 / 2</code> is <code>3</code>. Use a <code>double</code> operand for <code>3.5</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Modulus (<code>%</code>)</div><p class="glossary-def">The remainder after division: <code>17 % 5</code> is <code>2</code>. <code>n % 2 == 0</code> tests "even".</p></div>
+            <div class="glossary-item"><div class="glossary-term">Relational operators</div><p class="glossary-def"><code>== != &lt; &gt; &lt;= &gt;=</code> — compare two values, produce a <code>boolean</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Logical operators</div><p class="glossary-def"><code>&amp;&amp;</code> (and), <code>||</code> (or), <code>!</code> (not) — combine booleans.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Short-circuit evaluation</div><p class="glossary-def"><code>&amp;&amp;</code> stops at the first <code>false</code>; <code>||</code> stops at the first <code>true</code>. The rest is not evaluated.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Assignment (<code>=</code>)</div><p class="glossary-def">Puts the value on the right into the variable on the left. Not the same as <code>==</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Compound assignment</div><p class="glossary-def"><code>+= -= *= /= %=</code>. <code>total += x</code> means <code>total = total + x</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Increment / decrement</div><p class="glossary-def"><code>++</code> adds 1, <code>--</code> subtracts 1. <code>i++</code> (post) uses the old value first; <code>++i</code> (pre) changes it first.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Ternary operator</div><p class="glossary-def"><code>condition ? valueIfTrue : valueIfFalse</code> — a compact <code>if/else</code> that produces a value.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Operator precedence</div><p class="glossary-def">The order operators apply: <code>*</code>/<code>/</code>/<code>%</code> before <code>+</code>/<code>-</code>; comparisons before <code>&amp;&amp;</code>/<code>||</code>. Parenthesise when unsure.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>Math</code></div><p class="glossary-def">A built-in class of maths helpers: <code>Math.abs</code>, <code>Math.pow</code>, <code>Math.sqrt</code>, <code>Math.round</code>, <code>Math.random</code>, <code>Math.PI</code>.</p></div>
+          </div>
+        </section>
+
+        <section class="content-section" id="io">
+          <h2>Input &amp; output</h2>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term"><code>System.out.println</code></div><p class="glossary-def">Prints its argument and moves to a new line.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>System.out.print</code></div><p class="glossary-def">Prints without moving to a new line — the cursor stays put.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>System.out.printf</code></div><p class="glossary-def">Prints using a format string: <code>%d</code> int, <code>%f</code> float, <code>%.2f</code> 2 decimals, <code>%s</code> string, <code>%n</code> newline, <code>%-10s</code> left-align in 10.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Standard output (stdout)</div><p class="glossary-def">The normal text stream a program writes to — your console.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>Scanner</code></div><p class="glossary-def">A class (from <code>java.util</code>) that reads typed input: <code>nextInt()</code>, <code>nextDouble()</code>, <code>nextLine()</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>nextLine()</code> gotcha</div><p class="glossary-def">After <code>nextInt()</code>/<code>nextDouble()</code>, a leftover newline makes the next <code>nextLine()</code> return "". Add an extra <code>nextLine()</code> to consume it.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Command-line argument</div><p class="glossary-def">A value passed at launch, arriving in <code>String[] args</code>. <code>java Greet Ada</code> &rarr; <code>args[0]</code> is <code>"Ada"</code>.</p></div>
+          </div>
+        </section>
+
+        <section class="content-section" id="flow">
+          <h2>Control flow</h2>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Control flow</div><p class="glossary-def">The order statements run in. Default is top to bottom; branches and loops change it.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Branching / selection</div><p class="glossary-def">Choosing which code to run: <code>if</code>, <code>if-else</code>, <code>else-if</code> ladder, <code>switch</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>switch</code></div><p class="glossary-def">Matches one value against constant <code>case</code>s. Classic form needs <code>break;</code>; arrow form <code>case x -&gt; ...</code> does not (Week 4).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Fall-through</div><p class="glossary-def">In a classic <code>switch</code>, forgetting <code>break;</code> so execution runs on into the next case.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>default</code></div><p class="glossary-def">The catch-all branch of a <code>switch</code> when no <code>case</code> matches.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Loop / iteration</div><p class="glossary-def">Repeating a block: <code>for</code>, <code>while</code>, <code>do-while</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Entry-controlled loop</div><p class="glossary-def">Tests the condition <em>before</em> the body (<code>for</code>, <code>while</code>) — may run 0 times.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Exit-controlled loop</div><p class="glossary-def">Tests <em>after</em> the body (<code>do-while</code>) — always runs at least once.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Iteration (one)</div><p class="glossary-def">A single pass through a loop body.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Nested loop</div><p class="glossary-def">A loop inside a loop. Inner runs fully for each outer pass — <code>4 × 5 = 20</code> total.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>break</code></div><p class="glossary-def">Exit the enclosing loop (or <code>switch</code>) immediately.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>continue</code></div><p class="glossary-def">Skip the rest of this iteration and go to the loop's next step.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Off-by-one error</div><p class="glossary-def">Looping one time too many or too few — usually <code>&lt;</code> vs <code>&lt;=</code> or starting at 0 vs 1.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Infinite loop</div><p class="glossary-def">A loop whose condition never becomes false. Stop a runaway one with <kbd>Ctrl</kbd>+<kbd>C</kbd> (terminal) or the red ■ (IDE).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Loop patterns</div><p class="glossary-def">Accumulator (<code>total += x</code>), counter/filter (<code>if (c) count++</code>), sentinel/early-exit (<code>if (found) break</code>), digit extraction (<code>d = n % 10; n /= 10</code>).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Trace / dry run</div><p class="glossary-def">Stepping through code by hand, writing each variable's value after every line, to predict the output.</p></div>
+          </div>
+        </section>
+
+        <section class="content-section" id="debug">
+          <h2>Errors &amp; debugging</h2>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Syntax / compile-time error</div><p class="glossary-def">Invalid Java; <code>javac</code> refuses to build. Points at a file and line.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Runtime error / exception</div><p class="glossary-def">A failure while the program runs (bad data, null, divide-by-zero).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Logic error</div><p class="glossary-def">It compiles and runs but gives the wrong answer. Only tracing/testing finds these.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Exception</div><p class="glossary-def">An object representing a runtime problem, e.g. <code>NullPointerException</code>, <code>ArithmeticException</code>. (Handled properly in Session 11.)</p></div>
+            <div class="glossary-item"><div class="glossary-term">Stack trace</div><p class="glossary-def">The list of method calls printed when an exception is not handled. Read top-down; find the first line naming your file.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>NullPointerException</code></div><p class="glossary-def">Using a reference that is <code>null</code> as though it points to an object.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Debugging</div><p class="glossary-def">Finding and removing defects — by reading errors, tracing, testing small pieces, and using a debugger.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Breakpoint</div><p class="glossary-def">A marker where the IDE debugger pauses so you can inspect variables (introduced later).</p></div>
+          </div>
+        </section>
+
+        <section class="content-section" id="oop">
+          <h2>Objects &amp; OOP (Week 2 onward — preview)</h2>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Structured / procedural programming</div><p class="glossary-def">Organising code as sequences of procedures acting on separate data (C, Pascal).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Object-Oriented Programming (OOP)</div><p class="glossary-def">Organising code as objects that bundle data (state) with the methods that act on it (behavior).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Object</div><p class="glossary-def">A specific thing with state and behavior, built from a class.</p></div>
+            <div class="glossary-item"><div class="glossary-term">State / attribute / field</div><p class="glossary-def">The data an object holds (a car's <code>color</code>, <code>speed</code>).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Behavior</div><p class="glossary-def">What an object can do — its methods (<code>accelerate()</code>).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Constructor</div><p class="glossary-def">A special method that runs when an object is created, to set it up.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Encapsulation</div><p class="glossary-def">Keeping data private and exposing controlled methods, so objects cannot be corrupted from outside.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Inheritance</div><p class="glossary-def">A class reusing and extending another class's members with <code>extends</code>. (Session 9.)</p></div>
+            <div class="glossary-item"><div class="glossary-term">Polymorphism</div><p class="glossary-def">One method call behaving differently depending on the actual object type. (Session 9.)</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>static</code></div><p class="glossary-def">Belongs to the class itself, not to any one object — callable without creating an instance. That is why <code>main</code> is <code>static</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>void</code></div><p class="glossary-def">A method return type meaning "returns no value".</p></div>
+            <div class="glossary-item"><div class="glossary-term"><code>null</code></div><p class="glossary-def">A reference that points at no object.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Array</div><p class="glossary-def">A fixed-size, indexed collection of values of one type. Indexes run <code>0</code> to <code>length - 1</code>. (Session 6.)</p></div>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="ai-tutor-guide.html" class="nav-prev"><span>&larr; AI Tutor Guide</span></a>
+      <a href="../index.html" class="nav-next"><span>Back to Dashboard &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>AI-Driven Java Programming (JAVA-I) | © 2026 Aptech Limited | Module Ver. 1.0</p>
+  </div>
+</footer>
+
+<script src="../js/quiz.js"></script>
+</body>
+</html>

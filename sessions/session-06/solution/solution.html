@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 6 Solutions | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 6 Solutions</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../../index.html">Dashboard</a></li>
+      <li><a href="../lesson.html">Lesson</a></li>
+      <li><a href="../class-tasks.html">Class Tasks</a></li>
+      <li><a href="../assignment.html">Assignment</a></li>
+      <li><a href="solution.html" class="active">Solutions</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl); max-width: 900px;">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Reference Solutions</span>
+        <span class="tag tag-purple">Session 6</span>
+      </div>
+      <h1>✅ Session 6 — Reference Solutions</h1>
+      <p class="description">Four array/list tasks and the weather assignment, run-verified. Matching <code>.java</code> files are in this folder.</p>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ The 20-minute rule</div>
+      <p style="margin-bottom:0;">Try each yourself for 20 minutes first, then read, close, and retype.</p>
+    </div>
+
+    <h2>Class Tasks</h2>
+
+    <details class="self-check-card">
+      <summary>🟢 Task 6.1 — ScoreStats</summary>
+      <div class="self-check-answer">
+        <p>One pass: <code>total += s</code> (accumulator), and update <code>min</code>/<code>max</code> as you go. Cast to <code>double</code> for the average.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">ScoreStats.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class ScoreStats {
+    public static void main(String[] args) {
+        int[] scores = {88, 72, 95, 64, 100, 51, 79};
+        int total = 0, min = scores[0], max = scores[0];
+        for (int s : scores) {
+            total += s;
+            if (s &lt; min) min = s;
+            if (s &gt; max) max = s;
+        }
+        double avg = (double) total / scores.length;
+        System.out.println("Count   : " + scores.length);
+        System.out.println("Total   : " + total);
+        System.out.printf("Average : %.2f%n", avg);
+        System.out.println("Min     : " + min);
+        System.out.println("Max     : " + max);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Count   : 7
+Total   : 549
+Average : 78.43
+Min     : 51
+Max     : 100</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 6.2 — GradeDistribution</summary>
+      <div class="self-check-answer">
+        <p>Four counters, one <code>if-else</code> ladder per score. The ladder's order matters: check the highest band first.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">GradeDistribution.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class GradeDistribution {
+    public static void main(String[] args) {
+        int[] scores = {88, 72, 95, 64, 100, 51, 79, 45, 83, 68};
+        int a = 0, b = 0, c = 0, f = 0;
+        for (int s : scores) {
+            if (s &gt;= 80) a++;
+            else if (s &gt;= 70) b++;
+            else if (s &gt;= 50) c++;
+            else f++;
+        }
+        System.out.println("A (80-100): " + a);
+        System.out.println("B (70-79) : " + b);
+        System.out.println("C (50-69) : " + c);
+        System.out.println("F (0-49)  : " + f);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>A (80-100): 4
+B (70-79) : 2
+C (50-69) : 3
+F (0-49)  : 1</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🔴 Task 6.3 — SeatingChart</summary>
+      <div class="self-check-answer">
+        <p>Outer loop = row, inner loop = seat. Print each cell, tally <code>'X'</code> vs the rest, newline after each row.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">SeatingChart.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class SeatingChart {
+    public static void main(String[] args) {
+        char[][] hall = {
+            {'X', 'X', '.', 'X'},
+            {'.', 'X', '.', '.'},
+            {'X', 'X', 'X', 'X'}
+        };
+        int occupied = 0, free = 0;
+        for (int r = 0; r &lt; hall.length; r++) {
+            for (int c = 0; c &lt; hall[r].length; c++) {
+                System.out.print(hall[r][c] + " ");
+                if (hall[r][c] == 'X') occupied++;
+                else free++;
+            }
+            System.out.println();
+        }
+        System.out.println("Occupied: " + occupied + ", Free: " + free);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>X X . X
+. X . .
+X X X X
+Occupied: 8, Free: 4</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 6.4 — TodoManager</summary>
+      <div class="self-check-answer">
+        <p><code>remove</code> by value, <code>set</code> by index, <code>size</code> for the count. Build the numbered display in a <code>StringBuilder</code> and print it once.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">TodoManager.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.util.ArrayList;
+
+public class TodoManager {
+    public static void main(String[] args) {
+        ArrayList&lt;String&gt; todos = new ArrayList&lt;&gt;();
+        todos.add("Write lesson");
+        todos.add("Test code");
+        todos.add("Review PR");
+        todos.add("Ship");
+
+        todos.remove("Review PR");
+        todos.set(0, "Write &amp; edit lesson");
+
+        System.out.println("Tasks remaining: " + todos.size());
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i &lt; todos.size(); i++) {
+            sb.append((i + 1)).append(". ").append(todos.get(i)).append("\n");
+        }
+        System.out.print(sb);
+        System.out.println("All done? " + todos.isEmpty());
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Tasks remaining: 3
+1. Write &amp; edit lesson
+2. Test code
+3. Ship
+All done? false</code></pre></div>
+      </div>
+    </details>
+
+    <h2>Assignment 6 — Weekly Weather Report</h2>
+
+    <details class="self-check-card">
+      <summary>📋 WeatherReport — full solution &amp; walkthrough</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> one loop for sum + max-index + min-index; a second loop to count days above the average; then a <code>StringBuilder</code> loop for the chart (<code>(int) temps[i]</code> hashes per line).</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">WeatherReport.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class WeatherReport {
+    public static void main(String[] args) {
+        String[] days = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
+        double[] temps = {19.5, 22.0, 25.5, 21.0, 18.0, 27.5, 24.0};
+
+        double total = 0;
+        int hot = 0, cold = 0;
+        for (int i = 0; i &lt; temps.length; i++) {
+            total += temps[i];
+            if (temps[i] &gt; temps[hot])  hot = i;
+            if (temps[i] &lt; temps[cold]) cold = i;
+        }
+        double avg = total / temps.length;
+
+        int aboveAvg = 0;
+        for (double t : temps) if (t &gt; avg) aboveAvg++;
+
+        System.out.println("=== WEEKLY WEATHER REPORT ===");
+        System.out.printf("Average temperature : %.2f C%n", avg);
+        System.out.printf("Hottest day         : %s (%.1f C)%n", days[hot], temps[hot]);
+        System.out.printf("Coldest day         : %s (%.1f C)%n", days[cold], temps[cold]);
+        System.out.println("Days above average  : " + aboveAvg);
+        System.out.println();
+
+        StringBuilder chart = new StringBuilder();
+        for (int i = 0; i &lt; days.length; i++) {
+            chart.append(days[i]).append(" | ");
+            for (int b = 0; b &lt; (int) temps[i]; b++) chart.append('#');
+            chart.append(' ').append(temps[i]).append('\n');
+        }
+        System.out.print(chart);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>=== WEEKLY WEATHER REPORT ===
+Average temperature : 22.50 C
+Hottest day         : Sat (27.5 C)
+Coldest day         : Fri (18.0 C)
+Days above average  : 3
+
+Mon | ################### 19.5
+Tue | ###################### 22.0
+Wed | ######################### 25.5
+Thu | ##################### 21.0
+Fri | ################## 18.0
+Sat | ########################### 27.5
+Sun | ######################## 24.0</code></pre></div>
+      </div>
+    </details>
+
+    <div class="nav-footer">
+      <a href="../class-tasks.html" class="nav-prev"><span>&larr; Class Tasks</span></a>
+      <a href="../post-quiz.html" class="nav-next"><span>Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../../js/quiz.js"></script>
+</body>
+</html>

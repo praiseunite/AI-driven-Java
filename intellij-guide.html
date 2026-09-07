@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Visual Guide: Navigating Your Laptop & IntelliJ IDEA — A beginner-friendly visual roadmap for finding files, using IntelliJ IDEA, and running Java code with confidence.">
+  <title>IntelliJ IDEA & Laptop Navigation Guide | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* Custom Guide Enhancements */
+    .guide-hero {
+      text-align: center;
+      padding: var(--space-3xl) 0 var(--space-xl);
+      background: radial-gradient(ellipse at top, rgba(108, 92, 231, 0.25) 0%, transparent 70%);
+      border-radius: var(--radius-xl);
+      margin-bottom: var(--space-2xl);
+    }
+    .guide-pills {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-sm);
+      margin-top: var(--space-lg);
+    }
+    .guide-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-xs);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-full);
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      color: var(--text-primary);
+      font-size: var(--font-size-sm);
+      font-weight: 500;
+      text-decoration: none;
+      transition: all var(--transition-fast);
+    }
+    .guide-pill:hover {
+      border-color: var(--primary-light);
+      background: rgba(108, 92, 231, 0.15);
+      color: #fff;
+      transform: translateY(-2px);
+    }
+    .zone-card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--space-lg);
+      margin: var(--space-xl) 0;
+    }
+    .zone-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: var(--radius-lg);
+      padding: var(--space-lg);
+      position: relative;
+      transition: transform var(--transition-fast), border-color var(--transition-fast);
+    }
+    .zone-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--primary-light);
+    }
+    .zone-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: var(--radius-full);
+      background: var(--primary);
+      color: white;
+      font-weight: 700;
+      margin-bottom: var(--space-sm);
+    }
+    .zone-badge.cyan { background: var(--accent); color: #000; }
+    .zone-badge.green { background: var(--success); color: #000; }
+    .zone-badge.yellow { background: var(--warning); color: #000; }
+    .zone-badge.red { background: var(--danger); color: #fff; }
+    .shortcut-table th {
+      background: var(--bg-secondary);
+    }
+    .kbd-shortcut {
+      display: inline-block;
+      padding: 0.15rem 0.45rem;
+      background: #2D2B55;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 4px;
+      font-family: var(--font-code);
+      font-size: 0.85em;
+      color: #F8F8F2;
+      box-shadow: 0 2px 0 rgba(0,0,0,0.5);
+    }
+    .image-modal-trigger {
+      cursor: zoom-in;
+      transition: opacity var(--transition-fast);
+    }
+    .image-modal-trigger:hover {
+      opacity: 0.95;
+    }
+    .workflow-step-card {
+      display: flex;
+      gap: var(--space-md);
+      align-items: flex-start;
+      margin-bottom: var(--space-lg);
+      padding: var(--space-md);
+      background: var(--bg-card);
+      border-left: 4px solid var(--primary);
+      border-radius: var(--radius-md);
+    }
+    .step-number-circle {
+      flex-shrink: 0;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar">
+  <div class="container">
+    <a href="index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Navigation Guide</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="index.html">Course Dashboard</a></li>
+      <li><a href="sessions/session-01/lesson.html">Session 1</a></li>
+      <li><a href="#laptop-nav">Laptop Navigation</a></li>
+      <li><a href="#ide-nav">IDE Navigation</a></li>
+      <li><a href="#coding-flow">Coding Workflow</a></li>
+      <li><a href="#debugging">Debugging</a></li>
+      <li><a href="#shortcuts">Shortcuts</a></li>
+      <li><a href="#faqs">FAQ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <!-- Hero -->
+    <section class="guide-hero">
+      <div class="session-meta" style="justify-content: center;">
+        <span class="tag tag-purple">Visual Orientation</span>
+        <span class="tag tag-teal">IntelliJ IDEA &amp; Laptop OS</span>
+        <span class="tag tag-yellow">Beginner First</span>
+      </div>
+      <h1 style="margin-top: var(--space-md);">IntelliJ IDEA &amp; Laptop Navigation Cockpit</h1>
+      <p class="subtitle" style="max-width: 800px; margin: 0 auto;">
+        Welcome to your software engineering workstation! If you have never coded before or get confused about where files live on your computer, this visual guide will transform you into a confident pilot of your laptop and <strong>IntelliJ IDEA</strong>.
+      </p>
+
+      <!-- Quick Jump Navigation -->
+      <div class="guide-pills">
+        <a href="#laptop-nav" class="guide-pill">🗂️ 1. Laptop Explorer &rarr; IDE</a>
+        <a href="#ide-nav" class="guide-pill">🧭 2. IntelliJ Anatomy Map</a>
+        <a href="#coding-flow" class="guide-pill">⚡ 3. 4-Step Coding Workflow</a>
+        <a href="#debugging" class="guide-pill">🐞 4. Debugging &amp; Diagnostics</a>
+        <a href="#dual-screen" class="guide-pill">💻 5. Dual-Screen Setup</a>
+        <a href="#shortcuts" class="guide-pill">⌨️ 6. Keyboard Shortcuts</a>
+        <a href="#faqs" class="guide-pill">❓ 7. Troubleshooting FAQ</a>
+      </div>
+    </section>
+
+    <!-- Layout: Sidebar + Main Content -->
+    <div class="lesson-layout">
+
+      <!-- Sticky Sidebar -->
+      <aside class="lesson-sidebar">
+        <h4>Navigator</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#laptop-nav" class="active">🗂️ Laptop to IDE Bridge</a></li>
+          <li><a href="#ide-nav">🧭 IntelliJ Anatomy Map</a></li>
+          <li><a href="#ide-zones">🔍 Detailed Zone Breakdown</a></li>
+          <li><a href="#coding-flow">⚡ 4-Step Coding Workflow</a></li>
+          <li><a href="#autocomplete-hacks">🚀 Autocomplete Hacks</a></li>
+          <li><a href="#debugging">🐞 Debugging &amp; Breakpoints</a></li>
+          <li><a href="#fixing-errors">🛠️ Fixing Red Squigglies</a></li>
+          <li><a href="#dual-screen">💻 Dual-Screen Setup</a></li>
+          <li><a href="#shortcuts">⌨️ Keyboard Shortcuts</a></li>
+          <li><a href="#faqs">❓ Beginner FAQ</a></li>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="lesson-content">
+
+        <!-- ============================================
+             SECTION 1: LAPTOP FILE SYSTEM TO IDE
+             ============================================ -->
+        <section class="content-section" id="laptop-nav">
+          <h2>1. The Bridge: Laptop File System &rarr; IntelliJ Project Explorer</h2>
+          <p>
+            One of the most common hurdles for beginners is feeling that code is "trapped inside the IDE" or not knowing where files are actually saved on their laptop.
+          </p>
+          <p>
+            <strong>Key Insight:</strong> IntelliJ IDEA does <em>not</em> hide your files in a secret cloud. Every folder and file you see inside IntelliJ's Project window is a <strong>direct reflection</strong> of real folders on your hard drive!
+          </p>
+
+          <figure class="lesson-figure">
+            <img src="assets/images/laptop_filesystem_to_ide.jpg" alt="Laptop OS File System vs IntelliJ IDEA Project Structure" class="image-modal-trigger" loading="lazy">
+            <figcaption class="figure-caption">
+              📌 <strong>Figure G.1: Direct Reflection</strong> — Notice how <code>Windows File Explorer</code> on the left mirrors the <code>IDE Project Explorer</code> on the right 1-to-1.
+            </figcaption>
+          </figure>
+
+          <div class="callout callout-info">
+            <div class="callout-title">📂 The Anatomy of a Java Project Folder</div>
+            <p>When you open your course workspace or any Java project, here is what each directory does:</p>
+            <ul style="margin-top: var(--space-xs);">
+              <li><code>src/</code> (Source Root): <strong>This is where YOU work!</strong> All your <code>.java</code> files must be placed inside <code>src/</code> so IntelliJ knows to compile them.</li>
+              <li><code>out/</code> or <code>target/</code>: Generated automatically by IntelliJ when you run code. This contains the compiled binary <code>.class</code> bytecode. <em>Never edit files in here manually!</em></li>
+              <li><code>.idea/</code>: IntelliJ's internal configuration folder (remembers your tabs, settings, and run configurations). Leave this folder alone.</li>
+              <li><code>pom.xml</code> or <code>build.gradle</code>: Dependency management files used in professional projects to import external libraries.</li>
+            </ul>
+          </div>
+
+          <h3>How to Open Any Course Folder in IntelliJ IDEA</h3>
+          <ol class="steps">
+            <li>
+              <strong>Locate your folder on your machine</strong>
+              <p>For example: <code>C:\Projects\Aptech\AI driven Java</code> (Windows) or <code>/Users/you/Projects/AI driven Java</code> (macOS).</p>
+            </li>
+            <li>
+              <strong>Launch IntelliJ IDEA</strong>
+              <p>On the welcome screen, click <strong>Open</strong> (or in the top menu, click <strong>File &rarr; Open...</strong>).</p>
+            </li>
+            <li>
+              <strong>Select the project root folder</strong>
+              <p>Navigate to <code>AI driven Java</code>, select it, and click <strong>OK</strong>. If prompted with <em>"Trust Project?"</em>, click <strong>Trust Project</strong>.</p>
+            </li>
+          </ol>
+        </section>
+
+        <!-- ============================================
+             SECTION 2: INTELLIJ IDEA MASTER ANATOMY MAP
+             ============================================ -->
+        <section class="content-section" id="ide-nav">
+          <h2>2. IntelliJ IDEA Master Navigation Map</h2>
+          <p>
+            Think of IntelliJ IDEA as an aircraft cockpit. While it may look full of controls at first glance, you only need to master <strong>6 primary zones</strong> to write, test, and run your Java programs with complete ease.
+          </p>
+
+          <figure class="lesson-figure">
+            <img src="assets/images/intellij_navigation_map.jpg" alt="IntelliJ IDEA Java Developer UI Overview with Numbered Zones" class="image-modal-trigger" loading="lazy">
+            <figcaption class="figure-caption">
+              📌 <strong>Figure G.2: IntelliJ Cockpit Map</strong> — Numbered callouts 1 through 5 guide you to the exact zones you will use every day.
+            </figcaption>
+          </figure>
+
+          <div class="zone-card-grid" id="ide-zones">
+            <!-- Zone 1 -->
+            <div class="zone-card">
+              <div class="zone-badge">1</div>
+              <h4>Project Tool Window</h4>
+              <p><strong>Shortcut:</strong> <span class="kbd-shortcut">Alt + 1</span> (Win) / <span class="kbd-shortcut">Cmd + 1</span> (Mac)</p>
+              <p>Your file tree! Expand <code>src/</code> to locate your packages and <code>.java</code> files. Double-click any file to open it in the Editor.</p>
+            </div>
+
+            <!-- Zone 2 -->
+            <div class="zone-card">
+              <div class="zone-badge cyan">2</div>
+              <h4>Central Code Editor</h4>
+              <p><strong>Focus:</strong> <span class="kbd-shortcut">Esc</span> (from any tool window)</p>
+              <p>The workspace where you write code. Features full syntax highlighting, intelligent tab navigation, line numbering, and bracket pairing.</p>
+            </div>
+
+            <!-- Zone 3 -->
+            <div class="zone-card">
+              <div class="zone-badge green">3</div>
+              <h4>Gutter Run Buttons</h4>
+              <p><strong>Action:</strong> Click green triangle <span style="color: #55EFC4; font-weight: bold;">▶</span></p>
+              <p>Right next to <code>public class</code> or <code>public static void main</code> on the left margin, click the green play button to run that exact class immediately.</p>
+            </div>
+
+            <!-- Zone 4 -->
+            <div class="zone-card">
+              <div class="zone-badge yellow">4</div>
+              <h4>Top Navigation &amp; Run Toolbar</h4>
+              <p><strong>Shortcut:</strong> <span class="kbd-shortcut">Shift + F10</span> (Win) / <span class="kbd-shortcut">Ctrl + R</span> (Mac)</p>
+              <p>Shows the currently active class. Features the <strong>Hammer (Build)</strong>, <strong>Green Play (Run)</strong>, and <strong>Green Bug (Debug)</strong> buttons.</p>
+            </div>
+
+            <!-- Zone 5 -->
+            <div class="zone-card">
+              <div class="zone-badge red">5</div>
+              <h4>Bottom Run Console</h4>
+              <p><strong>Shortcut:</strong> <span class="kbd-shortcut">Alt + 4</span> (Win) / <span class="kbd-shortcut">Cmd + 4</span> (Mac)</p>
+              <p>Displays everything printed by <code>System.out.println()</code>, accepts keyboard typing if using <code>Scanner</code>, and shows compiler error logs.</p>
+            </div>
+
+            <!-- Zone 6 -->
+            <div class="zone-card">
+              <div class="zone-badge purple">6</div>
+              <h4>Integrated Terminal</h4>
+              <p><strong>Shortcut:</strong> <span class="kbd-shortcut">Alt + F12</span> (Win) / <span class="kbd-shortcut">Option + F12</span> (Mac)</p>
+              <p>Built-in command line automatically opened in your project directory. Perfect for running git commands, <code>javac</code>, or batch scripts.</p>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================
+             SECTION 3: 4-STEP CODING WORKFLOW
+             ============================================ -->
+        <section class="content-section" id="coding-flow">
+          <h2>3. The 4-Step Coding Workflow in IntelliJ IDEA</h2>
+          <p>
+            Whenever you are asked to solve an in-class task, write an assignment, or try an experiment, follow this battle-tested 4-step sequence:
+          </p>
+
+          <figure class="lesson-figure">
+            <img src="assets/images/intellij_coding_workflow.jpg" alt="4-Step Coding Workflow in IntelliJ IDEA" class="image-modal-trigger" loading="lazy">
+            <figcaption class="figure-caption">
+              📌 <strong>Figure G.3: The Developer Cycle</strong> — 1. Create Class &rarr; 2. Write with Autocomplete &rarr; 3. Run Program &rarr; 4. View Console.
+            </figcaption>
+          </figure>
+
+          <!-- Step by Step Breakdown -->
+          <div class="workflow-step-card">
+            <div class="step-number-circle">1</div>
+            <div>
+              <h4>Step 1: Create a New Java Class</h4>
+              <p>
+                In the <strong>Project Tool Window (1)</strong>, locate the <code>src/</code> directory (or your session package like <code>session01</code>).
+              </p>
+              <p>
+                <strong>Right-click</strong> on <code>src/</code> &rarr; <strong>New</strong> &rarr; <strong>Java Class</strong>.
+                <br>Type your class name (e.g. <code>MyFirstProgram</code>) and press <span class="kbd-shortcut">Enter</span>.
+              </p>
+              <p class="tag tag-purple">Rule: Class names always start with a Capital Letter and use CamelCase!</p>
+            </div>
+          </div>
+
+          <div class="workflow-step-card">
+            <div class="step-number-circle" style="background: var(--accent); color: #000;">2</div>
+            <div>
+              <h4>Step 2: Write Code with Supercharged Autocomplete</h4>
+              <p>
+                Never type verbose Java boilerplate by hand! IntelliJ includes live templates that write standard code in milliseconds:
+              </p>
+              <ul>
+                <li>Inside your class, type <code>psvm</code> or <code>main</code> and press <span class="kbd-shortcut">Tab</span> &rarr; IntelliJ writes <code>public static void main(String[] args) {}</code> automatically!</li>
+                <li>Inside your main method, type <code>sout</code> and press <span class="kbd-shortcut">Tab</span> &rarr; IntelliJ writes <code>System.out.println();</code> with your cursor placed inside the parentheses!</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="workflow-step-card">
+            <div class="step-number-circle" style="background: var(--success); color: #000;">3</div>
+            <div>
+              <h4>Step 3: Run Your Program</h4>
+              <p>
+                Look at the left margin (the gutter) next to line 2 or 3 where your <code>main</code> method is defined.
+              </p>
+              <p>
+                Click the <strong>Green Play Button <span style="color: #55EFC4;">▶</span></strong> &rarr; Select <strong>Run 'MyFirstProgram.main()'</strong>.
+                <br>Or use the universal keyboard shortcut: <span class="kbd-shortcut">Ctrl + Shift + F10</span>.
+              </p>
+            </div>
+          </div>
+
+          <div class="workflow-step-card">
+            <div class="step-number-circle" style="background: var(--warning); color: #000;">4</div>
+            <div>
+              <h4>Step 4: View Output in the Run Console</h4>
+              <p>
+                The bottom <strong>Run Tool Window (5)</strong> will automatically pop open!
+                Your output will display in crisp text:
+              </p>
+              <div class="expected-output" style="margin-top: var(--space-xs);">
+                <pre><code>Hello, IntelliJ IDEA! Welcome to Java.
+Process finished with exit code 0</code></pre>
+              </div>
+              <p>
+                <strong>Exit code 0</strong> is your computer's way of giving you a thumbs up &mdash; it means your code ran from start to finish with zero crashes!
+              </p>
+            </div>
+          </div>
+
+          <!-- Live Templates Table -->
+          <div id="autocomplete-hacks" style="margin-top: var(--space-xl);">
+            <h3>🚀 Pro-Tip: IntelliJ Live Template Cheat Sheet</h3>
+            <div class="table-wrapper">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Type This</th>
+                    <th>Press</th>
+                    <th>What IntelliJ Generates For You</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><code>psvm</code> or <code>main</code></td>
+                    <td><span class="kbd-shortcut">Tab</span></td>
+                    <td><code>public static void main(String[] args) { }</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>sout</code></td>
+                    <td><span class="kbd-shortcut">Tab</span></td>
+                    <td><code>System.out.println();</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>souf</code></td>
+                    <td><span class="kbd-shortcut">Tab</span></td>
+                    <td><code>System.out.printf("");</code></td>
+                  </tr>
+                  <tr>
+                    <td><code>soutv</code></td>
+                    <td><span class="kbd-shortcut">Tab</span></td>
+                    <td>Prints current variable name and its value (e.g. <code>System.out.println("x = " + x);</code>)</td>
+                  </tr>
+                  <tr>
+                    <td><code>fori</code></td>
+                    <td><span class="kbd-shortcut">Tab</span></td>
+                    <td>Standard <code>for (int i = 0; i &lt; ...; i++) { }</code> loop</td>
+                  </tr>
+                  <tr>
+                    <td><code>iter</code></td>
+                    <td><span class="kbd-shortcut">Tab</span></td>
+                    <td>Enhanced for-each loop over the nearest array or collection</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- ============================================
+             SECTION 4: DEBUGGING & ERROR DIAGNOSTICS
+             ============================================ -->
+        <section class="content-section" id="debugging">
+          <h2>4. Visual Debugging &amp; Diagnosing Errors</h2>
+          <p>
+            Every software engineer writes bugs. The difference between a frustrated beginner and a 10x developer is knowing how to use the <strong>Debugger</strong> and reading IntelliJ's diagnostic hints.
+          </p>
+
+          <figure class="lesson-figure">
+            <img src="assets/images/intellij_debugging_diagnostics.jpg" alt="Debugging and Error Diagnostics in IntelliJ IDEA" class="image-modal-trigger" loading="lazy">
+            <figcaption class="figure-caption">
+              📌 <strong>Figure G.4: Debugging Superpowers</strong> — 1. Red breakpoint, 2. Debug bug button, 3. Live memory inspection, 4. Fixing red squigglies with Alt+Enter.
+            </figcaption>
+          </figure>
+
+          <h3>The 4 Debugging Capabilities Every Student Needs</h3>
+          <div class="zone-card-grid">
+            <div class="zone-card">
+              <div class="zone-badge red">1</div>
+              <h4>Setting a Breakpoint</h4>
+              <p>Click directly on the gutter space next to a line number. A <strong>bright red circle</strong> will appear. This tells the JVM: <em>"Freeze the program right before this line executes!"</em></p>
+            </div>
+
+            <div class="zone-card">
+              <div class="zone-badge green">2</div>
+              <h4>Running with the Green Bug</h4>
+              <p>Click the <strong>Bug Icon 🐞</strong> (<span class="kbd-shortcut">Shift + F9</span>). The program runs at full speed until it hits your red breakpoint, then pauses so you can inspect time itself.</p>
+            </div>
+
+            <div class="zone-card">
+              <div class="zone-badge cyan">3</div>
+              <h4>Inspecting Variables in Memory</h4>
+              <p>Look at the bottom <strong>Variables Panel</strong>. You can see the exact values stored in your variables (e.g., <code>userId = 104</code>, <code>status = true</code>) without needing dozens of print statements!</p>
+            </div>
+
+            <div class="zone-card" id="fixing-errors">
+              <div class="zone-badge yellow">4</div>
+              <h4>Fixing Red Squigglies (Alt + Enter)</h4>
+              <p>A red squiggly line means IntelliJ found a syntax error before compiling! Hover over the red line and press <span class="kbd-shortcut">Alt + Enter</span> (Option+Enter on Mac) to view instant AI &amp; IDE quick-fixes!</p>
+            </div>
+          </div>
+
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 The 3 Debugger Stepping Buttons</div>
+            <p>Once paused on a breakpoint, look at the debugger toolbar:</p>
+            <ul style="margin-top: var(--space-xs);">
+              <li><strong>Step Over (<span class="kbd-shortcut">F8</span>):</strong> Executes the current line and advances to the next line.</li>
+              <li><strong>Step Into (<span class="kbd-shortcut">F7</span>):</strong> Dives inside the method being called on that line.</li>
+              <li><strong>Resume Program (<span class="kbd-shortcut">F9</span>):</strong> Continues normal execution until the next breakpoint is hit.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ============================================
+             SECTION 5: DUAL-SCREEN STUDENT SETUP
+             ============================================ -->
+        <section class="content-section" id="dual-screen">
+          <h2>5. The Ideal Dual-Screen Student Study Setup</h2>
+          <p>
+            How do top engineers learn so rapidly? They bridge theory and practice in real time!
+          </p>
+
+          <figure class="lesson-figure">
+            <img src="assets/images/student_workspace_setup.jpg" alt="Student Dual-Screen Workspace Setup" class="image-modal-trigger" loading="lazy">
+            <figcaption class="figure-caption">
+              📌 <strong>Figure G.5: The Fast-Feedback Study Setup</strong> — Keep the Web Course Platform on one screen (or left half) and IntelliJ IDEA on the other screen (or right half).
+            </figcaption>
+          </figure>
+
+          <div class="callout callout-memory">
+            <div class="callout-title">🖥️ How to Split Your Screen on a Single Laptop Monitor</div>
+            <p>If you do not have an external monitor, you can snap windows perfectly in 2 seconds:</p>
+            <ul style="margin-top: var(--space-xs);">
+              <li><strong>Windows 10 / 11:</strong> Click your browser window &rarr; Press <span class="kbd-shortcut">Win + Left Arrow</span>. Click IntelliJ &rarr; Press <span class="kbd-shortcut">Win + Right Arrow</span>.</li>
+              <li><strong>macOS:</strong> Hover your mouse over the green full-screen button in the top left corner of the window &rarr; Choose <em>"Tile Window to Left of Screen"</em> &rarr; Select IntelliJ for the right side.</li>
+            </ul>
+          </div>
+        </section>
+
+        <!-- ============================================
+             SECTION 6: KEYBOARD SHORTCUTS
+             ============================================ -->
+        <section class="content-section" id="shortcuts">
+          <h2>6. Essential Keyboard Shortcuts Reference</h2>
+          <p>
+            Keyboard mastery saves hours of repetitive mouse movements. These 10 shortcuts will give you developer superpowers:
+          </p>
+
+          <div class="table-wrapper">
+            <table class="shortcut-table">
+              <thead>
+                <tr>
+                  <th>Action</th>
+                  <th>Windows / Linux</th>
+                  <th>macOS</th>
+                  <th>Why You Need It</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><strong>Run Current File</strong></td>
+                  <td><span class="kbd-shortcut">Ctrl + Shift + F10</span></td>
+                  <td><span class="kbd-shortcut">Ctrl + Shift + R</span></td>
+                  <td>Runs the Java file currently open in your editor</td>
+                </tr>
+                <tr>
+                  <td><strong>Rerun Last Class</strong></td>
+                  <td><span class="kbd-shortcut">Shift + F10</span></td>
+                  <td><span class="kbd-shortcut">Ctrl + R</span></td>
+                  <td>Executes your previously run configuration</td>
+                </tr>
+                <tr>
+                  <td><strong>Debug Current File</strong></td>
+                  <td><span class="kbd-shortcut">Shift + F9</span></td>
+                  <td><span class="kbd-shortcut">Ctrl + D</span></td>
+                  <td>Starts execution with active breakpoints</td>
+                </tr>
+                <tr>
+                  <td><strong>Reformat Code</strong></td>
+                  <td><span class="kbd-shortcut">Ctrl + Alt + L</span></td>
+                  <td><span class="kbd-shortcut">Cmd + Option + L</span></td>
+                  <td>Instantly cleans up ugly indentation &amp; spacing!</td>
+                </tr>
+                <tr>
+                  <td><strong>Show Context Actions (Quick Fix)</strong></td>
+                  <td><span class="kbd-shortcut">Alt + Enter</span></td>
+                  <td><span class="kbd-shortcut">Option + Enter</span></td>
+                  <td>Fixes compiler errors, auto-imports missing packages</td>
+                </tr>
+                <tr>
+                  <td><strong>Search Everywhere</strong></td>
+                  <td>Double <span class="kbd-shortcut">Shift</span></td>
+                  <td>Double <span class="kbd-shortcut">Shift</span></td>
+                  <td>Find any class, file, or setting in the entire project</td>
+                </tr>
+                <tr>
+                  <td><strong>Toggle Project View</strong></td>
+                  <td><span class="kbd-shortcut">Alt + 1</span></td>
+                  <td><span class="kbd-shortcut">Cmd + 1</span></td>
+                  <td>Hides/Shows the left folder sidebar for more coding space</td>
+                </tr>
+                <tr>
+                  <td><strong>Open Built-in Terminal</strong></td>
+                  <td><span class="kbd-shortcut">Alt + F12</span></td>
+                  <td><span class="kbd-shortcut">Option + F12</span></td>
+                  <td>Opens command line directly in the project folder</td>
+                </tr>
+                <tr>
+                  <td><strong>Comment / Uncomment Code</strong></td>
+                  <td><span class="kbd-shortcut">Ctrl + /</span></td>
+                  <td><span class="kbd-shortcut">Cmd + /</span></td>
+                  <td>Quickly toggles <code>//</code> on selected lines</td>
+                </tr>
+                <tr>
+                  <td><strong>Duplicate Current Line</strong></td>
+                  <td><span class="kbd-shortcut">Ctrl + D</span></td>
+                  <td><span class="kbd-shortcut">Cmd + D</span></td>
+                  <td>Copies current line or selection directly below</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <!-- ============================================
+             SECTION 7: TROUBLESHOOTING FAQ
+             ============================================ -->
+        <section class="content-section" id="faqs">
+          <h2>7. Beginner Troubleshooting FAQ: "Why Did This Happen?"</h2>
+
+          <div class="callout callout-think">
+            <div class="callout-title">❓ Q1: I don't see any green play button next to my code!</div>
+            <p>
+              <strong>Cause:</strong> Either you forgot the exact main method signature, or IntelliJ doesn't recognize your folder as a <code>Sources Root</code>.
+              <br><strong>Solution:</strong>
+              <br>1. Verify your main method signature is <em>exact</em>: <code>public static void main(String[] args)</code>.
+              <br>2. Look at your <code>src</code> folder in the Project view. It should have a blue folder icon. If it is yellow or grey, right-click on <code>src</code> &rarr; <strong>Mark Directory as</strong> &rarr; <strong>Sources Root</strong>.
+            </p>
+          </div>
+
+          <div class="callout callout-think">
+            <div class="callout-title">❓ Q2: Everything has red squiggly lines, even `String` and `System`!</div>
+            <p>
+              <strong>Cause:</strong> IntelliJ does not know which JDK version to use.
+              <br><strong>Solution:</strong>
+              <br>Press <span class="kbd-shortcut">Ctrl + Alt + Shift + S</span> (Win) or <span class="kbd-shortcut">Cmd + ;</span> (Mac) to open <strong>Project Structure</strong>. Under <strong>Project &rarr; SDK</strong>, select your installed JDK (e.g. <code>temurin-25</code>). Click <strong>Apply</strong> and <strong>OK</strong>.
+            </p>
+          </div>
+
+          <div class="callout callout-think">
+            <div class="callout-title">❓ Q3: My Run Console disappeared! Where did my output go?</div>
+            <p>
+              <strong>Cause:</strong> The bottom tool window was accidentally closed or minimized.
+              <br><strong>Solution:</strong>
+              <br>Press <span class="kbd-shortcut">Alt + 4</span> (Win) or <span class="kbd-shortcut">Cmd + 4</span> (Mac), or click <strong>View &rarr; Tool Windows &rarr; Run</strong> in the top menu bar.
+            </p>
+          </div>
+
+          <div class="callout callout-think">
+            <div class="callout-title">❓ Q4: My Scanner code seems stuck and never finishes!</div>
+            <p>
+              <strong>Cause:</strong> Your program is waiting for YOU to type input!
+              <br><strong>Solution:</strong>
+              <br>Click your mouse inside the bottom <strong>Run Console window</strong>, type your response, and press <span class="kbd-shortcut">Enter</span>.
+            </p>
+          </div>
+
+          <!-- Bottom Navigation / Quick Links -->
+          <div style="margin-top: var(--space-3xl); display: flex; justify-content: space-between; gap: var(--space-md); flex-wrap: wrap;">
+            <a href="index.html" class="btn btn-secondary">&larr; Back to Dashboard</a>
+            <a href="sessions/session-01/lesson.html" class="btn btn-primary">Proceed to Session 1 Lesson &rarr;</a>
+          </div>
+
+        </section>
+
+      </main>
+    </div>
+
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="site-footer" style="margin-top: var(--space-3xl);">
+  <div class="container">
+    <p>AI-Driven Java Programming (JAVA-I) | © 2026 Aptech Limited | Module Ver. 1.0</p>
+    <p style="margin-top: var(--space-sm);">Effective from: April 2026 — For Aptech Centre Use Only</p>
+  </div>
+</footer>
+
+<script src="js/quiz.js"></script>
+</body>
+</html>

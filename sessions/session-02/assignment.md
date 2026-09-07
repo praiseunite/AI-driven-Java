@@ -32,3 +32,18 @@ Build a console-based retail checkout engine named `RetailBillingEngine.java` fo
 - **Code Quality (20 Pts)**: Meaningful variable names in camelCase and explanatory comments.
 
 **Submission**: Submit `RetailBillingEngine.java` via ProConnect under *Work Assignments -> Session 2*.
+
+---
+
+## Expected Numbers (layout is your choice)
+
+| Line | Value |
+| :--- | :--- |
+| Gross subtotal | `$262.24` |
+| Promotional discount (8%, because gross > $150) | `$20.98` |
+| Taxable amount | `$241.26` |
+| VAT (7.5%) | `$18.09` |
+| **Final total** | `$259.36` (`%.2f` rounds `259.35536`) |
+| Whole cents `(int)(finalTotal * 100)` | `25935` — note `(int)` **truncates** `25935.536`, it does not round to `25936` |
+
+A complete compiled reference implementation with walkthrough: [solution/solution.html](solution/solution.html)

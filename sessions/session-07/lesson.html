@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 7: Access Modifiers, static, final, Packages and JAR files in Java — public/protected/default/private, class vs instance members, package organisation, and building an executable JAR.">
+  <title>Session 7: Modifiers and Packages | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 7</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Week 2 &bull; Day 3</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL7</span>
+      </div>
+      <h1>Session 7: Modifiers and Packages</h1>
+      <p class="description">
+        As programs grow past one file, you need to control <em>who can see what</em>
+        (access modifiers), share data that belongs to a whole class rather than one object
+        (<code>static</code>), organise code into folders (<strong>packages</strong>), and ship
+        it as a single runnable file (a <strong>JAR</strong>).
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Table of Contents</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#access-levels">1. The Four Access Levels</a></li>
+          <li><a href="#applying-access">2. Applying Access Modifiers</a></li>
+          <li><a href="#static-members">3. <code>static</code>: Class vs Instance</a></li>
+          <li><a href="#static-gotchas">4. <code>static</code> Gotchas</a></li>
+          <li><a href="#final">5. <code>final</code></a></li>
+          <li><a href="#packages">6. Packages — Why &amp; How</a></li>
+          <li><a href="#package-naming">7. Naming &amp; <code>import</code></a></li>
+          <li><a href="#compiling-packages">8. Compiling with Packages</a></li>
+          <li><a href="#jars">9. Building an Executable JAR</a></li>
+          <li><a href="#pitfalls">10. Common Pitfalls</a></li>
+          <li><a href="#cheat-sheet">11. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">12. Summary &amp; Self-Check</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: Flashback to Sessions 5 &amp; 6</div>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Encapsulation (S5):</strong> you already made fields <code>private</code> and methods <code>public</code>. Today you meet the two levels in between.</li>
+            <li><strong><code>import</code> (S6):</strong> <code>import java.util.ArrayList;</code> pulled in a class from another package. Today you learn to <em>make</em> packages.</li>
+            <li><strong><code>Math</code> (S2):</strong> <code>Math.sqrt(x)</code> — no <code>new Math()</code>. That is a class full of <code>static</code> methods, which you build today.</li>
+          </ul>
+        </div>
+
+        <section class="content-section" id="access-levels">
+          <h2>1. The Four Access Levels</h2>
+          <p>
+            An access modifier on a field or method decides which other code may touch it. From
+            most open to most closed:
+          </p>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr><th>Modifier</th><th>Same class</th><th>Same package</th><th>Subclass (other pkg)</th><th>Anywhere</th></tr>
+              </thead>
+              <tbody>
+                <tr><td><code>public</code></td><td>✅</td><td>✅</td><td>✅</td><td>✅</td></tr>
+                <tr><td><code>protected</code></td><td>✅</td><td>✅</td><td>✅</td><td>❌</td></tr>
+                <tr><td><em>(none)</em> "package-private" / default</td><td>✅</td><td>✅</td><td>❌</td><td>❌</td></tr>
+                <tr><td><code>private</code></td><td>✅</td><td>❌</td><td>❌</td><td>❌</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ "Default" is not a keyword</div>
+            <p>
+              Writing no modifier at all gives <strong>package-private</strong> access — visible
+              only to code in the same package. There is no <code>default</code> keyword for this
+              (that word means something else, in <code>switch</code> and interfaces).
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="applying-access">
+          <h2>2. Applying Access Modifiers</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>public class Account {
+    public String owner;          // anyone can read/write
+    protected double balance;      // this package + subclasses
+    double branchCode;             // this package only (no modifier)
+    private String pin;            // only inside Account
+
+    private boolean checkPin(String attempt) {   // internal helper — hidden
+        return pin.equals(attempt);
+    }
+
+    public boolean withdraw(double amount, String pinAttempt) {  // the public door
+        if (!checkPin(pinAttempt) || amount &gt; balance) return false;
+        balance -= amount;
+        return true;
+    }
+}</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 The default you should reach for</div>
+            <p>
+              <strong>Fields <code>private</code>. Methods <code>public</code> only if outside code
+              truly needs them, <code>private</code> otherwise.</strong> Start closed and open up
+              deliberately — it is far easier than discovering later that everything depends on a
+              field you wanted to change.
+            </p>
+          </div>
+          <p>
+            On a <strong>top-level class</strong>, only <code>public</code> or <em>(none)</em> are
+            allowed. A <code>public</code> class must sit in a file of the same name (Session 1).
+          </p>
+        </section>
+
+        <section class="content-section" id="static-members">
+          <h2>3. <code>static</code>: Class Members vs Instance Members</h2>
+          <p>
+            A normal (instance) field belongs to <em>each object</em>. A <code>static</code>
+            field belongs to <em>the class itself</em> — there is exactly one copy, shared by
+            every object and reachable without any object at all.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>class Robot {
+    static int totalBuilt = 0;   // ONE shared copy
+    int id;                      // each Robot has its own
+
+    Robot() {
+        totalBuilt++;            // bump the shared counter
+        id = totalBuilt;
+    }
+
+    static int getTotalBuilt() { return totalBuilt; }   // static method
+}
+
+new Robot(); new Robot(); new Robot();
+System.out.println(Robot.getTotalBuilt());   // 3  — called on the CLASS, no object needed</code></pre>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th></th><th>Instance member</th><th><code>static</code> member</th></tr></thead>
+              <tbody>
+                <tr><td>Belongs to</td><td>each object</td><td>the class</td></tr>
+                <tr><td>Copies</td><td>one per object</td><td>exactly one</td></tr>
+                <tr><td>Access</td><td><code>obj.field</code></td><td><code>ClassName.field</code></td></tr>
+                <tr><td>Use for</td><td>per-object state (a balance)</td><td>shared state (a counter), or stateless helpers (<code>Math.sqrt</code>)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            <code>main</code> is <code>static</code> for exactly this reason: the JVM must call it
+            <em>before any object exists</em>.
+          </p>
+        </section>
+
+        <section class="content-section" id="static-gotchas">
+          <h2>4. <code>static</code> Gotchas</h2>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 A static method cannot use <code>this</code> or instance fields</div>
+            <p>
+              There is no "current object" in a static method. Referring to an instance field from
+              <code>static</code> code gives <em>"non-static field cannot be referenced from a
+              static context"</em>. Pass what you need in as a parameter, or make the method
+              non-static.
+            </p>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 The utility-class pattern</div>
+            <p>
+              A class that is <em>only</em> static helpers (like <code>Math</code>) is never meant
+              to be instantiated. Give it a <code>private</code> constructor so
+              <code>new MathUtils()</code> won't compile.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="final">
+          <h2>5. <code>final</code></h2>
+          <ul>
+            <li><strong><code>final</code> variable / field</strong> — a constant; assign once, never again. Combine with <code>static</code> for a class-wide constant: <code>public static final double VAT_RATE = 0.075;</code>.</li>
+            <li><strong><code>final</code> method</strong> — cannot be overridden by a subclass (Session 9).</li>
+            <li><strong><code>final</code> class</strong> — cannot be extended at all (e.g. <code>String</code> is <code>final</code>).</li>
+          </ul>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>public class Circle {
+    public static final double PI = 3.14159;   // shared constant
+    private final double radius;                // set once, in the constructor
+
+    public Circle(double radius) {
+        this.radius = radius;    // allowed — first and only assignment
+    }
+    // radius = 5;  // anywhere else -> compile error: cannot assign a value to final variable
+}</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="packages">
+          <h2>6. Packages — Why &amp; How</h2>
+          <p>
+            A <strong>package</strong> is a named folder of related classes. It does three jobs:
+            groups code that belongs together, prevents name clashes (your <code>Timer</code> vs
+            someone else's <code>Timer</code>), and forms an access boundary (package-private).
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">com/aptech/util/TextTools.java</span></div>
+            <pre><code>package com.aptech.util;      // FIRST line of the file
+
+public class TextTools {
+    public static String repeat(String s, int n) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i &lt; n; i++) sb.append(s);
+        return sb.toString();
+    }
+}</code></pre>
+          </div>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Folder path must match the package name</div>
+            <p>
+              <code>package com.aptech.util;</code> means the file lives at
+              <code>com/aptech/util/TextTools.java</code>. IntelliJ does this for you when you
+              create the package; by hand, you make the folders yourself.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="package-naming">
+          <h2>7. Naming &amp; <code>import</code></h2>
+          <p>
+            Convention: <strong>reverse your organisation's domain</strong>, all lowercase —
+            <code>com.aptech.util</code>, <code>org.example.billing</code>. This keeps package
+            names globally unique.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>import com.aptech.util.TextTools;     // now usable by its short name
+import java.util.ArrayList;
+import java.util.*;                   // everything in java.util (not sub-packages)
+
+// Or skip the import and use the fully-qualified name inline:
+java.util.Scanner in = new java.util.Scanner(System.in);</code></pre>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ <code>java.lang</code> is always imported</div>
+            <p>
+              <code>String</code>, <code>System</code>, <code>Math</code>, <code>Integer</code>,
+              <code>Object</code> live in <code>java.lang</code>, which every file imports
+              automatically — that is why you have never had to <code>import</code> them.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="compiling-packages">
+          <h2>8. Compiling &amp; Running with Packages</h2>
+          <div class="callout callout-tip">
+            <div class="callout-title">▶ Two ways</div>
+            <p><strong>In IntelliJ:</strong> nothing changes — right-click the class with
+              <code>main</code> &rarr; Run. The IDE handles paths and the classpath.</p>
+            <p style="margin-bottom:0;"><strong>In the terminal</strong> (from the folder that
+              <em>contains</em> the <code>com</code> folder):</p>
+            <div class="code-block">
+              <div class="code-header"><span class="code-lang">Terminal</span></div>
+              <pre><code>javac com/aptech/util/TextTools.java PackageMain.java
+java PackageMain
+
+# If PackageMain itself were in a package, e.g. com.aptech.app:
+# java com.aptech.app.PackageMain</code></pre>
+            </div>
+          </div>
+        </section>
+
+        <section class="content-section" id="jars">
+          <h2>9. Building an Executable JAR</h2>
+          <p>
+            A <strong>JAR</strong> ("Java ARchive") is a single ZIP file bundling all your
+            <code>.class</code> files (and resources). An <em>executable</em> JAR also records
+            which class holds <code>main</code>, so it can be launched directly.
+          </p>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>In IntelliJ IDEA</th><th>In the terminal</th></tr></thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <strong>File &rarr; Project Structure &rarr; Artifacts</strong> &rarr;
+                    <strong>+</strong> &rarr; <em>JAR &rarr; From modules with dependencies</em> &rarr;
+                    pick the main class &rarr; OK. Then <strong>Build &rarr; Build Artifacts &rarr; Build</strong>.
+                    The JAR appears under <code>out/artifacts/</code>.
+                  </td>
+                  <td>
+                    <pre style="margin:0;"><code>javac -d out $(find . -name "*.java")
+jar --create --file app.jar \
+    --main-class PackageMain -C out .
+java -jar app.jar</code></pre>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ The manifest</div>
+            <p>
+              Inside every JAR is <code>META-INF/MANIFEST.MF</code>. <code>--main-class</code>
+              writes a <code>Main-Class:</code> line into it; that is what
+              <code>java -jar</code> reads to know where to start.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="pitfalls">
+          <h2>10. Common Pitfalls</h2>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>package</code> line not first</div>
+            <p>The <code>package</code> declaration must be the very first line of code (comments
+              are fine above it). Otherwise: <em>"class, interface, or enum expected"</em>.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Folder doesn't match package</div>
+            <p><code>package com.aptech.util;</code> in a file that is <em>not</em> under
+              <code>com/aptech/util/</code> → the class won't be found at run time.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Calling an instance method from <code>static main</code></div>
+            <p><code>public static void main(...) { doStuff(); }</code> where <code>doStuff()</code>
+              is non-static → <em>"non-static method cannot be referenced from a static context"</em>.
+              Make <code>doStuff</code> static, or create an object and call it on that.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>java -jar app.jar</code> says "no main manifest attribute"</div>
+            <p>The JAR has no <code>Main-Class:</code> line. Rebuild it specifying the main class
+              (<code>--main-class</code>, or the IntelliJ artifact dialog).</p>
+          </div>
+        </section>
+
+        <section class="content-section" id="cheat-sheet">
+          <h2>11. Executive Quick-Recap &amp; Cheat Sheet</h2>
+
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The 30-Second Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              <strong>Access:</strong> <code>public</code> &gt; <code>protected</code> &gt;
+              package-private &gt; <code>private</code>. Fields <code>private</code>, expose
+              methods. <strong><code>static</code></strong> = belongs to the class, one copy,
+              no object needed (counters, <code>Math</code>-style helpers).
+              <strong><code>final</code></strong> = assign once. A <strong>package</strong> is a
+              named folder (path must match); <code>import</code> or fully-qualify to use one.
+              A <strong>JAR</strong> bundles <code>.class</code> files; an executable one names its
+              main class and runs with <code>java -jar</code>.
+            </p>
+          </div>
+
+          <h3>Core Syntax at a Glance</h3>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java Cheat Sheet</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>package com.aptech.bank;              // first line; folder com/aptech/bank/
+
+import java.util.ArrayList;
+
+public class Bank {
+    public static final double VAT = 0.075;   // shared constant
+    private static int accountCount = 0;      // shared counter
+    private final String name;                // per-object, set once
+
+    public Bank(String name) {
+        this.name = name;
+        accountCount++;
+    }
+
+    public static int getAccountCount() { return accountCount; }  // no object needed
+    public String getName() { return name; }                       // instance method
+}
+
+// Bank.getAccountCount();   // via the class
+// new Bank("Apex").getName();</code></pre>
+          </div>
+
+          <h3>Plain-English Glossary</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">public</div><p class="glossary-def">Visible to all code everywhere.</p></div>
+            <div class="glossary-item"><div class="glossary-term">protected</div><p class="glossary-def">Visible in the same package and to subclasses.</p></div>
+            <div class="glossary-item"><div class="glossary-term">package-private (no modifier)</div><p class="glossary-def">Visible only within the same package.</p></div>
+            <div class="glossary-item"><div class="glossary-term">private</div><p class="glossary-def">Visible only inside the same class.</p></div>
+            <div class="glossary-item"><div class="glossary-term">static</div><p class="glossary-def">Belongs to the class, not an instance — one shared copy, callable without an object.</p></div>
+            <div class="glossary-item"><div class="glossary-term">final</div><p class="glossary-def">Assign-once variable / non-overridable method / non-extendable class.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Package</div><p class="glossary-def">A named folder grouping related classes; declared with <code>package</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">import</div><p class="glossary-def">Lets you use a class from another package by its short name.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Fully-qualified name</div><p class="glossary-def">Package + class, e.g. <code>java.util.Scanner</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">JAR</div><p class="glossary-def">A ZIP of compiled classes; executable if its manifest names a <code>Main-Class</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Manifest</div><p class="glossary-def"><code>META-INF/MANIFEST.MF</code> inside a JAR; holds metadata like the main class.</p></div>
+          </div>
+          <p style="margin-top: var(--space-md);">Full definitions: <a href="../../reference/glossary.html">Master Glossary</a>.</p>
+        </section>
+
+        <section class="content-section" id="summary">
+          <h2>12. Summary &amp; Interactive Self-Checks</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Try these, then verify against this lesson (<a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"Explain <code>static</code> vs instance fields with a counter example a beginner would understand."</li>
+              <li>"Walk me through building an executable JAR from the command line, step by step."</li>
+              <li>"Why does my static <code>main</code> get 'non-static method cannot be referenced from a static context'? <em>[paste code]</em>"</li>
+            </ul>
+          </div>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Q1: Which access level means "visible only within the same package"?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Package-private — you get it by writing <em>no</em> modifier. There is no <code>default</code> keyword for it.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q2: A <code>static int count</code> is incremented in a constructor. Three objects are created. What is <code>count</code>?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>3</code>. There is one shared copy of a static field; each constructor call bumps the same variable.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q3: <code>package com.aptech.util;</code> — where must the <code>.java</code> file live?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Under <code>com/aptech/util/</code>. The folder path must mirror the package name exactly.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q4: <code>java -jar app.jar</code> → "no main manifest attribute". Cause?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> The JAR's manifest has no <code>Main-Class:</code> entry. Rebuild specifying which class holds <code>main</code>.</div>
+            </details>
+          </div>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start Class Tasks</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Post-Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 7 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Session 7 Class Tasks &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

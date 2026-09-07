@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 7 Post-Quiz | Modifiers and Packages</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 7</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Post-Lecture Evaluation</span>
+        <span class="tag tag-purple">Session 7</span>
+        <span class="tag tag-yellow">Formative Assessment</span>
+      </div>
+      <h1>🎯 Session 7 Post-Class Mastery Quiz</h1>
+      <p class="description">Verify your grasp of access levels, <code>static</code>, <code>final</code>, packages, and JAR files.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="assignment.html" class="nav-prev"><span>&larr; Session 7 Assignment</span></a>
+      <a href="../session-08/pre-quiz.html" class="nav-next"><span>Proceed to Session 8 Pre-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session7PostQuizData = {
+    title: "Session 7 Mastery: Modifiers & Packages",
+    description: "Answer all 11 questions to verify your understanding.",
+    questions: [
+      {
+        question: "Which access modifier makes a member visible ONLY inside its own class?",
+        options: ["public", "protected", "private", "(no modifier)"],
+        correct: 2,
+        explanation: "private is the tightest level. protected adds package + subclasses; no modifier means package-only; public means everywhere."
+      },
+      {
+        question: "You write a field with no access modifier at all. Who can see it?",
+        options: [
+          "Everyone, everywhere",
+          "Only code in the same package",
+          "Only the same class",
+          "Only subclasses"
+        ],
+        correct: 1,
+        explanation: "No modifier = package-private: visible within the same package only. There is no `default` keyword for this."
+      },
+      {
+        question: "A `static int count` is incremented inside a constructor. You create 4 objects. What is `count`?",
+        options: ["0", "1", "4", "It depends on the object"],
+        correct: 2,
+        explanation: "There is exactly one copy of a static field, shared by every object. Four constructor calls bump the same variable to 4."
+      },
+      {
+        question: "Why is `main` declared `static`?",
+        options: [
+          "So it runs faster",
+          "So the JVM can call it without first creating an object of your class",
+          "Because static methods cannot have parameters",
+          "It is a coincidence of naming"
+        ],
+        correct: 1,
+        explanation: "The JVM invokes main before any object exists. A static method belongs to the class itself, so no instance is needed."
+      },
+      {
+        question: "Inside a `static` method, referring to a non-static (instance) field causes:",
+        options: [
+          "Nothing; it works",
+          "A compile error: non-static field cannot be referenced from a static context",
+          "A NullPointerException at runtime",
+          "The field to become static"
+        ],
+        correct: 1,
+        explanation: "A static method has no `this` — there is no current object whose field to read. Pass it in as a parameter or make the method non-static."
+      },
+      {
+        question: "What does `final` do on a field like `private final int id;`?",
+        options: [
+          "Makes it static",
+          "Allows it to be assigned exactly once (typically in the constructor), never again",
+          "Hides it from other classes",
+          "Makes it change automatically"
+        ],
+        correct: 1,
+        explanation: "`final` means assign-once. After its single assignment, any further assignment is a compile error."
+      },
+      {
+        question: "A file begins with `package com.aptech.util;`. Where must the file be located?",
+        options: [
+          "Anywhere; the package line is just a label",
+          "In a folder path com/aptech/util/",
+          "In the same folder as java.util",
+          "In a file named package.java"
+        ],
+        correct: 1,
+        explanation: "The folder structure must mirror the package name exactly: com/aptech/util/YourClass.java."
+      },
+      {
+        question: "Why have you never had to `import` `String`, `System`, or `Math`?",
+        options: [
+          "They are keywords",
+          "They live in java.lang, which every source file imports automatically",
+          "The compiler guesses them",
+          "You did import them; you just forgot"
+        ],
+        correct: 1,
+        explanation: "java.lang is implicitly imported into every Java file. Everything else you must import or fully-qualify."
+      },
+      {
+        question: "What is an executable JAR?",
+        options: [
+          "A .java file that has been renamed",
+          "A ZIP of compiled .class files whose manifest records which class holds main, so `java -jar` can run it",
+          "A folder of source code",
+          "A type of package"
+        ],
+        correct: 1,
+        explanation: "JAR = Java ARchive. Executable means META-INF/MANIFEST.MF has a Main-Class: line, letting you launch it directly."
+      },
+      {
+        question: "`java -jar app.jar` prints: \"no main manifest attribute, in app.jar\". What is wrong?",
+        options: [
+          "The JAR is corrupted beyond repair",
+          "The manifest has no Main-Class entry — rebuild specifying the main class",
+          "Java is not installed",
+          "The class files are the wrong version"
+        ],
+        correct: 1,
+        explanation: "The JAR was built without recording an entry point. Use jar --main-class ... (or the IntelliJ artifact dialog) to set it."
+      },
+      {
+        question: "Which is the recommended default when designing a class?",
+        options: [
+          "All fields public for convenience",
+          "Fields private; expose only the methods outside code truly needs",
+          "Everything protected",
+          "Everything static"
+        ],
+        correct: 1,
+        explanation: "Start closed. Private fields with public methods let the object protect its own rules — the same encapsulation principle from Session 5."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session7PostQuizData);
+  });
+</script>
+
+</body>
+</html>

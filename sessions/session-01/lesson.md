@@ -114,11 +114,32 @@ In languages like C or C++, a binary compiled on Windows will not execute on a M
    javac -version
    java -version
    ```
-   Both commands should display valid version strings (e.g. `javac 21.x` or higher).
+   Both commands should display valid version strings (e.g. `javac 25.x` — JDK 25 LTS is the course standard; 17 or higher works).
 
 ---
 
-## 7. Dissecting Your First Program: `HelloWorld.java`
+## 7. IntelliJ IDEA: Your Development Cockpit
+
+While you can write code in a basic text editor and compile it from the command line, modern Java engineering happens inside an **Integrated Development Environment (IDE)**. In this course, we use **IntelliJ IDEA**.
+
+![IntelliJ IDEA Navigation Overview](../../assets/images/intellij_navigation_map.jpg)
+*Figure 1.3: IntelliJ IDEA Cockpit Map — 1. Project Files, 2. Code Editor, 3. Gutter Run Buttons, 4. Top Run Toolbar, 5. Bottom Run Console.*
+
+> 💡 **Visual Guide:** For a comprehensive breakdown of laptop file paths, IntelliJ interface zones, debugging, and shortcuts, read the [IntelliJ IDEA & Laptop Navigation Guide](../../intellij-guide.html).
+
+### The 4-Step IntelliJ IDEA Workflow
+
+![4-Step Coding Workflow in IntelliJ IDEA](../../assets/images/intellij_coding_workflow.jpg)
+*Figure 1.4: 4-Step Coding Workflow in IntelliJ IDEA.*
+
+1. **Create Class:** Right-click the `src` folder in the Project window &rarr; **New** &rarr; **Java Class** &rarr; Name it `HelloWorld`.
+2. **Fast Boilerplate:** Inside the class, type `psvm` and press <kbd>Tab</kbd> to generate `public static void main`, then type `sout` and press <kbd>Tab</kbd> to generate `System.out.println()`.
+3. **Run Code:** Click the green play button **▶** in the left gutter next to `main`, or press <kbd>Ctrl + Shift + F10</kbd> (<kbd>Ctrl + Shift + R</kbd> on macOS).
+4. **View Output:** The bottom Run Console window opens automatically, displaying the program output and `Process finished with exit code 0`.
+
+---
+
+## 8. Dissecting Your First Program: `HelloWorld.java`
 
 ```java
 public class HelloWorld {
@@ -128,7 +149,10 @@ public class HelloWorld {
 }
 ```
 
-### Step-by-Step Compilation & Execution
+### Step-by-Step Execution
+
+**Option A (Inside IntelliJ IDEA):** Click the green play button **▶** in the gutter next to line 2.
+**Option B (Via Terminal / CLI):**
 ```bash
 # 1. Compile source into bytecode
 javac HelloWorld.java
@@ -154,7 +178,7 @@ java HelloWorld
 
 ---
 
-## 8. Top 3 Beginner Traps & How to Fix Them
+## 9. Top 3 Beginner Traps & How to Fix Them
 
 1. **Case Sensitivity**: Java treats `System` and `system` as completely different names. Always watch your capitalization!
 2. **File Name Mismatch**: A public class named `HelloWorld` must be saved in a file named `HelloWorld.java`.
@@ -164,7 +188,7 @@ java HelloWorld
 
 ---
 
-## 9. Executive Quick-Recap & Cheat Sheet
+## 10. Executive Quick-Recap & Cheat Sheet
 
 ### ⚡ The 30-Second Mental Model
 You write source code in a `.java` file. `javac` compiles it into platform-independent `.class` Bytecode. When launched via `java`, the host system's native JVM executes that bytecode starting inside `main()`.

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 11 In-Class Practical Tasks | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 11 Tasks</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html" class="active">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-teal">Hands-On Practicals</span>
+        <span class="tag tag-purple">Session 11</span>
+        <span class="tag tag-yellow">Lab Exercises</span>
+      </div>
+      <h1>💻 Session 11 In-Class Coding Tasks</h1>
+      <p class="description">
+        Catch exceptions, throw your own, and let try-with-resources clean up. Each task shows
+        its exact output. Try first, then check <a href="solution/solution.html">the solutions</a>.
+      </p>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-easy">🟢 Level 1: Easy</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 11.1: Safe Parser (try/catch a bad number)</h3>
+      <p class="task-objective"><strong>Objective:</strong> Parse strings to <code>int</code>; when parsing fails, report it and fall back to a default instead of crashing.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">SafeParser.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class SafeParser {
+    static int parseOrDefault(String s, int fallback) {
+        try {
+            return Integer.parseInt(s.trim());
+        } catch (NumberFormatException e) {
+            System.out.println("  bad number \"" + s + "\" -&gt; using " + fallback);
+            return fallback;
+        }
+    }
+
+    public static void main(String[] args) {
+        String[] inputs = {"42", "  17 ", "seven", "-3", ""};
+        int total = 0;
+        for (String in : inputs) {
+            total += parseOrDefault(in, 0);
+        }
+        System.out.println("Total: " + total);
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>  bad number "seven" -&gt; using 0
+  bad number "" -&gt; using 0
+Total: 56</code></pre></div>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-medium">🟡 Level 2: Intermediate</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 11.2: Custom checked exception (<code>throw</code> + <code>throws</code>)</h3>
+      <p class="task-objective"><strong>Objective:</strong> A <code>letterFor(int)</code> that <code>throws InvalidGradeException</code> for out-of-range scores; the caller catches it per score.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">GradeValidator.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>class InvalidGradeException extends Exception {
+    InvalidGradeException(String msg) { super(msg); }
+}
+
+public class GradeValidator {
+    static char letterFor(int score) throws InvalidGradeException {
+        if (score &lt; 0 || score &gt; 100) {
+            throw new InvalidGradeException("score out of range: " + score);
+        }
+        if (score &gt;= 80) return 'A';
+        if (score &gt;= 70) return 'B';
+        if (score &gt;= 50) return 'C';
+        return 'F';
+    }
+
+    public static void main(String[] args) {
+        int[] scores = {95, 72, 40, 130, -5};
+        for (int s : scores) {
+            try {
+                System.out.println(s + " -&gt; " + letterFor(s));
+            } catch (InvalidGradeException e) {
+                System.out.println(s + " -&gt; rejected (" + e.getMessage() + ")");
+            }
+        }
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>95 -&gt; A
+72 -&gt; B
+40 -&gt; F
+130 -&gt; rejected (score out of range: 130)
+-5 -&gt; rejected (score out of range: -5)</code></pre></div>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-hard">🔴 Level 3: Challenge</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 11.3: try-with-resources (<code>AutoCloseable</code>)</h3>
+      <p class="task-objective"><strong>Objective:</strong> A <code>Lease</code> that implements <code>AutoCloseable</code>; show that <code>close()</code> is called for every iteration — even the one that throws.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">ResourcePool.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>class Lease implements AutoCloseable {
+    private final int id;
+    Lease(int id) { this.id = id; System.out.println("acquire lease " + id); }
+    void work() { System.out.println("work with lease " + id); }
+    @Override public void close() { System.out.println("release lease " + id); }
+}
+
+public class ResourcePool {
+    public static void main(String[] args) {
+        for (int i = 1; i &lt;= 3; i++) {
+            try (Lease lease = new Lease(i)) {
+                lease.work();
+                if (i == 2) throw new IllegalStateException("problem on " + i);
+            } catch (IllegalStateException e) {
+                System.out.println("handled: " + e.getMessage());
+            }
+        }
+        System.out.println("all leases released");
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>acquire lease 1
+work with lease 1
+release lease 1
+acquire lease 2
+work with lease 2
+release lease 2
+handled: problem on 2
+acquire lease 3
+work with lease 3
+release lease 3
+all leases released</code></pre></div>
+      <div class="callout callout-tip">
+        <div class="callout-title">💡 Notice</div>
+        <p style="margin-bottom:0;">On iteration 2, <code>release lease 2</code> prints <em>before</em> <code>handled:</code> — the resource is closed as the <code>try</code> block exits, then the <code>catch</code> runs.</p>
+      </div>
+    </div>
+
+    <div class="nav-footer">
+      <a href="lesson.html" class="nav-prev"><span>&larr; Back to Lesson 11</span></a>
+      <a href="assignment.html" class="nav-next"><span>Session 11 Assignment &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

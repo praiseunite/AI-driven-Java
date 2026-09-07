@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 6 Pre-Quiz | Arrays and Strings</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 6</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Course Home</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-yellow">Pre-Class Diagnostic</span>
+        <span class="tag tag-purple">Session 6</span>
+        <span class="tag tag-teal">Collections Ahead</span>
+      </div>
+      <h1>🧠 Pre-Lecture Intuition Check</h1>
+      <p class="description">Five quick questions before we work with lists of data. A low score is fine — this primes today's ideas.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="../../index.html" class="nav-prev"><span>&larr; Back to Dashboard</span></a>
+      <a href="lesson.html" class="nav-next"><span>Proceed to Lesson 6 &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session6PreQuizData = {
+    title: "Session 6 Readiness: Working with Many Values",
+    description: "Pick the closest answer. Explanations unlock after each response.",
+    questions: [
+      {
+        question: "You need to store and average 40 exam scores. What is the cleanest approach?",
+        options: [
+          "40 separate variables score1..score40",
+          "One array of 40 int slots you can loop over",
+          "One int variable you keep overwriting",
+          "Put the scores in the class name"
+        ],
+        correct: 1,
+        explanation: "An array gives you one name for the whole set and lets a single loop visit every value."
+      },
+      {
+        question: "If the first item in a list is at position 0, where is the fifth item?",
+        options: ["Position 5", "Position 4", "Position 6", "Position 1"],
+        correct: 1,
+        explanation: "Counting from 0: positions 0,1,2,3,4 are items one through five. The last valid index is (length - 1)."
+      },
+      {
+        question: "A shopping cart needs to add and remove items as the user shops. Array or ArrayList?",
+        options: [
+          "Array — its size is fixed and that is safer",
+          "ArrayList — it grows and shrinks at runtime",
+          "Neither; use separate variables",
+          "A String"
+        ],
+        correct: 1,
+        explanation: "Arrays have a fixed length set at creation. ArrayList is designed for collections whose size changes."
+      },
+      {
+        question: "In Java, doing `name.toUpperCase()` gives you back an uppercased string. What happens to the original `name`?",
+        options: [
+          "It is changed to uppercase too",
+          "It is unchanged — Strings are immutable, so a NEW string is returned",
+          "It becomes null",
+          "It throws an error"
+        ],
+        correct: 1,
+        explanation: "String objects never change. Every 'modifying' method returns a brand-new String and leaves the original alone."
+      },
+      {
+        question: "A grid of seats in a cinema (rows and columns) is naturally modelled as:",
+        options: [
+          "A single number",
+          "A two-dimensional array (an array of rows, each row an array of seats)",
+          "A String",
+          "A boolean"
+        ],
+        correct: 1,
+        explanation: "2D arrays map directly onto anything with rows and columns: spreadsheets, game boards, pixel grids, seating charts."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session6PreQuizData);
+  });
+</script>
+
+</body>
+</html>

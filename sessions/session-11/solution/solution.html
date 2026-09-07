@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 11 Solutions | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 11 Solutions</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../../index.html">Dashboard</a></li>
+      <li><a href="../lesson.html">Lesson</a></li>
+      <li><a href="../class-tasks.html">Class Tasks</a></li>
+      <li><a href="../assignment.html">Assignment</a></li>
+      <li><a href="solution.html" class="active">Solutions</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl); max-width: 900px;">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Reference Solutions</span>
+        <span class="tag tag-purple">Session 11</span>
+      </div>
+      <h1>✅ Session 11 — Reference Solutions</h1>
+      <p class="description">Three tasks and the CSV processor assignment, run-verified. Matching <code>.java</code> files are in this folder.</p>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ The 20-minute rule</div>
+      <p style="margin-bottom:0;">Attempt each yourself for 20 minutes first, then read, close, retype.</p>
+    </div>
+
+    <details class="self-check-card">
+      <summary>🟢 Task 11.1 — SafeParser</summary>
+      <div class="self-check-answer">
+        <p>The <code>try</code> returns the parsed value; the <code>catch</code> reports the bad input and
+          returns the fallback, so the loop's running total is never interrupted.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">SafeParser.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class SafeParser {
+    static int parseOrDefault(String s, int fallback) {
+        try {
+            return Integer.parseInt(s.trim());
+        } catch (NumberFormatException e) {
+            System.out.println("  bad number \"" + s + "\" -&gt; using " + fallback);
+            return fallback;
+        }
+    }
+
+    public static void main(String[] args) {
+        String[] inputs = {"42", "  17 ", "seven", "-3", ""};
+        int total = 0;
+        for (String in : inputs) {
+            total += parseOrDefault(in, 0);
+        }
+        System.out.println("Total: " + total);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>  bad number "seven" -&gt; using 0
+  bad number "" -&gt; using 0
+Total: 56</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 11.2 — GradeValidator</summary>
+      <div class="self-check-answer">
+        <p><code>letterFor</code> declares <code>throws InvalidGradeException</code>; the caller must
+          therefore handle it, and does so per score inside the loop.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">GradeValidator.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>class InvalidGradeException extends Exception {
+    InvalidGradeException(String msg) { super(msg); }
+}
+
+public class GradeValidator {
+    static char letterFor(int score) throws InvalidGradeException {
+        if (score &lt; 0 || score &gt; 100) {
+            throw new InvalidGradeException("score out of range: " + score);
+        }
+        if (score &gt;= 80) return 'A';
+        if (score &gt;= 70) return 'B';
+        if (score &gt;= 50) return 'C';
+        return 'F';
+    }
+
+    public static void main(String[] args) {
+        int[] scores = {95, 72, 40, 130, -5};
+        for (int s : scores) {
+            try {
+                System.out.println(s + " -&gt; " + letterFor(s));
+            } catch (InvalidGradeException e) {
+                System.out.println(s + " -&gt; rejected (" + e.getMessage() + ")");
+            }
+        }
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>95 -&gt; A
+72 -&gt; B
+40 -&gt; F
+130 -&gt; rejected (score out of range: 130)
+-5 -&gt; rejected (score out of range: -5)</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🔴 Task 11.3 — ResourcePool</summary>
+      <div class="self-check-answer">
+        <p><code>Lease</code> implements <code>AutoCloseable</code>. Each iteration's
+          <code>close()</code> runs as the <code>try</code> block exits — including iteration 2, where
+          it runs <em>before</em> the <code>catch</code>.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">ResourcePool.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>class Lease implements AutoCloseable {
+    private final int id;
+    Lease(int id) { this.id = id; System.out.println("acquire lease " + id); }
+    void work() { System.out.println("work with lease " + id); }
+    @Override public void close() { System.out.println("release lease " + id); }
+}
+
+public class ResourcePool {
+    public static void main(String[] args) {
+        for (int i = 1; i &lt;= 3; i++) {
+            try (Lease lease = new Lease(i)) {
+                lease.work();
+                if (i == 2) throw new IllegalStateException("problem on " + i);
+            } catch (IllegalStateException e) {
+                System.out.println("handled: " + e.getMessage());
+            }
+        }
+        System.out.println("all leases released");
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>acquire lease 1
+work with lease 1
+release lease 1
+acquire lease 2
+work with lease 2
+release lease 2
+handled: problem on 2
+acquire lease 3
+work with lease 3
+release lease 3
+all leases released</code></pre></div>
+      </div>
+    </details>
+
+    <h2>Assignment 11 — Robust CSV Line Processor</h2>
+
+    <details class="self-check-card">
+      <summary>📋 RecordProcessor — full solution &amp; walkthrough</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> <code>parse</code> is the single choke point — every validation failure
+          leaves it as a <code>RecordFormatException</code>. Inside, a <code>NumberFormatException</code>
+          is <em>translated</em> into that domain type. <code>main</code>'s loop catches it per line, so
+          one bad row never aborts the batch.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">RecordProcessor.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>class RecordFormatException extends Exception {
+    RecordFormatException(String msg) { super(msg); }
+}
+
+class Person {
+    final String name; final int age; final int score;
+    Person(String name, int age, int score) { this.name = name; this.age = age; this.score = score; }
+    @Override public String toString() {
+        return String.format("%-8s age %d score %d", name, age, score);
+    }
+}
+
+public class RecordProcessor {
+
+    static Person parse(String line) throws RecordFormatException {
+        String[] parts = line.split(",");
+        if (parts.length != 3) throw new RecordFormatException("expected 3 fields, got " + parts.length);
+        String name = parts[0].trim();
+        if (name.isEmpty()) throw new RecordFormatException("name is blank");
+        try {
+            int age = Integer.parseInt(parts[1].trim());
+            int score = Integer.parseInt(parts[2].trim());
+            if (age &lt; 0 || score &lt; 0 || score &gt; 100)
+                throw new RecordFormatException("age/score out of range");
+            return new Person(name, age, score);
+        } catch (NumberFormatException e) {
+            throw new RecordFormatException("age/score not a number: " + e.getMessage());
+        }
+    }
+
+    public static void main(String[] args) {
+        String[] lines = {
+            "Ada, 30, 88", "Bode, 25, 72", "Chi, twenty, 60",
+            "Dee, 40", ", 22, 91", "Eze, 19, 130"
+        };
+
+        int valid = 0, invalid = 0, scoreTotal = 0;
+        System.out.println("=== PROCESSING ===");
+        for (String line : lines) {
+            try {
+                Person p = parse(line);
+                valid++; scoreTotal += p.score;
+                System.out.println("OK   : " + p);
+            } catch (RecordFormatException e) {
+                invalid++;
+                System.out.println("SKIP : \"" + line + "\"  (" + e.getMessage() + ")");
+            }
+        }
+
+        System.out.println("\n=== SUMMARY ===");
+        System.out.println("Valid records   : " + valid);
+        System.out.println("Invalid records : " + invalid);
+        if (valid &gt; 0)
+            System.out.printf("Average score    : %.2f%n", (double) scoreTotal / valid);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>=== PROCESSING ===
+OK   : Ada      age 30 score 88
+OK   : Bode     age 25 score 72
+SKIP : "Chi, twenty, 60"  (age/score not a number: For input string: "twenty")
+SKIP : "Dee, 40"  (expected 3 fields, got 2)
+SKIP : ", 22, 91"  (name is blank)
+SKIP : "Eze, 19, 130"  (age/score out of range)
+
+=== SUMMARY ===
+Valid records   : 2
+Invalid records : 4
+Average score    : 80.00</code></pre></div>
+      </div>
+    </details>
+
+    <div class="nav-footer">
+      <a href="../class-tasks.html" class="nav-prev"><span>&larr; Class Tasks</span></a>
+      <a href="../post-quiz.html" class="nav-next"><span>Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../../js/quiz.js"></script>
+</body>
+</html>

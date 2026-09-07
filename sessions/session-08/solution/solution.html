@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 8 Solutions | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 8 Solutions</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../../index.html">Dashboard</a></li>
+      <li><a href="../lesson.html">Review Guide</a></li>
+      <li><a href="../class-tasks.html">Try It Yourself</a></li>
+      <li><a href="solution.html" class="active">Solutions</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl); max-width: 900px;">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Reference Solutions</span>
+        <span class="tag tag-purple">Session 8</span>
+      </div>
+      <h1>✅ Session 8 — Reference Solutions</h1>
+      <p class="description">The three consolidation challenges, run-verified. Matching <code>.java</code> files are in this folder.</p>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ The 20-minute rule</div>
+      <p style="margin-bottom:0;">Attempt each yourself for 20 minutes first, then read, close, retype.</p>
+    </div>
+
+    <details class="self-check-card">
+      <summary>🟡 Challenge 8.1 — Playlist</summary>
+      <div class="self-check-answer">
+        <p>A custom <code>Song</code> class stored in an <code>ArrayList</code>; <code>totalSeconds()</code>
+          is the accumulator pattern, <code>longest()</code> is running-best. <code>%d:%02d</code>
+          formats seconds as m:ss.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">Playlist.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.util.ArrayList;
+
+class Song {
+    private final String title;
+    private final int seconds;
+    Song(String title, int seconds) { this.title = title; this.seconds = seconds; }
+    String getTitle() { return title; }
+    int getSeconds() { return seconds; }
+    @Override public String toString() {
+        return String.format("%-18s %d:%02d", title, seconds / 60, seconds % 60);
+    }
+}
+
+public class Playlist {
+    private final ArrayList&lt;Song&gt; songs = new ArrayList&lt;&gt;();
+
+    void add(Song s) { songs.add(s); }
+
+    int totalSeconds() {
+        int t = 0;
+        for (Song s : songs) t += s.getSeconds();
+        return t;
+    }
+
+    Song longest() {
+        Song best = songs.get(0);
+        for (Song s : songs) if (s.getSeconds() &gt; best.getSeconds()) best = s;
+        return best;
+    }
+
+    public static void main(String[] args) {
+        Playlist p = new Playlist();
+        p.add(new Song("Intro", 95));
+        p.add(new Song("Deep Focus", 372));
+        p.add(new Song("Sprint", 188));
+
+        for (Song s : p.songs) System.out.println(s);
+        int total = p.totalSeconds();
+        System.out.printf("Total  : %d:%02d%n", total / 60, total % 60);
+        System.out.println("Longest: " + p.longest());
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Intro              1:35
+Deep Focus         6:12
+Sprint             3:08
+Total  : 10:55
+Longest: Deep Focus         6:12</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Challenge 8.2 — ParkingLot</summary>
+      <div class="self-check-answer">
+        <p>A <code>Car[]</code> where <code>null</code> marks a free slot. <code>park()</code> scans for
+          the first <code>null</code>; <code>freeCount()</code> counts them. Notice slot 0 is reused
+          after the first car leaves.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">ParkingLot.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>class Car {
+    final String plate;
+    Car(String plate) { this.plate = plate; }
+}
+
+public class ParkingLot {
+    private final Car[] slots;
+
+    ParkingLot(int size) { slots = new Car[size]; }
+
+    boolean park(Car c) {
+        for (int i = 0; i &lt; slots.length; i++) {
+            if (slots[i] == null) {
+                slots[i] = c;
+                System.out.println(c.plate + " parked in slot " + i);
+                return true;
+            }
+        }
+        System.out.println(c.plate + " -&gt; lot full");
+        return false;
+    }
+
+    void leave(int slot) {
+        if (slot &gt;= 0 &amp;&amp; slot &lt; slots.length &amp;&amp; slots[slot] != null) {
+            System.out.println(slots[slot].plate + " leaves slot " + slot);
+            slots[slot] = null;
+        }
+    }
+
+    int freeCount() {
+        int free = 0;
+        for (Car c : slots) if (c == null) free++;
+        return free;
+    }
+
+    public static void main(String[] args) {
+        ParkingLot lot = new ParkingLot(3);
+        lot.park(new Car("ABC-1"));
+        lot.park(new Car("XYZ-9"));
+        lot.leave(0);
+        lot.park(new Car("JJJ-7"));
+        lot.park(new Car("KKK-2"));
+        lot.park(new Car("LLL-5"));
+        System.out.println("Free slots: " + lot.freeCount());
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>ABC-1 parked in slot 0
+XYZ-9 parked in slot 1
+ABC-1 leaves slot 0
+JJJ-7 parked in slot 0
+KKK-2 parked in slot 2
+LLL-5 -&gt; lot full
+Free slots: 0</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🔴 Challenge 8.3 — VotingMachine (package)</summary>
+      <div class="self-check-answer">
+        <p><code>Candidate</code> is a packaged, encapsulated class. Each vote string is matched to a
+          candidate (inner loop + <code>break</code>). The winner scan uses <code>&gt;</code>, so on a
+          tie the earlier candidate stays.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">com/aptech/vote/Candidate.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>package com.aptech.vote;
+
+public class Candidate {
+    private final String name;
+    private int votes = 0;
+    public Candidate(String name) { this.name = name; }
+    public void addVote() { votes++; }
+    public int getVotes() { return votes; }
+    public String getName() { return name; }
+    @Override public String toString() { return name + ": " + votes; }
+}</code></pre></div>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">VotingMachine.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import com.aptech.vote.Candidate;
+
+public class VotingMachine {
+    public static void main(String[] args) {
+        Candidate[] ballot = {
+            new Candidate("Ada"), new Candidate("Bode"), new Candidate("Chi")
+        };
+        String[] votes = {"Ada", "Chi", "Ada", "Bode", "Ada", "Chi", "Chi", "Chi", "Ada"};
+
+        for (String v : votes) {
+            for (Candidate c : ballot) {
+                if (c.getName().equals(v)) { c.addVote(); break; }
+            }
+        }
+
+        Candidate winner = ballot[0];
+        System.out.println("=== RESULTS ===");
+        for (Candidate c : ballot) {
+            System.out.println(c);
+            if (c.getVotes() &gt; winner.getVotes()) winner = c;
+        }
+        System.out.println("Winner: " + winner.getName());
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output — <code>javac VotingMachine.java com/aptech/vote/Candidate.java</code></h5><pre><code>=== RESULTS ===
+Ada: 4
+Bode: 1
+Chi: 4
+Winner: Ada</code></pre></div>
+      </div>
+    </details>
+
+    <div class="nav-footer">
+      <a href="../class-tasks.html" class="nav-prev"><span>&larr; Try It Yourself</span></a>
+      <a href="../post-quiz.html" class="nav-next"><span>Week 2 Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../../js/quiz.js"></script>
+</body>
+</html>
