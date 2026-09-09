@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 16: Final Review & Capstone — a whole-course concept map, a professional code-review checklist, and the capstone project brief that integrates every module of JAVA-I.">
+  <title>Session 16: Final Review &amp; Capstone | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 16</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Review Guide</a></li>
+      <li><a href="class-tasks.html">Capstone Lab</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Final Assessment</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-green">Week 4 &bull; Day 4</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL16</span>
+      </div>
+      <h1>Session 16: Final Review &amp; Capstone</h1>
+      <p class="description">
+        You have gone from "what is a program?" to streams, records, and modern JDK features.
+        This session ties the whole course together: a single concept map, a professional
+        code-review checklist, and a <strong>capstone project</strong> that uses something from
+        almost every session.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Review Blueprint</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 The Whole Journey</a></li>
+          <li><a href="#map">1. Course Concept Map</a></li>
+          <li><a href="#review-grid">2. Session-by-Session Recall</a></li>
+          <li><a href="#code-review">3. Professional Code-Review Checklist</a></li>
+          <li><a href="#capstone">4. The Capstone Project</a></li>
+          <li><a href="#capstone-walkthrough">5. Reference Capstone Walkthrough</a></li>
+          <li><a href="#exam-prep">6. Final Assessment Prep</a></li>
+          <li><a href="#next">7. Where to Go Next</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 The Whole Journey, in one breath</div>
+          <p style="margin-bottom:0;">
+            Source code (<code>.java</code>) is compiled by <code>javac</code> to bytecode
+            (<code>.class</code>), run by the JVM. Data lives in <strong>variables</strong>
+            (primitives on the stack, objects on the heap) and moves through
+            <strong>operators</strong>. <strong>Control flow</strong> (if/switch, loops) decides
+            what runs. You model the domain as <strong>classes</strong> — state + behavior,
+            <code>private</code> fields — organised by <strong>inheritance</strong> and
+            <strong>interfaces</strong>, kept in <strong>collections</strong>, protected by
+            <strong>exception handling</strong>, and processed with <strong>streams</strong>.
+            Dates use <code>java.time</code>; modern syntax (records, switch expressions,
+            <code>var</code>, patterns) removes boilerplate. And you use <strong>AI</strong> to
+            learn and draft — never to submit what you can't explain.
+          </p>
+        </div>
+
+        <section class="content-section" id="map">
+          <h2>1. Course Concept Map</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Mental Model</span><span class="code-filename">JAVA-I at a glance</span></div>
+            <pre><code>WEEK 1  Foundations
+  S1 platform: javac -> bytecode -> JVM ; JDK/JRE/JVM ; WORA
+  S2 variables, 8 primitives, Scanner, operators, precedence, casting, Math
+  S3 if / switch / for / while / do-while ; break / continue ; tracing
+  S4 String methods ; the 4 loop patterns ; reading stack traces
+
+WEEK 2  Object-Oriented Essentials
+  S5 class = state + behavior ; constructors, this, overloading, toString, encapsulation
+  S6 arrays, 2D arrays, for-each ; ArrayList ; wrappers/autoboxing ; StringBuilder
+  S7 access levels ; static ; final ; packages ; executable JAR
+
+WEEK 3  Advanced OOP
+  S9  extends / super / @Override ; dynamic dispatch ; abstract ; equals/hashCode
+  S10 interfaces ; multiple implements ; default methods ; Comparable ; lambdas
+  S11 checked vs unchecked ; try/catch/finally ; try-with-resources ; custom exceptions
+
+WEEK 4  Modern Java &amp; AI
+  S13 java.time: LocalDate/Time/DateTime, Period/Duration, ChronoUnit, formatting, zones
+  S14 lambdas &amp; method refs ; Streams (filter/map/collect/groupingBy) ; generics ; var ;
+      switch expressions ; records ; text blocks ; Optional
+  S15 virtual threads ; sealed ; record patterns ; sequenced collections ; AI workflow
+
+  S16  --> CAPSTONE: put it all in one working application</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="review-grid">
+          <h2>2. Session-by-Session Recall</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>If you're shaky on…</th><th>Re-read</th></tr></thead>
+              <tbody>
+                <tr><td>How code compiles &amp; runs</td><td><a href="../session-01/lesson.html">S1</a> + <a href="../../reference/reading-errors.html">Reading Errors</a></td></tr>
+                <tr><td>Reading input / operators / money</td><td><a href="../session-02/lesson.html">S2</a></td></tr>
+                <tr><td>Loop bugs / tracing</td><td><a href="../session-03/lesson.html">S3</a>, <a href="../session-04/lesson.html">S4</a></td></tr>
+                <tr><td>Designing a class</td><td><a href="../session-05/lesson.html">S5</a>, <a href="../session-08/lesson.html">S8</a> checklist</td></tr>
+                <tr><td>Arrays vs ArrayList, StringBuilder</td><td><a href="../session-06/lesson.html">S6</a></td></tr>
+                <tr><td>static / packages / JAR</td><td><a href="../session-07/lesson.html">S7</a> + <a href="../../reference/commands.html">Commands</a></td></tr>
+                <tr><td>Inheritance / polymorphism / abstract</td><td><a href="../session-09/lesson.html">S9</a>, <a href="../session-12/lesson.html">S12</a></td></tr>
+                <tr><td>Interfaces / Comparable / lambdas</td><td><a href="../session-10/lesson.html">S10</a></td></tr>
+                <tr><td>Exceptions</td><td><a href="../session-11/lesson.html">S11</a></td></tr>
+                <tr><td>Dates &amp; times</td><td><a href="../session-13/lesson.html">S13</a></td></tr>
+                <tr><td>Streams / records / modern syntax</td><td><a href="../session-14/lesson.html">S14</a>, <a href="../session-15/lesson.html">S15</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="code-review">
+          <h2>3. Professional Code-Review Checklist</h2>
+          <p>Run this over your own code before you call it done — and over any code an AI hands you.</p>
+          <ol class="steps">
+            <li><strong>Does it compile and run?</strong> Zero warnings. Run the happy path and at least one failure path.</li>
+            <li><strong>Correctness:</strong> off-by-one (<code>&lt;</code> vs <code>&lt;=</code>), integer division, wrong rounding, <code>==</code> on objects instead of <code>.equals()</code>, null handling.</li>
+            <li><strong>Encapsulation:</strong> fields <code>private</code>; state changes only through validating methods; constructors leave objects valid.</li>
+            <li><strong>Naming:</strong> classes = nouns (PascalCase), methods = verbs (camelCase), constants UPPER_SNAKE. No <code>x</code>, <code>data</code>, <code>temp2</code>.</li>
+            <li><strong>Methods do one thing</strong> and <em>return</em> results rather than printing them where possible.</li>
+            <li><strong>Exceptions:</strong> specific catches, never empty, not used for normal flow; resources in try-with-resources.</li>
+            <li><strong>Duplication:</strong> repeated blocks &rarr; a method; type-check ladders &rarr; polymorphism.</li>
+            <li><strong>Comments</strong> explain <em>why</em>, not <em>what</em>. The code says what.</li>
+            <li><strong>Formatting:</strong> consistent indentation (<kbd>Ctrl</kbd>+<kbd>Alt</kbd>+<kbd>L</kbd> in IntelliJ), one statement per line.</li>
+          </ol>
+        </section>
+
+        <section class="content-section" id="capstone">
+          <h2>4. The Capstone Project</h2>
+          <div class="card" style="margin-bottom: var(--space-lg);">
+            <h3 style="color: var(--accent); margin-top: 0;">🏢 Brief: Campus Bookstore Console App</h3>
+            <p>
+              Build a single console application, <code>BookstoreApp.java</code>, that manages a
+              small bookstore: an inventory of books, customer orders with discounts, and
+              stream-powered sales reports. It must demonstrate, concretely, a feature from most
+              of the course.
+            </p>
+          </div>
+
+          <h3>Required elements (each maps to a session)</h3>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>You must use…</th><th>From</th></tr></thead>
+              <tbody>
+                <tr><td>A <code>record Book(String isbn, String title, String genre, double price)</code></td><td>S14</td></tr>
+                <tr><td>An encapsulated <code>Order</code> class: <code>private</code> fields, a <code>static</code> id counter, computed <code>subtotal()</code> / <code>total()</code></td><td>S5, S7</td></tr>
+                <tr><td>An <code>interface Discount</code> with 2+ implementations, applied polymorphically</td><td>S10, S9</td></tr>
+                <tr><td>Collections for the catalogue, stock levels, and order history</td><td>S6</td></tr>
+                <tr><td>A custom <code>OutOfStockException</code>; checkout validates <em>all</em> lines before committing, and rejects cleanly</td><td>S11</td></tr>
+                <tr><td>Order timestamps with <code>LocalDateTime</code>, formatted with <code>DateTimeFormatter</code></td><td>S13</td></tr>
+                <tr><td>Stream reports: total revenue, revenue grouped by genre, top-3 best sellers, low-stock count</td><td>S14</td></tr>
+                <tr><td>Clean structure, naming, and the code-review checklist above</td><td>S8, S16</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p>
+            Work in milestones — the <a href="class-tasks.html">Capstone Lab</a> breaks it into
+            five checkpoints, each independently runnable. The
+            <a href="solution/solution.html">reference solution</a> shows one complete
+            implementation with its expected output.
+          </p>
+        </section>
+
+        <section class="content-section" id="capstone-walkthrough">
+          <h2>5. Reference Capstone Walkthrough</h2>
+          <p>The reference <code>BookstoreApp.java</code> is organised as nested types in one file:</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">structure</span></div>
+            <pre><code>record Book(...)                       // S14 immutable data
+final class OutOfStockException        // S11 custom checked exception
+interface Discount { apply(); label(); }   // S10 contract
+  NoDiscount / PercentOff / BulkDeal   // S9/S10 polymorphic strategies
+record LineItem(Book book, int qty)    // S14 + a computed total()
+final class Order                      // S5/S7 encapsulation + static id counter + java.time
+final class Bookstore                  // S6 collections; checkout() validates then commits (S11);
+                                       // revenueByGenre/bestSellers/lowStock via streams (S14)
+main(...)                              // S3 sequence of orders incl. one rejected; prints reports</code></pre>
+          </div>
+          <div class="expected-output">
+            <h5>Reference output (from the driver's fixed data):</h5>
+            <pre><code>=== ORDERS ===
+Order #1000  2026-06-08 10:00  [10% off]
+  Effective Java   x2  $90.00
+  Dune             x1  $18.50
+  subtotal $108.50 -> total $97.65
+Order #1001  2026-06-08 12:00  [$5 per $50]
+  The Hobbit       x3  $42.00
+  subtotal $42.00 -> total $42.00
+REJECTED order: "Clean Code": wanted 5, only 4 in stock
+Order #1002  2026-06-08 14:00  [none]
+  Effective Java   x1  $45.00
+  The Hobbit       x2  $28.00
+  subtotal $73.00 -> total $73.00
+
+=== REPORTS ===
+Total revenue      : $212.65
+Revenue by genre   :
+  fantasy   $70.00
+  sci-fi    $18.50
+  tech      $135.00
+Best sellers       : [The Hobbit (5), Effective Java (3), Dune (1)]
+Low-stock titles (&lt;5): 2</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 The checkout pattern to notice</div>
+            <p>
+              <code>checkout</code> builds and validates <em>every</em> line item first, and only
+              then subtracts stock and records the order. If any line fails, it throws and nothing
+              changes — the order is all-or-nothing. That is the exception-handling discipline
+              from Session 11 applied to real state.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="exam-prep">
+          <h2>6. Final Assessment Prep</h2>
+          <p>The Session 16 <a href="post-quiz.html">Final Assessment</a> is comprehensive — 20 questions across all 16 sessions, including "what does this code print?" items. To prepare:</p>
+          <ul>
+            <li>Re-take each session's post-quiz; target 80%+.</li>
+            <li>Re-run every <code>solution/</code> program and predict the output before you run it.</li>
+            <li>Trace three loops and one recursive method by hand.</li>
+            <li>Explain, out loud, the difference between: overriding/overloading, checked/unchecked, <code>Period</code>/<code>Duration</code>, array/ArrayList, abstract class/interface, <code>==</code>/<code>.equals()</code>.</li>
+          </ul>
+        </section>
+
+        <section class="content-section" id="next">
+          <h2>7. Where to Go Next</h2>
+          <ul>
+            <li><strong>Build things.</strong> A CLI todo app, a text adventure, a small REST client. Volume beats theory now.</li>
+            <li><strong>Collections deeper:</strong> <code>Map</code>, <code>Set</code>, <code>Deque</code>, <code>Comparator</code> chains.</li>
+            <li><strong>Testing:</strong> JUnit 5 — write tests for your capstone.</li>
+            <li><strong>Tools:</strong> Git properly, Maven or Gradle, then a framework (Spring Boot) when you're ready for web services.</li>
+            <li><strong>Keep the AI habits:</strong> use it to learn faster and review harder — and keep being able to explain every line you ship.</li>
+          </ul>
+          <p style="margin-top: var(--space-lg);"><strong>Congratulations on finishing JAVA-I. ☕</strong></p>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 16 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Capstone Lab &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

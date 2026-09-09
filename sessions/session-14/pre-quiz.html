@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 14 Pre-Quiz | Modern Java Features</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 14</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Course Home</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-yellow">Pre-Class Diagnostic</span>
+        <span class="tag tag-purple">Session 14</span>
+        <span class="tag tag-teal">Say More With Less</span>
+      </div>
+      <h1>🧠 Pre-Lecture Intuition Check</h1>
+      <p class="description">Five quick questions about modern Java style. A low score is expected.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="../../index.html" class="nav-prev"><span>&larr; Back to Dashboard</span></a>
+      <a href="lesson.html" class="nav-next"><span>Proceed to Lesson 14 &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session14PreQuizData = {
+    title: "Session 14 Readiness: Modern Java Style",
+    description: "Pick the closest answer. Explanations unlock after each response.",
+    questions: [
+      {
+        question: "You want to pass 'a piece of behaviour' (e.g. 'keep items priced under 50') into a method. What lets you do that concisely?",
+        options: [
+          "A for-loop copied everywhere",
+          "A lambda / function value",
+          "A static field",
+          "A comment"
+        ],
+        correct: 1,
+        explanation: "Lambdas let behaviour be a value you store and pass around. A method can then accept different behaviours without being rewritten."
+      },
+      {
+        question: "This loop filters a list, transforms each item, and collects the results. Modern Java expresses that as:",
+        options: [
+          "A nested try/catch",
+          "A stream pipeline: source.stream().filter(...).map(...).collect(...)",
+          "A recursive method",
+          "A 2D array"
+        ],
+        correct: 1,
+        explanation: "Streams turn filter/transform/collect loops into a readable declarative pipeline."
+      },
+      {
+        question: "You keep writing tiny classes that just hold a few values plus equals/hashCode/toString. Modern Java gives you:",
+        options: [
+          "An interface",
+          "A record — one line generates all of that",
+          "A static method",
+          "An enum"
+        ],
+        correct: 1,
+        explanation: "`record Point(int x, int y) {}` auto-generates fields, constructor, accessors, and value-based equals/hashCode/toString."
+      },
+      {
+        question: "A method might not find a result. Returning `null` risks a later NullPointerException. A safer return type is:",
+        options: [
+          "int",
+          "Optional<Result>",
+          "boolean",
+          "String \"null\""
+        ],
+        correct: 1,
+        explanation: "Optional makes 'maybe no value' explicit in the type, so callers must consciously handle the empty case."
+      },
+      {
+        question: "`var total = 0;` — what is `total`'s type?",
+        options: [
+          "It has no type; it's dynamic",
+          "int — the compiler infers it from the initialiser",
+          "Object",
+          "String"
+        ],
+        correct: 1,
+        explanation: "`var` is compile-time type inference for local variables. The type is fixed (here int); it is not dynamic typing."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session14PreQuizData);
+  });
+</script>
+
+</body>
+</html>

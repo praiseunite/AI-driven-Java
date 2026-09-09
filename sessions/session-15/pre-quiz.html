@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 15 Pre-Quiz | JDK 25 &amp; AI-Assisted Coding</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 15</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Course Home</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-yellow">Pre-Class Diagnostic</span>
+        <span class="tag tag-purple">Session 15</span>
+        <span class="tag tag-teal">Modern JDK + AI</span>
+      </div>
+      <h1>🧠 Pre-Lecture Intuition Check</h1>
+      <p class="description">Five quick questions about new JDK features and working with AI. A low score is expected.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="../../index.html" class="nav-prev"><span>&larr; Back to Dashboard</span></a>
+      <a href="lesson.html" class="nav-next"><span>Proceed to Lesson 15 &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session15PreQuizData = {
+    title: "Session 15 Readiness: New JDK & AI",
+    description: "Pick the closest answer. Explanations unlock after each response.",
+    questions: [
+      {
+        question: "A web server must handle 50,000 simultaneous requests that spend most of their time waiting on the database. Classic OS threads struggle. What modern Java feature helps?",
+        options: [
+          "More for-loops",
+          "Virtual threads — millions can run cheaply, one per request",
+          "A bigger array",
+          "Static methods"
+        ],
+        correct: 1,
+        explanation: "Virtual threads are lightweight and JVM-scheduled, so 'one thread per task' scales to huge numbers of mostly-waiting tasks."
+      },
+      {
+        question: "You have a `Shape` type and a `switch` that computes area per subtype. If `Shape` is `sealed`, the compiler can:",
+        options: [
+          "Run the switch faster only",
+          "Check that you covered every permitted subtype — no default needed, and an error if you miss one",
+          "Automatically write the cases",
+          "Nothing special"
+        ],
+        correct: 1,
+        explanation: "sealed lists all permitted subtypes, so exhaustiveness is verifiable at compile time."
+      },
+      {
+        question: "An AI assistant confidently gives you `myString.reverse()`. Your build fails with 'cannot find symbol'. This is an example of:",
+        options: [
+          "A network error",
+          "A hallucination — the AI invented a method that doesn't exist",
+          "A JVM bug",
+          "A missing import"
+        ],
+        correct: 1,
+        explanation: "AI sometimes produces plausible-looking but non-existent APIs. The compiler and the official docs are the truth."
+      },
+      {
+        question: "Which is the BEST use of an AI assistant while learning?",
+        options: [
+          "Paste the whole assignment prompt and submit whatever it returns",
+          "Ask it to explain a concept, generate practice problems, or review code you already wrote",
+          "Use it during the exam",
+          "Have it write code you don't read"
+        ],
+        correct: 1,
+        explanation: "AI is a powerful tutor for understanding. Submitting unread AI code teaches you nothing and is academic misconduct."
+      },
+      {
+        question: "Before trusting a block of AI-generated code, the first thing you should do is:",
+        options: [
+          "Ship it",
+          "Compile and run it, then read every line and test edge cases",
+          "Ask a friend to run it",
+          "Reformat it"
+        ],
+        correct: 1,
+        explanation: "The compiler and actual output are ground truth. Then verify you understand each line and that edge cases (empty, null, large) behave."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session15PreQuizData);
+  });
+</script>
+
+</body>
+</html>

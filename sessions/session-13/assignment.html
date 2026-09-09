@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 13 Take-Home Assignment | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 13</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html" class="active">Assignment</a></li>
+      <li><a href="solution/solution.html">Solution</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-red">Take-Home Lab Assignment</span>
+        <span class="tag tag-purple">Session 13</span>
+        <span class="tag tag-yellow">Due Before Session 14</span>
+      </div>
+      <h1>📋 Assignment 13: Conference Schedule Builder</h1>
+      <p class="description">
+        Turn a list of session durations into a printed timetable with automatic breaks,
+        end-time calculation, a "runs late" flag, and a total-span summary — all with
+        <code>java.time</code>.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom: var(--space-xl);">
+      <h3 style="color: var(--accent); margin-top: 0;">🏢 Scenario</h3>
+      <p>
+        A one-day developer conference starts at <strong>09:00 on Monday 8 June 2026</strong>.
+        You have the ordered list of talks and their lengths in minutes. Build
+        <code>ConferenceSchedule.java</code> to produce the printed schedule.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2>Requirements</h2>
+      <ol style="margin-left: var(--space-lg); line-height: 1.8;">
+        <li><strong>Data:</strong> a <code>LocalDateTime</code> cursor starting at <code>2026-06-08T09:00</code>; a <code>String[]</code> of 6 titles and an <code>int[]</code> of matching durations (minutes) — use the values in the expected output.</li>
+        <li><strong>Per session:</strong> start = the cursor; end = <code>start.plusMinutes(duration)</code>. Print <code>&lt;start&gt; - &lt;end&gt;  &lt;title&gt; (&lt;dur&gt;m)</code> formatted as <code>"EEE HH:mm"</code>.</li>
+        <li><strong>Late flag:</strong> if a session's end time is after <strong>17:00</strong>, append <code>"  [RUNS LATE]"</code>.</li>
+        <li><strong>Breaks:</strong> after each session, advance the cursor by the session length <em>plus</em> a 15-minute break.</li>
+        <li><strong>Summary:</strong> print the first start, the last session's end (the cursor minus the trailing break), and the total span in <code>Xh Ym</code> using <code>ChronoUnit.MINUTES.between</code>.</li>
+      </ol>
+
+      <div class="expected-output">
+        <h5>Expected Console Output:</h5>
+        <pre><code>=== CONFERENCE SCHEDULE ===
+Mon 09:00 - Mon 10:00  Keynote: Modern Java     (60m)
+Mon 10:15 - Mon 11:45  Streams Deep Dive        (90m)
+Mon 12:00 - Mon 12:45  Records &amp; Patterns       (45m)
+Mon 13:00 - Mon 14:15  Virtual Threads          (75m)
+Mon 14:30 - Mon 16:00  AI-Assisted Coding       (90m)
+Mon 16:15 - Mon 17:15  Closing Panel            (60m)  [RUNS LATE]
+
+First session : Mon 09:00
+Last ends     : Mon 17:15
+Total span    : 8h 15m (including breaks)</code></pre>
+      </div>
+      <p style="color: var(--text-secondary);">Durations: <code>{60, 90, 45, 75, 90, 60}</code>.</p>
+    </div>
+
+    <div class="content-section">
+      <h2>Grading Rubric (100 Points)</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Criterion</th><th>Details</th><th>Points</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Time arithmetic</strong></td><td>End times via <code>plusMinutes</code>; breaks advance the cursor correctly.</td><td>30</td></tr>
+            <tr><td><strong>Formatting</strong></td><td><code>DateTimeFormatter.ofPattern("EEE HH:mm")</code>; aligned columns.</td><td>25</td></tr>
+            <tr><td><strong>Late flag</strong></td><td>Compares end <em>time</em> to 17:00 and flags correctly.</td><td>20</td></tr>
+            <tr><td><strong>Summary</strong></td><td>Correct last-end (trailing break removed) and total span via <code>ChronoUnit</code>.</td><td>25</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Submission:</strong> Upload <code>ConferenceSchedule.java</code> via ProConnect under <em>Work Assignments &rarr; Session 13</em>. Full reference implementation: <a href="solution/solution.html">the solution</a>.</p>
+    </div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev"><span>&larr; Session 13 Class Tasks</span></a>
+      <a href="post-quiz.html" class="nav-next"><span>Session 13 Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

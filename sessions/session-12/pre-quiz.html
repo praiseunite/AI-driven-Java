@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 12 Pre-Quiz | Week 3 Review</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 12</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Course Home</a></li>
+      <li><a href="lesson.html">Review Guide</a></li>
+      <li><a href="class-tasks.html">Try It Yourself</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-yellow">Pre-Class Warm-Up</span>
+        <span class="tag tag-purple">Session 12</span>
+        <span class="tag tag-teal">Week 3 Consolidation</span>
+      </div>
+      <h1>🧠 Week 3 Warm-Up Check</h1>
+      <p class="description">Five quick recalls across Sessions 9–11 before the consolidation lab.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="../../index.html" class="nav-prev"><span>&larr; Back to Dashboard</span></a>
+      <a href="lesson.html" class="nav-next"><span>Proceed to Review Guide &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session12PreQuizData = {
+    title: "Week 3 Warm-Up: Inheritance, Interfaces, Exceptions",
+    description: "Quick recall. Explanations unlock after each answer.",
+    questions: [
+      {
+        question: "`Animal a = new Dog(); a.speak();` where Dog overrides speak(). Which runs?",
+        options: ["Animal.speak()", "Dog.speak()", "Both", "Neither"],
+        correct: 1,
+        explanation: "Dynamic dispatch picks the method by the object's real type (Dog), not the variable's declared type."
+      },
+      {
+        question: "A class can extend ___ class(es) and implement ___ interface(s).",
+        options: ["one / many", "many / one", "one / one", "many / many"],
+        correct: 0,
+        explanation: "Single class inheritance; any number of interfaces."
+      },
+      {
+        question: "You must catch or declare which kind of exception?",
+        options: ["Unchecked", "Checked", "Both", "Neither"],
+        correct: 1,
+        explanation: "The compiler enforces handling of checked exceptions (Exception subclasses that aren't RuntimeException)."
+      },
+      {
+        question: "A method is full of `if (obj instanceof TypeA) ... else if (obj instanceof TypeB) ...`. The cleaner design is:",
+        options: [
+          "Add more instanceof checks",
+          "Give the types a shared method (interface / override) and call it polymorphically",
+          "Use a switch on the class name",
+          "Make everything static"
+        ],
+        correct: 1,
+        explanation: "Type-based branching usually means behaviour that belongs inside the objects as an overridden method."
+      },
+      {
+        question: "`try (Resource r = ...) { ... }` guarantees:",
+        options: [
+          "The block runs at least once",
+          "r.close() is called automatically at the end, even on exception",
+          "No exceptions can occur",
+          "The resource is deleted"
+        ],
+        correct: 1,
+        explanation: "try-with-resources auto-closes any AutoCloseable declared in its header."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session12PreQuizData);
+  });
+</script>
+
+</body>
+</html>

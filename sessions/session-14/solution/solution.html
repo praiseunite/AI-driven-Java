@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 14 Solutions | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 14 Solutions</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../../index.html">Dashboard</a></li>
+      <li><a href="../lesson.html">Lesson</a></li>
+      <li><a href="../class-tasks.html">Class Tasks</a></li>
+      <li><a href="../assignment.html">Assignment</a></li>
+      <li><a href="solution.html" class="active">Solutions</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl); max-width: 900px;">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Reference Solutions</span>
+        <span class="tag tag-purple">Session 14</span>
+      </div>
+      <h1>✅ Session 14 — Reference Solutions</h1>
+      <p class="description">Three tasks and the Sales Analytics assignment, run-verified. Matching <code>.java</code> files are in this folder.</p>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ The 20-minute rule</div>
+      <p style="margin-bottom:0;">Attempt each yourself for 20 minutes first, then read, close, retype.</p>
+    </div>
+
+    <details class="self-check-card">
+      <summary>🟢 Task 14.1 — NumberPipeline</summary>
+      <div class="self-check-answer">
+        <p>A pipeline: <code>filter</code> evens, <code>map</code> to squares,
+          <code>sorted(reverseOrder())</code>, <code>collect</code>. Numeric aggregates use
+          <code>mapToInt</code>.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">NumberPipeline.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.util.*;
+import java.util.stream.*;
+
+public class NumberPipeline {
+    public static void main(String[] args) {
+        List&lt;Integer&gt; nums = List.of(4, 7, 2, 9, 6, 1, 8, 3, 10, 5);
+
+        List&lt;Integer&gt; evensSquaredDesc = nums.stream()
+            .filter(n -&gt; n % 2 == 0)
+            .map(n -&gt; n * n)
+            .sorted(Comparator.reverseOrder())
+            .collect(Collectors.toList());
+        System.out.println("even, squared, desc : " + evensSquaredDesc);
+
+        int sumOdd = nums.stream().filter(n -&gt; n % 2 != 0).mapToInt(Integer::intValue).sum();
+        System.out.println("sum of odds          : " + sumOdd);
+
+        OptionalDouble avg = nums.stream().mapToInt(Integer::intValue).average();
+        System.out.printf("average              : %.1f%n", avg.getAsDouble());
+
+        boolean anyOver9 = nums.stream().anyMatch(n -&gt; n &gt; 9);
+        System.out.println("any &gt; 9?             : " + anyOver9);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>even, squared, desc : [100, 64, 36, 16, 4]
+sum of odds          : 25
+average              : 5.5
+any &gt; 9?             : true</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 14.2 — EmployeeReport</summary>
+      <div class="self-check-answer">
+        <p><code>groupingBy</code> with a downstream <code>counting()</code> / <code>averagingInt()</code>
+          produces a map. Wrapping in <code>new TreeMap&lt;&gt;(...)</code> only sorts the printout.
+          <code>max().map().orElse()</code> is the Optional chain.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">EmployeeReport.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.util.*;
+import java.util.stream.*;
+
+public class EmployeeReport {
+    record Employee(String name, String dept, int salary) {}
+
+    public static void main(String[] args) {
+        List&lt;Employee&gt; staff = List.of(
+            new Employee("Ada", "ENG", 95000),
+            new Employee("Bode", "ENG", 82000),
+            new Employee("Chi", "SALES", 70000),
+            new Employee("Dee", "SALES", 91000),
+            new Employee("Eze", "ENG", 78000)
+        );
+
+        Map&lt;String, Long&gt; countByDept = staff.stream()
+            .collect(Collectors.groupingBy(Employee::dept, Collectors.counting()));
+        System.out.println("count by dept   : " + new TreeMap&lt;&gt;(countByDept));
+
+        Map&lt;String, Double&gt; avgByDept = staff.stream()
+            .collect(Collectors.groupingBy(Employee::dept,
+                     Collectors.averagingInt(Employee::salary)));
+        System.out.println("avg salary/dept : " + new TreeMap&lt;&gt;(avgByDept));
+
+        String topEarner = staff.stream()
+            .max(Comparator.comparingInt(Employee::salary))
+            .map(Employee::name)
+            .orElse("&lt;none&gt;");
+        System.out.println("top earner      : " + topEarner);
+
+        String engNames = staff.stream()
+            .filter(e -&gt; e.dept().equals("ENG"))
+            .map(Employee::name)
+            .sorted()
+            .collect(Collectors.joining(", "));
+        System.out.println("ENG team        : " + engNames);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>count by dept   : {ENG=3, SALES=2}
+avg salary/dept : {ENG=85000.0, SALES=80500.0}
+top earner      : Ada
+ENG team        : Ada, Bode, Eze</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🔴 Task 14.3 — Inventory (generics)</summary>
+      <div class="self-check-answer">
+        <p><code>Inventory&lt;T&gt;</code> stores any type safely. <code>largest</code> is a generic
+          method with a bound <code>&lt;E extends Comparable&lt;E&gt;&gt;</code> so it can call
+          <code>compareTo</code>.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">Inventory.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.util.*;
+
+public class Inventory&lt;T&gt; {
+    private final List&lt;T&gt; items = new ArrayList&lt;&gt;();
+
+    void add(T item) { items.add(item); }
+    T get(int i) { return items.get(i); }
+    int size() { return items.size(); }
+
+    static &lt;E extends Comparable&lt;E&gt;&gt; E largest(List&lt;E&gt; list) {
+        E best = list.get(0);
+        for (E e : list) if (e.compareTo(best) &gt; 0) best = e;
+        return best;
+    }
+
+    public static void main(String[] args) {
+        Inventory&lt;String&gt; books = new Inventory&lt;&gt;();
+        books.add("Java");
+        books.add("Kotlin");
+        books.add("Scala");
+        System.out.println("books size : " + books.size() + ", first: " + books.get(0));
+
+        System.out.println("largest int : " + largest(List.of(3, 8, 5, 1)));
+        System.out.println("largest str : " + largest(List.of("pear", "apple", "mango")));
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>books size : 3, first: Java
+largest int : 8
+largest str : pear</code></pre></div>
+      </div>
+    </details>
+
+    <h2>Assignment 14 — Sales Analytics</h2>
+
+    <details class="self-check-card">
+      <summary>📋 SalesAnalytics — full solution &amp; walkthrough</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> one <code>Order</code> record with a computed <code>total()</code>.
+          Every figure is a stream terminal op — <code>sum</code>, <code>groupingBy</code> +
+          downstream collector, <code>max</code> over map entries, <code>filter</code> +
+          <code>joining</code>. No manual accumulation loops.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">SalesAnalytics.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.util.*;
+import java.util.stream.*;
+
+public class SalesAnalytics {
+
+    record Order(String customer, String region, String product, int qty, double unitPrice) {
+        double total() { return qty * unitPrice; }
+    }
+
+    public static void main(String[] args) {
+        List&lt;Order&gt; orders = List.of(
+            new Order("Ada",  "WEST", "Keyboard", 2, 45.00),
+            new Order("Bode", "EAST", "Monitor",  1, 189.00),
+            new Order("Chi",  "WEST", "Mouse",    5, 19.99),
+            new Order("Ada",  "WEST", "Hub",      3, 34.50),
+            new Order("Dee",  "EAST", "Keyboard", 1, 45.00),
+            new Order("Eze",  "NORTH","Monitor",  2, 189.00),
+            new Order("Bode", "EAST", "Mouse",    4, 19.99)
+        );
+
+        double grand = orders.stream().mapToDouble(Order::total).sum();
+        System.out.printf("Grand total revenue : $%.2f%n", grand);
+
+        Map&lt;String, Double&gt; byRegion = orders.stream()
+            .collect(Collectors.groupingBy(Order::region,
+                     Collectors.summingDouble(Order::total)));
+        System.out.println("Revenue by region   :");
+        new TreeMap&lt;&gt;(byRegion).forEach((r, v) -&gt; System.out.printf("  %-6s $%.2f%n", r, v));
+
+        Map&lt;String, Integer&gt; unitsByProduct = orders.stream()
+            .collect(Collectors.groupingBy(Order::product,
+                     Collectors.summingInt(Order::qty)));
+        System.out.println("Units per product   :");
+        new TreeMap&lt;&gt;(unitsByProduct).forEach((p, u) -&gt; System.out.printf("  %-9s %d%n", p, u));
+
+        Map&lt;String, Double&gt; spendByCustomer = orders.stream()
+            .collect(Collectors.groupingBy(Order::customer,
+                     Collectors.summingDouble(Order::total)));
+        String top = spendByCustomer.entrySet().stream()
+            .max(Map.Entry.comparingByValue())
+            .map(Map.Entry::getKey)
+            .orElse("&lt;none&gt;");
+        System.out.printf("Top customer        : %s ($%.2f)%n", top, spendByCustomer.get(top));
+
+        String bigOrders = orders.stream()
+            .filter(o -&gt; o.total() &gt; 100)
+            .map(o -&gt; o.customer() + ":" + o.product())
+            .collect(Collectors.joining(", "));
+        System.out.println("Orders over $100    : " + bigOrders);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Grand total revenue : $985.41
+Revenue by region   :
+  EAST   $313.96
+  NORTH  $378.00
+  WEST   $293.45
+Units per product   :
+  Hub       3
+  Keyboard  3
+  Monitor   3
+  Mouse     9
+Top customer        : Eze ($378.00)
+Orders over $100    : Bode:Monitor, Ada:Hub, Eze:Monitor</code></pre></div>
+      </div>
+    </details>
+
+    <div class="nav-footer">
+      <a href="../class-tasks.html" class="nav-prev"><span>&larr; Class Tasks</span></a>
+      <a href="../post-quiz.html" class="nav-next"><span>Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../../js/quiz.js"></script>
+</body>
+</html>

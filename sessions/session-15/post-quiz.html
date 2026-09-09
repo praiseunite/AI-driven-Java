@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 15 Post-Quiz | JDK 25 &amp; AI-Assisted Coding</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 15</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Post-Lecture Evaluation</span>
+        <span class="tag tag-purple">Session 15</span>
+        <span class="tag tag-yellow">Formative Assessment</span>
+      </div>
+      <h1>🎯 Session 15 Post-Class Mastery Quiz</h1>
+      <p class="description">Verify your grasp of virtual threads, sealed types, record patterns, sequenced collections, and the AI-assisted workflow.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="assignment.html" class="nav-prev"><span>&larr; Session 15 Assignment</span></a>
+      <a href="../session-16/pre-quiz.html" class="nav-next"><span>Proceed to Session 16 Pre-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session15PostQuizData = {
+    title: "Session 15 Mastery: Modern JDK & AI",
+    description: "Answer all 12 questions to verify your understanding.",
+    questions: [
+      {
+        question: "Which Java release cadence is correct?",
+        options: [
+          "One release per year, always LTS",
+          "A feature release every 6 months; some are marked LTS (e.g. 21, 25)",
+          "A new release only when a big feature is ready",
+          "One release every 6 years"
+        ],
+        correct: 1,
+        explanation: "Six-month feature releases; LTS versions (21, 25...) get years of support and are what enterprises target."
+      },
+      {
+        question: "Why can a server run millions of virtual threads but only a few thousand platform threads?",
+        options: [
+          "Virtual threads run on the GPU",
+          "Virtual threads are JVM-scheduled onto a small pool of OS threads and cost bytes, not megabytes",
+          "Platform threads are disabled",
+          "Virtual threads skip the OS entirely and never block"
+        ],
+        correct: 1,
+        explanation: "A blocked virtual thread is parked and its carrier OS thread reused. You write simple blocking code, one thread per task, and it scales."
+      },
+      {
+        question: "You submit tasks to `Executors.newVirtualThreadPerTaskExecutor()` inside a try-with-resources. When does the code after the block run?",
+        options: [
+          "Immediately, before tasks finish",
+          "After close() has waited for every submitted task to complete",
+          "Never",
+          "Only if no task threw"
+        ],
+        correct: 1,
+        explanation: "The executor's close() (called by try-with-resources) blocks until all tasks are done — a clean 'wait for all' pattern."
+      },
+      {
+        question: "A `switch` over a `sealed interface Shape permits Circle, Square` covers both cases. Why is no `default` needed?",
+        options: [
+          "default is never needed in Java",
+          "The compiler knows the complete set of subtypes and can verify the switch is exhaustive",
+          "sealed disables default",
+          "Circle and Square are enums"
+        ],
+        correct: 1,
+        explanation: "sealed makes the subtype set finite and known, so exhaustiveness is checkable — and the compiler errors if you miss one."
+      },
+      {
+        question: "`case Rectangle(double w, double h) -> w * h;` in a switch is:",
+        options: [
+          "A syntax error",
+          "A record pattern — it matches Rectangle AND binds its components to w and h",
+          "A method call",
+          "A lambda"
+        ],
+        correct: 1,
+        explanation: "Record patterns match on type and deconstruct in one step, so you don't call r.w() / r.h() separately."
+      },
+      {
+        question: "`list.getFirst()` and `list.reversed()` were added by which feature?",
+        options: ["Generics", "Sequenced Collections (JDK 21)", "Streams", "Lambdas"],
+        correct: 1,
+        explanation: "Sequenced Collections give ordered collections a uniform first/last/addFirst/addLast/reversed API."
+      },
+      {
+        question: "An AI assistant gives you a method that compiles and passes your one example. Before relying on it you should ALSO:",
+        options: [
+          "Nothing else — it compiled",
+          "Read every line for understanding and test edge cases (empty, null, one element, large, negative)",
+          "Immediately push to production",
+          "Delete your own attempt"
+        ],
+        correct: 1,
+        explanation: "Compiling and one happy-path example is a low bar. Understanding and edge-case testing catch the silent bugs."
+      },
+      {
+        question: "Which is a HALLUCINATION you should reject?",
+        options: [
+          "list.stream().filter(...).toList()",
+          "myList.sortDescendingInPlace()",
+          "Collections.sort(myList)",
+          "myList.sort(Comparator.reverseOrder())"
+        ],
+        correct: 1,
+        explanation: "There is no sortDescendingInPlace() on List. If it doesn't compile and isn't in the docs, the AI invented it."
+      },
+      {
+        question: "A well-formed code prompt includes role/level, the concrete task, constraints, and:",
+        options: [
+          "The AI's name",
+          "The output shape you want (e.g. 'method + example call + one-line explanation per step')",
+          "Your full life story",
+          "Nothing else"
+        ],
+        correct: 1,
+        explanation: "Specifying the output shape keeps answers focused and reviewable — and lets you compare against what you expected."
+      },
+      {
+        question: "You're on a real project. Which is NOT OK to paste into a public AI chat?",
+        options: [
+          "A generic 'how do I use Optional' question",
+          "Your company's proprietary source and a customer's API key",
+          "A small self-contained example reproducing a bug",
+          "A public library's documented method signature"
+        ],
+        correct: 1,
+        explanation: "Never paste secrets, credentials, or proprietary/customer code into a public assistant. Use company-approved tools for company code."
+      },
+      {
+        question: "The rule for submitting AI-assisted work as your own:",
+        options: [
+          "It's fine as long as it runs",
+          "You must understand and be able to explain every line; the understanding must be yours",
+          "Only if you paste it exactly",
+          "Only during exams"
+        ],
+        correct: 1,
+        explanation: "Use AI to learn and draft. Submitting code you can't explain is misconduct and leaves you unable to maintain it."
+      },
+      {
+        question: "`case null -> ...` inside a `switch` is:",
+        options: [
+          "Always a NullPointerException",
+          "Allowed in modern pattern-matching switch — you can handle null as its own case",
+          "A compile error",
+          "The same as default"
+        ],
+        correct: 1,
+        explanation: "Pattern-matching switch lets you add an explicit `case null` instead of the whole switch throwing NPE on a null selector."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session15PostQuizData);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 13 In-Class Practical Tasks | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 13 Tasks</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html" class="active">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-teal">Hands-On Practicals</span>
+        <span class="tag tag-purple">Session 13</span>
+        <span class="tag tag-yellow">Lab Exercises</span>
+      </div>
+      <h1>💻 Session 13 In-Class Coding Tasks</h1>
+      <p class="description">
+        Work with <code>LocalDate</code>, <code>Duration</code>, <code>Period</code>,
+        <code>ChronoUnit</code>, and <code>DateTimeFormatter</code>. Dates are fixed so outputs
+        are stable. Try first, then check <a href="solution/solution.html">the solutions</a>.
+      </p>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-easy">🟢 Level 1: Easy</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 13.1: Age Calculator (Period + ChronoUnit)</h3>
+      <p class="task-objective"><strong>Objective:</strong> Given a birth date and a fixed "today", print age as years/months/days, total days alive, the weekday of birth, and days to the next birthday.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">AgeCalculator.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.time.*;
+import java.time.temporal.ChronoUnit;
+
+public class AgeCalculator {
+    public static void main(String[] args) {
+        LocalDate birth = LocalDate.of(2001, 7, 15);
+        LocalDate on    = LocalDate.of(2026, 4, 21);   // "today" fixed for a stable demo
+
+        Period age = Period.between(birth, on);
+        long totalDays = ChronoUnit.DAYS.between(birth, on);
+
+        System.out.printf("Age: %d years, %d months, %d days%n",
+                age.getYears(), age.getMonths(), age.getDays());
+        System.out.println("Total days alive: " + totalDays);
+        System.out.println("Born on a " + birth.getDayOfWeek());
+
+        LocalDate nextBday = birth.withYear(on.getYear());
+        if (!nextBday.isAfter(on)) nextBday = nextBday.plusYears(1);
+        System.out.println("Next birthday: " + nextBday
+                + " (" + ChronoUnit.DAYS.between(on, nextBday) + " days away)");
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>Age: 24 years, 9 months, 6 days
+Total days alive: 9046
+Born on a SUNDAY
+Next birthday: 2026-07-15 (85 days away)</code></pre></div>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-medium">🟡 Level 2: Intermediate</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 13.2: Meeting Planner (Duration + formatting)</h3>
+      <p class="task-objective"><strong>Objective:</strong> From a start <code>LocalDateTime</code> and a <code>Duration</code>, compute the end, format both, and check it ends by 17:00.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">MeetingPlanner.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.time.*;
+import java.time.format.DateTimeFormatter;
+
+public class MeetingPlanner {
+    public static void main(String[] args) {
+        LocalDateTime start = LocalDateTime.of(2026, 4, 21, 14, 0);
+        Duration length = Duration.ofMinutes(90);
+        LocalDateTime end = start.plus(length);
+
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("EEE d MMM, HH:mm");
+        System.out.println("Starts : " + start.format(f));
+        System.out.println("Ends   : " + end.format(f));
+        System.out.println("Length : " + length.toHours() + "h " + length.toMinutesPart() + "m");
+
+        boolean businessHours = !end.toLocalTime().isAfter(LocalTime.of(17, 0));
+        System.out.println("Within business hours? " + businessHours);
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>Starts : Tue 21 Apr, 14:00
+Ends   : Tue 21 Apr, 15:30
+Length : 1h 30m
+Within business hours? true</code></pre></div>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-hard">🔴 Level 3: Challenge</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 13.3: Subscription Status (plusMonths + ChronoUnit + branching)</h3>
+      <p class="task-objective"><strong>Objective:</strong> A monthly subscription renews one month after signup. Report <code>EXPIRED</code>, <code>DUE SOON</code> (≤ 3 days left), or <code>ACTIVE</code>, with days remaining.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">SubscriptionCheck.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.time.*;
+import java.time.temporal.ChronoUnit;
+
+public class SubscriptionCheck {
+    static String status(LocalDate signup, LocalDate today) {
+        LocalDate renewal = signup.plusMonths(1);
+        if (today.isAfter(renewal)) return "EXPIRED";
+        long daysLeft = ChronoUnit.DAYS.between(today, renewal);
+        return daysLeft &lt;= 3 ? "DUE SOON (" + daysLeft + "d)" : "ACTIVE (" + daysLeft + "d)";
+    }
+
+    public static void main(String[] args) {
+        LocalDate today = LocalDate.of(2026, 4, 21);
+        LocalDate[] signups = {
+            LocalDate.of(2026, 4, 1),    // renewal May 1 -&gt; ACTIVE
+            LocalDate.of(2026, 3, 20),   // renewal Apr 20 -&gt; EXPIRED
+            LocalDate.of(2026, 3, 23)    // renewal Apr 23 -&gt; DUE SOON (2d left)
+        };
+        for (LocalDate s : signups) {
+            System.out.println(s + " -&gt; " + status(s, today));
+        }
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>2026-04-01 -&gt; ACTIVE (10d)
+2026-03-20 -&gt; EXPIRED
+2026-03-23 -&gt; DUE SOON (2d)</code></pre></div>
+    </div>
+
+    <div class="nav-footer">
+      <a href="lesson.html" class="nav-prev"><span>&larr; Back to Lesson 13</span></a>
+      <a href="assignment.html" class="nav-next"><span>Session 13 Assignment &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

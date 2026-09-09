@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 16 Pre-Quiz | Final Review</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 16</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Course Home</a></li>
+      <li><a href="lesson.html">Review Guide</a></li>
+      <li><a href="class-tasks.html">Capstone Lab</a></li>
+      <li><a href="post-quiz.html">Final Assessment</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-yellow">Pre-Class Warm-Up</span>
+        <span class="tag tag-purple">Session 16</span>
+        <span class="tag tag-teal">Course Consolidation</span>
+      </div>
+      <h1>🧠 Final Warm-Up Check</h1>
+      <p class="description">Five quick cross-course recalls before the capstone lab and final assessment.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="../../index.html" class="nav-prev"><span>&larr; Back to Dashboard</span></a>
+      <a href="lesson.html" class="nav-next"><span>Proceed to Review Guide &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session16PreQuizData = {
+    title: "Final Warm-Up: Across the Whole Course",
+    description: "Quick recall from every week. Explanations unlock after each answer.",
+    questions: [
+      {
+        question: "A capstone needs to model 'a book' — just a few fixed values plus equals/toString. The tidiest choice:",
+        options: ["An interface", "A record", "An enum", "A static method"],
+        correct: 1,
+        explanation: "record Book(...) generates fields, constructor, accessors, and value-based equals/hashCode/toString in one line."
+      },
+      {
+        question: "Different discount rules (percent-off, bulk deal, none) should be applied the same way from the checkout code. Best design:",
+        options: [
+          "A big if-else on a String discountType",
+          "A Discount interface with one method, and one class per rule",
+          "Copy the checkout code three times",
+          "A 2D array"
+        ],
+        correct: 1,
+        explanation: "Program to an interface: checkout calls discount.apply(subtotal) without knowing which rule it is. New rules need no checkout changes."
+      },
+      {
+        question: "Checkout must not remove any stock if ANY line in the order can't be fulfilled. This is:",
+        options: [
+          "Impossible in Java",
+          "Validate all lines first; only then commit changes — throw before committing if any fails",
+          "A job for a loop counter",
+          "Handled automatically"
+        ],
+        correct: 1,
+        explanation: "Separate 'check everything' from 'apply everything'. Throw the exception during the check phase so state is untouched — all-or-nothing."
+      },
+      {
+        question: "You need 'total revenue grouped by genre' from a list of order line items. The clean tool:",
+        options: [
+          "Nested for-loops with a HashMap you update by hand",
+          "stream().collect(groupingBy(genre, summingDouble(lineTotal)))",
+          "A recursive method",
+          "Arrays.sort"
+        ],
+        correct: 1,
+        explanation: "groupingBy with a downstream summing collector expresses 'group then aggregate' directly."
+      },
+      {
+        question: "Before you call your capstone 'done', the last step is:",
+        options: [
+          "Add more features",
+          "Run the code-review checklist over it — compile clean, correctness, encapsulation, naming, no duplication",
+          "Delete the comments",
+          "Rename the file"
+        ],
+        correct: 1,
+        explanation: "A short, disciplined self-review catches the off-by-one, the leaky field, the empty catch, and the copy-pasted block."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session16PreQuizData);
+  });
+</script>
+
+</body>
+</html>

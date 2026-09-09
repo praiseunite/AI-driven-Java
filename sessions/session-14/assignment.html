@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 14 Take-Home Assignment | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 14</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html" class="active">Assignment</a></li>
+      <li><a href="solution/solution.html">Solution</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-red">Take-Home Lab Assignment</span>
+        <span class="tag tag-purple">Session 14</span>
+        <span class="tag tag-yellow">Due Before Session 15</span>
+      </div>
+      <h1>📋 Assignment 14: Sales Analytics with Streams &amp; Records</h1>
+      <p class="description">
+        Turn a list of order records into a small analytics report using stream pipelines and
+        collectors — no manual loops for the aggregates.
+      </p>
+    </div>
+
+    <div class="card" style="margin-bottom: var(--space-xl);">
+      <h3 style="color: var(--accent); margin-top: 0;">🏢 Scenario</h3>
+      <p>
+        The campus store wants a one-shot revenue summary from a batch of orders. Build
+        <code>SalesAnalytics.java</code> using a <code>record</code> for the order type and the
+        Streams API for every calculation.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2>Requirements</h2>
+      <ol style="margin-left: var(--space-lg); line-height: 1.8;">
+        <li><strong>Record:</strong> <code>record Order(String customer, String region, String product, int qty, double unitPrice)</code> with a <code>double total()</code> method (<code>qty * unitPrice</code>).</li>
+        <li><strong>Data:</strong> a <code>List&lt;Order&gt;</code> of the 7 orders in the expected output.</li>
+        <li><strong>Grand total revenue</strong> — <code>mapToDouble(Order::total).sum()</code>.</li>
+        <li><strong>Revenue by region</strong> — <code>groupingBy(Order::region, summingDouble(Order::total))</code>; print sorted by region name.</li>
+        <li><strong>Units sold per product</strong> — <code>groupingBy(Order::product, summingInt(Order::qty))</code>; print sorted.</li>
+        <li><strong>Top customer by spend</strong> — group spend by customer, then <code>max(Map.Entry.comparingByValue())</code>.</li>
+        <li><strong>Orders over $100</strong> — <code>filter(o -&gt; o.total() &gt; 100)</code>, map to <code>customer:product</code>, join with <code>", "</code>.</li>
+      </ol>
+
+      <div class="expected-output">
+        <h5>Expected Console Output:</h5>
+        <pre><code>Grand total revenue : $985.41
+Revenue by region   :
+  EAST   $313.96
+  NORTH  $378.00
+  WEST   $293.45
+Units per product   :
+  Hub       3
+  Keyboard  3
+  Monitor   3
+  Mouse     9
+Top customer        : Eze ($378.00)
+Orders over $100    : Bode:Monitor, Ada:Hub, Eze:Monitor</code></pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Grading Rubric (100 Points)</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Criterion</th><th>Details</th><th>Points</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Record</strong></td><td><code>Order</code> is a record with a computed <code>total()</code> method.</td><td>15</td></tr>
+            <tr><td><strong>Stream aggregates</strong></td><td>Grand total, region revenue, product units — all via streams/collectors, no manual loops.</td><td>35</td></tr>
+            <tr><td><strong>Grouping &amp; max</strong></td><td>Correct <code>groupingBy</code> downstream collectors; top customer via <code>Map.Entry</code> comparison.</td><td>30</td></tr>
+            <tr><td><strong>Filter &amp; join</strong></td><td>"Orders over $100" list built with <code>filter</code> + <code>map</code> + <code>joining</code>.</td><td>20</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Submission:</strong> Upload <code>SalesAnalytics.java</code> via ProConnect under <em>Work Assignments &rarr; Session 14</em>. Full reference implementation: <a href="solution/solution.html">the solution</a>.</p>
+    </div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev"><span>&larr; Session 14 Class Tasks</span></a>
+      <a href="post-quiz.html" class="nav-next"><span>Session 14 Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

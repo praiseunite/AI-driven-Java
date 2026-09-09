@@ -81,24 +81,29 @@ Inside each `session-XX` directory, you will find:
 
 ## 🗓️ 4-Week Session Roadmap
 
+Every session ships: `pre-quiz.html`, canonical `lesson.html` + summary `lesson.md`, tiered
+`class-tasks` (each task with a run-verified **Expected Output**), a scenario `assignment`
+(review sessions 4/8/12/16 have consolidation labs / a capstone instead), `post-quiz.html`,
+compilable `code-examples/`, and a `solution/` folder (reference `.java` + `solution.html`).
+
 | Week | Session | Module Title | Focus Areas |
 | :--- | :--- | :--- | :--- |
-| **W1** | **01** | Introduction to Java | Structured vs OOP, JVM/JRE/JDK, Environment Setup, First Program |
-| | **02** | Variables, Data Types & Operators | Primitive vs Reference, Type Casting, Formatting, Expressions |
-| | **03** | Decision-Making & Loops | `if/else`, `switch`, `while`, `for`, `break`/`continue`, Nested Constructs |
-| | **04** | Try It Yourself: Review 1–3 | Algorithmic Problem Solving, Tracing, Debugging Workshop |
-| **W2** | **05** | Classes, Objects & Methods | Object Blueprinting, Constructors, `this`, Overloading, Memory Layout |
-| | **06** | Arrays and Strings | Single/Multi-D Arrays, `ArrayList`, `String`, `StringBuilder`, Autoboxing |
-| | **07** | Modifiers and Packages | Access Levels, `static` State, User Packages, Creating Executable `.jar` |
-| | **08** | Review 4–6 + Assignments S1–S3 | OOP Architecture Review, ProConnect Assignments Evaluation |
-| **W3** | **09** | Inheritance & Polymorphism | Class Hierarchies, `super`, Method Overriding, Dynamic Binding, `abstract` |
-| | **10** | Interfaces & Nested Classes | Contracts, Multiple Interfaces, Static & Inner Classes, Anonymous Classes |
-| | **11** | Exceptions Handling | Checked vs Unchecked, `try-catch-finally`, Custom Exceptions, Best Practices |
-| | **12** | Try It Yourself: Review 7–9 | Refactoring, Polymorphic Design Patterns, Robust Error Trapping |
-| **W4** | **13** | Date and Time API | `java.time`, `LocalDate`, `ZonedDateTime`, Formatting, Enums & Clocks |
-| | **14** | Additional Modern Features | Functional Interfaces, Lambdas, Streams API, Generics, Switch Expressions |
-| | **15** | JDK 25 & AI-Assisted Java | Virtual Threads, Record Patterns, Prompt Engineering, IDE AI Plugins |
-| | **16** | Final Review & Evaluation S4–S6 | Comprehensive Capstone, Professional Code Reviews, Final Assessment |
+| **W1** | **01** | Introduction to Java | Structured vs OOP, JVM/JRE/JDK, JDK 25 + IntelliJ setup, first error message, comments, First Program |
+| | **02** | Variables, Data Types & Operators | 8 primitives, **`Scanner` input**, `++`/`+=`, **operator precedence**, `final`, **`Math`**, casting, **money & floating-point** |
+| | **03** | Decision-Making & Loops | `if/else`, `switch` (+ arrow-form preview), `while`/`for`/`do-while`, `break`/`continue`, **trace tables**, off-by-one, **infinite-loop recovery**, nested loops, `Scanner` menu |
+| | **04** | Try It Yourself: Review 1–3 | **String-methods mini-lesson**, the 4 loop patterns, formal tracing, **reading stack traces**, algorithm challenges |
+| **W2** | **05** | Classes, Objects & Methods | Class vs object, fields/methods, `new`/references/`null`, constructors & `this`, method & constructor overloading, `toString()`, encapsulation, stack/heap |
+| | **06** | Arrays and Strings | 1-D/2-D arrays, `.length`, `for` vs for-each, array algorithms, `ArrayList`, wrapper types & autoboxing, `String` immutability, `StringBuilder`, `split`/`join` |
+| | **07** | Modifiers and Packages | `public`/`protected`/package-private/`private`, `static` (shared state & utility classes), `final`, packages (folder = name), `import`, **executable `.jar`** |
+| | **08** | Review 4–6 (Week 2) | Concept map, integrative `Gradebook` example, OOP-era debugging playbook, S5–S7 assignment self-review, combined challenges |
+| **W3** | **09** | Inheritance & Polymorphism | `extends`/`super`/`@Override`, override vs overload, **dynamic dispatch**, `abstract` classes, overriding `toString`/`equals`/`hashCode`, `instanceof` |
+| | **10** | Interfaces & Nested Classes | Contracts, multiple `implements`, `default` methods, `Comparable`, abstract class vs interface, static/inner/local/**anonymous** classes, first **lambda** |
+| | **11** | Exception Handling | Hierarchy, checked vs unchecked, `try`/`catch`/`finally`, multi-catch, **try-with-resources**, `throw`/`throws`, **custom exceptions**, best practices |
+| | **12** | Try It Yourself: Review 7–9 | Concept map, integrative `PaymentSystem`, **refactoring `instanceof` ladders to polymorphism**, Week 3 debugging playbook |
+| **W4** | **13** | Date and Time API | `LocalDate`/`Time`/`DateTime`, immutability, `Period` vs `Duration`, `ChronoUnit`, `DateTimeFormatter`, `DayOfWeek`/`Month` enums, `ZonedDateTime` |
+| | **14** | Additional Modern Features | Lambdas & method references, **Streams** (`filter`/`map`/`collect`/`groupingBy`/`reduce`), generics, `var`, **switch expressions**, **records**, text blocks, `Optional` |
+| | **15** | JDK 25 & AI-Assisted Coding | Release cadence & LTS, **virtual threads**, `sealed` types, **record patterns** in `switch`, sequenced collections; AI tooling, **prompt engineering**, **review checklist**, ethics/licensing/security |
+| | **16** | Final Review & Capstone | Whole-course concept map, **professional code-review checklist**, **Campus Bookstore capstone** (5 milestones integrating every module), 20-question final assessment |
 
 ---
 

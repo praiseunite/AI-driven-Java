@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 15: JDK 25 features (virtual threads, record patterns, sealed types, sequenced collections) and AI-assisted development — prompt engineering, IDE AI plugins, reviewing and testing AI output safely.">
+  <title>Session 15: JDK 25 &amp; AI-Assisted Coding | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 15</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Week 4 &bull; Day 3</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL15</span>
+      </div>
+      <h1>Session 15: JDK 25 &amp; AI-Assisted Coding</h1>
+      <p class="description">
+        Two threads today. First, the headline features of modern JDK releases — virtual
+        threads, record patterns, sealed types, sequenced collections. Second, how to use AI
+        coding assistants as a genuine force-multiplier: prompting well, reviewing every line,
+        and never shipping code you can't explain.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Table of Contents</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#lts">1. JDK Releases &amp; LTS</a></li>
+          <li><a href="#virtual-threads">2. Virtual Threads</a></li>
+          <li><a href="#sealed">3. Sealed Types</a></li>
+          <li><a href="#record-patterns">4. Record Patterns</a></li>
+          <li><a href="#sequenced">5. Sequenced Collections</a></li>
+          <li><a href="#other-bits">6. Other Recent Conveniences</a></li>
+          <li><a href="#ai-tools">7. AI Coding Assistants</a></li>
+          <li><a href="#prompting">8. Prompt Engineering for Code</a></li>
+          <li><a href="#reviewing">9. Reviewing AI Output</a></li>
+          <li><a href="#ethics">10. Ethics, Licensing &amp; Security</a></li>
+          <li><a href="#cheat-sheet">11. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">12. Summary &amp; Self-Check</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: Flashback</div>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Records (S14):</strong> immutable data carriers — record patterns let you match <em>and</em> deconstruct them.</li>
+            <li><strong>Switch expressions (S14):</strong> arrow form that yields a value — patterns extend it to types.</li>
+            <li><strong>The AI Tutor Guide</strong> (<a href="../../reference/ai-tutor-guide.html">reference</a>): the "use AI to understand, not to produce" rule from Week 1 now becomes a professional workflow.</li>
+          </ul>
+        </div>
+
+        <section class="content-section" id="lts">
+          <h2>1. JDK Releases &amp; LTS</h2>
+          <p>
+            Java ships a feature release <strong>every six months</strong> (21, 22, 23, 24,
+            25…). Every few years one is marked <strong>LTS</strong> (Long-Term Support) with
+            years of updates — <strong>JDK 21</strong> and <strong>JDK 25</strong> are LTS
+            releases. Enterprises target LTS; this course standardises on <strong>JDK 25</strong>.
+          </p>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ "Preview" features</div>
+            <p>
+              New language features often arrive as <em>preview</em> (compile with
+              <code>--enable-preview</code>) for a release or two, then become permanent. The
+              features below are finalised in the JDK 21–25 range.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="virtual-threads">
+          <h2>2. Virtual Threads (JDK 21)</h2>
+          <p>
+            A classic <code>Thread</code> maps 1:1 to an operating-system thread — heavy, so you
+            can only have a few thousand. A <strong>virtual thread</strong> is scheduled by the
+            JVM onto a small pool of OS threads, so you can run <strong>millions</strong>. Great
+            for servers handling many concurrent, mostly-waiting requests.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">VirtualThreads.java</span></div>
+            <pre><code>// start one virtual thread
+Thread t = Thread.ofVirtual().start(() -&gt; System.out.println("hi from a virtual thread"));
+t.join();
+
+// spawn 10,000 — cheap
+for (int i = 0; i &lt; 10_000; i++) {
+    workers[i] = Thread.ofVirtual().start(() -&gt; doWork());
+}
+for (Thread w : workers) w.join();
+
+// idiomatic: one virtual thread per task via an executor
+try (var pool = Executors.newVirtualThreadPerTaskExecutor()) {
+    for (Runnable task : tasks) pool.submit(task);
+}   // pool.close() waits for all tasks</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 The mental shift</div>
+            <p>
+              With virtual threads you no longer ration threads or juggle callbacks — write
+              simple blocking code, one thread per task, and let the JVM handle scale.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="sealed">
+          <h2>3. Sealed Types (JDK 17)</h2>
+          <p>
+            <code>sealed</code> restricts <em>which</em> classes may extend/implement a type. The
+            compiler then knows the full set — enabling exhaustive <code>switch</code> with no
+            <code>default</code>.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>sealed interface Shape permits Circle, Rectangle, Triangle {}
+record Circle(double radius)        implements Shape {}
+record Rectangle(double w, double h) implements Shape {}
+record Triangle(double base, double height) implements Shape {}</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="record-patterns">
+          <h2>4. Record Patterns &amp; Pattern Matching for <code>switch</code> (JDK 21)</h2>
+          <p>
+            A <code>switch</code> can match on <strong>type</strong>, add a <strong><code>when</code></strong>
+            guard, and <strong>deconstruct</strong> a record into its components in one step.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">RecordPatterns.java</span></div>
+            <pre><code>static double area(Shape s) {
+    return switch (s) {
+        case Circle c                      -&gt; Math.PI * c.radius() * c.radius();
+        case Rectangle(double w, double h) -&gt; w * h;        // deconstructed
+        case Triangle(double b, double h)  -&gt; 0.5 * b * h;
+    };  // no default: Shape is sealed, all cases covered
+}
+
+static String describe(Object o) {
+    return switch (o) {
+        case Integer i when i &lt; 0 -&gt; "negative int";        // guarded pattern
+        case Integer i            -&gt; "int " + i;
+        case String str           -&gt; "string of length " + str.length();
+        case null                 -&gt; "null";                 // switch can handle null now
+        default                   -&gt; "something else";
+    };
+}</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 This replaces <code>instanceof</code> ladders</div>
+            <p>
+              The Session 12 refactor ("<code>if (x instanceof A) ... else if (x instanceof B)</code>")
+              becomes a clean, exhaustive <code>switch</code> — and the compiler tells you if you
+              miss a case.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="sequenced">
+          <h2>5. Sequenced Collections (JDK 21)</h2>
+          <p>Ordered collections now have a uniform first/last/reverse API:</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>List&lt;String&gt; list = new ArrayList&lt;&gt;(List.of("a", "b", "c", "d"));
+
+list.getFirst();     // "a"      (was list.get(0))
+list.getLast();      // "d"      (was list.get(list.size() - 1))
+list.addFirst("Z");  // [Z, a, b, c, d]
+list.removeLast();   // [Z, a, b, c]
+list.reversed();     // a reversed VIEW</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="other-bits">
+          <h2>6. Other Recent Conveniences</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Feature</th><th>Example</th></tr></thead>
+              <tbody>
+                <tr><td><code>Stream.toList()</code></td><td><code>nums.stream().map(...).toList()</code> (concise, unmodifiable)</td></tr>
+                <tr><td><code>Math.clamp</code></td><td><code>Math.clamp(value, min, max)</code></td></tr>
+                <tr><td><code>String.repeat</code> / <code>isBlank</code> / <code>strip</code></td><td><code>"=".repeat(10)</code>, <code>s.isBlank()</code></td></tr>
+                <tr><td>Text blocks (S14)</td><td><code>"""</code> multi-line strings</td></tr>
+                <tr><td>Unnamed variables <code>_</code></td><td><code>catch (Exception _) { ... }</code> when you don't need the value</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="ai-tools">
+          <h2>7. AI Coding Assistants — the landscape</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Tool</th><th>Where it lives</th><th>Best at</th></tr></thead>
+              <tbody>
+                <tr><td><strong>Chat assistants</strong> (ChatGPT, Claude, Gemini)</td><td>a browser / app tab</td><td>explaining concepts, planning, generating a first draft, debugging with pasted context</td></tr>
+                <tr><td><strong>In-editor completion</strong> (GitHub Copilot, JetBrains AI, Codeium)</td><td>inside IntelliJ / VS Code</td><td>finishing a line, boilerplate, tests, small refactors — with your file as context</td></tr>
+                <tr><td><strong>Agentic tools</strong> (Claude Code, Copilot Workspace)</td><td>terminal / IDE, multi-file</td><td>larger changes across files, running commands, iterating with test feedback</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>
+            In IntelliJ: <strong>right-click a selection &rarr; AI Actions</strong> for "Explain
+            code", "Explain this error", "Generate tests", "Suggest refactoring". The chat panel
+            sees your open file for context.
+          </p>
+        </section>
+
+        <section class="content-section" id="prompting">
+          <h2>8. Prompt Engineering for Code</h2>
+          <p>A good code prompt has four parts. Miss one and the output drifts.</p>
+          <ol class="steps">
+            <li><strong>Role &amp; level</strong> — "You're helping a Java beginner (Week 4)…"</li>
+            <li><strong>Concrete task</strong> — "Write a method <code>groupByFirstLetter(List&lt;String&gt;)</code> returning <code>Map&lt;Character, List&lt;String&gt;&gt;</code>."</li>
+            <li><strong>Constraints</strong> — "Use only concepts through Session 14 (streams OK, no external libraries). Target Java 25."</li>
+            <li><strong>Output shape</strong> — "Give the method plus a 3-line example call and expected output. Explain each stream step in one sentence."</li>
+          </ol>
+          <div class="callout callout-example">
+            <div class="callout-title">🧩 Iterate, don't accept blindly</div>
+            <p>
+              "That uses a <code>Collector</code> I haven't learned — redo it with a plain loop."
+              &nbsp;·&nbsp; "It doesn't compile: 'cannot find symbol reversed()'. What Java version
+              is that from?" &nbsp;·&nbsp; "Add a test for the empty-list case."
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="reviewing">
+          <h2>9. Reviewing AI Output — a checklist</h2>
+          <ol class="steps">
+            <li><strong>Compile &amp; run it.</strong> The compiler and the output are ground truth.</li>
+            <li><strong>Read every line.</strong> If you can't explain one, ask the AI to explain it or simplify — do not submit it.</li>
+            <li><strong>Check the API is real.</strong> Hallucinated methods (<code>list.sortAscending()</code>, <code>String.reverse()</code>) won't compile; verify against the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/" target="_blank" rel="noopener">Java 25 docs</a>.</li>
+            <li><strong>Test the edges.</strong> Empty input, null, one element, huge input, negative numbers.</li>
+            <li><strong>Look for silent bugs.</strong> Off-by-one, swallowed exceptions, <code>==</code> on objects, integer division, wrong rounding.</li>
+            <li><strong>Match the codebase.</strong> Naming, formatting, error-handling style, no stray libraries.</li>
+          </ol>
+        </section>
+
+        <section class="content-section" id="ethics">
+          <h2>10. Ethics, Licensing &amp; Security</h2>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ Four things to keep in mind</div>
+            <ul style="margin-bottom:0;">
+              <li><strong>Academic honesty:</strong> assignments measure <em>your</em> understanding. Use AI to learn; write and be able to explain your own submissions. Pasting AI-generated assignments is misconduct.</li>
+              <li><strong>Licensing:</strong> generated code can resemble training data. For real projects, treat large verbatim blocks with caution and prefer AI for structure and explanation over wholesale copying.</li>
+              <li><strong>Confidentiality:</strong> don't paste secrets, credentials, or proprietary/customer code into a public assistant. Use company-approved tools for company code.</li>
+              <li><strong>Security:</strong> AI happily writes SQL-injectable queries, weak crypto, and unvalidated input handling. Review security-sensitive code especially hard.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="content-section" id="cheat-sheet">
+          <h2>11. Executive Quick-Recap &amp; Cheat Sheet</h2>
+
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The 30-Second Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              Java ships every 6 months; <strong>LTS</strong> (21, 25) is what you target.
+              <strong>Virtual threads</strong>: millions of cheap threads, one per task.
+              <strong>Sealed</strong> types + <strong>record patterns</strong> in
+              <code>switch</code> give exhaustive, deconstructing matches that replace
+              <code>instanceof</code> ladders. <strong>Sequenced collections</strong> add
+              <code>getFirst/getLast/reversed</code>. For <strong>AI</strong>: prompt with
+              role + task + constraints + output shape; then compile, read every line, verify the
+              API, test edges — never ship code you can't explain.
+            </p>
+          </div>
+
+          <h3>Core Syntax at a Glance</h3>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java Cheat Sheet</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>sealed interface Event permits Click, KeyPress, Scroll {}
+record Click(int x, int y)     implements Event {}
+record KeyPress(char key)      implements Event {}
+record Scroll(int amount)      implements Event {}
+
+static String handle(Event e) {
+    return switch (e) {
+        case Click(int x, int y)   -&gt; "click at " + x + "," + y;
+        case KeyPress(char k)      -&gt; "key " + k;
+        case Scroll s when s.amount() &gt; 0 -&gt; "scroll down " + s.amount();
+        case Scroll s              -&gt; "scroll up " + (-s.amount());
+    };
+}
+
+try (var pool = Executors.newVirtualThreadPerTaskExecutor()) {
+    for (var task : tasks) pool.submit(task);
+}
+
+var list = new ArrayList&lt;Integer&gt;(List.of(3, 1, 2));
+list.addFirst(0);
+int lo = list.getFirst(), hi = list.getLast();</code></pre>
+          </div>
+
+          <h3>Plain-English Glossary</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">LTS</div><p class="glossary-def">Long-Term Support JDK release (21, 25) with multi-year updates.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Virtual thread</div><p class="glossary-def">A lightweight thread the JVM multiplexes onto few OS threads; millions are cheap.</p></div>
+            <div class="glossary-item"><div class="glossary-term">sealed</div><p class="glossary-def">Restricts which classes may extend/implement a type (<code>permits</code>).</p></div>
+            <div class="glossary-item"><div class="glossary-term">Pattern matching for switch</div><p class="glossary-def">Match on type, guard with <code>when</code>, handle <code>null</code>, be exhaustive.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Record pattern</div><p class="glossary-def">Deconstruct a record into its components in a <code>case</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Sequenced collection</div><p class="glossary-def">Ordered collection with <code>getFirst/getLast/addFirst/reversed</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">AI coding assistant</div><p class="glossary-def">Chat, in-editor, or agentic tool that helps write/explain/review code.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Prompt engineering</div><p class="glossary-def">Framing a request (role, task, constraints, output shape) to get useful output.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Hallucination</div><p class="glossary-def">Confident but wrong AI output — e.g. a method that doesn't exist.</p></div>
+          </div>
+          <p style="margin-top: var(--space-md);">Full definitions: <a href="../../reference/glossary.html">Master Glossary</a> &bull; <a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>.</p>
+        </section>
+
+        <section class="content-section" id="summary">
+          <h2>12. Summary &amp; Interactive Self-Checks</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Try these — and practise <em>reviewing</em> what comes back:</p>
+            <ul style="margin-bottom:0;">
+              <li>"Write a sealed <code>Result</code> type with <code>Ok(value)</code> and <code>Err(message)</code> records, and a <code>switch</code> that handles both. Target Java 25."</li>
+              <li>"Show classic threads vs a virtual-thread-per-task executor for 1,000 tasks, and explain the difference."</li>
+              <li>"Give me a deliberately buggy 20-line Java method and let me find the 3 bugs; then tell me if I got them."</li>
+            </ul>
+          </div>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Q1: Why can millions of virtual threads run when only a few thousand platform threads can?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Virtual threads don't each own an OS thread; the JVM parks a waiting one and reuses a small pool of carrier OS threads. They cost bytes, not megabytes.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q2: Why does a <code>switch</code> over a <code>sealed</code> type not need a <code>default</code>?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> The compiler knows every permitted subtype, so if you cover them all the switch is provably exhaustive — and it errors if you miss one.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q3: An AI gives you code using <code>list.getFirst()</code> and your build fails with "cannot find symbol". Likely cause?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Your project targets a JDK older than 21 (sequenced collections). Check the project SDK / language level, or ask the AI for a pre-21 version.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q4: What is the single rule for submitting AI-assisted code as your own work?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> You must understand and be able to explain every line. Use AI to learn and draft; the submitted work — and the understanding — must be yours.</div>
+            </details>
+          </div>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start Class Tasks</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Post-Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 15 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Session 15 Class Tasks &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>
