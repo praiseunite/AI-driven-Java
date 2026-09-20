@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 12 Post-Quiz | Week 3 Comprehensive Review</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 12</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Review Guide</a></li>
+      <li><a href="class-tasks.html">Try It Yourself</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Week 3 Comprehensive Quiz</span>
+        <span class="tag tag-purple">Session 12</span>
+        <span class="tag tag-yellow">12 Questions</span>
+      </div>
+      <h1>🏆 Week 3 Mastery Evaluation: Sessions 9–11</h1>
+      <p class="description">Test your grasp of inheritance, polymorphism, interfaces, nested classes, and exception handling before Week 4.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev"><span>&larr; Try It Yourself Tasks</span></a>
+      <a href="../session-13/pre-quiz.html" class="nav-next"><span>Proceed to Week 4 (Session 13) &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session12PostQuizData = {
+    title: "Week 3 Comprehensive: Advanced OOP & Exceptions",
+    description: "Complete all 12 questions to benchmark your readiness for Week 4 (Modern Java).",
+    questions: [
+      {
+        question: "`Shape s = new Circle(3); s.area();` where Circle overrides area(). At run time Java calls:",
+        options: ["Shape's area()", "Circle's area()", "It doesn't compile", "Both"],
+        correct: 1,
+        explanation: "Dynamic dispatch: the overridden method for the object's real type (Circle) runs, regardless of the variable's declared type."
+      },
+      {
+        question: "A class needs shared fields AND to be usable as two unrelated capabilities. Best structure:",
+        options: [
+          "Three interfaces",
+          "Extend one abstract class (shared fields) + implement two interfaces (capabilities)",
+          "Extend three classes",
+          "Copy the code"
+        ],
+        correct: 1,
+        explanation: "Abstract class for the shared state; multiple interfaces for the capabilities. Java allows one extends, many implements."
+      },
+      {
+        question: "Which belongs INSIDE an object as an overridden method rather than in an if-ladder?",
+        options: [
+          "Reading a config file",
+          "\"If it's a Circle compute pi*r*r, else if it's a Square compute side*side\"",
+          "A loop counter",
+          "A constant"
+        ],
+        correct: 1,
+        explanation: "Type-based branching is a smell. Give the shapes an area() method and call it polymorphically; the ladder disappears."
+      },
+      {
+        question: "`super(name)` must appear where in a subclass constructor?",
+        options: ["Anywhere", "First statement", "Last statement", "It's optional and position-free"],
+        correct: 1,
+        explanation: "A call to the superclass constructor must be the first statement; Java inserts super() if you omit it."
+      },
+      {
+        question: "You override equals() on a class. What else must you override?",
+        options: ["toString()", "hashCode()", "compareTo()", "Nothing"],
+        correct: 1,
+        explanation: "equals and hashCode go together — equal objects must return equal hash codes, or hash collections break."
+      },
+      {
+        question: "An interface method you implement must have which access modifier?",
+        options: ["private", "protected", "public", "any"],
+        correct: 2,
+        explanation: "Interface methods are implicitly public; your implementation cannot reduce that visibility."
+      },
+      {
+        question: "The compiler says 'unreported exception IOException; must be caught or declared'. You called a method that:",
+        options: [
+          "Returns void",
+          "Declares `throws IOException` (a checked exception)",
+          "Is static",
+          "Is private"
+        ],
+        correct: 1,
+        explanation: "Checked exceptions propagate only if caught or declared. Wrap the call in try/catch or add throws IOException to your method."
+      },
+      {
+        question: "`catch (Exception e)` placed before `catch (ArithmeticException e)` causes:",
+        options: [
+          "Nothing",
+          "A compile error — the second catch is unreachable",
+          "A runtime error",
+          "Both run"
+        ],
+        correct: 1,
+        explanation: "A superclass catch first makes the narrower one dead code. Order catches specific-to-general."
+      },
+      {
+        question: "A `final` method in a superclass:",
+        options: [
+          "Cannot be called",
+          "Cannot be overridden by a subclass",
+          "Must be static",
+          "Has no body"
+        ],
+        correct: 1,
+        explanation: "final on a method locks its implementation — subclasses inherit it but cannot replace it."
+      },
+      {
+        question: "When should a failure be an UNCHECKED exception?",
+        options: [
+          "When a file might be missing",
+          "When it represents a programming bug or bad argument the code should prevent (e.g. IllegalArgumentException)",
+          "Always",
+          "Never"
+        ],
+        correct: 1,
+        explanation: "Unchecked (RuntimeException) is for bugs. Checked is for expected, recoverable external conditions."
+      },
+      {
+        question: "A lambda `x -> x * 2` can be assigned to an interface variable only if the interface:",
+        options: [
+          "Has many methods",
+          "Has exactly one abstract method (a functional interface)",
+          "Extends Object",
+          "Is in java.util"
+        ],
+        correct: 1,
+        explanation: "A lambda is shorthand for implementing a single-abstract-method interface."
+      },
+      {
+        question: "Best reason to make `Payment` abstract instead of a normal class:",
+        options: [
+          "It runs faster",
+          "There is no sensible 'generic payment' object, and every concrete type must supply its own fee()",
+          "Abstract classes use less memory",
+          "To avoid writing a constructor"
+        ],
+        correct: 1,
+        explanation: "abstract expresses 'a base concept, not instantiable on its own' and can force subclasses to implement key methods."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session12PostQuizData);
+  });
+</script>
+
+</body>
+</html>

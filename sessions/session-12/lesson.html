@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 12: Week 3 Review — consolidating inheritance, polymorphism, interfaces, nested classes and exception handling, with an integrative payment-system example and a refactoring playbook.">
+  <title>Session 12: Week 3 Review &amp; Consolidation | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 12</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Review Guide</a></li>
+      <li><a href="class-tasks.html">Try It Yourself</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-green">Week 3 &bull; Day 4</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL12</span>
+      </div>
+      <h1>Session 12: Week 3 Review &amp; Consolidation</h1>
+      <p class="description">
+        Inheritance, polymorphism, interfaces, and exceptions are rarely used alone — they
+        combine. Today you connect them in one worked system, review the S9–S11 assignments, and
+        practise the refactoring that turns a tangle of <code>if (x instanceof ...)</code> into
+        clean polymorphism.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Review Blueprint</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#map">1. Week 3 Concept Map</a></li>
+          <li><a href="#choosing">2. Which Tool When?</a></li>
+          <li><a href="#worked">3. Worked Example: All Together</a></li>
+          <li><a href="#refactor">4. Refactoring to Polymorphism</a></li>
+          <li><a href="#debugging">5. Week 3 Debugging Playbook</a></li>
+          <li><a href="#assignments">6. Assignments S9–S11 Review</a></li>
+          <li><a href="#cheat-sheet">7. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">8. Summary &amp; Week 4 Preview</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: The 3 Pillars of Week 3</div>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Inheritance &amp; polymorphism (S9):</strong> <code>extends</code>, <code>super</code>, <code>@Override</code>, dynamic dispatch, <code>abstract</code>.</li>
+            <li><strong>Interfaces &amp; nested classes (S10):</strong> contracts, multiple <code>implements</code>, <code>default</code> methods, <code>Comparable</code>, anonymous classes and lambdas.</li>
+            <li><strong>Exceptions (S11):</strong> checked vs unchecked, <code>try/catch/finally</code>, try-with-resources, <code>throw</code>/<code>throws</code>, custom exceptions.</li>
+          </ul>
+        </div>
+
+        <section class="content-section" id="map">
+          <h2>1. Week 3 Concept Map</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Mental Model</span><span class="code-filename">How Week 3 fits</span></div>
+            <pre><code>                    abstract class Payment          interface Refundable
+                    ├── fee()  (abstract)            └── refund(x) throws PaymentException
+                    └── settle() (final, shared)
+                          │
+             ┌────────────┼─────────────┐
+             ▼            ▼             ▼
+       CardPayment   CashPayment   (future types...)
+       implements                  add without touching the loop
+       Refundable
+
+   for (Payment p : payments)        &lt;- polymorphism: one loop, every type
+       try { p.settle();             &lt;- exceptions: failure without a crash
+             if (p instanceof Refundable r) r.refund(25); }
+       catch (PaymentException e) { ... }</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="choosing">
+          <h2>2. Which Tool When?</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>You want…</th><th>Reach for…</th></tr></thead>
+              <tbody>
+                <tr><td>Reuse code and model an "is-a" family with shared state</td><td><strong>Inheritance</strong> (a superclass, maybe <code>abstract</code>)</td></tr>
+                <tr><td>Force every subclass to supply a method, with no default</td><td><strong>abstract method</strong></td></tr>
+                <tr><td>A capability that unrelated classes can offer</td><td><strong>interface</strong></td></tr>
+                <tr><td>One class to have several capabilities</td><td><strong>multiple <code>implements</code></strong></td></tr>
+                <tr><td>One call to behave differently per object type, no <code>if</code> ladder</td><td><strong>polymorphism</strong> (override + program to the base type)</td></tr>
+                <tr><td>To sort your objects</td><td><strong><code>Comparable</code></strong> (or a <code>Comparator</code>)</td></tr>
+                <tr><td>A tiny one-off implementation inline</td><td><strong>lambda</strong> (or anonymous class)</td></tr>
+                <tr><td>To handle an expected external failure</td><td><strong>checked exception</strong> + <code>try/catch</code></td></tr>
+                <tr><td>To reject bad arguments / state early</td><td><strong>unchecked</strong> (<code>IllegalArgumentException</code>) — <code>throw</code> at the top</td></tr>
+                <tr><td>Guaranteed cleanup of a resource</td><td><strong>try-with-resources</strong></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="worked">
+          <h2>3. Worked Example: All Together</h2>
+          <p>
+            <code>Payment</code> is an <code>abstract</code> class (shared <code>settle()</code>,
+            per-type <code>fee()</code>). <code>Refundable</code> is a separate capability only
+            some payments have. <code>PaymentException</code> handles failure. The driver loop
+            names none of the concrete types.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">PaymentSystem.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>class PaymentException extends Exception {
+    PaymentException(String msg) { super(msg); }
+}
+
+interface Refundable {
+    void refund(double amount) throws PaymentException;
+}
+
+abstract class Payment {
+    protected double amount;
+    protected boolean settled = false;
+    Payment(double amount) { this.amount = amount; }
+
+    abstract double fee();
+
+    final void settle() throws PaymentException {
+        if (amount &lt;= 0) throw new PaymentException("amount must be positive");
+        settled = true;
+        System.out.printf("%s settled $%.2f (fee $%.2f)%n",
+                getClass().getSimpleName(), amount, fee());
+    }
+}
+
+class CardPayment extends Payment implements Refundable {
+    CardPayment(double amount) { super(amount); }
+    @Override double fee() { return amount * 0.029 + 0.30; }
+    @Override public void refund(double refundAmount) throws PaymentException {
+        if (!settled) throw new PaymentException("cannot refund an unsettled payment");
+        if (refundAmount &gt; amount) throw new PaymentException("refund exceeds original");
+        System.out.printf("Card refunded $%.2f%n", refundAmount);
+    }
+}
+
+class CashPayment extends Payment {          // NOT Refundable
+    CashPayment(double amount) { super(amount); }
+    @Override double fee() { return 0; }
+}
+
+public class PaymentSystem {
+    public static void main(String[] args) {
+        Payment[] payments = { new CardPayment(100), new CashPayment(50), new CardPayment(-5) };
+        for (Payment p : payments) {
+            try {
+                p.settle();
+                if (p instanceof Refundable r) r.refund(25);
+            } catch (PaymentException e) {
+                System.out.println("FAILED: " + e.getMessage());
+            }
+        }
+    }
+}</code></pre>
+          </div>
+          <div class="expected-output">
+            <h5>Output</h5>
+            <pre><code>CardPayment settled $100.00 (fee $3.20)
+Card refunded $25.00
+CashPayment settled $50.00 (fee $0.00)
+FAILED: amount must be positive</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="refactor">
+          <h2>4. Refactoring an <code>instanceof</code> Ladder to Polymorphism</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">Before — brittle</span></div>
+            <pre><code>double area(Object shape) {
+    if (shape instanceof Circle c)      return Math.PI * c.r * c.r;
+    else if (shape instanceof Square s) return s.side * s.side;
+    else if (shape instanceof Rect r)   return r.w * r.h;
+    else throw new IllegalArgumentException("unknown shape");
+}
+// every new shape edits this method</code></pre>
+          </div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">After — open for extension</span></div>
+            <pre><code>interface Shape { double area(); }
+
+class Circle implements Shape { public double area() { return Math.PI * r * r; } }
+class Square implements Shape { public double area() { return side * side; } }
+
+double area(Shape shape) { return shape.area(); }   // never changes again</code></pre>
+          </div>
+          <p>The rule: when you find yourself asking "what type is this object?", the answer usually
+            belongs <em>inside</em> the object as an overridden method.</p>
+        </section>
+
+        <section class="content-section" id="debugging">
+          <h2>5. Week 3 Debugging Playbook</h2>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>@Override</code> compile error</div>
+            <p>Your "override" has a different signature. Fix the parameter types / name — it was
+              silently becoming a new, never-called method.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 "does not override abstract method X"</div>
+            <p>A concrete class left an <code>abstract</code> / interface method unimplemented.
+              Implement it (and mark it <code>public</code> for interface methods).</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>ClassCastException</code> after <code>instanceof</code>-free cast</div>
+            <p>Guard the cast: <code>if (obj instanceof Target t) { ... }</code>.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 "unreported exception X; must be caught or declared"</div>
+            <p>You called a method that <code>throws</code> a checked exception. Wrap it in
+              <code>try/catch</code>, or add <code>throws X</code> to your method.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 "exception X has already been caught"</div>
+            <p>A broad <code>catch (Exception e)</code> is before a narrower one. Reorder:
+              specific first.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Empty <code>catch</code> hiding a real bug</div>
+            <p>Always log or handle. A swallowed <code>NullPointerException</code> can waste hours.</p>
+          </div>
+        </section>
+
+        <section class="content-section" id="assignments">
+          <h2>6. Assignments S9–S11 — What to Check</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Assignment</th><th>Self-review questions</th></tr></thead>
+              <tbody>
+                <tr><td><strong>S9 — Media Library</strong></td><td>Is <code>MediaItem</code> <code>abstract</code> with an <code>abstract lateFeePerDay()</code>? Do subclasses supply only their fee? Does the driver loop a <code>MediaItem[]</code> without naming <code>Book</code>/<code>DVD</code>/<code>Magazine</code>?</td></tr>
+                <tr><td><strong>S10 — Notification Dispatcher</strong></td><td>Does <code>Dispatcher</code> only ever hold/loop <code>Channel</code>? Do only SMS/Push override <code>isUrgentCapable()</code>? Is one channel a lambda, treated identically?</td></tr>
+                <tr><td><strong>S11 — CSV Processor</strong></td><td>Is <code>NumberFormatException</code> translated into your <code>RecordFormatException</code>? Does one bad line ever stop the batch? Are all four bad cases reported distinctly?</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p>Compare against:
+            <a href="../session-09/solution/solution.html">S9</a> &bull;
+            <a href="../session-10/solution/solution.html">S10</a> &bull;
+            <a href="../session-11/solution/solution.html">S11</a>.
+          </p>
+        </section>
+
+        <section class="content-section" id="cheat-sheet">
+          <h2>7. Week 3 Executive Cheat Sheet</h2>
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The Week 3 Grand Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              Model "is-a" families with <strong>inheritance</strong> (an <code>abstract</code>
+              base for shared state + demanded methods). Model capabilities with
+              <strong>interfaces</strong> a class can <code>implement</code> many of. Let
+              <strong>polymorphism</strong> replace type-checking ladders. Handle failure with
+              <strong>exceptions</strong>: checked for expected external problems, unchecked for
+              bugs, try-with-resources for cleanup, custom types for your domain's failures.
+            </p>
+          </div>
+          <h3>Plain-English Master Glossary (Week 3)</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Inheritance / <code>super</code></div><p class="glossary-def">Reuse + extend a parent; <code>super(...)</code> its constructor, <code>super.m()</code> its method.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Overriding / dynamic dispatch</div><p class="glossary-def">Same signature in a subclass; the real type's version runs at run time.</p></div>
+            <div class="glossary-item"><div class="glossary-term">abstract class / method</div><p class="glossary-def">No instances; a body-less method every concrete subclass must implement.</p></div>
+            <div class="glossary-item"><div class="glossary-term">interface / <code>implements</code></div><p class="glossary-def">A contract; a class fulfils many. <code>default</code> methods add shared bodies.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Comparable</div><p class="glossary-def"><code>compareTo</code> defines a sort order (neg/0/pos).</p></div>
+            <div class="glossary-item"><div class="glossary-term">lambda / functional interface</div><p class="glossary-def"><code>args -&gt; body</code> for a one-abstract-method interface.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Checked vs unchecked</div><p class="glossary-def">Must handle vs optional; external failure vs programming bug.</p></div>
+            <div class="glossary-item"><div class="glossary-term">try / catch / finally</div><p class="glossary-def">Run risky code; handle a type (specific first); always-run cleanup.</p></div>
+            <div class="glossary-item"><div class="glossary-term">try-with-resources</div><p class="glossary-def">Auto-closes any <code>AutoCloseable</code> declared in the header.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Custom exception</div><p class="glossary-def">Your class extending <code>Exception</code> / <code>RuntimeException</code>.</p></div>
+          </div>
+          <p style="margin-top: var(--space-md);">Everything: <a href="../../reference/glossary.html">Master Glossary</a>.</p>
+        </section>
+
+        <section class="content-section" id="summary">
+          <h2>8. Summary, Self-Check &amp; Week 4 Preview</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Consolidate Week 3 (<a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"Quiz me one question at a time on inheritance, interfaces, and exceptions."</li>
+              <li>"Here's a method full of <code>instanceof</code> checks — help me refactor it to polymorphism. <em>[paste]</em>"</li>
+              <li>"Design a small system that needs an abstract class, an interface, and a custom exception together."</li>
+            </ul>
+          </div>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Q1: A class needs shared state AND to be one of several unrelated capabilities. What do you use?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Extend an <code>abstract</code> class for the shared state, and <code>implements</code> one or more interfaces for the capabilities.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q2: Your driver loop has <code>if (x instanceof A) ... else if (x instanceof B) ...</code>. What's the smell, and the fix?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Type-checking that belongs inside the objects. Give A and B a common interface method and call it polymorphically.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q3: When should a failure be a checked exception vs unchecked?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Checked for expected, recoverable external problems the caller should handle. Unchecked for programming bugs / bad arguments the code should prevent.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q4: <code>@Override</code> gives a compile error. What does that tell you?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> You are not actually overriding anything — the signature doesn't match a superclass/interface method. Fix the name or parameters.</div>
+            </details>
+          </div>
+
+          <h3 style="margin-top: var(--space-xl);">Looking Ahead: Week 4</h3>
+          <p>
+            Week 4 is <strong>modern Java</strong>: the <code>java.time</code> date/time API,
+            then lambdas and the Streams API in earnest, generics, records and switch
+            expressions, and finally JDK 25 features plus AI-assisted development — ending with
+            a capstone.
+          </p>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start "Try It Yourself" Challenges</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Week 3 Review Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 12 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Try It Yourself Tasks &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

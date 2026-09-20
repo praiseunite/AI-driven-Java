@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 13 Post-Quiz | Date and Time API</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 13</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Post-Lecture Evaluation</span>
+        <span class="tag tag-purple">Session 13</span>
+        <span class="tag tag-yellow">Formative Assessment</span>
+      </div>
+      <h1>🎯 Session 13 Post-Class Mastery Quiz</h1>
+      <p class="description">Verify your grasp of <code>LocalDate</code>/<code>Time</code>/<code>DateTime</code>, <code>Period</code>/<code>Duration</code>, <code>ChronoUnit</code>, formatting, and zones.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="assignment.html" class="nav-prev"><span>&larr; Session 13 Assignment</span></a>
+      <a href="../session-14/pre-quiz.html" class="nav-next"><span>Proceed to Session 14 Pre-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session13PostQuizData = {
+    title: "Session 13 Mastery: java.time",
+    description: "Answer all 11 questions to verify your understanding.",
+    questions: [
+      {
+        question: "Which type represents a date with NO time and NO zone?",
+        options: ["LocalTime", "LocalDate", "LocalDateTime", "ZonedDateTime"],
+        correct: 1,
+        explanation: "LocalDate = year-month-day, nothing else. Add time -> LocalDateTime; add a zone -> ZonedDateTime."
+      },
+      {
+        question: "How do you create `LocalDate` for 21 April 2026?",
+        options: [
+          "new LocalDate(2026, 4, 21)",
+          "LocalDate.of(2026, 4, 21)",
+          "LocalDate.create(2026, 3, 21)  // month 0-based",
+          "LocalDate(2026-04-21)"
+        ],
+        correct: 1,
+        explanation: "Static factory LocalDate.of(year, month, day). Month is 1-based (4 = April) — unlike the legacy Calendar API. There is no public constructor."
+      },
+      {
+        question: "`LocalDate d = LocalDate.of(2026, 1, 31); d.plusMonths(1); System.out.println(d);` prints:",
+        options: ["2026-02-28", "2026-03-03", "2026-01-31", "An exception"],
+        correct: 2,
+        explanation: "java.time types are immutable. plusMonths returns a NEW date that is discarded here, so d is still 2026-01-31. (Had you captured it, Jan 31 + 1 month clamps to Feb 28.)"
+      },
+      {
+        question: "You need the amount between two DATES expressed as years/months/days. Use:",
+        options: ["Duration.between", "Period.between", "ChronoUnit.SECONDS.between", "d1 - d2"],
+        correct: 1,
+        explanation: "Period is the calendar amount (Y/M/D) between two dates. Duration is for time-based amounts (H/M/S)."
+      },
+      {
+        question: "You need a single number: total minutes between 09:00 and 10:30. Best:",
+        options: [
+          "Period.between(...).getMinutes()",
+          "ChronoUnit.MINUTES.between(t1, t2)",
+          "t2 - t1",
+          "Count in a loop"
+        ],
+        correct: 1,
+        explanation: "ChronoUnit.<UNIT>.between(a, b) gives one total in that unit — here 90."
+      },
+      {
+        question: "`LocalDate.of(2026, 4, 21).getDayOfWeek()` returns:",
+        options: [
+          "The int 2",
+          "The String \"Tuesday\"",
+          "A DayOfWeek enum constant (TUESDAY)",
+          "A LocalDate"
+        ],
+        correct: 2,
+        explanation: "It returns the DayOfWeek enum; you can compare it, print it, or switch on it. getMonth() similarly returns a Month enum."
+      },
+      {
+        question: "To display a LocalDateTime as \"Tue, 21 Apr 2026 14:30\" you use:",
+        options: [
+          "toString()",
+          "A DateTimeFormatter with pattern like \"EEE, d MMM yyyy HH:mm\"",
+          "String.format with %d",
+          "getYear() + getMonth() concatenation"
+        ],
+        correct: 1,
+        explanation: "DateTimeFormatter.ofPattern(...) with letter patterns formats and parses date-time objects."
+      },
+      {
+        question: "Parsing \"25/12/2026\" with `DateTimeFormatter.ofPattern(\"yyyy-MM-dd\")` will:",
+        options: [
+          "Work fine",
+          "Throw DateTimeParseException — the pattern must match the text layout",
+          "Return null",
+          "Return today's date"
+        ],
+        correct: 1,
+        explanation: "The formatter pattern must mirror the string exactly. \"25/12/2026\" needs \"dd/MM/yyyy\"."
+      },
+      {
+        question: "It is 09:00 in London and you want the same INSTANT expressed in Tokyo time. Use:",
+        options: [
+          "zdt.plusHours(9)",
+          "zdt.withZoneSameInstant(ZoneId.of(\"Asia/Tokyo\"))",
+          "zdt.withZoneSameLocal(ZoneId.of(\"Asia/Tokyo\"))",
+          "new ZonedDateTime(...)"
+        ],
+        correct: 1,
+        explanation: "withZoneSameInstant keeps the moment fixed and re-expresses it in the new zone's wall clock. withZoneSameLocal would keep the clock reading and change the instant."
+      },
+      {
+        question: "Why prefer java.time over java.util.Date / Calendar?",
+        options: [
+          "It is the only one that compiles",
+          "java.time types are immutable, clearly named, 1-based months, and thread-safe; the legacy ones are mutable and error-prone",
+          "Date is faster",
+          "There is no real difference"
+        ],
+        correct: 1,
+        explanation: "The modern API fixed decades of pain: immutability, sane month numbers, separate date/time/zone types, safe formatters."
+      },
+      {
+        question: "`Duration.ofMinutes(90).toHours()` and `.toMinutesPart()` give:",
+        options: ["90 and 0", "1 and 30", "1.5 and 0", "0 and 90"],
+        correct: 1,
+        explanation: "toHours() is the whole-hours total (1); toMinutesPart() is the leftover minutes within that hour (30) -> \"1h 30m\"."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session13PostQuizData);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 14: Modern Java features — lambdas and functional interfaces, method references, the Streams API, generics, var, switch expressions, records, text blocks, and Optional.">
+  <title>Session 14: Additional Modern Features | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 14</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Week 4 &bull; Day 2</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL14</span>
+      </div>
+      <h1>Session 14: Additional Modern Features of Java</h1>
+      <p class="description">
+        Modern Java lets you say more with less: <strong>lambdas</strong> pass behaviour around,
+        the <strong>Streams API</strong> turns loops into readable pipelines,
+        <strong>generics</strong> make containers type-safe, and <strong>records</strong>,
+        <strong>switch expressions</strong>, <strong><code>var</code></strong>, and
+        <strong>text blocks</strong> cut boilerplate.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Table of Contents</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#lambdas">1. Lambdas &amp; Functional Interfaces</a></li>
+          <li><a href="#builtins">2. Built-in Functional Interfaces</a></li>
+          <li><a href="#method-refs">3. Method References</a></li>
+          <li><a href="#streams">4. The Streams API</a></li>
+          <li><a href="#stream-ops">5. Stream Operations</a></li>
+          <li><a href="#collectors">6. Collectors</a></li>
+          <li><a href="#generics">7. Generics</a></li>
+          <li><a href="#var">8. <code>var</code></a></li>
+          <li><a href="#switch-expr">9. Switch Expressions</a></li>
+          <li><a href="#records">10. Records</a></li>
+          <li><a href="#textblocks-optional">11. Text Blocks &amp; Optional</a></li>
+          <li><a href="#pitfalls">12. Common Pitfalls</a></li>
+          <li><a href="#cheat-sheet">13. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">14. Summary &amp; Self-Check</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: Flashback</div>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Functional interface + lambda (S10):</strong> an interface with one abstract method; <code>x -&gt; expression</code> implements it.</li>
+            <li><strong>Comparator (S10):</strong> you sorted with <code>Comparable</code>; streams use lambdas and <code>Comparator.comparing(...)</code>.</li>
+            <li><strong>The four loop patterns (S4):</strong> accumulate, filter/count, find, transform — streams express all four declaratively.</li>
+          </ul>
+        </div>
+
+        <section class="content-section" id="lambdas">
+          <h2>1. Lambdas &amp; Functional Interfaces</h2>
+          <p>
+            A <strong>lambda</strong> is an unnamed function you can store in a variable or pass
+            to a method. Its type is a <strong>functional interface</strong> — an interface with
+            exactly one abstract method.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>interface Transformer { int apply(int n); }
+
+Transformer doubler = n -&gt; n * 2;          // lambda: parameter -> body
+Transformer square  = n -&gt; { return n * n; };  // braces + return for multi-statement
+
+System.out.println(doubler.apply(5));      // 10
+System.out.println(square.apply(5));       // 25</code></pre>
+          </div>
+          <p>Forms: <code>() -&gt; expr</code> (no params), <code>x -&gt; expr</code> (one),
+            <code>(a, b) -&gt; expr</code> (many), <code>x -&gt; { statements; return v; }</code>.</p>
+        </section>
+
+        <section class="content-section" id="builtins">
+          <h2>2. Built-in Functional Interfaces (<code>java.util.function</code>)</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Interface</th><th>Method</th><th>Shape</th><th>Lambda example</th></tr></thead>
+              <tbody>
+                <tr><td><code>Predicate&lt;T&gt;</code></td><td><code>test(T)</code></td><td>T &rarr; boolean</td><td><code>s -&gt; s.isEmpty()</code></td></tr>
+                <tr><td><code>Function&lt;T,R&gt;</code></td><td><code>apply(T)</code></td><td>T &rarr; R</td><td><code>s -&gt; s.length()</code></td></tr>
+                <tr><td><code>Consumer&lt;T&gt;</code></td><td><code>accept(T)</code></td><td>T &rarr; void</td><td><code>s -&gt; System.out.println(s)</code></td></tr>
+                <tr><td><code>Supplier&lt;T&gt;</code></td><td><code>get()</code></td><td>() &rarr; T</td><td><code>() -&gt; new Random().nextInt()</code></td></tr>
+                <tr><td><code>BiFunction&lt;T,U,R&gt;</code></td><td><code>apply(T,U)</code></td><td>(T,U) &rarr; R</td><td><code>(a, b) -&gt; a + b</code></td></tr>
+                <tr><td><code>UnaryOperator&lt;T&gt;</code></td><td><code>apply(T)</code></td><td>T &rarr; T</td><td><code>n -&gt; n * 2</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="method-refs">
+          <h2>3. Method References</h2>
+          <p>When a lambda just calls an existing method, <code>Class::method</code> says it shorter.</p>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Kind</th><th>Lambda</th><th>Method reference</th></tr></thead>
+              <tbody>
+                <tr><td>Static method</td><td><code>s -&gt; Integer.parseInt(s)</code></td><td><code>Integer::parseInt</code></td></tr>
+                <tr><td>Instance method of a particular object</td><td><code>s -&gt; System.out.println(s)</code></td><td><code>System.out::println</code></td></tr>
+                <tr><td>Instance method of the parameter</td><td><code>s -&gt; s.length()</code></td><td><code>String::length</code></td></tr>
+                <tr><td>Constructor</td><td><code>() -&gt; new ArrayList&lt;&gt;()</code></td><td><code>ArrayList::new</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="streams">
+          <h2>4. The Streams API</h2>
+          <p>
+            A <strong>stream</strong> is a pipeline over a data source. You describe <em>what</em>
+            transformations to apply; Java runs them. A pipeline is:
+            <strong>source</strong> &rarr; zero or more <strong>intermediate</strong> ops
+            (<code>filter</code>, <code>map</code>, <code>sorted</code>) &rarr; one
+            <strong>terminal</strong> op (<code>collect</code>, <code>count</code>,
+            <code>forEach</code>, <code>reduce</code>) that produces a result.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">loop vs stream — same result</span></div>
+            <pre><code>// Imperative
+List&lt;String&gt; result = new ArrayList&lt;&gt;();
+for (String s : names) {
+    if (s.length() &gt; 3) result.add(s.toUpperCase());
+}
+
+// Stream
+List&lt;String&gt; result = names.stream()
+    .filter(s -&gt; s.length() &gt; 3)
+    .map(String::toUpperCase)
+    .collect(Collectors.toList());</code></pre>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ Lazy &amp; one-shot</div>
+            <p>
+              Nothing runs until the terminal op. A stream can be consumed <strong>once</strong> —
+              build a fresh one from the source each time.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="stream-ops">
+          <h2>5. Common Stream Operations</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Op</th><th>Kind</th><th>Does</th></tr></thead>
+              <tbody>
+                <tr><td><code>filter(pred)</code></td><td>intermediate</td><td>keep elements matching the predicate</td></tr>
+                <tr><td><code>map(fn)</code></td><td>intermediate</td><td>transform each element</td></tr>
+                <tr><td><code>sorted()</code> / <code>sorted(cmp)</code></td><td>intermediate</td><td>order the elements</td></tr>
+                <tr><td><code>distinct()</code> / <code>limit(n)</code></td><td>intermediate</td><td>drop duplicates / take first n</td></tr>
+                <tr><td><code>count()</code></td><td>terminal</td><td>how many elements</td></tr>
+                <tr><td><code>collect(...)</code></td><td>terminal</td><td>gather into a List/Set/Map/String</td></tr>
+                <tr><td><code>forEach(consumer)</code></td><td>terminal</td><td>do something with each</td></tr>
+                <tr><td><code>reduce(id, op)</code></td><td>terminal</td><td>fold to a single value</td></tr>
+                <tr><td><code>anyMatch</code>/<code>allMatch</code>/<code>findFirst</code></td><td>terminal</td><td>boolean checks / first element (<code>Optional</code>)</td></tr>
+                <tr><td><code>mapToInt/Double(...).sum()/average()</code></td><td>terminal</td><td>numeric aggregates</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">StreamsBasics.java (excerpt)</span></div>
+            <pre><code>double inputTotal = products.stream()
+    .filter(p -&gt; p.category().equals("input"))
+    .mapToDouble(Product::price)
+    .sum();                                        // 123.99
+
+Optional&lt;Product&gt; priciest = products.stream()
+    .max(Comparator.comparingDouble(Product::price));
+priciest.ifPresent(p -&gt; System.out.println(p.name()));   // Monitor</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="collectors">
+          <h2>6. Collectors</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>import static java.util.stream.Collectors.*;
+
+List&lt;String&gt; names   = stream.map(Product::name).collect(toList());
+Set&lt;String&gt;  cats     = stream.map(Product::category).collect(toSet());
+String       joined   = stream.map(Product::name).collect(joining(", "));
+Map&lt;String, Long&gt; byCat = stream.collect(groupingBy(Product::category, counting()));
+double avg           = stream.collect(averagingDouble(Product::price));</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="generics">
+          <h2>7. Generics</h2>
+          <p>
+            You have used generics all course (<code>ArrayList&lt;String&gt;</code>). Writing
+            your own lets a class or method work with any type <em>safely</em> — the compiler
+            checks it, so no casts and no <code>ClassCastException</code>.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">GenericsDemo.java</span></div>
+            <pre><code>class Box&lt;T&gt; {                       // T is a type parameter
+    private T value;
+    void put(T value) { this.value = value; }
+    T get() { return value; }
+}
+
+Box&lt;String&gt; sb = new Box&lt;&gt;();
+sb.put("packed");
+String s = sb.get();                 // no cast needed
+
+// generic method with a bound: T must be Comparable
+static &lt;T extends Comparable&lt;T&gt;&gt; T maxOf(T a, T b) {
+    return (a.compareTo(b) &gt;= 0) ? a : b;
+}
+maxOf(3, 9);                 // 9
+maxOf("apple", "pear");      // "pear"</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="var">
+          <h2>8. <code>var</code> — inferred local types</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>var count = 0;                              // int
+var names = new ArrayList&lt;String&gt;();        // ArrayList&lt;String&gt;
+var total = products.stream()...;           // the compiler infers it
+
+for (var p : products) { ... }             // handy in for-each</code></pre>
+          </div>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ <code>var</code> rules</div>
+            <p>
+              Local variables only (not fields, not parameters, not return types). It must have
+              an initialiser (<code>var x;</code> is illegal). The type is still fixed at compile
+              time — <code>var</code> is not "dynamic". Use it when the type is obvious from the
+              right-hand side.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="switch-expr">
+          <h2>9. Switch Expressions</h2>
+          <p>The arrow form from Session 3, now <em>yielding a value</em> — no fall-through, no <code>break</code>.</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>String size = switch (code) {
+    case 1, 2, 3 -&gt; "low";
+    case 4, 5, 6 -&gt; "mid";
+    default      -&gt; "high";
+};
+
+// multi-line branch uses a block + yield
+int points = switch (grade) {
+    case "A" -&gt; { System.out.println("top marks"); yield 4; }
+    case "B" -&gt; 3;
+    default  -&gt; 0;
+};</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="records">
+          <h2>10. Records</h2>
+          <p>
+            A <code>record</code> is a compact, immutable data carrier. One line generates the
+            private final fields, the canonical constructor, accessors (<code>x()</code>,
+            <code>y()</code>), and correct <code>equals</code>/<code>hashCode</code>/<code>toString</code>.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>record Point(int x, int y) {
+    double distanceFromOrigin() { return Math.sqrt(x * x + y * y); }   // you can add methods
+}
+
+var p = new Point(3, 4);
+p.x();                     // 3   (accessor, no "get")
+p.toString();              // "Point[x=3, y=4]"
+new Point(3, 4).equals(new Point(3, 4));   // true — value equality for free</code></pre>
+          </div>
+          <p>Use records for DTOs, coordinates, results, map keys — anywhere you'd otherwise
+            hand-write a small immutable class. (This is the boilerplate you wrote by hand in
+            Session 9's <code>Point</code>.)</p>
+        </section>
+
+        <section class="content-section" id="textblocks-optional">
+          <h2>11. Text Blocks &amp; <code>Optional</code></h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>// Text block: multi-line string literal, no \n soup
+String json = """
+    {
+      "name": "Ada",
+      "role": "engineer"
+    }
+    """;
+
+// Optional: a box that is empty or holds one value — models "maybe no result"
+Optional&lt;String&gt; found = lookup(key);
+String name = found.orElse("unknown");
+found.ifPresent(v -&gt; System.out.println("got " + v));
+if (found.isPresent()) { ... }</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 <code>Optional</code> beats returning <code>null</code></div>
+            <p>
+              A method returning <code>Optional&lt;T&gt;</code> forces the caller to think about
+              the "nothing found" case — no silent <code>NullPointerException</code> later. Stream
+              ops like <code>findFirst()</code> and <code>max()</code> return <code>Optional</code>.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="pitfalls">
+          <h2>12. Common Pitfalls</h2>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Reusing a consumed stream</div>
+            <p><code>var s = list.stream(); s.count(); s.forEach(...);</code> &rarr;
+              <em>"stream has already been operated upon or closed"</em>. Start a new stream each time.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Expecting a stream to mutate the source</div>
+            <p>Streams don't change the original list. Capture the terminal result.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>var</code> where the type isn't obvious</div>
+            <p><code>var x = getData();</code> hides what <code>x</code> is. Use an explicit type
+              when it aids readability.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>Optional.get()</code> without checking</div>
+            <p>Throws <code>NoSuchElementException</code> if empty. Use <code>orElse(...)</code> /
+              <code>ifPresent(...)</code> / <code>isPresent()</code>.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Trying to give a record mutable fields</div>
+            <p>Record components are <code>final</code>. If you need to change state, use a normal
+              class.</p>
+          </div>
+        </section>
+
+        <section class="content-section" id="cheat-sheet">
+          <h2>13. Executive Quick-Recap &amp; Cheat Sheet</h2>
+
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The 30-Second Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              A <strong>lambda</strong> (<code>x -&gt; ...</code>) implements a one-method interface;
+              a <strong>method reference</strong> (<code>Class::m</code>) is a shorter lambda.
+              A <strong>stream</strong> pipeline = source &rarr; <code>filter</code>/<code>map</code>/<code>sorted</code>
+              &rarr; a terminal (<code>collect</code>/<code>count</code>/<code>reduce</code>).
+              <strong>Generics</strong> make your own containers type-safe. <code>var</code> infers
+              a local type; <strong>switch expressions</strong> yield a value;
+              <strong>records</strong> are one-line immutable data classes;
+              <strong><code>Optional</code></strong> models "maybe no value".
+            </p>
+          </div>
+
+          <h3>Core Syntax at a Glance</h3>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java Cheat Sheet</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>import java.util.*;
+import java.util.stream.*;
+
+record Sale(String region, double amount) {}
+
+List&lt;Sale&gt; sales = List.of(
+    new Sale("N", 120), new Sale("S", 80), new Sale("N", 60), new Sale("E", 200));
+
+double northTotal = sales.stream()
+    .filter(s -&gt; s.region().equals("N"))
+    .mapToDouble(Sale::amount).sum();               // 180.0
+
+Map&lt;String, Double&gt; byRegion = sales.stream()
+    .collect(Collectors.groupingBy(Sale::region,
+             Collectors.summingDouble(Sale::amount)));
+
+Optional&lt;Sale&gt; biggest = sales.stream()
+    .max(Comparator.comparingDouble(Sale::amount));
+
+String label = switch (biggest.map(Sale::region).orElse("?")) {
+    case "N", "S" -&gt; "domestic";
+    default       -&gt; "other";
+};</code></pre>
+          </div>
+
+          <h3>Plain-English Glossary</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">Lambda</div><p class="glossary-def">An unnamed function: <code>params -&gt; body</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Functional interface</div><p class="glossary-def">An interface with exactly one abstract method — a lambda's type.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Method reference</div><p class="glossary-def"><code>Class::method</code> — a lambda that only calls one method.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Stream</div><p class="glossary-def">A one-shot pipeline over data; describe transformations, get a result.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Intermediate / terminal op</div><p class="glossary-def">Lazy transformers (<code>filter</code>, <code>map</code>) vs the final result op.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Collector</div><p class="glossary-def">Recipe for gathering a stream: <code>toList</code>, <code>joining</code>, <code>groupingBy</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Generic type parameter</div><p class="glossary-def"><code>&lt;T&gt;</code> — a placeholder the caller fills, checked by the compiler.</p></div>
+            <div class="glossary-item"><div class="glossary-term">var</div><p class="glossary-def">Compiler-inferred type for a local variable with an initialiser.</p></div>
+            <div class="glossary-item"><div class="glossary-term">switch expression</div><p class="glossary-def">Arrow-form <code>switch</code> that produces a value; no fall-through.</p></div>
+            <div class="glossary-item"><div class="glossary-term">record</div><p class="glossary-def">A concise immutable class: fields, constructor, accessors, equals/hashCode/toString auto-generated.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Optional&lt;T&gt;</div><p class="glossary-def">A container that is empty or holds one value; models "maybe".</p></div>
+            <div class="glossary-item"><div class="glossary-term">Text block</div><p class="glossary-def">A <code>"""</code>-delimited multi-line string literal.</p></div>
+          </div>
+          <p style="margin-top: var(--space-md);">Full definitions: <a href="../../reference/glossary.html">Master Glossary</a>.</p>
+        </section>
+
+        <section class="content-section" id="summary">
+          <h2>14. Summary &amp; Interactive Self-Checks</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Try these, then verify against this lesson (<a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"Rewrite this for-loop as a stream pipeline and explain each step. <em>[paste]</em>"</li>
+              <li>"Show the same operation as a lambda and as a method reference, side by side."</li>
+              <li>"When should I use a record vs a normal class vs an enum? Give a 1-line rule for each."</li>
+            </ul>
+          </div>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Q1: What makes an interface eligible to be a lambda's target type?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> It must be a <em>functional interface</em> — exactly one abstract method (<code>Runnable</code>, <code>Comparator</code>, <code>Predicate</code>, your own).</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q2: In <code>list.stream().filter(...).map(...).collect(...)</code>, which call actually runs the work?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>collect(...)</code> — the terminal operation. Intermediate ops are lazy and do nothing until a terminal op is added.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q3: What does a <code>record Point(int x, int y)</code> give you for free?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> Private final fields, a canonical constructor, accessors <code>x()</code>/<code>y()</code>, and value-based <code>equals</code>, <code>hashCode</code>, <code>toString</code>.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q4: Why return <code>Optional&lt;User&gt;</code> instead of <code>User</code> (possibly <code>null</code>)?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> It makes "no result" explicit in the type, forcing the caller to handle it — no silent <code>NullPointerException</code> downstream.</div>
+            </details>
+          </div>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start Class Tasks</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Post-Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 14 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Session 14 Class Tasks &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

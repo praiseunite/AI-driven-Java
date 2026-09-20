@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 15 Take-Home Assignment | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 15</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html" class="active">Assignment</a></li>
+      <li><a href="solution/solution.html">Solution</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-red">Take-Home Lab Assignment</span>
+        <span class="tag tag-purple">Session 15</span>
+        <span class="tag tag-yellow">Due Before Session 16</span>
+      </div>
+      <h1>📋 Assignment 15: Expression Evaluator + AI Workflow Log</h1>
+      <p class="description">
+        Two parts. <strong>Part A</strong> — build a small expression tree evaluated with sealed
+        types and record patterns. <strong>Part B</strong> — document how you used an AI
+        assistant on Part A: your prompt, its answer, and your review.
+      </p>
+    </div>
+
+    <div class="content-section">
+      <h2>Part A — Expression Evaluator (60 pts)</h2>
+      <div class="card" style="margin-bottom: var(--space-lg);">
+        <p style="margin:0;">
+          Model an arithmetic expression as a tree and evaluate it recursively. Every node type is
+          a <code>record</code>; the tree type is <code>sealed</code>, so your <code>switch</code>
+          needs no <code>default</code>.
+        </p>
+      </div>
+      <ol style="margin-left: var(--space-lg); line-height: 1.8;">
+        <li><strong>Types</strong> (file <code>ExpressionEvaluator.java</code>):
+          <ul>
+            <li><code>sealed interface Expr permits Num, Add, Sub, Mul, Neg {}</code></li>
+            <li><code>record Num(double value) implements Expr {}</code></li>
+            <li><code>record Add(Expr left, Expr right) implements Expr {}</code> — same shape for <code>Sub</code>, <code>Mul</code></li>
+            <li><code>record Neg(Expr operand) implements Expr {}</code></li>
+          </ul>
+        </li>
+        <li><strong><code>static double eval(Expr e)</code></strong> — a <code>switch</code> with a record pattern per case; recurse into children; no <code>default</code>.</li>
+        <li><strong><code>static String render(Expr e)</code></strong> — pretty-print with parentheses, e.g. <code>((3 + 4) * -(2 - 5))</code>. Print whole numbers without a trailing <code>.0</code>.</li>
+        <li><strong><code>main</code></strong> — build and print <code>(3 + 4) * -(2 - 5)</code> and <code>10 + (2 * 6)</code>.</li>
+      </ol>
+
+      <div class="expected-output">
+        <h5>Expected Console Output:</h5>
+        <pre><code>((3 + 4) * -(2 - 5)) = 21.0
+(10 + (2 * 6)) = 22.0</code></pre>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Part B — AI Workflow Log (40 pts)</h2>
+      <p>
+        Somewhere while doing Part A, use an AI assistant (chat or in-editor) for <em>one</em>
+        concrete sub-problem — e.g. "how do record patterns deconstruct a nested record?" or
+        "why won't my sealed switch compile?". Then submit a short markdown file
+        <code>ai-log.md</code> with these sections:
+      </p>
+      <ol style="margin-left: var(--space-lg); line-height: 1.8;">
+        <li><strong>The prompt you sent</strong> — verbatim. It should show role/level, the concrete task, constraints (Java 25, concepts through Session 14), and the output shape you asked for.</li>
+        <li><strong>The AI's answer</strong> — pasted (trim to the relevant part).</li>
+        <li><strong>Your review</strong> — for each: did it compile? did you understand every line? Was any API hallucinated or above your level? What did you change, and why? Which edge cases did you test?</li>
+        <li><strong>Reflection</strong> — 3–4 sentences: what the AI sped up, and what you'd have missed if you'd pasted it without review.</li>
+      </ol>
+      <div class="callout callout-warning">
+        <div class="callout-title">⚠️ Academic honesty</div>
+        <p style="margin-bottom:0;">
+          The submitted <code>ExpressionEvaluator.java</code> must be code <em>you</em> wrote and
+          can explain line-by-line. Part B rewards honest, critical use of AI — not the absence of
+          it, and not blind copying.
+        </p>
+      </div>
+    </div>
+
+    <div class="content-section">
+      <h2>Grading Rubric (100 Points)</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead><tr><th>Criterion</th><th>Details</th><th>Points</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Sealed + records</strong></td><td>Correct sealed hierarchy; every node a record.</td><td>20</td></tr>
+            <tr><td><strong>Record-pattern <code>eval</code></strong></td><td>Deconstructing <code>switch</code>, no <code>default</code>, correct recursion.</td><td>25</td></tr>
+            <tr><td><strong><code>render</code></strong></td><td>Parenthesised output; whole numbers without <code>.0</code>.</td><td>15</td></tr>
+            <tr><td><strong>AI log — prompt &amp; answer</strong></td><td>Well-structured prompt; answer pasted honestly.</td><td>15</td></tr>
+            <tr><td><strong>AI log — review &amp; reflection</strong></td><td>Genuine critique: compiled?, understood?, changes, edges, reflection.</td><td>25</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Submission:</strong> Upload <code>ExpressionEvaluator.java</code> and <code>ai-log.md</code> via ProConnect under <em>Work Assignments &rarr; Session 15</em>. Reference implementation of Part A: <a href="solution/solution.html">the solution</a>.</p>
+    </div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev"><span>&larr; Session 15 Class Tasks</span></a>
+      <a href="post-quiz.html" class="nav-next"><span>Session 15 Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

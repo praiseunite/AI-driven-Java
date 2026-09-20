@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 16 Final Assessment | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Final Assessment</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Review Guide</a></li>
+      <li><a href="class-tasks.html">Capstone Lab</a></li>
+      <li><a href="post-quiz.html" class="active">Final Assessment</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Comprehensive Final</span>
+        <span class="tag tag-purple">Sessions 1–15</span>
+        <span class="tag tag-yellow">20 Questions</span>
+      </div>
+      <h1>🎓 JAVA-I Final Assessment</h1>
+      <p class="description">
+        Twenty questions across the whole course, including "what does this print?" items.
+        Aim for 70% to pass, 85%+ for a strong finish. Explanations appear after each answer.
+      </p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="class-tasks.html" class="nav-prev"><span>&larr; Capstone Lab</span></a>
+      <a href="../../index.html" class="nav-next"><span>Back to Dashboard &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session16PostQuizData = {
+    title: "JAVA-I Comprehensive Final Assessment",
+    description: "Complete all 20 questions. This covers every session of the course.",
+    questions: [
+      {
+        question: "What does `javac` produce, and what runs it?",
+        options: [
+          "A .exe, run by Windows",
+          "Platform-independent bytecode (.class), run by the JVM",
+          "HTML, run by a browser",
+          "Assembly, run by the CPU directly"
+        ],
+        correct: 1,
+        explanation: "S1: javac compiles .java to .class bytecode; the platform's JVM executes it (Write Once, Run Anywhere)."
+      },
+      {
+        question: "What is the value of `x`?",
+        code: "int x = 7 / 2 + 7 % 2;",
+        options: ["3", "4", "3.5", "5"],
+        correct: 1,
+        explanation: "S2: 7/2 = 3 (integer division), 7%2 = 1 (remainder), 3 + 1 = 4."
+      },
+      {
+        question: "After `Scanner sc = new Scanner(System.in); int n = sc.nextInt(); String s = sc.nextLine();` with input `5`⏎`hello`⏎, what is in `s`?",
+        options: ["\"hello\"", "\"5\"", "\"\" (empty)", "It throws"],
+        correct: 2,
+        explanation: "S2: nextInt() leaves the newline; nextLine() consumes that and returns \"\". Fix with a throwaway sc.nextLine()."
+      },
+      {
+        question: "What prints?",
+        code: "for (int i = 0; i < 4; i++) {\n    if (i == 2) continue;\n    System.out.print(i);\n}",
+        options: ["0123", "013", "0134", "12"],
+        correct: 1,
+        explanation: "S3: continue skips the print when i == 2, so 0, 1, 3 print -> \"013\"."
+      },
+      {
+        question: "`\"Java Rocks\".substring(5)` returns:",
+        options: ["\"Rocks\"", "\" Rocks\"", "\"Java \"", "\"Rock\""],
+        correct: 0,
+        explanation: "S4: substring(5) is from index 5 to the end. Index 5 is 'R', so \"Rocks\"."
+      },
+      {
+        question: "Why is `public void Account(String name) { }` NOT a constructor?",
+        options: [
+          "The parameter is wrong",
+          "It has a return type (void); constructors have none",
+          "Account is a keyword",
+          "It must be private"
+        ],
+        correct: 1,
+        explanation: "S5: A constructor has the class name and NO return type. With void it's just a method; Java then uses the default constructor."
+      },
+      {
+        question: "What prints?",
+        code: "int[] a = {1, 2, 3};\nint[] b = a;\nb[0] = 99;\nSystem.out.println(a[0]);",
+        options: ["1", "99", "0", "error"],
+        correct: 1,
+        explanation: "S6: Arrays are objects; b = a copies the reference. a and b are the same array, so a[0] is 99."
+      },
+      {
+        question: "Which needs NO parentheses?",
+        options: ["myList.size()", "myArray.length", "myString.length()", "myList.get(0)"],
+        correct: 1,
+        explanation: "S6: Array .length is a field. String length() and ArrayList size() are methods."
+      },
+      {
+        question: "A `private static int count` is incremented in a constructor; 3 objects are created. `count` is:",
+        options: ["0", "1", "3", "depends on the object"],
+        correct: 2,
+        explanation: "S7: static = one shared copy for the class. Three constructor calls bump the same variable to 3."
+      },
+      {
+        question: "`package com.aptech.app;` in a file — where must the file live?",
+        options: ["Anywhere", "In com/aptech/app/", "Next to the JDK", "In app.java"],
+        correct: 1,
+        explanation: "S7: The folder path must mirror the package name exactly."
+      },
+      {
+        question: "What prints?",
+        code: "class A { String who() { return \"A\"; } }\nclass B extends A { String who() { return \"B\"; } }\nA x = new B();\nSystem.out.println(x.who());",
+        options: ["A", "B", "AB", "error"],
+        correct: 1,
+        explanation: "S9: Dynamic dispatch — the method for the object's real type (B) runs, not the variable's declared type (A)."
+      },
+      {
+        question: "You override `equals()` but not `hashCode()`. What is likely to break?",
+        options: ["toString()", "HashSet / HashMap lookups", "the constructor", "nothing"],
+        correct: 1,
+        explanation: "S9: Equal objects must have equal hash codes. Break that and hash-based collections misbehave."
+      },
+      {
+        question: "How many interfaces can a class implement, and how many classes can it extend?",
+        options: ["one / many", "many / one", "one / one", "many / many"],
+        correct: 1,
+        explanation: "S10: A class implements any number of interfaces but extends exactly one class."
+      },
+      {
+        question: "`Arrays.sort(myBooks)` won't compile / throws. Most likely cause:",
+        options: [
+          "The array is too big",
+          "Book doesn't implement Comparable (and no Comparator was passed)",
+          "sort needs an int",
+          "Books can't be sorted"
+        ],
+        correct: 1,
+        explanation: "S10: Sorting needs an ordering — implement Comparable<Book>, or call Arrays.sort(arr, comparator)."
+      },
+      {
+        question: "The compiler forces you to catch or declare which kind of exception?",
+        options: ["Unchecked (RuntimeException)", "Checked", "Both", "Neither"],
+        correct: 1,
+        explanation: "S11: Checked exceptions must be caught or listed in throws. Unchecked handling is optional."
+      },
+      {
+        question: "What prints?",
+        code: "try {\n    System.out.print(\"A\");\n    throw new RuntimeException();\n} catch (RuntimeException e) {\n    System.out.print(\"B\");\n} finally {\n    System.out.print(\"C\");\n}",
+        options: ["A", "AB", "ABC", "AC"],
+        correct: 2,
+        explanation: "S11: try prints A, throws; catch prints B; finally ALWAYS runs -> C. Result: ABC."
+      },
+      {
+        question: "For 'how many whole days until the deadline', use:",
+        options: [
+          "Period.between(...).getDays()",
+          "ChronoUnit.DAYS.between(today, deadline)",
+          "Duration.between(...).toDays()",
+          "deadline - today"
+        ],
+        correct: 1,
+        explanation: "S13: ChronoUnit.<UNIT>.between gives a single total. Period.getDays() is only the day component of a Y/M/D breakdown."
+      },
+      {
+        question: "`LocalDate d = LocalDate.of(2026, 1, 31); d.plusMonths(1); System.out.println(d);` prints:",
+        options: ["2026-02-28", "2026-03-03", "2026-01-31", "an exception"],
+        correct: 2,
+        explanation: "S13: java.time types are immutable. plusMonths returns a new date that's discarded here; d is unchanged."
+      },
+      {
+        question: "In `list.stream().filter(p).map(f).collect(c)`, which call actually runs the pipeline?",
+        options: ["stream()", "filter(p)", "map(f)", "collect(c)"],
+        correct: 3,
+        explanation: "S14: Intermediate ops (filter, map) are lazy. The terminal op (collect) triggers execution."
+      },
+      {
+        question: "A `switch` over a `sealed interface Shape permits Circle, Square` that covers both cases needs no `default` because:",
+        options: [
+          "default is never allowed",
+          "the compiler knows every permitted subtype and can verify exhaustiveness",
+          "sealed types can't have a default",
+          "Circle and Square are enums"
+        ],
+        correct: 1,
+        explanation: "S15: sealed fixes the finite set of subtypes, so covering them all is provably exhaustive — and missing one is a compile error."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session16PostQuizData);
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 15 In-Class Practical Tasks | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 15 Tasks</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html" class="active">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-teal">Hands-On Practicals</span>
+        <span class="tag tag-purple">Session 15</span>
+        <span class="tag tag-yellow">Lab Exercises</span>
+      </div>
+      <h1>💻 Session 15 In-Class Coding Tasks</h1>
+      <p class="description">
+        Use sealed types + record patterns, virtual threads, and sequenced collections. Each
+        task shows its exact output. Try first, then check <a href="solution/solution.html">the solutions</a>.
+      </p>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-medium">🟡 Level 2: Intermediate</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 15.1: Event Router (sealed + record patterns + guards)</h3>
+      <p class="task-objective"><strong>Objective:</strong> A <code>sealed interface Event</code> with three records; one exhaustive <code>switch</code> that deconstructs each and uses a <code>when</code> guard.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">EventRouter.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>public class EventRouter {
+    sealed interface Event permits Click, KeyPress, Scroll {}
+    record Click(int x, int y) implements Event {}
+    record KeyPress(char key) implements Event {}
+    record Scroll(int amount) implements Event {}
+
+    static String handle(Event e) {
+        return switch (e) {
+            case Click(int x, int y)          -&gt; "click at (" + x + "," + y + ")";
+            case KeyPress(char k)             -&gt; "key '" + k + "'";
+            case Scroll s when s.amount() &gt; 0 -&gt; "scroll down " + s.amount();
+            case Scroll s                     -&gt; "scroll up " + (-s.amount());
+        };
+    }
+
+    public static void main(String[] args) {
+        Event[] events = {
+            new Click(10, 20), new KeyPress('A'),
+            new Scroll(3), new Scroll(-2)
+        };
+        for (Event e : events) System.out.println(handle(e));
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>click at (10,20)
+key 'A'
+scroll down 3
+scroll up 2</code></pre></div>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-medium">🟡 Level 2: Intermediate</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 15.2: Virtual-Thread Task Runner</h3>
+      <p class="task-objective"><strong>Objective:</strong> Submit 2,000 tiny tasks to a virtual-thread-per-task executor; each adds its number to a shared <code>AtomicLong</code>; verify the total against the arithmetic-series formula.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">TaskRunner.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicLong;
+
+public class TaskRunner {
+    public static void main(String[] args) throws Exception {
+        AtomicLong sum = new AtomicLong();
+        int tasks = 2000;
+
+        try (var pool = Executors.newVirtualThreadPerTaskExecutor()) {
+            for (int i = 1; i &lt;= tasks; i++) {
+                final int n = i;
+                pool.submit(() -&gt; sum.addAndGet(n));
+            }
+        }   // close() waits for every task to finish
+
+        long expected = (long) tasks * (tasks + 1) / 2;
+        System.out.println("sum of 1.." + tasks + " via virtual threads = " + sum.get());
+        System.out.println("matches formula? " + (sum.get() == expected));
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>sum of 1..2000 via virtual threads = 2001000
+matches formula? true</code></pre></div>
+      <div class="callout callout-tip">
+        <div class="callout-title">💡 Why <code>AtomicLong</code>?</div>
+        <p style="margin-bottom:0;">Many threads add at once. A plain <code>long +=</code> would lose updates; <code>AtomicLong.addAndGet</code> is safe under concurrency.</p>
+      </div>
+    </div>
+
+    <div class="task-card">
+      <span class="task-difficulty difficulty-easy">🟢 Level 1: Easy</span>
+      <h3 style="margin-top: 0; color: var(--text-primary);">Task 15.3: Queue with Sequenced-Collection API</h3>
+      <p class="task-objective"><strong>Objective:</strong> Use <code>addFirst</code>, <code>addLast</code>, <code>getFirst</code>, <code>getLast</code>, <code>removeFirst</code>, and <code>reversed()</code> on a <code>LinkedList</code>.</p>
+      <div class="code-block">
+        <div class="code-header"><span class="code-lang">Java Starter</span><span class="code-filename">Deque.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.util.*;
+
+public class Deque {
+    public static void main(String[] args) {
+        LinkedList&lt;String&gt; line = new LinkedList&lt;&gt;(List.of("Ada", "Bode", "Chi"));
+
+        line.addLast("Dee");         // joins the back
+        line.addFirst("VIP");        // jumps the front
+        System.out.println("queue      : " + line);
+        System.out.println("serving    : " + line.getFirst());
+        System.out.println("last in    : " + line.getLast());
+
+        line.removeFirst();          // served
+        System.out.println("after serve: " + line);
+        System.out.println("reversed   : " + line.reversed());
+    }
+}</code></pre>
+      </div>
+      <div class="expected-output"><h5>Expected Console Output:</h5><pre><code>queue      : [VIP, Ada, Bode, Chi, Dee]
+serving    : VIP
+last in    : Dee
+after serve: [Ada, Bode, Chi, Dee]
+reversed   : [Dee, Chi, Bode, Ada]</code></pre></div>
+    </div>
+
+    <div class="nav-footer">
+      <a href="lesson.html" class="nav-prev"><span>&larr; Back to Lesson 15</span></a>
+      <a href="assignment.html" class="nav-next"><span>Session 15 Assignment &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>

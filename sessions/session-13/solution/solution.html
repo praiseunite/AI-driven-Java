@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 13 Solutions | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 13 Solutions</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../../index.html">Dashboard</a></li>
+      <li><a href="../lesson.html">Lesson</a></li>
+      <li><a href="../class-tasks.html">Class Tasks</a></li>
+      <li><a href="../assignment.html">Assignment</a></li>
+      <li><a href="solution.html" class="active">Solutions</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-xl); padding-bottom: var(--space-3xl); max-width: 900px;">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Reference Solutions</span>
+        <span class="tag tag-purple">Session 13</span>
+      </div>
+      <h1>✅ Session 13 — Reference Solutions</h1>
+      <p class="description">Three tasks and the Conference Schedule assignment, run-verified. Matching <code>.java</code> files are in this folder.</p>
+    </div>
+
+    <div class="callout callout-warning">
+      <div class="callout-title">⚠️ The 20-minute rule</div>
+      <p style="margin-bottom:0;">Attempt each yourself for 20 minutes first, then read, close, retype.</p>
+    </div>
+
+    <details class="self-check-card">
+      <summary>🟢 Task 13.1 — AgeCalculator</summary>
+      <div class="self-check-answer">
+        <p><code>Period.between</code> gives the Y/M/D breakdown; <code>ChronoUnit.DAYS.between</code>
+          the single total. The next birthday is this year's date, bumped a year if it has already
+          passed.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">AgeCalculator.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.time.*;
+import java.time.temporal.ChronoUnit;
+
+public class AgeCalculator {
+    public static void main(String[] args) {
+        LocalDate birth = LocalDate.of(2001, 7, 15);
+        LocalDate on    = LocalDate.of(2026, 4, 21);
+
+        Period age = Period.between(birth, on);
+        long totalDays = ChronoUnit.DAYS.between(birth, on);
+
+        System.out.printf("Age: %d years, %d months, %d days%n",
+                age.getYears(), age.getMonths(), age.getDays());
+        System.out.println("Total days alive: " + totalDays);
+        System.out.println("Born on a " + birth.getDayOfWeek());
+
+        LocalDate nextBday = birth.withYear(on.getYear());
+        if (!nextBday.isAfter(on)) nextBday = nextBday.plusYears(1);
+        System.out.println("Next birthday: " + nextBday
+                + " (" + ChronoUnit.DAYS.between(on, nextBday) + " days away)");
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Age: 24 years, 9 months, 6 days
+Total days alive: 9046
+Born on a SUNDAY
+Next birthday: 2026-07-15 (85 days away)</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🟡 Task 13.2 — MeetingPlanner</summary>
+      <div class="self-check-answer">
+        <p><code>start.plus(Duration)</code> gives the end. <code>toMinutesPart()</code> is the
+          leftover minutes after whole hours. The business-hours check compares only the
+          <em>time</em> part.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">MeetingPlanner.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.time.*;
+import java.time.format.DateTimeFormatter;
+
+public class MeetingPlanner {
+    public static void main(String[] args) {
+        LocalDateTime start = LocalDateTime.of(2026, 4, 21, 14, 0);
+        Duration length = Duration.ofMinutes(90);
+        LocalDateTime end = start.plus(length);
+
+        DateTimeFormatter f = DateTimeFormatter.ofPattern("EEE d MMM, HH:mm");
+        System.out.println("Starts : " + start.format(f));
+        System.out.println("Ends   : " + end.format(f));
+        System.out.println("Length : " + length.toHours() + "h " + length.toMinutesPart() + "m");
+
+        boolean businessHours = !end.toLocalTime().isAfter(LocalTime.of(17, 0));
+        System.out.println("Within business hours? " + businessHours);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>Starts : Tue 21 Apr, 14:00
+Ends   : Tue 21 Apr, 15:30
+Length : 1h 30m
+Within business hours? true</code></pre></div>
+      </div>
+    </details>
+
+    <details class="self-check-card">
+      <summary>🔴 Task 13.3 — SubscriptionCheck</summary>
+      <div class="self-check-answer">
+        <p><code>signup.plusMonths(1)</code> is the renewal date. Past it &rarr; EXPIRED; within 3
+          days &rarr; DUE SOON; otherwise ACTIVE, each with the day count.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">SubscriptionCheck.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.time.*;
+import java.time.temporal.ChronoUnit;
+
+public class SubscriptionCheck {
+    static String status(LocalDate signup, LocalDate today) {
+        LocalDate renewal = signup.plusMonths(1);
+        if (today.isAfter(renewal)) return "EXPIRED";
+        long daysLeft = ChronoUnit.DAYS.between(today, renewal);
+        return daysLeft &lt;= 3 ? "DUE SOON (" + daysLeft + "d)" : "ACTIVE (" + daysLeft + "d)";
+    }
+
+    public static void main(String[] args) {
+        LocalDate today = LocalDate.of(2026, 4, 21);
+        LocalDate[] signups = {
+            LocalDate.of(2026, 4, 1),
+            LocalDate.of(2026, 3, 20),
+            LocalDate.of(2026, 3, 23)
+        };
+        for (LocalDate s : signups) {
+            System.out.println(s + " -&gt; " + status(s, today));
+        }
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>2026-04-01 -&gt; ACTIVE (10d)
+2026-03-20 -&gt; EXPIRED
+2026-03-23 -&gt; DUE SOON (2d)</code></pre></div>
+      </div>
+    </details>
+
+    <h2>Assignment 13 — Conference Schedule Builder</h2>
+
+    <details class="self-check-card">
+      <summary>📋 ConferenceSchedule — full solution &amp; walkthrough</summary>
+      <div class="self-check-answer">
+        <p><strong>Idea:</strong> one <code>LocalDateTime cursor</code> walks the day. Each session:
+          start = cursor, end = <code>start.plusMinutes(dur)</code>, then
+          <code>cursor = end.plusMinutes(15)</code>. The last real end is <code>cursor</code> with
+          the trailing break removed.</p>
+        <div class="code-block"><div class="code-header"><span class="code-lang">Java</span><span class="code-filename">ConferenceSchedule.java</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+        <pre><code>import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
+public class ConferenceSchedule {
+    public static void main(String[] args) {
+        LocalDateTime cursor = LocalDateTime.of(2026, 6, 8, 9, 0);
+        LocalTime dayEnd = LocalTime.of(17, 0);
+        int breakMinutes = 15;
+
+        String[] titles = {
+            "Keynote: Modern Java", "Streams Deep Dive", "Records &amp; Patterns",
+            "Virtual Threads", "AI-Assisted Coding", "Closing Panel"
+        };
+        int[] durations = { 60, 90, 45, 75, 90, 60 };
+
+        DateTimeFormatter t = DateTimeFormatter.ofPattern("EEE HH:mm");
+        LocalDateTime firstStart = cursor;
+
+        System.out.println("=== CONFERENCE SCHEDULE ===");
+        for (int i = 0; i &lt; titles.length; i++) {
+            LocalDateTime start = cursor;
+            LocalDateTime end = start.plusMinutes(durations[i]);
+            String flag = end.toLocalTime().isAfter(dayEnd) ? "  [RUNS LATE]" : "";
+            System.out.printf("%s - %s  %-24s (%dm)%s%n",
+                    start.format(t), end.format(t), titles[i], durations[i], flag);
+            cursor = end.plusMinutes(breakMinutes);
+        }
+
+        LocalDateTime lastEnd = cursor.minusMinutes(breakMinutes);
+        long totalMinutes = ChronoUnit.MINUTES.between(firstStart, lastEnd);
+        System.out.printf("%nFirst session : %s%n", firstStart.format(t));
+        System.out.printf("Last ends     : %s%n", lastEnd.format(t));
+        System.out.printf("Total span    : %dh %dm (including breaks)%n",
+                totalMinutes / 60, totalMinutes % 60);
+    }
+}</code></pre></div>
+        <div class="expected-output"><h5>Output</h5><pre><code>=== CONFERENCE SCHEDULE ===
+Mon 09:00 - Mon 10:00  Keynote: Modern Java     (60m)
+Mon 10:15 - Mon 11:45  Streams Deep Dive        (90m)
+Mon 12:00 - Mon 12:45  Records &amp; Patterns       (45m)
+Mon 13:00 - Mon 14:15  Virtual Threads          (75m)
+Mon 14:30 - Mon 16:00  AI-Assisted Coding       (90m)
+Mon 16:15 - Mon 17:15  Closing Panel            (60m)  [RUNS LATE]
+
+First session : Mon 09:00
+Last ends     : Mon 17:15
+Total span    : 8h 15m (including breaks)</code></pre></div>
+      </div>
+    </details>
+
+    <div class="nav-footer">
+      <a href="../class-tasks.html" class="nav-prev"><span>&larr; Class Tasks</span></a>
+      <a href="../post-quiz.html" class="nav-next"><span>Post-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../../js/quiz.js"></script>
+</body>
+</html>

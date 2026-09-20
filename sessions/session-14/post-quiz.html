@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Session 14 Post-Quiz | Modern Java Features</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 14</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="lesson.html">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="post-quiz.html" class="active">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container" style="padding-top: var(--space-2xl); padding-bottom: var(--space-3xl);">
+
+    <div class="session-header">
+      <div class="session-meta">
+        <span class="tag tag-green">Post-Lecture Evaluation</span>
+        <span class="tag tag-purple">Session 14</span>
+        <span class="tag tag-yellow">Formative Assessment</span>
+      </div>
+      <h1>🎯 Session 14 Post-Class Mastery Quiz</h1>
+      <p class="description">Verify your grasp of lambdas, method references, streams, collectors, generics, <code>var</code>, switch expressions, records, and <code>Optional</code>.</p>
+    </div>
+
+    <div class="quiz-container" id="quizContainer"></div>
+
+    <div class="nav-footer">
+      <a href="assignment.html" class="nav-prev"><span>&larr; Session 14 Assignment</span></a>
+      <a href="../session-15/pre-quiz.html" class="nav-next"><span>Proceed to Session 15 Pre-Quiz &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+<script>
+  const session14PostQuizData = {
+    title: "Session 14 Mastery: Modern Java",
+    description: "Answer all 13 questions to verify your understanding.",
+    questions: [
+      {
+        question: "A lambda can be assigned to a variable of interface type only if that interface:",
+        options: [
+          "Is in java.util",
+          "Has exactly one abstract method (is a functional interface)",
+          "Extends Object",
+          "Has a default method"
+        ],
+        correct: 1,
+        explanation: "A lambda implements the single abstract method of a functional interface (Runnable, Comparator, Predicate, your own...)."
+      },
+      {
+        question: "`s -> s.length()` can be written as which method reference?",
+        options: ["s::length", "String::length", "length::String", "String.length()"],
+        correct: 1,
+        explanation: "When the lambda calls an instance method of its parameter, use Type::method — here String::length."
+      },
+      {
+        question: "In `list.stream().filter(p).map(f).collect(c)`, which call triggers the work?",
+        options: ["stream()", "filter(p)", "map(f)", "collect(c) — the terminal operation"],
+        correct: 3,
+        explanation: "Intermediate ops (filter, map) are lazy. Nothing runs until a terminal op like collect, count, forEach, or reduce."
+      },
+      {
+        question: "You call `.count()` on a stream and then `.forEach(...)` on the same stream variable. Result:",
+        options: [
+          "Both run fine",
+          "IllegalStateException: stream has already been operated upon or closed",
+          "The second call is ignored",
+          "Compile error"
+        ],
+        correct: 1,
+        explanation: "A stream is single-use. Create a new one from the source for each pipeline."
+      },
+      {
+        question: "`Collectors.groupingBy(Order::region, Collectors.summingDouble(Order::total))` produces:",
+        options: [
+          "A List of totals",
+          "A Map<String, Double> from region to summed revenue",
+          "A single double",
+          "A Set of regions"
+        ],
+        correct: 1,
+        explanation: "groupingBy with a downstream collector maps each key to the result of collecting that group — here the sum of totals per region."
+      },
+      {
+        question: "What does `record Point(int x, int y) {}` generate?",
+        options: [
+          "Nothing; you must write everything",
+          "private final fields, a canonical constructor, accessors x()/y(), and value-based equals/hashCode/toString",
+          "Only a toString()",
+          "Getters named getX()/getY()"
+        ],
+        correct: 1,
+        explanation: "Records are concise immutable data carriers. Accessors are named after the components (x(), y()), not getX()."
+      },
+      {
+        question: "Can a record component be reassigned after construction?",
+        options: ["Yes", "No — record components are final", "Only inside the record", "Only via reflection tricks (don't)"],
+        correct: 1,
+        explanation: "Records are immutable. If you need mutable state, use a normal class."
+      },
+      {
+        question: "`var result = compute();` — the type of `result` is:",
+        options: [
+          "Dynamic, resolved at runtime",
+          "Whatever compute() is declared to return, fixed at compile time",
+          "Always Object",
+          "String"
+        ],
+        correct: 1,
+        explanation: "var is compile-time inference. The variable has a real, fixed type; it just isn't spelled out."
+      },
+      {
+        question: "Where is `var` NOT allowed?",
+        options: [
+          "A local variable with an initialiser",
+          "A for-each loop variable",
+          "A method parameter or a field",
+          "Inside a lambda body's local"
+        ],
+        correct: 2,
+        explanation: "var is for local variables (and for/for-each locals) with an initialiser only. Not fields, parameters, or return types."
+      },
+      {
+        question: "A switch EXPRESSION differs from a switch statement because it:",
+        options: [
+          "Still needs break;",
+          "Produces a value and cannot fall through (arrow form)",
+          "Only works on ints",
+          "Cannot have a default"
+        ],
+        correct: 1,
+        explanation: "switch (x) { case a -> v; default -> w; } yields a value, no break, no fall-through. Multi-line branches use { ... yield v; }."
+      },
+      {
+        question: "A method may or may not find a matching user. The best return type is:",
+        options: ["User (return null if not found)", "Optional<User>", "boolean", "int"],
+        correct: 1,
+        explanation: "Optional<User> makes 'maybe absent' explicit and forces the caller to handle it — no silent NPE downstream."
+      },
+      {
+        question: "`opt.get()` on an empty Optional:",
+        options: [
+          "Returns null",
+          "Throws NoSuchElementException",
+          "Returns an empty string",
+          "Blocks"
+        ],
+        correct: 1,
+        explanation: "Use orElse(...), orElseGet(...), ifPresent(...), or check isPresent() first. Bare get() on empty throws."
+      },
+      {
+        question: "Generics like `class Box<T>` give you:",
+        options: [
+          "Faster runtime",
+          "Compile-time type safety — no casts, no ClassCastException at use sites",
+          "Smaller class files",
+          "Automatic serialization"
+        ],
+        correct: 1,
+        explanation: "The compiler enforces that a Box<String> only holds Strings, so get() returns String with no cast and no risk of ClassCastException."
+      }
+    ]
+  };
+
+  document.addEventListener('DOMContentLoaded', () => {
+    quiz = new QuizEngine('quizContainer', session14PostQuizData);
+  });
+</script>
+
+</body>
+</html>

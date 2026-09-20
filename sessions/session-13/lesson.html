@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Session 13: The Modern Date and Time API (java.time) — LocalDate, LocalTime, LocalDateTime, Period and Duration, DateTimeFormatter, enums, and time zones with ZonedDateTime.">
+  <title>Session 13: Date and Time API | AI-Driven Java Programming</title>
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="../../index.html" class="navbar-brand">
+      <span class="logo-icon">☕</span>
+      <span>Java-I &bull; Session 13</span>
+    </a>
+    <ul class="navbar-links">
+      <li><a href="../../intellij-guide.html" class="tag tag-teal" style="text-decoration: none; padding: 0.25rem 0.65rem; font-weight: 600;">💻 IDE Guide</a></li>
+      <li><a href="../../index.html">Dashboard</a></li>
+      <li><a href="pre-quiz.html">Pre-Quiz</a></li>
+      <li><a href="lesson.html" class="active">Lesson</a></li>
+      <li><a href="class-tasks.html">Class Tasks</a></li>
+      <li><a href="assignment.html">Assignment</a></li>
+      <li><a href="solution/solution.html">Solutions</a></li>
+      <li><a href="post-quiz.html">Post-Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div class="container">
+
+    <header class="session-header" style="margin-top: var(--space-xl);">
+      <div class="session-meta">
+        <span class="tag tag-purple">Week 4 &bull; Day 1</span>
+        <span class="tag tag-teal">Duration: 2 Hours</span>
+        <span class="tag tag-yellow">Course Module: JAVA-I-TL13</span>
+      </div>
+      <h1>Session 13: The Modern Date and Time API</h1>
+      <p class="description">
+        Dates and times are deceptively hard — months of different lengths, leap years, time
+        zones, daylight saving. Java's modern <code>java.time</code> package (since Java 8)
+        handles all of it with small, <strong>immutable</strong>, clearly-named types. This
+        session is your working knowledge of it.
+      </p>
+    </header>
+
+    <div class="lesson-layout">
+
+      <aside class="lesson-sidebar">
+        <h4>Table of Contents</h4>
+        <ul class="sidebar-nav">
+          <li><a href="#memory-booster" class="active">🧠 Memory Booster</a></li>
+          <li><a href="#the-types">1. The Core Types</a></li>
+          <li><a href="#creating">2. Creating Dates &amp; Times</a></li>
+          <li><a href="#immutable">3. They're Immutable</a></li>
+          <li><a href="#querying">4. Querying &amp; Enums</a></li>
+          <li><a href="#comparing">5. Comparing</a></li>
+          <li><a href="#period-duration">6. Period &amp; Duration</a></li>
+          <li><a href="#chronounit">7. <code>ChronoUnit</code></a></li>
+          <li><a href="#formatting">8. Formatting &amp; Parsing</a></li>
+          <li><a href="#zones">9. Time Zones</a></li>
+          <li><a href="#pitfalls">10. Common Pitfalls</a></li>
+          <li><a href="#cheat-sheet">11. Executive Cheat Sheet</a></li>
+          <li><a href="#summary">12. Summary &amp; Self-Check</a></li>
+        </ul>
+      </aside>
+
+      <main class="lesson-content">
+
+        <div class="callout callout-memory" id="memory-booster">
+          <div class="callout-title">🧠 Memory Booster: Flashback</div>
+          <ul style="margin-top: var(--space-xs); margin-bottom: 0;">
+            <li><strong>Immutability (S6):</strong> like <code>String</code>, every <code>java.time</code> type is immutable — methods return a <em>new</em> object.</li>
+            <li><strong>Enums (mentioned S3):</strong> <code>DayOfWeek</code> and <code>Month</code> are enums — fixed sets of named constants you can compare and <code>switch</code> on.</li>
+            <li><strong>Static factory methods (S7):</strong> you build these with <code>LocalDate.of(...)</code> / <code>.now()</code>, never <code>new</code>.</li>
+          </ul>
+        </div>
+
+        <section class="content-section" id="the-types">
+          <h2>1. The Core Types</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Type</th><th>Represents</th><th>Example value</th></tr></thead>
+              <tbody>
+                <tr><td><code>LocalDate</code></td><td>a date, no time, no zone</td><td><code>2026-04-21</code></td></tr>
+                <tr><td><code>LocalTime</code></td><td>a time of day, no date</td><td><code>14:30</code></td></tr>
+                <tr><td><code>LocalDateTime</code></td><td>date + time, no zone</td><td><code>2026-04-21T14:30</code></td></tr>
+                <tr><td><code>ZonedDateTime</code></td><td>date + time + zone</td><td><code>2026-04-21T09:00+01:00[Africa/Lagos]</code></td></tr>
+                <tr><td><code>Period</code></td><td>an amount in years/months/days</td><td><code>P3M6D</code> (3 months, 6 days)</td></tr>
+                <tr><td><code>Duration</code></td><td>an amount in hours/minutes/seconds</td><td><code>PT8H30M</code></td></tr>
+                <tr><td><code>Instant</code></td><td>a machine timestamp (UTC)</td><td><code>2026-04-21T08:00:00Z</code></td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p><strong>Rule of thumb:</strong> "Local" means "wall-clock, no zone attached". Use
+            <code>ZonedDateTime</code> only when zones genuinely matter.</p>
+        </section>
+
+        <section class="content-section" id="creating">
+          <h2>2. Creating Dates &amp; Times</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>import java.time.*;
+
+LocalDate today   = LocalDate.now();               // the real current date
+LocalDate d       = LocalDate.of(2026, 4, 21);     // year, month, day
+LocalTime t       = LocalTime.of(14, 30);          // 14:30
+LocalTime precise = LocalTime.of(14, 30, 15);      // with seconds
+LocalDateTime dt  = LocalDateTime.of(d, t);        // combine
+LocalDateTime dt2 = LocalDateTime.of(2026, 4, 21, 14, 30);
+
+LocalDate fromText = LocalDate.parse("2026-12-25");  // ISO format</code></pre>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ Month is 1-based here</div>
+            <p>
+              Unlike the ancient <code>java.util.Calendar</code> (where January was 0),
+              <code>LocalDate.of(2026, 4, 21)</code> means <strong>April</strong> 21. You can also
+              pass the enum: <code>LocalDate.of(2026, Month.APRIL, 21)</code>.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="immutable">
+          <h2>3. They're Immutable — "with" not "set"</h2>
+          <p>
+            There is no <code>setDayOfMonth</code>. Every adjustment returns a <em>new</em>
+            object; the original never changes.
+          </p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>LocalDate d = LocalDate.of(2026, 4, 21);
+
+LocalDate later = d.plusDays(10);        // 2026-05-01
+LocalDate back  = d.minusMonths(2);      // 2026-02-21
+LocalDate fixed = d.withYear(2030);      // 2030-04-21
+
+System.out.println(d);      // still 2026-04-21 — d was never modified</code></pre>
+          </div>
+          <div class="callout callout-warning">
+            <div class="callout-title">⚠️ You must capture the result</div>
+            <p>
+              <code>d.plusDays(10);</code> on its own does nothing. Write
+              <code>d = d.plusDays(10);</code> or store it in a new variable — exactly like
+              <code>String</code> methods.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="querying">
+          <h2>4. Querying &amp; Enums</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>LocalDate d = LocalDate.of(2026, 4, 21);
+
+d.getYear();          // 2026
+d.getDayOfMonth();    // 21
+DayOfWeek dow = d.getDayOfWeek();   // TUESDAY  (an enum)
+Month m = d.getMonth();             // APRIL    (an enum)
+d.getDayOfYear();     // 111
+d.isLeapYear();       // false
+d.lengthOfMonth();    // 30
+
+// enums work with switch:
+String kind = switch (dow) {
+    case SATURDAY, SUNDAY -> "weekend";
+    default -> "weekday";
+};</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="comparing">
+          <h2>5. Comparing</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>LocalDate a = LocalDate.of(2026, 4, 21);
+LocalDate b = LocalDate.of(2026, 5, 1);
+
+a.isBefore(b);     // true
+a.isAfter(b);      // false
+a.isEqual(b);      // false
+a.equals(b);       // false  (also fine for LocalDate)
+a.compareTo(b);    // negative</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="period-duration">
+          <h2>6. <code>Period</code> (dates) vs <code>Duration</code> (times)</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">DurationPeriod.java</span></div>
+            <pre><code>import java.time.*;
+
+// Period: calendar amounts between two DATES
+Period p = Period.between(LocalDate.of(2026, 1, 15), LocalDate.of(2026, 4, 21));
+p.getMonths();   // 3
+p.getDays();     // 6      -> "3 months and 6 days"
+
+// Duration: clock amounts between two TIMES / instants
+Duration shift = Duration.between(LocalTime.of(9, 5), LocalTime.of(17, 35));
+shift.toHours();        // 8
+shift.toMinutesPart();  // 30     -> "8h 30m"</code></pre>
+          </div>
+          <div class="callout callout-tip">
+            <div class="callout-title">💡 Which one?</div>
+            <p>
+              <strong>Period</strong> for human calendar spans ("2 months from now").
+              <strong>Duration</strong> for machine time spans ("90 minutes", "elapsed time").
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="chronounit">
+          <h2>7. <code>ChronoUnit</code> — total counts</h2>
+          <p>When you want a single total ("how many days between?"), use <code>ChronoUnit</code>:</p>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span></div>
+            <pre><code>import java.time.temporal.ChronoUnit;
+
+long days   = ChronoUnit.DAYS.between(LocalDate.of(2026, 1, 15), LocalDate.of(2026, 4, 21)); // 96
+long months = ChronoUnit.MONTHS.between(LocalDate.of(2026, 1, 1), LocalDate.of(2026, 4, 1)); // 3
+long mins   = ChronoUnit.MINUTES.between(LocalTime.of(9, 0), LocalTime.of(10, 30));          // 90</code></pre>
+          </div>
+        </section>
+
+        <section class="content-section" id="formatting">
+          <h2>8. Formatting &amp; Parsing with <code>DateTimeFormatter</code></h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">FormattingDemo.java</span></div>
+            <pre><code>import java.time.*;
+import java.time.format.DateTimeFormatter;
+
+LocalDateTime dt = LocalDateTime.of(2026, 4, 21, 14, 30);
+
+DateTimeFormatter pretty = DateTimeFormatter.ofPattern("EEE, d MMM yyyy 'at' HH:mm");
+String text = dt.format(pretty);          // "Tue, 21 Apr 2026 at 14:30"
+
+// Parse text back — the formatter must match the text
+LocalDate d = LocalDate.parse("2026-12-25");                 // ISO, no formatter needed
+LocalDate uk = LocalDate.parse("25/12/2026",
+        DateTimeFormatter.ofPattern("dd/MM/yyyy"));</code></pre>
+          </div>
+          <div class="table-wrapper">
+            <table>
+              <thead><tr><th>Letter</th><th>Means</th><th>Example</th></tr></thead>
+              <tbody>
+                <tr><td><code>yyyy</code></td><td>4-digit year</td><td>2026</td></tr>
+                <tr><td><code>MM</code> / <code>MMM</code> / <code>MMMM</code></td><td>month num / short / full</td><td>04 / Apr / April</td></tr>
+                <tr><td><code>dd</code></td><td>day of month</td><td>21</td></tr>
+                <tr><td><code>EEE</code> / <code>EEEE</code></td><td>weekday short / full</td><td>Tue / Tuesday</td></tr>
+                <tr><td><code>HH</code> / <code>mm</code> / <code>ss</code></td><td>24h hour / minute / second</td><td>14 / 30 / 00</td></tr>
+                <tr><td><code>hh a</code></td><td>12h hour + AM/PM</td><td>02 PM</td></tr>
+                <tr><td><code>'text'</code></td><td>literal text</td><td><code>'at'</code> &rarr; at</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section class="content-section" id="zones">
+          <h2>9. Time Zones</h2>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java</span><span class="code-filename">ZonesDemo.java</span></div>
+            <pre><code>import java.time.*;
+
+ZoneId lagos = ZoneId.of("Africa/Lagos");
+ZoneId tokyo = ZoneId.of("Asia/Tokyo");
+
+ZonedDateTime lagosTime = ZonedDateTime.of(2026, 4, 21, 9, 0, 0, 0, lagos);
+ZonedDateTime tokyoTime = lagosTime.withZoneSameInstant(tokyo);
+
+// Lagos : 2026-04-21T09:00+01:00[Africa/Lagos]
+// Tokyo : 2026-04-21T17:00+09:00[Asia/Tokyo]
+// Same moment in time, different wall-clock readings (Tokyo is 8h ahead).</code></pre>
+          </div>
+          <div class="callout callout-info">
+            <div class="callout-title">ℹ️ <code>withZoneSameInstant</code> vs <code>withZoneSameLocal</code></div>
+            <p>
+              <code>...SameInstant</code> keeps the <em>moment</em> and changes the clock reading
+              (what you almost always want). <code>...SameLocal</code> keeps the clock reading
+              and changes the moment.
+            </p>
+          </div>
+        </section>
+
+        <section class="content-section" id="pitfalls">
+          <h2>10. Common Pitfalls</h2>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Ignoring the return value</div>
+            <p><code>date.plusDays(7);</code> does nothing. Assign it: <code>date = date.plusDays(7);</code></p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Using <code>new</code></div>
+            <p><code>new LocalDate(...)</code> won't compile. Use the static factories:
+              <code>LocalDate.of(...)</code>, <code>.now()</code>, <code>.parse(...)</code>.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 <code>Period</code> between two <code>LocalTime</code>s</div>
+            <p><code>Period</code> is for dates; <code>Duration</code> is for times. Mixing them
+              gives an <code>UnsupportedTemporalTypeException</code>.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Formatter pattern doesn't match the text</div>
+            <p>Parsing <code>"25/12/2026"</code> with pattern <code>"yyyy-MM-dd"</code> throws
+              <code>DateTimeParseException</code>. The pattern must mirror the string exactly.</p>
+          </div>
+          <div class="callout callout-danger">
+            <div class="callout-title">🚨 Reaching for the old <code>Date</code> / <code>Calendar</code></div>
+            <p>They're mutable, zero-based months, and error-prone. Use <code>java.time</code>.
+              Only touch <code>java.util.Date</code> when an old API forces you to.</p>
+          </div>
+        </section>
+
+        <section class="content-section" id="cheat-sheet">
+          <h2>11. Executive Quick-Recap &amp; Cheat Sheet</h2>
+
+          <div class="cheat-sheet-card">
+            <h4 style="color: var(--accent); margin-top: 0;">⚡ The 30-Second Mental Model</h4>
+            <p style="margin-bottom: 0;">
+              <code>LocalDate</code> / <code>LocalTime</code> / <code>LocalDateTime</code> for
+              zone-free values; <code>ZonedDateTime</code> when zones matter. All
+              <strong>immutable</strong> — <code>plusX</code>/<code>minusX</code>/<code>withX</code>
+              return new objects you must capture. Build with static <code>.of()</code> /
+              <code>.now()</code> / <code>.parse()</code>. <strong>Period</strong> = date amount,
+              <strong>Duration</strong> = time amount, <strong>ChronoUnit.X.between</strong> = a
+              single total. Format/parse with <strong><code>DateTimeFormatter.ofPattern</code></strong>.
+            </p>
+          </div>
+
+          <h3>Core Syntax at a Glance</h3>
+          <div class="code-block">
+            <div class="code-header"><span class="code-lang">Java Cheat Sheet</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+            <pre><code>import java.time.*;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+
+LocalDate  d  = LocalDate.of(2026, 4, 21);
+LocalDate  due = d.plusWeeks(3);
+boolean overdue = LocalDate.now().isAfter(due);
+
+long daysLeft = ChronoUnit.DAYS.between(LocalDate.now(), due);
+
+Duration meeting = Duration.between(LocalTime.of(10, 0), LocalTime.of(11, 30));
+System.out.println(meeting.toMinutes());        // 90
+
+String label = d.format(DateTimeFormatter.ofPattern("EEEE, d MMMM yyyy"));
+
+ZonedDateTime utc = ZonedDateTime.of(d.atTime(9, 0), ZoneId.of("UTC"));
+ZonedDateTime local = utc.withZoneSameInstant(ZoneId.of("Africa/Lagos"));</code></pre>
+          </div>
+
+          <h3>Plain-English Glossary</h3>
+          <div class="glossary-grid">
+            <div class="glossary-item"><div class="glossary-term">LocalDate</div><p class="glossary-def">A date with no time and no zone.</p></div>
+            <div class="glossary-item"><div class="glossary-term">LocalTime</div><p class="glossary-def">A time of day with no date.</p></div>
+            <div class="glossary-item"><div class="glossary-term">LocalDateTime</div><p class="glossary-def">Date + time, still no zone.</p></div>
+            <div class="glossary-item"><div class="glossary-term">ZonedDateTime</div><p class="glossary-def">Date + time + a specific time zone.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Period</div><p class="glossary-def">A calendar amount: years, months, days.</p></div>
+            <div class="glossary-item"><div class="glossary-term">Duration</div><p class="glossary-def">A time amount: hours, minutes, seconds, nanos.</p></div>
+            <div class="glossary-item"><div class="glossary-term">ChronoUnit</div><p class="glossary-def">An enum of units; <code>UNIT.between(a, b)</code> gives one total.</p></div>
+            <div class="glossary-item"><div class="glossary-term">DateTimeFormatter</div><p class="glossary-def">Turns date-time objects to/from text using a pattern.</p></div>
+            <div class="glossary-item"><div class="glossary-term">DayOfWeek / Month</div><p class="glossary-def">Enums of named constants, usable in <code>switch</code>.</p></div>
+            <div class="glossary-item"><div class="glossary-term">ZoneId</div><p class="glossary-def">A region id like <code>Africa/Lagos</code> that knows offsets and DST.</p></div>
+          </div>
+          <p style="margin-top: var(--space-md);">Full definitions: <a href="../../reference/glossary.html">Master Glossary</a>.</p>
+        </section>
+
+        <section class="content-section" id="summary">
+          <h2>12. Summary &amp; Interactive Self-Checks</h2>
+
+          <div class="callout callout-info">
+            <div class="callout-title">🤖 Ask Your AI Tutor</div>
+            <p>Try these, then verify against this lesson (<a href="../../reference/ai-tutor-guide.html">AI Tutor Guide</a>):</p>
+            <ul style="margin-bottom:0;">
+              <li>"Show me Period vs Duration vs ChronoUnit.between with one example of each."</li>
+              <li>"Give me a DateTimeFormatter pattern for '21-Apr-2026 (Tuesday)' and code to produce it."</li>
+              <li>"Why does <code>date.plusDays(7)</code> not change <code>date</code>? Which other Java type behaves the same way?"</li>
+            </ul>
+          </div>
+
+          <div class="self-check-container">
+            <details class="self-check-card">
+              <summary>❓ Q1: Which type should you use for "an employee's shift length"?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>Duration</code> — it's a time amount (hours/minutes). <code>Period</code> is for calendar spans between dates.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q2: <code>LocalDate d = ...; d.plusMonths(1); System.out.println(d);</code> — what prints?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> The original date. <code>java.time</code> types are immutable; you must write <code>d = d.plusMonths(1);</code>.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q3: <code>LocalDate.of(2026, 4, 21).getDayOfWeek()</code> returns what kind of thing?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> A <code>DayOfWeek</code> enum constant (here <code>TUESDAY</code>), which you can compare or <code>switch</code> on.</div>
+            </details>
+            <details class="self-check-card">
+              <summary>❓ Q4: You have <code>9:00</code> UTC and want the Lagos wall-clock time for the same instant. Which method?</summary>
+              <div class="self-check-answer"><strong>Answer:</strong> <code>zonedDateTime.withZoneSameInstant(ZoneId.of("Africa/Lagos"))</code> — keeps the moment, changes the displayed time.</div>
+            </details>
+          </div>
+
+          <div class="btn-group" style="margin-top: var(--space-xl);">
+            <a href="class-tasks.html" class="btn btn-primary btn-lg">💻 Start Class Tasks</a>
+            <a href="post-quiz.html" class="btn btn-secondary btn-lg">📝 Take Post-Quiz</a>
+          </div>
+        </section>
+
+      </main>
+    </div>
+
+    <div class="nav-footer">
+      <a href="pre-quiz.html" class="nav-prev"><span>&larr; Session 13 Pre-Quiz</span></a>
+      <a href="class-tasks.html" class="nav-next"><span>Session 13 Class Tasks &rarr;</span></a>
+    </div>
+
+  </div>
+</div>
+
+<script src="../../js/quiz.js"></script>
+</body>
+</html>
